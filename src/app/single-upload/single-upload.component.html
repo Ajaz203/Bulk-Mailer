@@ -1,38 +1,77 @@
-<div class="single-upload-card">
-    <h2>Manual Data</h2>
-    <div class="form-row">
-      <label>Name</label>
-      <input type="text" [(ngModel)]="candidate.Name" placeholder="Name" />
-    </div>
-  
-    <div class="form-row">
-      <label>Email</label>
-      <input type="email" [(ngModel)]="candidate.Email" placeholder="Email" />
-    </div>
-  
-    <div class="form-row">
-      <label>Contact No</label>
-      <input type="text" [(ngModel)]="candidate.ContactNo" placeholder="Contact No" />
-    </div>
-  
-    <div class="form-row">
-      <label>Alternate Contact No.</label>
-      <input type="text" [(ngModel)]="candidate.AlternateContactNo" placeholder="Alternate Contact No." />
-    </div>
-  
-    <div class="form-row">
-      <label>Other</label>
-      <select [(ngModel)]="candidate.Other">
-        <option value="">Select</option>
-        <option value="NA">NA</option>
-        <option value="Other1">Other1</option>
-        <option value="Other2">Other2</option>
-      </select>
-    </div>
-  
-    <div class="form-actions">
-      <button class="reset" (click)="reset()">Reset</button>
-      <button class="save" (click)="save()">Save</button>
-    </div>
+   <form #manualForm="ngForm" class="single-upload-card">
+  <h2>Manual Data</h2>
+
+  <!-- Name -->
+  <div class="form-row">
+    <label>Name <span style="color: red;"> *</span></label>
+        <small class="error" *ngIf="name.invalid && name.touched" >Name is required.</small>
+    <input type="text" [(ngModel)]="candidate.Name" name="name" #name="ngModel" required placeholder="Name" />
+    <!-- <small class="error" *ngIf="name.invalid && name.touched">Name is required.</small> -->
   </div>
-  
+
+  <!-- Email -->
+  <div class="form-row">
+    <label>Email  <span style="color: red;"> *</span></label>
+    <small class="error" *ngIf="email.invalid && email.touched">
+      <span *ngIf="email.errors?.['required']">Email is required.</span>
+      <span *ngIf="email.errors?.['email']">Invalid email format.</span>
+    </small>
+    <input type="email" [(ngModel)]="candidate.Email" name="email" #email="ngModel" required email placeholder="Email" />
+    
+  </div>
+
+  <!-- Contact No -->
+  <div class="form-row">
+    <label>Contact No  <span style="color: red;"> *</span></label>
+    <small class="error" *ngIf="contactNo.invalid && contactNo.touched">
+      <span *ngIf="contactNo.errors?.['required']">Contact number is required.</span>
+      <span *ngIf="contactNo.errors?.['pattern']">Must be a 10-digit number.</span>
+    </small>
+    <input
+      type="text"
+      [(ngModel)]="candidate.ContactNo"
+      name="contactNo"
+      #contactNo="ngModel"
+      required
+      pattern="^[0-9]{10}$"
+      placeholder="Contact No"
+    />
+    
+  </div>
+
+  <!-- Alternate Contact No -->
+  <div class="form-row">
+    <label>Alternate Contact No.</label>
+    <small class="error" *ngIf="alternateContactNo.invalid && alternateContactNo.touched">
+      <span *ngIf="alternateContactNo.errors?.['pattern']">Must be a 10-digit number.</span>
+    </small>
+    <input
+      type="text"
+      [(ngModel)]="candidate.AlternateContactNo"
+      name="alternateContactNo"
+      #alternateContactNo="ngModel"
+      pattern="^[0-9]{10}$"
+      placeholder="Alternate Contact No."
+    />
+    
+  </div>
+
+  <!-- Other -->
+  <div class="form-row">
+    <label>Other</label>
+    <select [(ngModel)]="candidate.Other" name="other" #other="ngModel">
+      <option value="">Select</option>
+      <option value="NA">NA</option>
+      <option value="Other1">Other1</option>
+      <option value="Other2">Other2</option>
+    </select>
+    
+   
+  </div>
+
+  <!-- Actions -->
+  <div class="form-actions">
+    <button class="reset" type="button" (click)="reset()">Reset</button>
+    <button class="save" type="submit" [disabled]="manualForm.invalid" (click)="save()">Save</button>
+  </div>
+</form>
