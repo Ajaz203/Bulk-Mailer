@@ -1,0 +1,26 @@
+.upload-grid {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: white;
+  margin: 10px 10px 0px;
+}
+
+
+.upload-grid app-single-upload,
+.upload-grid app-bulk-upload {
+  flex: 1;
+}
+
+.bulk-upload-card .single-upload-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}

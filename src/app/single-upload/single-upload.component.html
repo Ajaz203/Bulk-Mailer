@@ -1,0 +1,38 @@
+<div class="single-upload-card">
+    <h2>Manual Data</h2>
+    <div class="form-row">
+      <label>Name</label>
+      <input type="text" [(ngModel)]="candidate.Name" placeholder="Name" />
+    </div>
+  
+    <div class="form-row">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="candidate.Email" placeholder="Email" />
+    </div>
+  
+    <div class="form-row">
+      <label>Contact No</label>
+      <input type="text" [(ngModel)]="candidate.ContactNo" placeholder="Contact No" />
+    </div>
+  
+    <div class="form-row">
+      <label>Alternate Contact No.</label>
+      <input type="text" [(ngModel)]="candidate.AlternateContactNo" placeholder="Alternate Contact No." />
+    </div>
+  
+    <div class="form-row">
+      <label>Other</label>
+      <select [(ngModel)]="candidate.Other">
+        <option value="">Select</option>
+        <option value="NA">NA</option>
+        <option value="Other1">Other1</option>
+        <option value="Other2">Other2</option>
+      </select>
+    </div>
+  
+    <div class="form-actions">
+      <button class="reset" (click)="reset()">Reset</button>
+      <button class="save" (click)="save()">Save</button>
+    </div>
+  </div>
+  

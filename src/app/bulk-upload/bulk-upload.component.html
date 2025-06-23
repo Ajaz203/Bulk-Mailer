@@ -1,0 +1,38 @@
+<div class="bulk-upload-card">
+  <h2>Bulk Data Upload</h2>
+
+  <div class="upload-box" (click)="fileInput.click()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+    <div class="upload-box-content">
+
+    <img src="assets/cloud-upload.svg" alt="Upload" class="upload-icon" />
+    <p>
+      <strong>Drag & drop files or 
+        <span class="browse-text" (click)="triggerFileUpload($event)">Browse</span>
+      </strong>
+    </p>
+    <!-- <p><strong>Drag & drop files or <span class="browse-text">Browse</span></strong></p> -->
+    <p class="format-text">Supported formats: Excel</p>
+    <input type="file" #fileInput (change)="onFileChange($event)" accept=".xlsx, .xls" hidden />
+  </div>
+    
+  </div>
+
+  @if(fileName){
+    <div class="file-preview">
+      <span>{{ fileName }}</span>
+      <!-- <button class="icon-button" (click)="confirmFile()">✔</button>
+      <button class="icon-button" (click)="removeFile()">🗑</button> -->
+    </div>
+  }
+  @else{
+    <div class="file-preview">
+      <span>File details here.</span>
+    </div>
+  }
+  
+
+  <div class="action-buttons">
+    <button class="reset-btn" (click)="removeFile()">Reset</button>
+    <button [disabled]="!fileName" class="upload-btn" (click)="uploadFile()">Upload File</button>
+  </div>
+</div>

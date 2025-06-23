@@ -1,0 +1,10 @@
+.upload-grid {
+    align-items: stretch;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #0a1f44;
+}

@@ -1,0 +1,9 @@
+<div class="upload-grid">
+  <app-single-upload></app-single-upload>
+  <app-bulk-upload (dataParsed)="onExcelDataReceived($event)"></app-bulk-upload>
+</div>
+
+<!-- Candidate list: full width below -->
+<div class="candidate-list-wrapper" *ngIf="uploadedCandidates.length">
+  <app-candidate-list [candidates]="uploadedCandidates"></app-candidate-list>
+</div>
