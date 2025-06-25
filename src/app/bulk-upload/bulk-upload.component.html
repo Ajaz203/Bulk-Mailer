@@ -1,10 +1,16 @@
 <div class="bulk-upload-card">
-  <h2>Bulk Data Upload</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">Bulk Data Upload</h2>
+  <button class="btn btn-success" (click)="downloadMassTemplate()">
+    Download Excel
+  </button>
+</div>
+
 
   <div class="upload-box" (click)="fileInput.click()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
     <div class="upload-box-content">
 
-    <img src="assets/cloud-upload.svg" alt="Upload" class="upload-icon" />
+    <i class="bi bi-cloud-upload" style="font-size: 2rem;"></i><br />
     <p>
       <strong>Drag & drop files or 
         <span class="browse-text" (click)="triggerFileUpload($event)">Browse</span>
@@ -18,11 +24,18 @@
   </div>
 
   @if(fileName){
-    <div class="file-preview">
-      <span>{{ fileName }}</span>
-      <!-- <button class="icon-button" (click)="confirmFile()">✔</button>
-      <button class="icon-button" (click)="removeFile()">🗑</button> -->
-    </div>
+ <div class="input-group mb-3 file-preview">
+  <span class="form-control">{{ fileName }}</span>
+
+  <span class="input-group-text text-success">
+    &#10003;
+  </span>
+
+  <button class="btn btn-outline-secondary" type="button" (click)="removeFile()">
+    <i class="bi bi-trash"></i>
+  </button>
+</div>
+
   }
   @else{
     <div class="file-preview">
@@ -32,7 +45,7 @@
   
 
   <div class="action-buttons">
-    <button class="reset-btn" (click)="removeFile()">Reset</button>
-    <button [disabled]="!fileName" class="upload-btn" (click)="uploadFile()">Upload File</button>
+    <button class="btn btn-outline-secondary" (click)="removeFile()">Reset</button>
+    <button [disabled]="!fileName" class="btn btn-success" (click)="uploadFile()">Upload File</button>
   </div>
 </div>

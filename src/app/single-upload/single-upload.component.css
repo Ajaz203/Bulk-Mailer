@@ -1,56 +1,143 @@
 .form-wrapper {
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-  }
-  
-  .form-row {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
 
-  .form-row input, select{
-    width:50%
-  }
+.form-row {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
-  label {
-    margin-bottom: 5px;
-    font-weight: 400;
-  }
-  
-  input, select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  
-  button.reset {
-    background: #f2f2f2;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-  }
-  
-  button.save {
-    background: #00b152;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-  }
-  .error {
+.form-row input,
+select {
+  width: 65%;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+input,
+select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+button.reset {
+  background: #f2f2f2;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+button.save {
+  background: #00b152;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.error {
   display: block;
   color: red;
   font-size: 12px;
   margin-top: 4px;
 }
 
-  
+.btn-success {
+  background: #5ab745 !important;
+}
+
+.btn-primary {
+  background-color: #5ab745;
+  text-wrap: nowrap;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  background-color: #5ab745;
+}
+
+.btn-outline-secondary {
+  border-color: #ced4da;
+  text-wrap-mode: nowrap;
+}
+
+
+.btn-outline-secondary:hover {
+  color: #5ab745;
+  background: none;
+  border-color: #ced4da;
+}
+
+.input-fields {
+  display: flex;
+  gap: 1rem;
+}
+
+.input-fields label {
+  width: 50%;
+}
+
+.tag-container {
+  background-color: #f9fafb;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  background-color: #e2e8f0;
+  color: #1a202c;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease;
+}
+
+.badge:hover {
+  background-color: #cbd5e1;
+}
+
+.badge span {
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #4caf50;
+  transition: color 0.3s ease;
+}
+
+.badge span:hover {
+  color: #e53935;
+}
+
+/* For Invalid Input */
+.invalid-input {
+  border: 1px solid red !important;
+  background-color: #ffe6e6 !important;
+}
+
+/* For Valid Input */
+.valid-input {
+  border: 1px solid green !important;
+  background-color: #e6ffe6 !important;
+}

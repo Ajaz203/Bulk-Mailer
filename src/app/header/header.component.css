@@ -1,0 +1,13 @@
+.navbar-custom {
+  background-color: #13333F;
+  padding: 0px;
+}
+.navbar-custom img.idmx-logo{width: 100px;}
+.nav-link, .navbar-text, .dropdown-toggle{color: #ccc;}
+.form-control::placeholder { color: #ccc;}
+.navbar-custom .form-control {   color: #ccc;
+  font-size:0.9rem;
+  border-color:1px solid red;
+  height: 1.9rem;
+  background: none;
+}

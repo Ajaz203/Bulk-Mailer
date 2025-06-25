@@ -82,4 +82,24 @@
     background: #00b152;
     color: white;
   }
-  
+  .btn-success {
+            background: #5ab745 !important;
+        }
+
+     
+        h2{
+          font-size: 1.25rem;
+        }
+         .btn-outline-secondary {
+            border-color: #ced4da;
+            text-wrap-mode: nowrap;
+        }
+
+
+        .btn-outline-secondary:hover {
+            color: #5ab745;
+            background: none;
+            border-color: #ced4da;
+        }
+
+        

@@ -1,60 +1,55 @@
 <div class="list-wrapper">
-  <div class="header">
+  <div class="d-flex justify-content-between align-items-center mb-3">
     <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
+   <div class="action-buttons">
+  <button class="btn btn-outline-secondary me-2" (click)="sendSelected()">
+    <i class="bi bi-send"></i> Select Candidate Send
+  </button>
+  <button class="btn btn-success" (click)="sendAll()">
+    <i class="bi bi-send"></i> All Candidate Send
+  </button>
+</div>
+
   </div>
 
-  <table>
+  <table class="table table-bordered">
     <thead>
       <tr>
-        <!-- <th>
-          <input type="checkbox"
-                 (change)="selectAll()"
-                 [checked]="isPageFullySelected()"
-                 [indeterminate]="isPagePartiallySelected()" />
-        </th> -->
+        <th>
+          <input
+            type="checkbox"
+            (change)="toggleSelectAll($event)"
+            [checked]="isAllSelected()"
+          />
+        </th>
         <th>S.No</th>
         <th>Name</th>
         <th>Email</th>
         <th>Contact No.</th>
         <th>Alternate Contact No.</th>
-        <th>Category</th>
+        <th>Technology</th>
         <th>Created At</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let c of dataArr; let i = index">
-        <!-- <td>
-          <input type="checkbox"
-                 [checked]="selected().has((page() - 1) * pageSize + i)"
-                 (change)="toggleSelection((page() - 1) * pageSize + i)" />
-        </td> -->
-        <td>{{ i+1 }}</td>
-        <td>{{c.name }}</td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="selectedCandidates.has(c)"
+            (change)="toggleSelection(c)"
+          />
+        </td>
+        <td>{{ i + 1 }}</td>
+        <td>{{ c.name }}</td>
         <td>{{ c.email }}</td>
         <td>{{ c.contact_no }}</td>
         <td>{{ c.alt_contact_no }}</td>
-        <td>{{ c.category || 'NA' }}</td>
-        <td>{{ c.createdAt | date: 'MM/dd/yyyy'}}</td>
-        <td>✈️</td>
+        <td>{{ c.technology || 'NA' }}</td>
+        <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
+        <td style="cursor: pointer;" (click)="sendSingle(c)"><i class="bi bi-send"></i></td>
       </tr>
     </tbody>
   </table>
-
-  <!-- <div class="footer">
-    <button (click)="sendSelected()">Select Candidate Send</button>
-    <button class="green" (click)="sendAll()">All Candidate Send</button>
-
-    <div class="pagination">
-      <ngb-pagination
-        [collectionSize]="displayData.length"
-        [pageSize]="pageSize"
-        [(page)]="page()"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="onPageChange($event)">
-      </ngb-pagination>
-    </div>
-  </div> -->
 </div>

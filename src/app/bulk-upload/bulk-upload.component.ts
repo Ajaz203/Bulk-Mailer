@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./bulk-upload.component.css']
 })
 export class BulkUploadComponent {
-  constructor(private service:EmailService){}
+  constructor(private service: EmailService) { }
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   triggerFileUpload(event: MouseEvent) {
@@ -43,13 +43,17 @@ export class BulkUploadComponent {
       this.excelData = XLSX.utils.sheet_to_json(firstSheet);
       // this.dataParsed.emit(this.excelData);
       console.log(this.excelData)
-      let payload={
-        "excelData":this.excelData
-      }
-      this.service.bulkUpload(payload).subscribe((resp: any) => {
-      this.service.triggerTableReload();
-      console.log(" resp of bulk creation",resp)
-    })
+      var finalArr = this.excelData.map((item: any) => {
+        return {
+          ...item,
+          Skills: item.Skills.split(',').map((skill: any) => skill.trim())
+        };
+      });
+      
+      this.service.bulkUpload(finalArr).subscribe((resp: any) => {
+        this.service.triggerTableReload();
+        console.log(" resp of bulk creation", resp)
+      })
     };
     reader.readAsArrayBuffer(this.selectedFile);
   }
@@ -57,7 +61,12 @@ export class BulkUploadComponent {
   uploadFile() {
     this.confirmFile();
   }
-
+async downloadMassTemplate(){
+    
+    window.location.assign('../asset/bulkEmailerTemplate.xlsx');
+    
+  
+}
   removeFile() {
     this.fileName = '';
     this.selectedFile = null;

@@ -18,7 +18,7 @@ export class SingleUploadComponent implements OnInit {
     email: '',
     contact_no: '',
     alt_contact_no: '',
-    category: ''
+    technology: ''
   };
   dropDownArr:any=[]
   ngOnInit() {
@@ -34,27 +34,61 @@ export class SingleUploadComponent implements OnInit {
   
 
 reset(form: NgForm) {
-    if (form) {
-      form.resetForm(); // ✅ Correct method for NgForm
-      this.candidate = {
-        name: '',
-        email: '',
-        contact_no: '',
-        alt_contact_no: '',
-        category: ''
-      };
-    } else {
-      console.error('Form is undefined!');
+  if (form) {
+    form.resetForm(); 
+
+    // Reset form model
+    this.candidate = {
+      name: '',
+      email: '',
+      contact_no: '',
+      alt_contact_no: '',
+      technology: ''
+    };
+
+    // Reset skills array and input
+    this.skills = [];
+    this.skill = '';
+  } else {
+    console.error('Form is undefined!');
+  }
+}
+
+
+  // save(data: any) {
+  //   this.sevice.createSingleReq(this.candidate).subscribe((resp: any) => {
+  //     this.sevice.triggerTableReload();
+  //     console.log("resp of single creation")
+  //     this.reset(data);
+
+  //   })
+   
+  // }
+
+
+save(data: any) {
+  this.candidate.skills = this.skills;  
+
+  this.sevice.createSingleReq(this.candidate).subscribe((resp: any) => {
+    console.log("Response of single creation", resp);
+    this.sevice.triggerTableReload();
+    this.reset(data);
+  });
+}
+
+
+   skill: string = '';
+  skills: string[] = [];
+
+  addSkill() {
+    const trimmedSkill = this.skill.trim();
+    if (trimmedSkill && !this.skills.includes(trimmedSkill)) {
+      this.skills.push(trimmedSkill);
+      this.skill = '';
     }
   }
 
-  save(data: any) {
-    this.sevice.createSingleReq(this.candidate).subscribe((resp: any) => {
-      this.sevice.triggerTableReload();
-      console.log("resp of single creation")
-      this.reset(data);
-
-    })
-    // Send to API if needed
+  removeSkill(index: number) {
+    this.skills.splice(index, 1);
   }
 }

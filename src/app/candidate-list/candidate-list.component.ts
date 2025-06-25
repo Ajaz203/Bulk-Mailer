@@ -65,4 +65,53 @@ export class CandidateListComponent implements OnInit{
     this.dataArr=resp;
   })
  }
+
+
+ selectedCandidates = new Set<any>();
+
+// Toggle single selection
+toggleSelection(candidate: any) {
+  if (this.selectedCandidates.has(candidate)) {
+    this.selectedCandidates.delete(candidate);
+  } else {
+    this.selectedCandidates.add(candidate);
+  }
+}
+
+// Toggle all selection
+toggleSelectAll(event: any) {
+  if (event.target.checked) {
+    this.dataArr.forEach((candidate: any) => this.selectedCandidates.add(candidate));
+  } else {
+    this.selectedCandidates.clear();
+  }
+}
+
+// Check if all selected
+isAllSelected() {
+  return this.dataArr.length > 0 && this.selectedCandidates.size === this.dataArr.length;
+}
+
+// Send single candidate
+sendSingle(candidate: any) {
+  console.log('Sending single candidate:', candidate);
+  // your API call here
+}
+
+// Send selected candidates
+sendSelected() {
+  if (this.selectedCandidates.size === 0) {
+    alert('Please select at least one candidate');
+    return;
+  }
+  console.log('Sending selected candidates:', Array.from(this.selectedCandidates));
+  // your API call here
+}
+
+// Send all candidates
+sendAll() {
+  console.log('Sending all candidates:', this.dataArr);
+  // your API call here
+}
+
 }

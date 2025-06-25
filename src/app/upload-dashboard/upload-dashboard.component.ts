@@ -4,10 +4,11 @@ import { SingleUploadComponent } from '../single-upload/single-upload.component'
 import { BulkUploadComponent } from '../bulk-upload/bulk-upload.component';
 import { CandidateListComponent } from '../candidate-list/candidate-list.component';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../header/header.component';
 @Component({
   selector: 'app-upload-dashboard',
   standalone: true,
-  imports: [CommonModule, SingleUploadComponent, BulkUploadComponent,CandidateListComponent],
+  imports: [CommonModule, SingleUploadComponent, BulkUploadComponent,CandidateListComponent,HeaderComponent],
   templateUrl: './upload-dashboard.component.html',
   styleUrls: ['./upload-dashboard.component.css']
 })
