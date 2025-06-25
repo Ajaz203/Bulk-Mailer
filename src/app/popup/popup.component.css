@@ -1,0 +1,17 @@
+.dialog-title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.custom-input .mat-form-field-outline {
+  border-radius: 10px;
+}

@@ -1,52 +1,60 @@
 <div class="list-wrapper">
   <div class="header">
-    <!-- <input type="checkbox" (change)="selectAll()" /> -->
-    <strong>Candidate Bulk List - ({{ candidates.length }})</strong>
+    <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
   </div>
 
   <table>
     <thead>
       <tr>
-        <th><input type="checkbox" (change)="selectAll()" [checked]="isPageFullySelected()"
-            [indeterminate]="isPagePartiallySelected()" />
-        </th>
+        <!-- <th>
+          <input type="checkbox"
+                 (change)="selectAll()"
+                 [checked]="isPageFullySelected()"
+                 [indeterminate]="isPagePartiallySelected()" />
+        </th> -->
+        <th>S.No</th>
         <th>Name</th>
         <th>Email</th>
         <th>Contact No.</th>
         <th>Alternate Contact No.</th>
-        <th>Other</th>
+        <th>Category</th>
+        <th>Created At</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <!-- @for(item of paginated(); track item.Name){
-
-        } -->
-      <tr *ngFor="let c of paginated(); let i = index">
-        <td><input type="checkbox" [checked]="selected().has((page()-1)*pageSize+i)"
-            (change)="toggleSelection((page()-1)*pageSize+i)" /></td>
-        <td>{{ c.Name }}</td>
-        <td>{{ c.Email }}</td>
-        <td>{{ c['Contact No.'] }}</td>
-        <td>{{ c['Alternate Contact No.'] }}</td>
-        <td>{{ c.Other || 'NA' }}</td>
+      <tr *ngFor="let c of dataArr; let i = index">
+        <!-- <td>
+          <input type="checkbox"
+                 [checked]="selected().has((page() - 1) * pageSize + i)"
+                 (change)="toggleSelection((page() - 1) * pageSize + i)" />
+        </td> -->
+        <td>{{ i+1 }}</td>
+        <td>{{c.name }}</td>
+        <td>{{ c.email }}</td>
+        <td>{{ c.contact_no }}</td>
+        <td>{{ c.alt_contact_no }}</td>
+        <td>{{ c.category || 'NA' }}</td>
+        <td>{{ c.createdAt | date: 'MM/dd/yyyy'}}</td>
         <td>✈️</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="footer">
+  <!-- <div class="footer">
     <button (click)="sendSelected()">Select Candidate Send</button>
     <button class="green" (click)="sendAll()">All Candidate Send</button>
 
-
     <div class="pagination">
-      <ngb-pagination [collectionSize]="candidates.length" [(page)]="pageNumber" [pageSize]="pageSize" [maxSize]="5"
-        [rotate]="true" [boundaryLinks]="true" (pageChange)="onPageChange($event)">
+      <ngb-pagination
+        [collectionSize]="displayData.length"
+        [pageSize]="pageSize"
+        [(page)]="page()"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="onPageChange($event)">
       </ngb-pagination>
-      <!-- <button (click)="page.set(page() - 1)" [disabled]="page() === 1">&lt;</button>
-        <span>{{ page() }}</span>
-        <button (click)="page.set(page() + 1)" [disabled]="page() * pageSize >= candidates.length">&gt;</button> -->
     </div>
-  </div>
+  </div> -->
 </div>

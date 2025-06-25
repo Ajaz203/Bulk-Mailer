@@ -1,42 +1,36 @@
-   <form #manualForm="ngForm" class="single-upload-card">
+<form #manualForm="ngForm" class="single-upload-card" (ngSubmit)="save(manualForm)">
   <h2>Manual Data</h2>
 
   <!-- Name -->
   <div class="form-row">
     <label>Name <span style="color: red;"> *</span></label>
-        <small class="error" *ngIf="name.invalid && name.touched" >Name is required.</small>
-    <input type="text" [(ngModel)]="candidate.Name" name="name" #name="ngModel" required placeholder="Name" />
-    <!-- <small class="error" *ngIf="name.invalid && name.touched">Name is required.</small> -->
+    <small class="error" *ngIf="name.invalid && name.touched">Name is required.</small>
+    <input type="text" [(ngModel)]="candidate.name" name="name" #name="ngModel" required placeholder="Name" />
+
   </div>
 
   <!-- Email -->
   <div class="form-row">
-    <label>Email  <span style="color: red;"> *</span></label>
+    <label>Email <span style="color: red;"> *</span></label>
     <small class="error" *ngIf="email.invalid && email.touched">
       <span *ngIf="email.errors?.['required']">Email is required.</span>
       <span *ngIf="email.errors?.['email']">Invalid email format.</span>
     </small>
-    <input type="email" [(ngModel)]="candidate.Email" name="email" #email="ngModel" required email placeholder="Email" />
-    
+    <input type="email" [(ngModel)]="candidate.email" name="email" #email="ngModel" required email
+      placeholder="Email" />
+
   </div>
 
   <!-- Contact No -->
   <div class="form-row">
-    <label>Contact No  <span style="color: red;"> *</span></label>
+    <label>Contact No <span style="color: red;"> *</span></label>
     <small class="error" *ngIf="contactNo.invalid && contactNo.touched">
       <span *ngIf="contactNo.errors?.['required']">Contact number is required.</span>
       <span *ngIf="contactNo.errors?.['pattern']">Must be a 10-digit number.</span>
     </small>
-    <input
-      type="text"
-      [(ngModel)]="candidate.ContactNo"
-      name="contactNo"
-      #contactNo="ngModel"
-      required
-      pattern="^[0-9]{10}$"
-      placeholder="Contact No"
-    />
-    
+    <input type="text" [(ngModel)]="candidate.contact_no" name="contactNo" #contactNo="ngModel" required
+      pattern="^[0-9]{10}$" placeholder="Contact No" />
+
   </div>
 
   <!-- Alternate Contact No -->
@@ -45,33 +39,24 @@
     <small class="error" *ngIf="alternateContactNo.invalid && alternateContactNo.touched">
       <span *ngIf="alternateContactNo.errors?.['pattern']">Must be a 10-digit number.</span>
     </small>
-    <input
-      type="text"
-      [(ngModel)]="candidate.AlternateContactNo"
-      name="alternateContactNo"
-      #alternateContactNo="ngModel"
-      pattern="^[0-9]{10}$"
-      placeholder="Alternate Contact No."
-    />
-    
+    <input type="text" [(ngModel)]="candidate.alt_contact_no" name="alternateContactNo" #alternateContactNo="ngModel"
+      pattern="^[0-9]{10}$" placeholder="Alternate Contact No." />
+
   </div>
 
-  <!-- Other -->
+  <!-- Category -->
   <div class="form-row">
-    <label>Other</label>
-    <select [(ngModel)]="candidate.Other" name="other" #other="ngModel">
-      <option value="">Select</option>
+    <label>Category</label>
+    <select [(ngModel)]="candidate.category" name="category" #category="ngModel">
       <option value="NA">NA</option>
-      <option value="Other1">Other1</option>
-      <option value="Other2">Other2</option>
+      <option *ngFor="let item of dropDownArr" value="item.name" >{{item.name}}</option>
     </select>
-    
-   
   </div>
 
   <!-- Actions -->
   <div class="form-actions">
-    <button class="reset" type="button" (click)="reset()">Reset</button>
-    <button class="save" type="submit" [disabled]="manualForm.invalid" (click)="save()">Save</button>
+    <button class="reset" type="button" (click)="reset(manualForm)">Reset</button>
+    <button class="reset" type="submit" *ngIf="manualForm.invalid" [disabled]="manualForm.invalid">Save</button>
+    <button class="save" type="submit" *ngIf="!manualForm.invalid" [disabled]="manualForm.invalid">Save</button>
   </div>
 </form>

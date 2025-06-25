@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { EmailService } from '../services/bulk-email.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -9,6 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./bulk-upload.component.css']
 })
 export class BulkUploadComponent {
+  constructor(private service:EmailService){}
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   triggerFileUpload(event: MouseEvent) {
@@ -39,7 +41,15 @@ export class BulkUploadComponent {
       const workbook = XLSX.read(data, { type: 'array' });
       const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
       this.excelData = XLSX.utils.sheet_to_json(firstSheet);
-      this.dataParsed.emit(this.excelData);
+      // this.dataParsed.emit(this.excelData);
+      console.log(this.excelData)
+      let payload={
+        "excelData":this.excelData
+      }
+      this.service.bulkUpload(payload).subscribe((resp: any) => {
+      this.service.triggerTableReload();
+      console.log(" resp of bulk creation",resp)
+    })
     };
     reader.readAsArrayBuffer(this.selectedFile);
   }

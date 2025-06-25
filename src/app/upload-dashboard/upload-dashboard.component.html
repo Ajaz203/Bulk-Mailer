@@ -1,9 +1,42 @@
-<div class="upload-grid">
-  <app-single-upload></app-single-upload>
-  <app-bulk-upload (dataParsed)="onExcelDataReceived($event)"></app-bulk-upload>
-</div>
+<div class="container-fluid mt-3">
+  <h4 class="mb-4">Bulk Emails</h4>
+  <!-- Tabs -->
+  <ul class="nav nav-tabs" id="emailTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="segment === 'candidate'" id="candidate-tab" data-bs-toggle="tab"
+        data-bs-target="#candidate" type="button" role="tab" (click)="segment = 'candidate'">
+        Candidate
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="segment === 'vendor'" id="vendor-tab" data-bs-toggle="tab"
+        data-bs-target="#vendor" type="button" role="tab" (click)="segment = 'vendor'">
+        Vendor
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="segment === 'viewData'" id="vendor-tab" data-bs-toggle="tab"
+        data-bs-target="#vendor" type="button" role="tab" (click)="segment = 'viewData'" (click)="goToAbout()">
+        View Category
+      </button>
+    </li>
 
-<!-- Candidate list: full width below -->
-<div class="candidate-list-wrapper" *ngIf="uploadedCandidates.length">
-  <app-candidate-list [candidates]="uploadedCandidates"></app-candidate-list>
+  </ul>
+  <div *ngIf="segment === 'candidate'">
+
+    <div class="upload-grid">
+      <app-single-upload></app-single-upload>
+      <app-bulk-upload (dataParsed)="onExcelDataReceived($event)"></app-bulk-upload>
+    </div>
+
+    <!-- Candidate list: full width below -->
+    <div class="candidate-list-wrapper">
+      <app-candidate-list ></app-candidate-list>
+    </div>
+  </div>
+
+  <div *ngIf="segment === 'vendor'">
+
+    <label>vendor in working</label>
+  </div>
 </div>

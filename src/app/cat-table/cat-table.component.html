@@ -1,0 +1,31 @@
+<div class="upload-grid" >
+  <button class="view-cat-btn" style="float: right;" (click)="openModal()">
+    Add
+  </button>
+</div>
+<div class="list-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Category Name</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Updated By</th>
+      </tr>
+    </thead>
+    <tbody>
+     
+      <tr *ngFor="let item of getDataArr;let i = index">
+        <td>{{ i+1 }}</td>
+        <td>{{ item.name}}</td>
+        <td>{{ item.createdAt | date: 'MM/dd/yyyy'}}</td>
+        <td>{{ item.updatedAt | date: 'MM/dd/yyyy'}}</td>
+        <td>{{ item.updated_by}}</td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+  
+</div>
