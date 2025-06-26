@@ -269,6 +269,37 @@ header {
             background-color: #5ab745;
         }
 
-        
+        /* Hide dropdown by default */
+.dropdown-menu {
+  display: none;
+}
+
+/* Show dropdown when parent has 'show' class */
+.dropdown.show .dropdown-menu {
+  display: block;
+}
+
+/* Style adjustments (optional) */
+.dropdown-menu {
+  border-radius: 8px;
+  min-width: 150px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  transition: background-color 0.2s ease;
+
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+  color: #5ab745;
+}
+
+.nav-link.dropdown-toggle::after {
+  margin-left: 0.35em;
+}
+
 
         /* Eof: Result Section */

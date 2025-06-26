@@ -13,10 +13,15 @@ import { CatTableComponent } from '../cat-table/cat-table.component';
   styleUrls: ['./upload-dashboard.component.css']
 })
 export class UploadDashboardComponent {
-  constructor(private router: Router) {}
-  uploadedCandidates: any[] = [];
-SegmentRequest:any;
+  openDropdown = false;
 segment: string = 'candidate';
+uploadedCandidates: any[] = [];
+SegmentRequest:any;
+dropdown() {
+  this.router.navigate(['/candidate-list']);
+}
+  constructor(private router: Router) {}
+
   onExcelDataReceived(data: any[]) {
     this.uploadedCandidates = data;
   }
