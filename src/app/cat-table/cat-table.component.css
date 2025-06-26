@@ -109,7 +109,7 @@
   
    */
 
-   .container {
+.container {
   max-width: 1200px;
   margin: auto;
   padding: 1rem;
@@ -151,6 +151,7 @@
 .border {
   border: 1px solid #dee2e6;
 }
- .btn-success {
-            background: #5ab745 !important;
-        }
+
+.btn-success {
+  background: #5ab745 !important;
+}

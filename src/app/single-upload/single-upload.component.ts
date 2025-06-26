@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { EmailService } from '../services/bulk-email.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-single-upload',
   standalone: true,
@@ -67,16 +68,36 @@ reset(form: NgForm) {
   // }
 
 
-save(data: any) {
-  this.candidate.skills = this.skills;  
+isLoading = false;
 
-  this.sevice.createSingleReq(this.candidate).subscribe((resp: any) => {
-    console.log("Response of single creation", resp);
-    this.sevice.triggerTableReload();
-    this.reset(data);
+save(data: any) {
+  this.isLoading = true; // 🔥 Start loader
+
+  this.candidate.skills = this.skills;
+
+  this.sevice.createSingleReq(this.candidate).subscribe({
+    next: (resp: any) => {
+      console.log("Response of single creation", resp);
+
+      Swal.fire('Success', 'Candidate added successfully!', 'success');
+
+      this.sevice.triggerTableReload();
+
+      this.reset(data);
+
       this.router.navigate(['/candidate-list']);
+    },
+    error: (err) => {
+      console.error('Error while adding candidate:', err);
+
+      Swal.fire('Error', 'Failed to add candidate.', 'error');
+    },
+    complete: () => {
+      this.isLoading = false; // 🔥 Stop loader
+    }
   });
 }
+
 
 
    skill: string = '';

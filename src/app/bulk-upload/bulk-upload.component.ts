@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 import { EmailService } from '../services/bulk-email.service';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-bulk-upload',
   templateUrl: './bulk-upload.component.html',
@@ -10,6 +11,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./bulk-upload.component.css']
 })
 export class BulkUploadComponent {
+ 
+    isUploading = false;
+    file: File | null = null;
+fileName: string = '';
   constructor(private service: EmailService, public router: Router) { }
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -20,7 +25,7 @@ export class BulkUploadComponent {
   // @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @Output() dataParsed = new EventEmitter<any[]>();
 
-  fileName: string = '';
+  
   selectedFile: File | null = null;
   excelData: any[] = [];
 
@@ -62,10 +67,28 @@ export class BulkUploadComponent {
     this.router.navigate(['/candidate-list']);
 
   }
-  uploadFile() {
-    this.confirmFile();
 
+
+ uploadFile() {
+  this.isUploading = true;
+
+  try {
+    this.confirmFile(); 
+
+    Swal.fire('Success', 'File uploaded successfully!', 'success');
+    this.resetFileUpload();
+  } catch (error) {
+    console.error(error);
+    Swal.fire('Error', 'File upload failed.', 'error');
+  } finally {
+    this.isUploading = false;
   }
+}
+
+resetFileUpload() {
+  this.file = null;
+  this.fileName = '';
+}
   async downloadMassTemplate() {
 
     window.location.assign('../asset/bulkEmailerTemplate.xlsx');

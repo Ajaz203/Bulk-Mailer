@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="list-wrapper">
   <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
 
@@ -6,31 +7,13 @@
       <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
     </div>
 
-    <!-- Center: Scheduler -->
-    <!-- <div class="d-flex align-items-center">
-      <label class="fw-medium me-2 mb-0">Schedule:</label>
-      <input type="date" class="form-control form-control-sm me-2" [(ngModel)]="scheduleDate" />
-      <input type="time" class="form-control form-control-sm me-2" [(ngModel)]="scheduleTime" />
-      <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod">
-        <option value="AM">AM</option>
-        <option value="PM">PM</option>
-      </select>
-    </div> -->
-
-    <!-- Right: Buttons -->
-
     <div class="action-buttons ">
- <button 
-  class="btn btn-outline-secondary me-2" 
-  data-bs-toggle="modal" 
-  data-bs-target="#mailModal">
-  <i class="bi bi-send"></i> Select Candidate Send
-</button>
+      <button class="btn btn-outline-secondary me-2" (click)="selectionMode='selected'" data-bs-toggle="modal"
+        data-bs-target="#mailModal">
+        <i class="bi bi-send"></i> Select Candidate Send
+      </button>
 
-      <button class="btn btn-success" (click)="sendAll()"
-        data-bs-toggle="modal" 
-  data-bs-target="#mailModal">
-        
+      <button class="btn btn-success" (click)="selectionMode='all'" data-bs-toggle="modal" data-bs-target="#mailModal">
         <i class="bi bi-send"></i> All Candidate Send
       </button>
     </div>
@@ -64,7 +47,14 @@
         <td>{{ c.alt_contact_no }}</td>
         <td>{{ c.technology || 'NA' }}</td>
         <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
-        <td style="cursor: pointer;" (click)="sendSingle(c)"><i class="bi bi-send"></i></td>
+        <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
+
+          <i class="bi bi-pencil-square text-warning fs-5" (click)="editCandidate(c)" title="Edit">
+          </i>
+
+          <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(c.id)" title="Delete">
+          </i>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -74,6 +64,7 @@
 
 
 
+<!-- mail template model -->
 
 <div class="modal fade" id="mailModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
@@ -87,49 +78,107 @@
 
       <!-- Body -->
       <div class="modal-body">
+        <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
 
+          <!-- Scheduler -->
+          <div class="d-flex align-items-center gap-2">
+            <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
+
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
+              style="max-width: 160px;" />
+
+            <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
+              style="max-width: 120px;" />
+
+            <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod" style="max-width: 80px;">
+              <option value="AM">AM</option>
+              <option value="PM">PM</option>
+            </select>
+          </div>
+
+        </div>
         <!-- Subject -->
         <div class="mb-3">
           <label class="form-label fw-medium">Subject</label>
-          <input 
-            type="text" 
-            class="form-control" 
-            [(ngModel)]="mailSubject" 
-            placeholder="Enter subject..." />
+          <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
         </div>
 
-    
-        <!-- Mail Content -->
+        <!-- Description -->
         <div class="mb-3">
           <label class="form-label fw-medium">Description</label>
-          <textarea 
-            class="form-control" 
-            rows="5" 
-            [(ngModel)]="mailContent" 
-            placeholder="Enter your mail content...">
+          <textarea class="form-control" rows="5" [(ngModel)]="mailBody" placeholder="Enter your mail content...">
           </textarea>
         </div>
 
-        <!-- Scheduler -->
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-          <label class="fw-medium">Schedule:</label>
-          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate" />
-          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" />
-          <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-          </select>
+        <!-- Footer -->
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
+          <button class="btn btn-success" (click)="sendMail()">Send</button>
         </div>
 
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Footer -->
+
+
+<!-- loader -->
+<div *ngIf="isLoading" class="loader-backdrop">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+
+
+
+<!-- Edit Candidate Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Candidate</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="fw-bold">Name:</label>
+          <input [(ngModel)]="selectedCandidate.name" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+          <label class="fw-bold">Email:</label>
+          <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+          <label class="fw-bold">Contact No:</label>
+          <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+          <label class="fw-bold">Alternate Contact No:</label>
+          <input [(ngModel)]="selectedCandidate.alt_contact_no" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+          <label class="fw-bold">Technology:</label>
+          <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
+        </div>
+      </div>
+
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
-        <button class="btn btn-success" (click)="sendMail()">Send</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-success" (click)="updateCandidate()">
+          Save Changes
+        </button>
       </div>
 
     </div>
   </div>
 </div>
-
