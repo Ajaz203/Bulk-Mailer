@@ -1,26 +1,46 @@
 <div class="list-wrapper">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
-   <div class="action-buttons">
-  <button class="btn btn-outline-secondary me-2" (click)="sendSelected()">
-    <i class="bi bi-send"></i> Select Candidate Send
-  </button>
-  <button class="btn btn-success" (click)="sendAll()">
-    <i class="bi bi-send"></i> All Candidate Send
-  </button>
-</div>
+  <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
 
+    <!-- Left: Heading -->
+    <div class="d-flex align-items-center">
+      <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
+    </div>
+
+    <!-- Center: Scheduler -->
+    <!-- <div class="d-flex align-items-center">
+      <label class="fw-medium me-2 mb-0">Schedule:</label>
+      <input type="date" class="form-control form-control-sm me-2" [(ngModel)]="scheduleDate" />
+      <input type="time" class="form-control form-control-sm me-2" [(ngModel)]="scheduleTime" />
+      <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod">
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+      </select>
+    </div> -->
+
+    <!-- Right: Buttons -->
+
+    <div class="action-buttons ">
+ <button 
+  class="btn btn-outline-secondary me-2" 
+  data-bs-toggle="modal" 
+  data-bs-target="#mailModal">
+  <i class="bi bi-send"></i> Select Candidate Send
+</button>
+
+      <button class="btn btn-success" (click)="sendAll()"
+        data-bs-toggle="modal" 
+  data-bs-target="#mailModal">
+        
+        <i class="bi bi-send"></i> All Candidate Send
+      </button>
+    </div>
   </div>
 
   <table class="table table-bordered">
     <thead>
       <tr>
         <th>
-          <input
-            type="checkbox"
-            (change)="toggleSelectAll($event)"
-            [checked]="isAllSelected()"
-          />
+          <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
         </th>
         <th>S.No</th>
         <th>Name</th>
@@ -35,11 +55,7 @@
     <tbody>
       <tr *ngFor="let c of dataArr; let i = index">
         <td>
-          <input
-            type="checkbox"
-            [checked]="selectedCandidates.has(c)"
-            (change)="toggleSelection(c)"
-          />
+          <input type="checkbox" [checked]="selectedCandidates.has(c)" (change)="toggleSelection(c)" />
         </td>
         <td>{{ i + 1 }}</td>
         <td>{{ c.name }}</td>
@@ -53,3 +69,67 @@
     </tbody>
   </table>
 </div>
+
+
+
+
+
+
+<div class="modal fade" id="mailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Send Mail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <!-- Subject -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Subject</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            [(ngModel)]="mailSubject" 
+            placeholder="Enter subject..." />
+        </div>
+
+    
+        <!-- Mail Content -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Description</label>
+          <textarea 
+            class="form-control" 
+            rows="5" 
+            [(ngModel)]="mailContent" 
+            placeholder="Enter your mail content...">
+          </textarea>
+        </div>
+
+        <!-- Scheduler -->
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <label class="fw-medium">Schedule:</label>
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate" />
+          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" />
+          <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
+        <button class="btn btn-success" (click)="sendMail()">Send</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+

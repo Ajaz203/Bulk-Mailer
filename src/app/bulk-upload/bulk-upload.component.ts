@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { EmailService } from '../services/bulk-email.service';
 import * as XLSX from 'xlsx';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-bulk-upload',
   templateUrl: './bulk-upload.component.html',
@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./bulk-upload.component.css']
 })
 export class BulkUploadComponent {
-  constructor(private service: EmailService) { }
+  constructor(private service: EmailService, public router: Router) { }
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   triggerFileUpload(event: MouseEvent) {
@@ -49,24 +49,29 @@ export class BulkUploadComponent {
           Skills: item.Skills.split(',').map((skill: any) => skill.trim())
         };
       });
-      
+
       this.service.bulkUpload(finalArr).subscribe((resp: any) => {
-        this.service.triggerTableReload();
+        // this.service.triggerTableReload();
+        this.navigate();
         console.log(" resp of bulk creation", resp)
       })
     };
     reader.readAsArrayBuffer(this.selectedFile);
   }
+  navigate() {
+    this.router.navigate(['/candidate-list']);
 
+  }
   uploadFile() {
     this.confirmFile();
+
   }
-async downloadMassTemplate(){
-    
+  async downloadMassTemplate() {
+
     window.location.assign('../asset/bulkEmailerTemplate.xlsx');
-    
-  
-}
+
+
+  }
   removeFile() {
     this.fileName = '';
     this.selectedFile = null;

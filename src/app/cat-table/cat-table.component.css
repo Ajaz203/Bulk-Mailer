@@ -1,4 +1,4 @@
-.list-wrapper {
+/* .list-wrapper {
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 15px;
@@ -59,9 +59,9 @@
     padding: 6px 12px;
     min-width: 36px;
     height: 36px;
-    border: 1px solid #d1d5db; /* Light gray border */
+    border: 1px solid #d1d5db; 
     background-color: white;
-    color: #374151; /* Dark gray text */
+    color: #374151; 
     font-size: 14px;
     border-radius: 8px;
     cursor: pointer;
@@ -70,12 +70,12 @@
   }
   
   .page-btn:hover:not(.active):not(:disabled) {
-    background-color: #f3f4f6; /* Light hover */
+    background-color: #f3f4f6; 
   }
   
   .page-btn.active {
     background-color: #f0fdfa;
-    border-color: #10b981; /* Tailwind green-500 */
+    border-color: #10b981; 
     color: #10b981;
     font-weight: bold;
   }
@@ -92,7 +92,7 @@
   padding: 20px;
   background: white;
   margin: 10px 10px 0px;
-  align-items: center; /* Optional: vertically center items */
+  align-items: center;
 }
 
 .view-cat-btn {
@@ -104,7 +104,50 @@
   height: 30px;
   width: 90px;  
   font-size: small;
-  margin-left: auto; /* ✅ Push to the right in flex layout */
+  margin-left: auto; 
 }
   
-  
+   */
+
+   .container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.rounded {
+  border-radius: 8px;
+}
+
+.border {
+  border: 1px solid #dee2e6;
+}

@@ -5,7 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
 @Component({
   selector: 'app-popup',
   imports: [
@@ -16,6 +17,8 @@ import { NgIf } from '@angular/common';
     FormsModule,
     MatIconModule,
     NgIf,
+    MatDividerModule,
+    CommonModule
   ],
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'

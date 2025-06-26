@@ -18,7 +18,7 @@
     </li>
     <li class="nav-item" role="presentation">
       <button class="nav-link" [class.active]="segment === 'viewData'" id="vendor-tab" data-bs-toggle="tab"
-        data-bs-target="#vendor" type="button" role="tab" (click)="segment = 'viewData'" (click)="goToAbout()">
+        data-bs-target="#vendor" type="button" role="tab" (click)="segment = 'viewData'">
         View Category
       </button>
     </li>
@@ -32,13 +32,17 @@
     </div>
 
     <!-- Candidate list: full width below -->
-    <div class="candidate-list-wrapper">
+    <!-- <div class="candidate-list-wrapper">
       <app-candidate-list ></app-candidate-list>
-    </div>
+    </div> -->
   </div>
 
   <div *ngIf="segment === 'vendor'">
 
     <label>vendor in working</label>
+  </div>
+  <div *ngIf="segment === 'viewData'">
+<app-cat-table></app-cat-table>
+    
   </div>
 </div>

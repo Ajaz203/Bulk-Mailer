@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmailService } from '../services/bulk-email.service';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-single-upload',
   standalone: true,
@@ -11,7 +12,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./single-upload.component.css']
 })
 export class SingleUploadComponent implements OnInit {
-  constructor(private sevice: EmailService) { }
+  constructor(private sevice: EmailService, private router: Router) { }
   @ViewChild('manualForm') manualForm!: NgForm;
   candidate: any = {
     name: '',
@@ -73,6 +74,7 @@ save(data: any) {
     console.log("Response of single creation", resp);
     this.sevice.triggerTableReload();
     this.reset(data);
+      this.router.navigate(['/candidate-list']);
   });
 }
 

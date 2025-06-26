@@ -1,17 +1,101 @@
+/* === Remove Scroll and Fix Dialog Size === */
+mat-dialog-container {
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden !important;
+}
+
+/* === Dialog Header === */
 .dialog-title {
-  flex: 1;
-  text-align: center;
   margin: 0;
+  color: #00457c;
+  font-weight: 600;
   font-size: 20px;
-  font-weight: 500;
 }
 
 .close-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
+  color: rgba(0, 0, 0, 0.5);
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+/* === Divider Styling === */
+hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 12px 0 20px 0;
+}
+
+/* === Input Field === */
+.custom-input {
+  width: 100%;
+}
+
+.custom-input .mat-form-field-flex {
+  padding: 12px 0;
 }
 
 .custom-input .mat-form-field-outline {
-  border-radius: 10px;
+  border-radius: 6px;
+}
+
+.custom-input input {
+  padding-left: 8px;
+}
+
+/* === Dialog Content === */
+mat-dialog-content {
+  padding: 0;
+}
+
+/* === Dialog Actions === */
+mat-dialog-actions {
+  padding-top: 20px;
+}
+
+mat-dialog-actions button {
+  min-width: 100px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+/* === Cancel Button === */
+mat-dialog-actions button:first-child {
+  color: #555;
+}
+
+mat-dialog-actions button:first-child:hover {
+  background-color: #f2f2f2;
+}
+
+/* === OK Button === */
+mat-dialog-actions button[color="primary"] {
+  background-color: #00457c;
+  color: white;
+  border-radius: 20px;
+}
+
+mat-dialog-actions button[color="primary"]:hover {
+  background-color: #00345a;
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  mat-dialog-container {
+    width: 90%;
+  }
+
+  .dialog-title {
+    font-size: 18px;
+  }
+
+  mat-dialog-actions button {
+    min-width: 90px;
+  }
 }
