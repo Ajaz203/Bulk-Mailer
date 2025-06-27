@@ -1,51 +1,86 @@
-.list-wrapper {
+  
+   .action-buttons {
+    /* margin-top: 20px; */
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  } 
+  
+  .btn-success {
+    background: #5ab745 !important;
+  }
+
+  .btn-primary {
+    background-color: #5ab745;
+    text-wrap: nowrap;
+    border: none;
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    background-color: #5ab745;
+  }
+
+
+
+.btn-outline-secondary {
+  border-color: #ced4da !important;
+  white-space: nowrap;
+}
+
+
+
+  .btn-outline-secondary:hover {
+    color: #5ab745;
+    background: none;
+    border-color: #ced4da;
+  }
+
+  .list-wrapper {
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 15px;
     background: white;
-    font-family: Arial;
-  margin: 10px 10px 0px;
+  
+    margin: 10px 10px 0px;
 
   }
-  
+
   .header {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
   }
-  
+
   table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
   }
-  
-  th, td {
+
+  th,
+  td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
   }
-  
+
   .footer {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
     align-items: center;
   }
-  
-  button {
-    padding: 6px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
+
+
+
   .green {
     background-color: #00b152;
     color: white;
   }
-  
+
   .pagination {
     display: flex;
     justify-content: center;
@@ -54,35 +89,54 @@
     margin-top: 16px;
     width: 50%;
   }
+
   
-  .page-btn {
-    padding: 6px 12px;
-    min-width: 36px;
-    height: 36px;
-    border: 1px solid #d1d5db; /* Light gray border */
-    background-color: white;
-    color: #374151; /* Dark gray text */
-    font-size: 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
-  }
-  
+
   .page-btn:hover:not(.active):not(:disabled) {
-    background-color: #f3f4f6; /* Light hover */
+    background-color: #f3f4f6;
+    /* Light hover */
   }
-  
-  .page-btn.active {
-    background-color: #f0fdfa;
-    border-color: #10b981; /* Tailwind green-500 */
-    color: #10b981;
-    font-weight: bold;
-  }
-  
+
+
+
   .page-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  
-  
+
+  th,
+  td {
+    vertical-align: middle;
+  }
+
+  td {
+    cursor: pointer;
+  }
+
+  .table th,
+  .table td {
+    text-align: center;
+  }
+
+
+td i {
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+td i:hover {
+  opacity: 0.7;
+}
+
+.loader-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -234,15 +234,11 @@ updateCandidate() {
       next: () => {
         Swal.fire('Success', 'Mail sent successfully!', 'success');
         this.resetMailModal();
-
-        // ✅ Close modal
         const modalElement = document.getElementById('mailModal');
         if (modalElement) {
           const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
           modal.hide();
         }
-
-        // ✅ Remove leftover backdrop
         const backdrop = document.querySelector('.modal-backdrop');
         if (backdrop) {
           backdrop.remove();
@@ -258,11 +254,7 @@ updateCandidate() {
     });
   }
 
-
-
-
-
-  resetMailModal() {
+resetMailModal() {
     this.mailSubject = '';
     this.mailBody = '';
     this.scheduleDate = '';

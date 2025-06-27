@@ -68,7 +68,7 @@
 
   <div *ngIf="segment === 'vendor'">
 
-    <label>vendor in working</label>
+   <app-vendor-bulk-upload (dataParsed)="onExcelDataReceived($event)"></app-vendor-bulk-upload>
   </div>
   <div *ngIf="segment === 'viewData'">
     <app-cat-table></app-cat-table>

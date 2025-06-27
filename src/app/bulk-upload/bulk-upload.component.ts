@@ -107,10 +107,7 @@ uploadFile(): void {
     this.fileName = '';
   }
   async downloadMassTemplate() {
-
     window.location.assign('../asset/bulkEmailerTemplate.xlsx');
-
-
   }
   removeFile() {
     this.fileName = '';

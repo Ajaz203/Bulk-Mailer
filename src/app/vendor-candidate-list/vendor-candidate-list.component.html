@@ -1,52 +1,152 @@
+<app-header></app-header>
 <div class="list-wrapper">
-  <div class="header">
-    <!-- <input type="checkbox" (change)="selectAll()" /> -->
-    <strong>Candidate Bulk List - ({{ candidates.length }})</strong>
+  <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
+
+    <!-- Left: Heading -->
+    <div class="d-flex align-items-center">
+      <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
+    </div>
+
+    <div class="action-buttons ">
+      <button class="btn btn-outline-secondary me-2" (click)="selectionMode='selected'" data-bs-toggle="modal"
+        data-bs-target="#mailModal">
+        <i class="bi bi-send"></i> Select Candidate Send
+      </button>
+
+      <button class="btn btn-success" (click)="selectionMode='all'" data-bs-toggle="modal" data-bs-target="#mailModal">
+        <i class="bi bi-send"></i> All Candidate Send
+      </button>
+    </div>
   </div>
 
-  <table>
+  <table class="table table-bordered">
     <thead>
       <tr>
-        <th><input type="checkbox" (change)="selectAll()" [checked]="isPageFullySelected()"
-            [indeterminate]="isPagePartiallySelected()" />
+        <th>
+          <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
         </th>
-        <th>Name</th>
+        <th>S.No</th>
         <th>Email</th>
-        <th>Contact No.</th>
-        <th>Alternate Contact No.</th>
-        <th>Other</th>
+        <!-- <th>Created At</th> -->
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <!-- @for(item of paginated(); track item.Name){
+      <tr *ngFor="let c of dataArr; let i = index">
+        <td>
+          <input type="checkbox" [checked]="selectedCandidates.has(c)" (change)="toggleSelection(c)" />
+        </td>
+        <td>{{ i + 1 }}</td>
+        <td>{{ c.email}}</td>
+        <!-- <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td> -->
+        <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
 
-        } -->
-      <tr *ngFor="let c of paginated(); let i = index">
-        <td><input type="checkbox" [checked]="selected().has((page()-1)*pageSize+i)"
-            (change)="toggleSelection((page()-1)*pageSize+i)" /></td>
-        <td>{{ c.Name }}</td>
-        <td>{{ c.Email }}</td>
-        <td>{{ c['Contact No.'] }}</td>
-        <td>{{ c['Alternate Contact No.'] }}</td>
-        <td>{{ c.Other || 'NA' }}</td>
-        <td>✈️</td>
+          <i class="bi bi-pencil-square text-warning fs-5" (click)="editCandidate(c)" title="Edit">
+          </i>
+
+          <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(c.id)" title="Delete">
+          </i>
+        </td>
       </tr>
     </tbody>
   </table>
-
-  <div class="footer">
-    <button (click)="sendSelected()">Select Candidate Send</button>
-    <button class="green" (click)="sendAll()">All Candidate Send</button>
+</div>
 
 
-    <div class="pagination">
-      <ngb-pagination [collectionSize]="candidates.length" [(page)]="pageNumber" [pageSize]="pageSize" [maxSize]="5"
-        [rotate]="true" [boundaryLinks]="true" (pageChange)="onPageChange($event)">
-      </ngb-pagination>
-      <!-- <button (click)="page.set(page() - 1)" [disabled]="page() === 1">&lt;</button>
-        <span>{{ page() }}</span>
-        <button (click)="page.set(page() + 1)" [disabled]="page() * pageSize >= candidates.length">&gt;</button> -->
+
+
+
+<!-- mail template model -->
+
+<div class="modal fade" id="mailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Send Mail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
+
+          <!-- Scheduler -->
+          <div class="d-flex align-items-center gap-2">
+            <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
+
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
+              style="max-width: 160px;" />
+
+            <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
+              style="max-width: 120px;" />
+
+            <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod" style="max-width: 80px;">
+              <option value="AM">AM</option>
+              <option value="PM">PM</option>
+            </select>
+          </div>
+
+        </div>
+        <!-- Subject -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Subject</label>
+          <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Description</label>
+          <textarea class="form-control" rows="5" [(ngModel)]="mailBody" placeholder="Enter your mail content...">
+          </textarea>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
+          <button class="btn btn-success" (click)="sendMail()">Send</button>
+        </div>
+
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Vendor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+      
+
+        <div class="mb-3">
+          <label class="fw-bold">Email:</label>
+          <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-success" (click)="updateCandidate()">
+          Save Changes
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- loader -->
+<div *ngIf="isLoading" class="loader-backdrop">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
 </div>
