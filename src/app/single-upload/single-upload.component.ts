@@ -1,4 +1,4 @@
-import { Component, ViewChild,OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmailService } from '../services/bulk-email.service';
@@ -22,7 +22,7 @@ export class SingleUploadComponent implements OnInit {
     alt_contact_no: '',
     technology: ''
   };
-  dropDownArr:any=[]
+  dropDownArr: any = []
   ngOnInit() {
     this.getData();
   }
@@ -33,28 +33,28 @@ export class SingleUploadComponent implements OnInit {
       this.dropDownArr = resp;
     })
   }
-  
 
-reset(form: NgForm) {
-  if (form) {
-    form.resetForm(); 
 
-    // Reset form model
-    this.candidate = {
-      name: '',
-      email: '',
-      contact_no: '',
-      alt_contact_no: '',
-      technology: ''
-    };
+  reset(form: NgForm) {
+    if (form) {
+      form.resetForm();
 
-    // Reset skills array and input
-    this.skills = [];
-    this.skill = '';
-  } else {
-    console.error('Form is undefined!');
+
+      this.candidate = {
+        name: '',
+        email: '',
+        contact_no: '',
+        alt_contact_no: '',
+        technology: ''
+      };
+
+   
+      this.skills = [];
+      this.skill = '';
+    } else {
+      console.error('Form is undefined!');
+    }
   }
-}
 
 
   // save(data: any) {
@@ -64,43 +64,43 @@ reset(form: NgForm) {
   //     this.reset(data);
 
   //   })
-   
+
   // }
 
 
-isLoading = false;
+  isLoading = false;
 
-save(data: any) {
-  this.isLoading = true; // 🔥 Start loader
+  save(data: any) {
+    this.isLoading = true; 
 
-  this.candidate.skills = this.skills;
+    this.candidate.skills = this.skills;
 
-  this.sevice.createSingleReq(this.candidate).subscribe({
-    next: (resp: any) => {
-      console.log("Response of single creation", resp);
+    this.sevice.createSingleReq(this.candidate).subscribe({
+      next: (resp: any) => {
+        console.log("Response of single creation", resp);
 
-      Swal.fire('Success', 'Candidate added successfully!', 'success');
+        Swal.fire('Success', 'Candidate added successfully!', 'success');
 
-      this.sevice.triggerTableReload();
+        this.sevice.triggerTableReload();
 
-      this.reset(data);
+        this.reset(data);
 
-      this.router.navigate(['/candidate-list']);
-    },
-    error: (err) => {
-      console.error('Error while adding candidate:', err);
+        this.router.navigate(['/candidate-list']);
+      },
+      error: (err) => {
+        console.error('Error while adding candidate:', err);
 
-      Swal.fire('Error', 'Failed to add candidate.', 'error');
-    },
-    complete: () => {
-      this.isLoading = false; // 🔥 Stop loader
-    }
-  });
-}
+        Swal.fire('Error', 'Failed to add candidate.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false; 
+      }
+    });
+  }
 
 
 
-   skill: string = '';
+  skill: string = '';
   skills: string[] = [];
 
   addSkill() {

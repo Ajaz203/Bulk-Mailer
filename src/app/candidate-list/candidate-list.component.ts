@@ -40,9 +40,9 @@ isLoading: boolean = false;
   ngOnInit() {
     this.getData();
     this.cdr.detectChanges();
-    // this.service.refreshTable$.subscribe(() => {
-    //   this.getData(); // function to reload your data
-    // });
+    this.service.refreshTable$.subscribe(() => {
+      this.getData(); // function to reload your data
+    });
     //  this.getData();
   }
 
@@ -229,7 +229,7 @@ sendMail() {
 
   console.log('Payload:', payload);
 
-  this.isLoading = true; // 🔥 Start loader
+  this.isLoading = true;
 
   this.service.sendMail(payload).subscribe({
     next: () => {
@@ -242,16 +242,23 @@ sendMail() {
         const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
         modal.hide();
       }
+
+      // ✅ Remove leftover backdrop
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
     },
     error: (err) => {
       console.error(err);
       Swal.fire('Error', 'Failed to send mail.', 'error');
     },
     complete: () => {
-      this.isLoading = false; // 🔥 Stop loader
+      this.isLoading = false;
     }
   });
 }
+
 
 
 
@@ -261,9 +268,10 @@ resetMailModal() {
   this.mailBody = '';
   this.scheduleDate = '';
   this.scheduleTime = '';
-  this.schedulePeriod = 'AM';
+  this.schedulePeriod = '';
+  this.selectedCandidates.clear(); 
+  
 }
-
 
   saveAsDraft() {
     console.log('Saving as Draft');
