@@ -4,39 +4,25 @@
 
   <!-- Tabs -->
   <ul class="nav nav-tabs" id="emailTab" role="tablist">
-   <li 
-  class="nav-item dropdown"
-  (mouseenter)="openDropdown = true" 
-  (mouseleave)="openDropdown = false"
-  [class.show]="openDropdown">
+    <li class="nav-item dropdown" (mouseenter)="openDropdown = true" (mouseleave)="openDropdown = false"
+      [class.show]="openDropdown">
 
-  <!-- Dropdown Toggle -->
-  <a 
-    class="nav-link dropdown-toggle"
-    href="javascript:void(0)"
-    [class.active]="segment === 'candidate'"
-    (click)="segment = 'candidate'">
-    Candidate
-  </a>
-
-  <!-- Dropdown Menu -->
-  <ul 
-    class="dropdown-menu"
-    [class.show]="openDropdown">
-
-    <li>
-      <a 
-        class="dropdown-item" 
-       
-        (click)="dropdown()">
-        Candidate List
+      <!-- Dropdown Toggle -->
+      <a class="nav-link dropdown-toggle" href="javascript:void(0)" [class.active]="segment === 'candidate'"
+        (click)="segment = 'candidate'">
+        Candidate
       </a>
+
+      <!-- Dropdown Menu -->
+      <ul class="dropdown-menu" [class.show]="openDropdown">
+
+        <li>
+          <a class="dropdown-item" (click)="dropdown()">
+            Candidate List
+          </a>
+        </li>
+      </ul>
     </li>
-
- 
-
-  </ul>
-</li>
 
 
     <li class="nav-item" role="presentation">
@@ -58,6 +44,7 @@
     <div class="upload-grid">
       <app-single-upload></app-single-upload>
       <app-bulk-upload (dataParsed)="onExcelDataReceived($event)"></app-bulk-upload>
+
     </div>
 
     <!-- Candidate list: full width below -->
@@ -68,7 +55,7 @@
 
   <div *ngIf="segment === 'vendor'">
 
-   <app-vendor-bulk-upload (dataParsed)="onExcelDataReceived($event)"></app-vendor-bulk-upload>
+    <app-vendor-bulk-upload (dataParsed)="onExcelDataReceived($event)"></app-vendor-bulk-upload>
   </div>
   <div *ngIf="segment === 'viewData'">
     <app-cat-table></app-cat-table>

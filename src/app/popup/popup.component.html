@@ -1,23 +1,19 @@
-<!-- Top bar with title and close button -->
-<div style="display: flex; justify-content: space-between; align-items: center; position: relative;">
-  <h2 mat-dialog-title class="dialog-title">Add Category</h2>
-  <button mat-icon-button (click)="close()" aria-label="Close" class="close-btn">
+<!-- Container for Dialog -->
+<div class="dialog-header">
+  <h2 mat-dialog-title>Add New Category</h2>
+  <button mat-icon-button (click)="close()" aria-label="Close" class="close-button">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
-<hr>
-
-<!-- Input Field -->
-<mat-dialog-content>
-  <mat-form-field appearance="outline" class="custom-input w-100">
-    <mat-label>Enter Category</mat-label>
-    <input matInput style="padding-left: 10px;" [(ngModel)]="userInput" />
+<mat-dialog-content class="dialog-content">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Category Name</mat-label>
+    <input matInput placeholder="Enter category name..." [(ngModel)]="userInput" />
   </mat-form-field>
 </mat-dialog-content>
 
-<!-- Action Buttons -->
-<mat-dialog-actions align="end">
-  <button mat-button (click)="close()">Cancel</button>
-  <button mat-button color="primary" (click)="submit()">OK</button>
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-stroked-button color="warn" (click)="close()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="submit()">Add Category</button>
 </mat-dialog-actions>

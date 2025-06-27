@@ -117,7 +117,7 @@
 
 .page-title {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .btn-primary {
@@ -133,7 +133,7 @@
 
 .table thead th {
   background-color: #f8f9fa;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .table tbody tr:hover {
@@ -154,4 +154,15 @@
 
 .btn-success {
   background: #5ab745 !important;
+}
+
+.custom-dialog-container {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+}
+
+.mat-dialog-container {
+  background-color: #fff !important;
 }

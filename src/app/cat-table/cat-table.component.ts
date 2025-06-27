@@ -28,9 +28,10 @@ export class CatTableComponent implements OnInit {
 
   openModal() {
     const dialogRef = this.dialog.open(PopupComponent, {
-      width: '600px',       // or '80vw'
-      height: '400px',      // optional
-      maxHeight: '90vh'     // optional
+      width: '450px',
+  maxHeight: 'auto', // No vertical scrollbar triggered from this
+  disableClose: true,
+  panelClass: 'custom-dialog'  
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
