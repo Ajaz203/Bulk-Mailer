@@ -1,5 +1,5 @@
 <form #manualForm="ngForm" class="single-upload-card" (ngSubmit)="save(manualForm)">
-  <h2>Manual Data</h2>
+  <h2>Single Data Upload</h2>
 
   <!-- Name -->
   <div class="form-row">
@@ -47,17 +47,15 @@
 
   <!-- Alternate Contact No -->
   <div class="form-row">
-    <label>Alternate Contact No.</label>
-    <input
-      type="text"
-      [(ngModel)]="candidate.alt_contact_no"
-      name="alternateContactNo"
-      #alternateContactNo="ngModel"
-      pattern="^[0-9]{10}$"
-      placeholder="Alternate Contact No."
-      [ngClass]="{ 'invalid-input': alternateContactNo.invalid && alternateContactNo.touched, 'valid-input': alternateContactNo.valid && alternateContactNo.touched }"
-    />
-  </div>
+  <label>Alternate Contact No.</label>
+  <input
+    type="text"
+    [(ngModel)]="candidate.alt_contact_no"
+    name="alternateContactNo"
+    placeholder="Alternate Contact No."
+  />
+</div>
+
 
   <!-- Category -->
   <div class="form-row">

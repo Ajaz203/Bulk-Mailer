@@ -43,11 +43,16 @@
         </td>
         <td>{{ i + 1 }}</td>
         <td>{{ c.name }}</td>
-         <td>{{ c.email}}</td>
+        <td>{{ c.email}}</td>
         <td>{{ c.contact_no }}</td>
         <td>{{ c.alt_contact_no || 'NA' }}</td>
         <td>{{ c.technology || 'NA' }}</td>
-        <td>{{ c.skills || 'NA' }}</td>
+        <td>
+          <span *ngIf="c.skills?.length > 0; else noSkill">
+            {{ c.skills.join(', ') }}
+          </span>
+          <ng-template #noSkill>NA</ng-template>
+        </td>
         <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
         <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
 

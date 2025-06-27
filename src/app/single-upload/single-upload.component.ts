@@ -13,6 +13,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./single-upload.component.css']
 })
 export class SingleUploadComponent implements OnInit {
+  isLoading = false;
+   skill: string = '';
+  skills: string[] = [];
   constructor(private sevice: EmailService, private router: Router) { }
   @ViewChild('manualForm') manualForm!: NgForm;
   candidate: any = {
@@ -47,61 +50,61 @@ export class SingleUploadComponent implements OnInit {
         alt_contact_no: '',
         technology: ''
       };
-
-   
       this.skills = [];
       this.skill = '';
     } else {
       console.error('Form is undefined!');
     }
   }
+  
 
+save(data: any): void {
+  this.isLoading = true;
+  this.candidate.skills = this.skills;
 
-  // save(data: any) {
-  //   this.sevice.createSingleReq(this.candidate).subscribe((resp: any) => {
-  //     this.sevice.triggerTableReload();
-  //     console.log("resp of single creation")
-  //     this.reset(data);
+  Swal.fire({
+    title: 'Saving...',
+    text: 'Please wait while we save the candidate.',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
 
-  //   })
+  this.sevice.createSingleReq(this.candidate).subscribe({
+    next: (resp: any) => {
+      console.log('Response of single creation:', resp);
 
-  // }
+      Swal.close();
 
-
-  isLoading = false;
-
-  save(data: any) {
-    this.isLoading = true; 
-
-    this.candidate.skills = this.skills;
-
-    this.sevice.createSingleReq(this.candidate).subscribe({
-      next: (resp: any) => {
-        console.log("Response of single creation", resp);
-
-        Swal.fire('Success', 'Candidate added successfully!', 'success');
-
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Candidate added successfully.',
+        confirmButtonColor: '#3085d6'
+      }).then(() => {
         this.sevice.triggerTableReload();
-
         this.reset(data);
-
         this.router.navigate(['/candidate-list']);
-      },
-      error: (err) => {
-        console.error('Error while adding candidate:', err);
+      });
+    },
+    error: (err) => {
+      console.error('Error while adding candidate:', err);
 
-        Swal.fire('Error', 'Failed to add candidate.', 'error');
-      },
-      complete: () => {
-        this.isLoading = false; 
-      }
-    });
-  }
+      Swal.close();
 
-
-
-  skill: string = '';
-  skills: string[] = [];
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Failed to add candidate.',
+        confirmButtonColor: '#d33'
+      });
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
 
   addSkill() {
     const trimmedSkill = this.skill.trim();
