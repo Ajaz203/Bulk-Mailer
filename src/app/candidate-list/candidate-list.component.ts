@@ -31,44 +31,37 @@ export class CandidateListComponent implements OnInit {
   mailDescription: any = '';
   http: any;
   selectionMode: 'all' | 'selected' = 'selected';
-isLoading: boolean = false;
+  isLoading: boolean = false;
 
 
 
 
-  constructor(private service: EmailService , private cdr: ChangeDetectorRef) { }
+  constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
   ngOnInit() {
     this.getData();
     this.cdr.detectChanges();
     this.service.refreshTable$.subscribe(() => {
-      this.getData(); // function to reload your data
+      this.getData();
     });
-    //  this.getData();
+
   }
 
   getData() {
-    this.service.getCandidateData({}).subscribe((resp: any) => {
-      console.log("get condidate resp ", resp)
+  this.isLoading = true;
+  this.service.getCandidateData({}).subscribe({
+    next: (resp: any) => {
+      console.log("Candidate Response:", resp);
       this.dataArr = resp;
-    })
-  }
+      this.isLoading = false;
+    },
+    error: (err) => {
+      this.isLoading = false;
+      console.error('Failed to load data:', err);
+    }
+  });
+}
 
 
-  // triggerFileInput() {
-  //   const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-  //   if (fileInput) {
-  //     fileInput.click();
-  //   }
-  // }
-
-
-  // onFileSelected(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.selectedFile = file;
-  //     console.log('Selected file:', file);
-  //   }
-  // }
   // Toggle single selection
   toggleSelection(candidate: any) {
     if (this.selectedCandidates.has(candidate)) {
@@ -103,77 +96,83 @@ isLoading: boolean = false;
     modal.show();
   }
 
+// updateCandidate() {
+//   this.isLoading = true;
+
+//   this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate).subscribe({
+//     next: () => {
+//       Swal.fire('Updated!', 'Candidate updated successfully', 'success');
+//       this.getData();
+//       const modalElement = document.getElementById('editModal');
+//       if (modalElement) {
+//         const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+//         modal.hide();
+//       }
+
+//       this.selectedCandidate = null;
+//     },
+//     error: (err) => {
+//       this.isLoading = false;
+//       Swal.fire('Error!', err.error?.message || 'Failed to update candidate.', 'error');
+//     },
+//     complete: () => {
+//       this.isLoading = false;
+//     }
+//   });
+// }
+
 updateCandidate() {
-  this.isLoading = true;
-  console.log('Updating candidate:', this.selectedCandidate);
+  this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate)
+    .subscribe({
+      next: (res) => {
+        Swal.fire('Updated!', 'Candidate updated successfully', 'success');
+        this.getData();
 
-  this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate).subscribe({
-    next: (res) => {
-      console.log('Update Response:', res);
-
-      Swal.fire('Updated!', 'Candidate updated successfully', 'success');
-
-      this.isLoading = false; // ✅ Hide loader
-
-      const modalElement = document.getElementById('editModal');
-      const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-      modal.hide();
-
-         window.location.reload();
-      this.selectedCandidate = null;
-    },
-    error: (err) => {
-      this.isLoading = false; // ✅ Hide loader
-      console.error('Update failed:', err);
-      Swal.fire('Error!', err.error?.message || 'Failed to update candidate.', 'error');
-    }
-  });
+        const modalElement = document.getElementById('editModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal?.hide();
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
 }
-
-
 
   deleteCandidate(id: any) {
-  console.log('Deleting ID:', id);
-
-  if (!id) {
-    Swal.fire('Error', 'ID is missing!', 'error');
-    return;
-  }
-
-  const payload = { id: id };
-
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Yes, delete it!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.isLoading = true;
-
-      this.service.deleteCandidate(payload).subscribe({
-        next: () => {
-          Swal.fire('Deleted!', 'Candidate has been deleted.', 'success');
-          this.dataArr = this.dataArr.filter((c: { id: any; }) => c.id !== id);
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.isLoading = false;
-          console.error(err);
-          Swal.fire('Error!', err.error?.error || 'Failed to delete candidate.', 'error');
-        }
-      });
+    if (!id) {
+      Swal.fire('Error', 'ID is missing!', 'error');
+      return;
     }
-  });
-}
 
+    const payload = { id: id };
 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
 
-
-
+        this.service.deleteCandidate(payload).subscribe({
+          next: () => {
+            Swal.fire('Deleted!', 'Candidate has been deleted.', 'success');
+            this.dataArr = this.dataArr.filter((c: { id: any; }) => c.id !== id);
+            this.isLoading = false;
+          },
+          error: (err) => {
+            this.isLoading = false;
+            console.error(err);
+            Swal.fire('Error!', err.error?.error || 'Failed to delete candidate.', 'error');
+          }
+        });
+      }
+    });
+  }
 
   // Send selected candidates
   sendSelected() {
@@ -195,83 +194,83 @@ updateCandidate() {
 
 
 
-sendMail() {
-  const selectedEmails = this.selectionMode === 'all'
-    ? this.dataArr.map((c: { email: any }) => c.email)
-    : Array.from(this.selectedCandidates).map(c => c.email);
+  sendMail() {
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((c: { email: any }) => c.email)
+      : Array.from(this.selectedCandidates).map(c => c.email);
 
-  if (selectedEmails.length === 0) {
-    Swal.fire('Error', 'No candidates selected.', 'error');
-    return;
-  }
-
-  if (!this.mailSubject || !this.mailBody) {
-    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-    return;
-  }
-
-  const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
-
-  const payload: any = {
-    mailSubject: this.mailSubject,
-    emails: selectedEmails,
-    mailBody: this.mailBody
-  };
-
-  if (isScheduled) {
-    payload.date = this.scheduleDate;
-    payload.time = this.scheduleTime;
-    payload.period = this.schedulePeriod;
-    payload.type = 'scheduled';
-  } else {
-    payload.type = 'immediate';
-  }
-
-  console.log('Payload:', payload);
-
-  this.isLoading = true;
-
-  this.service.sendMail(payload).subscribe({
-    next: () => {
-      Swal.fire('Success', 'Mail sent successfully!', 'success');
-      this.resetMailModal();
-
-      // ✅ Close modal
-      const modalElement = document.getElementById('mailModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-        modal.hide();
-      }
-
-      // ✅ Remove leftover backdrop
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      Swal.fire('Error', 'Failed to send mail.', 'error');
-    },
-    complete: () => {
-      this.isLoading = false;
+    if (selectedEmails.length === 0) {
+      Swal.fire('Error', 'No candidates selected.', 'error');
+      return;
     }
-  });
-}
+
+    if (!this.mailSubject || !this.mailBody) {
+      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+      return;
+    }
+
+    const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
+
+    const payload: any = {
+      mailSubject: this.mailSubject,
+      emails: selectedEmails,
+      mailBody: this.mailBody
+    };
+
+    if (isScheduled) {
+      payload.date = this.scheduleDate;
+      payload.time = this.scheduleTime;
+      payload.period = this.schedulePeriod;
+      payload.type = 'scheduled';
+    } else {
+      payload.type = 'immediate';
+    }
+
+    console.log('Payload:', payload);
+
+    this.isLoading = true;
+
+    this.service.sendMail(payload).subscribe({
+      next: () => {
+        Swal.fire('Success', 'Mail sent successfully!', 'success');
+        this.resetMailModal();
+
+        // ✅ Close modal
+        const modalElement = document.getElementById('mailModal');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modal.hide();
+        }
+
+        // ✅ Remove leftover backdrop
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to send mail.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
 
 
 
 
 
-resetMailModal() {
-  this.mailSubject = '';
-  this.mailBody = '';
-  this.scheduleDate = '';
-  this.scheduleTime = '';
-  this.schedulePeriod = '';
-  this.selectedCandidates.clear(); 
-  
-}
+  resetMailModal() {
+    this.mailSubject = '';
+    this.mailBody = '';
+    this.scheduleDate = '';
+    this.scheduleTime = '';
+    this.schedulePeriod = '';
+    this.selectedCandidates.clear();
+
+  }
 
   saveAsDraft() {
     console.log('Saving as Draft');

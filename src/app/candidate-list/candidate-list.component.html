@@ -31,6 +31,7 @@
         <th>Contact No.</th>
         <th>Alternate Contact No.</th>
         <th>Technology</th>
+        <th>Skills</th>
         <th>Created At</th>
         <th>Action</th>
       </tr>
@@ -42,10 +43,11 @@
         </td>
         <td>{{ i + 1 }}</td>
         <td>{{ c.name }}</td>
-        <td>{{ c.email }}</td>
+         <td>{{ c.email}}</td>
         <td>{{ c.contact_no }}</td>
-        <td>{{ c.alt_contact_no }}</td>
+        <td>{{ c.alt_contact_no || 'NA' }}</td>
         <td>{{ c.technology || 'NA' }}</td>
+        <td>{{ c.skills || 'NA' }}</td>
         <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
         <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
 
