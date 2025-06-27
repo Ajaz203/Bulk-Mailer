@@ -11,3 +11,8 @@
   height: 1.9rem;
   background: none;
 }
+.userpic{
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
