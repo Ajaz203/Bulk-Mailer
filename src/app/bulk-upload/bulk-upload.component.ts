@@ -11,10 +11,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./bulk-upload.component.css']
 })
 export class BulkUploadComponent {
- 
-    isUploading = false;
-    file: File | null = null;
-fileName: string = '';
+
+  isUploading = false;
+  file: File | null = null;
+  fileName: string = '';
   constructor(private service: EmailService, public router: Router) { }
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -25,7 +25,7 @@ fileName: string = '';
   // @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @Output() dataParsed = new EventEmitter<any[]>();
 
-  
+
   selectedFile: File | null = null;
   excelData: any[] = [];
 
@@ -57,7 +57,7 @@ fileName: string = '';
 
       this.service.bulkUpload(finalArr).subscribe((resp: any) => {
         // this.service.triggerTableReload();
-        this.navigate();
+
         console.log(" resp of bulk creation", resp)
       })
     };
@@ -69,26 +69,26 @@ fileName: string = '';
   }
 
 
- uploadFile() {
-  this.isUploading = true;
+  uploadFile() {
+    this.isUploading = true;
+    this.navigate();
+    try {
+      this.confirmFile();
 
-  try {
-    this.confirmFile(); 
-
-    Swal.fire('Success', 'File uploaded successfully!', 'success');
-    this.resetFileUpload();
-  } catch (error) {
-    console.error(error);
-    Swal.fire('Error', 'File upload failed.', 'error');
-  } finally {
-    this.isUploading = false;
+      Swal.fire('Success', 'File uploaded successfully!', 'success');
+      this.resetFileUpload();
+    } catch (error) {
+      console.error(error);
+      Swal.fire('Error', 'File upload failed.', 'error');
+    } finally {
+      this.isUploading = false;
+    }
   }
-}
 
-resetFileUpload() {
-  this.file = null;
-  this.fileName = '';
-}
+  resetFileUpload() {
+    this.file = null;
+    this.fileName = '';
+  }
   async downloadMassTemplate() {
 
     window.location.assign('../asset/bulkEmailerTemplate.xlsx');
