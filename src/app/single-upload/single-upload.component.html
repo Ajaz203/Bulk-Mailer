@@ -60,11 +60,14 @@
   <!-- Category -->
   <div class="form-row">
     <label>Technology</label>
+    
     <select
       [(ngModel)]="candidate.technology"
       name="technology"
       #category="ngModel"
-      [ngClass]="{ 'invalid-input': category.invalid && category.touched, 'valid-input': category.valid && category.touched }"
+      [ngClass]="{ 'invalid-input': category.invalid && category.touched, 'valid-input': category.valid && category.touched 
+        
+      }"
     >
       <option value="NA">NA</option>
       <option *ngFor="let item of dropDownArr" [value]="item.name">{{ item.name }}</option>

@@ -32,7 +32,7 @@ export class VendorCandidateListComponent {
   
 
 
-  constructor(private service: EmailService) { };
+  constructor(private service: EmailService, private cd: ChangeDetectorRef) { };
 
   private _candidates = signal<any[]>([]);
   @Input()
@@ -49,13 +49,13 @@ export class VendorCandidateListComponent {
   pageSize = 10;
 
   pageNumber = 1;
-  ngOnInit() {
+ ngOnInit() {
+  this.getData();
+  this.service.refreshTable$.subscribe(() => {
     this.getData();
-    this.cdr.detectChanges();
-    this.service.refreshTable$.subscribe(() => {
-      this.getData();
-    });
-  }
+  });
+}
+
 
    toggleSelection(candidate: any) {
     if (this.selectedCandidates.has(candidate)) {

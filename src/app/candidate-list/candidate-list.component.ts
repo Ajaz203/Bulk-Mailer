@@ -34,8 +34,6 @@ export class CandidateListComponent implements OnInit {
   isLoading: boolean = false;
 
 
-
-
   constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
   ngOnInit() {
     this.getData();
@@ -47,19 +45,19 @@ export class CandidateListComponent implements OnInit {
   }
 
   getData() {
-  this.isLoading = true;
-  this.service.getCandidateData({}).subscribe({
-    next: (resp: any) => {
-      console.log("Candidate Response:", resp);
-      this.dataArr = resp;
-      this.isLoading = false;
-    },
-    error: (err) => {
-      this.isLoading = false;
-      console.error('Failed to load data:', err);
-    }
-  });
-}
+    this.isLoading = true;
+    this.service.getCandidateData({}).subscribe({
+      next: (resp: any) => {
+        console.log("Candidate Response:", resp);
+        this.dataArr = resp;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Failed to load data:', err);
+      }
+    });
+  }
 
 
   // Toggle single selection
@@ -92,51 +90,62 @@ export class CandidateListComponent implements OnInit {
 
   editCandidate(candidate: any) {
     this.selectedCandidate = { ...candidate };
+
+    // Convert skills array → string for input
+    this.selectedCandidate.skillsString = Array.isArray(candidate.skills)
+      ? candidate.skills.join(', ')
+      : (candidate.skills || '');
+
     const modal = new bootstrap.Modal(document.getElementById('editModal')!);
     modal.show();
   }
 
-// updateCandidate() {
-//   this.isLoading = true;
 
-//   this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate).subscribe({
-//     next: () => {
-//       Swal.fire('Updated!', 'Candidate updated successfully', 'success');
-//       this.getData();
-//       const modalElement = document.getElementById('editModal');
-//       if (modalElement) {
-//         const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-//         modal.hide();
-//       }
+  // updateCandidate() {
+  //   this.isLoading = true;
 
-//       this.selectedCandidate = null;
-//     },
-//     error: (err) => {
-//       this.isLoading = false;
-//       Swal.fire('Error!', err.error?.message || 'Failed to update candidate.', 'error');
-//     },
-//     complete: () => {
-//       this.isLoading = false;
-//     }
-//   });
-// }
+  //   this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate).subscribe({
+  //     next: () => {
+  //       Swal.fire('Updated!', 'Candidate updated successfully', 'success');
+  //       this.getData();
+  //       const modalElement = document.getElementById('editModal');
+  //       if (modalElement) {
+  //         const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+  //         modal.hide();
+  //       }
 
-updateCandidate() {
-  this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate)
-    .subscribe({
-      next: (res) => {
-        Swal.fire('Updated!', 'Candidate updated successfully', 'success');
-        this.getData();
+  //       this.selectedCandidate = null;
+  //     },
+  //     error: (err) => {
+  //       this.isLoading = false;
+  //       Swal.fire('Error!', err.error?.message || 'Failed to update candidate.', 'error');
+  //     },
+  //     complete: () => {
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
 
-        const modalElement = document.getElementById('editModal');
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        modal?.hide();
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-}
+  updateCandidate() {
+    this.selectedCandidate.skills = this.selectedCandidate.skillsString
+      .split(',')
+      .map((skill: string) => skill.trim())
+      .filter((skill: string) => skill !== '');
+    this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate)
+      .subscribe({
+        next: (res) => {
+          Swal.fire('Updated!', 'Candidate updated successfully', 'success');
+          this.getData();
+
+          const modalElement = document.getElementById('editModal');
+          const modal = bootstrap.Modal.getInstance(modalElement);
+          modal?.hide();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+  }
 
   deleteCandidate(id: any) {
     if (!id) {
@@ -174,26 +183,30 @@ updateCandidate() {
     });
   }
 
-  // Send selected candidates
+  // 🟩 When clicking Select Candidate Send
+  handleSelectCandidateSend() {
+    if (this.selectedCandidates.size === 0) {
+      Swal.fire('Warning', 'Please select at least one candidate.', 'warning');
+      return;
+    }
+    this.selectionMode = 'selected';
+    const modal = new bootstrap.Modal(document.getElementById('mailModal')!);
+    modal.show();
+  }
+
+  handleAllCandidateSend() {
+    this.selectionMode = 'all';
+    const modal = new bootstrap.Modal(document.getElementById('mailModal')!);
+    modal.show();
+  }
   sendSelected() {
     if (this.selectedCandidates.size === 0) {
       alert('Please select at least one candidate');
       return;
     }
     console.log('Sending selected candidates:', Array.from(this.selectedCandidates));
-    // your API call here
+
   }
-
-  // Send all candidates
-  sendAll() {
-    console.log('Sending all candidates:', this.dataArr);
-    // your API call here
-  }
-
-
-
-
-
   sendMail() {
     const selectedEmails = this.selectionMode === 'all'
       ? this.dataArr.map((c: { email: any }) => c.email)
@@ -254,7 +267,7 @@ updateCandidate() {
     });
   }
 
-resetMailModal() {
+  resetMailModal() {
     this.mailSubject = '';
     this.mailBody = '';
     this.scheduleDate = '';

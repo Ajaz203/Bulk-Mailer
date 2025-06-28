@@ -39,7 +39,7 @@ export class EmailService {
     const payload = { id, ...data };
     return this.http.post(this.url + 'candidateUpdate', payload, { headers: this.header });
   }
- 
+
 
   deleteCandidate(data: any) {
     return this.http.post(this.url + 'candidateDelete', data, { headers: this.header });
@@ -55,17 +55,27 @@ export class EmailService {
     return this.http.get(this.url + 'getVendors', { headers: this.header });
   }
 
-    vendorUpdate(id: string, data: any) {
+  vendorUpdate(id: string, data: any) {
     const payload = { id, ...data };
     return this.http.post(this.url + 'vendorUpdate', payload, { headers: this.header });
   }
- 
+
 
   vendorDelete(data: any) {
     return this.http.post(this.url + 'vendorDelete', data, { headers: this.header });
   }
   vendorSendMail(data: any) {
     return this.http.post(this.url + 'sendOrScheduleVendorMail', data, { headers: this.header });
+  }
+
+  updateCategory(id: string, data: any) {
+    const payload = { id, ...data };
+    return this.http.post(this.url + 'updateCategory', payload, { headers: this.header });
+  }
+
+
+  deleteCategory(data: any) {
+    return this.http.post(this.url + 'deleteCategory', data, { headers: this.header });
   }
 }
 

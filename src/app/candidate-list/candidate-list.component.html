@@ -1,19 +1,19 @@
 <app-header></app-header>
+
 <div class="list-wrapper">
   <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
 
-    <!-- Left: Heading -->
+
     <div class="d-flex align-items-center">
       <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
     </div>
 
     <div class="action-buttons ">
-      <button class="btn btn-outline-secondary me-2" (click)="selectionMode='selected'" data-bs-toggle="modal"
-        data-bs-target="#mailModal">
+      <button class="btn btn-outline-secondary me-2" (click)="handleSelectCandidateSend()">
         <i class="bi bi-send"></i> Select Candidate Send
       </button>
 
-      <button class="btn btn-success" (click)="selectionMode='all'" data-bs-toggle="modal" data-bs-target="#mailModal">
+      <button class="btn btn-success" (click)="handleAllCandidateSend()">
         <i class="bi bi-send"></i> All Candidate Send
       </button>
     </div>
@@ -32,6 +32,8 @@
         <th>Alternate Contact No.</th>
         <th>Technology</th>
         <th>Skills</th>
+        <th>Location</th>
+        <th>Visa</th>
         <th>Created At</th>
         <th>Action</th>
       </tr>
@@ -53,6 +55,8 @@
           </span>
           <ng-template #noSkill>NA</ng-template>
         </td>
+        <td>{{ c.location || 'NA' }}</td>
+        <td>{{ c.visa || 'NA' }}</td>
         <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
         <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
 
@@ -151,31 +155,51 @@
       </div>
 
       <div class="modal-body">
-        <div class="mb-3">
-          <label class="fw-bold">Name:</label>
-          <input [(ngModel)]="selectedCandidate.name" class="form-control" />
-        </div>
+        <div class="row g-3">
+          <!-- Column 1 -->
+          <div class="col-md-6">
+            <label class="fw-bold">Name:</label>
+            <input [(ngModel)]="selectedCandidate.name" class="form-control" />
+          </div>
 
-        <div class="mb-3">
-          <label class="fw-bold">Email:</label>
-          <input [(ngModel)]="selectedCandidate.email" class="form-control" />
-        </div>
+          <div class="col-md-6">
+            <label class="fw-bold">Email:</label>
+            <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+          </div>
 
-        <div class="mb-3">
-          <label class="fw-bold">Contact No:</label>
-          <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
-        </div>
+          <div class="col-md-6">
+            <label class="fw-bold">Contact No:</label>
+            <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
+          </div>
 
-        <div class="mb-3">
-          <label class="fw-bold">Alternate Contact No:</label>
-          <input [(ngModel)]="selectedCandidate.alt_contact_no" class="form-control" />
-        </div>
+          <div class="col-md-6">
+            <label class="fw-bold">Alternate Contact No:</label>
+            <input [(ngModel)]="selectedCandidate.alt_contact_no" class="form-control" />
+          </div>
 
-        <div class="mb-3">
-          <label class="fw-bold">Technology:</label>
-          <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
+          <div class="col-md-6">
+            <label class="fw-bold">Technology:</label>
+            <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="fw-bold">Skills:</label>
+            <input [(ngModel)]="selectedCandidate.skillsString" class="form-control"
+              placeholder="e.g. Angular, Node, Java" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="fw-bold">Location:</label>
+            <input [(ngModel)]="selectedCandidate.location" class="form-control" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="fw-bold">Visa:</label>
+            <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
+          </div>
         </div>
       </div>
+
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

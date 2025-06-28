@@ -10,31 +10,42 @@
 
   <!-- Category Table -->
   <div class="table-responsive shadow-sm rounded border">
-    <table class="table table-hover align-middle mb-0">
-      <thead class="table-primary">
-        <tr>
-          <th scope="col">S.No</th>
-          <th scope="col">Category Name</th>
-          <th scope="col">Created At</th>
-          <th scope="col">Updated At</th>
-          <th scope="col">Updated By</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of getDataArr; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ item.name }}</td>
-          <td>{{ item.createdAt | date: 'MM/dd/yyyy' }}</td>
-          <td>{{ item.updatedAt | date: 'MM/dd/yyyy' }}</td>
-          <td>{{ item.updated_by }}</td>
-        </tr>
+  <table class="table table-hover align-middle mb-0">
+    <thead class="table-primary">
+      <tr>
+        <th scope="col">S.No</th>
+        <th scope="col">Category Name</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Updated At</th>
+        <th scope="col">Updated By</th>
+        <th scope="col">Action</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of getDataArr; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ item.name }}</td>
+        <td>{{ item.createdAt | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ item.updatedAt | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ item.updated_by }}</td>
+       
+         <td style="cursor: pointer;" class="d-flex align-items-center  gap-3">
 
-        <!-- No Data Found -->
-        <tr *ngIf="getDataArr.length === 0">
-          <td colspan="5" class="text-center text-muted">No categories available.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          <i class="bi bi-pencil-square text-warning fs-5" (click)="editCategory(item)" title="Edit">
+          </i>
+
+          <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCategory(item)" title="Delete">
+          </i>
+        </td>
+      </tr>
+
+      <!-- No Data Found -->
+      <tr *ngIf="getDataArr.length === 0">
+        <td colspan="6" class="text-center text-muted">No categories available.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 </div>
