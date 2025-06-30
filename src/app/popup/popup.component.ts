@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,15 +22,20 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './popup.component.css'
 })
 export class PopupComponent {
-  constructor(private dialogRef: MatDialogRef<PopupComponent>) { }
-  userInput = '';
+    userInput: string = '';
 
-  close() {
+  constructor(
+    public dialogRef: MatDialogRef<PopupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.userInput = data?.name || '';
+  }
+
+  close(): void {
     this.dialogRef.close();
   }
 
-
-  submit() {
-    this.dialogRef.close(this.userInput);
+  submit(): void {
+    this.dialogRef.close(this.userInput.trim());
   }
 }

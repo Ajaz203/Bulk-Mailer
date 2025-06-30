@@ -1,5 +1,3 @@
-<app-header></app-header>
-
 <div class="list-wrapper">
   <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
 
@@ -7,6 +5,7 @@
     <div class="d-flex align-items-center">
       <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
     </div>
+
 
     <div class="action-buttons ">
       <button class="btn btn-outline-secondary me-2" (click)="handleSelectCandidateSend()">
@@ -17,8 +16,15 @@
         <i class="bi bi-send"></i> All Candidate Send
       </button>
     </div>
-  </div>
 
+  </div>
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <input type="text" class="form-control form-control-sm" placeholder="Search candidates..."
+      [(ngModel)]="searchQuery" />
+    <button class="btn btn-outline-secondary btn-sm" (click)="searchQuery = ''">
+      Clear
+    </button>
+  </div>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -29,7 +35,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Contact No.</th>
-        <th>Alternate Contact No.</th>
+        <!-- <th>Alternate Contact No.</th> -->
         <th>Technology</th>
         <th>Skills</th>
         <th>Location</th>
@@ -39,7 +45,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let c of dataArr; let i = index">
+      <tr *ngFor="let c of filteredCandidates; let i = index">
         <td>
           <input type="checkbox" [checked]="selectedCandidates.has(c)" (change)="toggleSelection(c)" />
         </td>
@@ -47,7 +53,7 @@
         <td>{{ c.name }}</td>
         <td>{{ c.email}}</td>
         <td>{{ c.contact_no }}</td>
-        <td>{{ c.alt_contact_no || 'NA' }}</td>
+        <!-- <td>{{ c.alt_contact_no || 'NA' }}</td> -->
         <td>{{ c.technology || 'NA' }}</td>
         <td>
           <span *ngIf="c.skills?.length > 0; else noSkill">
@@ -158,43 +164,43 @@
         <div class="row g-3">
           <!-- Column 1 -->
           <div class="col-md-6">
-            <label class="fw-bold">Name:</label>
+            <label >Name:</label>
             <input [(ngModel)]="selectedCandidate.name" class="form-control" />
           </div>
 
           <div class="col-md-6">
-            <label class="fw-bold">Email:</label>
+            <label >Email:</label>
             <input [(ngModel)]="selectedCandidate.email" class="form-control" />
           </div>
 
           <div class="col-md-6">
-            <label class="fw-bold">Contact No:</label>
+            <label >Contact No:</label>
             <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
           </div>
 
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
             <label class="fw-bold">Alternate Contact No:</label>
             <input [(ngModel)]="selectedCandidate.alt_contact_no" class="form-control" />
-          </div>
+          </div> -->
 
           <div class="col-md-6">
-            <label class="fw-bold">Technology:</label>
+            <label >Technology:</label>
             <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
           </div>
 
           <div class="col-md-6">
-            <label class="fw-bold">Skills:</label>
+            <label >Skills:</label>
             <input [(ngModel)]="selectedCandidate.skillsString" class="form-control"
               placeholder="e.g. Angular, Node, Java" />
           </div>
 
           <div class="col-md-6">
-            <label class="fw-bold">Location:</label>
+            <label>Location:</label>
             <input [(ngModel)]="selectedCandidate.location" class="form-control" />
           </div>
 
           <div class="col-md-6">
-            <label class="fw-bold">Visa:</label>
+            <label >Visa:</label>
             <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
           </div>
         </div>

@@ -1,11 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
+  openDropdown = false;
+  segment: string = '';
+  uploadedCandidates: any[] = [];
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    const currentUrl = this.router.url;
+    console.log('Current URL:', currentUrl);
+
+    if (currentUrl.includes('vendorbulkupload')) {
+      this.segment = 'vendor';
+    } else if (currentUrl.includes('cat-table')) {
+      this.segment = 'viewData';
+    } else {
+      this.segment = ''; // Default Candidate
+    }
+  }
+
+  dropdown() {
+    this.segment = '';
+    this.router.navigate(['/candidate-list']);
+  }
+
+  gotToCanidateList() {
+    this.segment = '';
+    this.router.navigate(['/candidate-list']);
+  }
+
+  goTovendorbulkUpload() {
+    this.segment = 'vendor';
+    this.router.navigate(['/vendorbulkupload']);
+  }
+
+  goToAbout() {
+    this.segment = 'viewData';
+    this.router.navigate(['/cat-table']);
+  }
+
+  onExcelDataReceived(data: any[]) {
+    this.uploadedCandidates = data;
+  }
 }

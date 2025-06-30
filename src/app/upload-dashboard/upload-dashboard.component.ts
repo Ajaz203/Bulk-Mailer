@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { SingleUploadComponent } from '../single-upload/single-upload.component';
 import { BulkUploadComponent } from '../bulk-upload/bulk-upload.component';
 import { Router } from '@angular/router';
-import { HeaderComponent } from '../header/header.component';
-import { CatTableComponent } from '../cat-table/cat-table.component';
-import { VendorBulkUploadComponent } from '../vendor-bulk-upload/vendor-bulk-upload.component';
+
 @Component({
   selector: 'app-upload-dashboard',
   standalone: true,
-  imports: [CommonModule, SingleUploadComponent, BulkUploadComponent,HeaderComponent,CatTableComponent,VendorBulkUploadComponent],
+  imports: [CommonModule, SingleUploadComponent, BulkUploadComponent],
   templateUrl: './upload-dashboard.component.html',
   styleUrls: ['./upload-dashboard.component.css']
 })

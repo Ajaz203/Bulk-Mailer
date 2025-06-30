@@ -1,28 +1,78 @@
- <nav class="navbar navbar-expand-lg navbar-custom">
-        <div class="container-fluid">
-            <a class="navbar-brand text-white" href="">
-                <img src="https://www.mckinsol.com/assets/siteImage/mckinsol-logo-full.png" alt="Logo"
-                    class="me-2 idmx-logo" routerLink="">
-            </a>
-         
-            <div class="d-flex justify-content-end align-items-center">
-                <form class="d-flex me-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="labelname" aria-label="Search">
-                </form>
-                <a href="#" class="text-success me-3"><i class="bi bi-credit-card"></i> Upgrade Plan</a>
-                <div class="d-flex align-items-center me-2">
-                    <img src="/asset/img_avatar.png" class="rounded-circle me-2 userpic" alt="User">
-                    <div class="text-white">
-                        <div>User</div>
-                        <small>ID: 150001</small>
-                    </div>
-                </div>
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <div class="navbar-container">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <img src="https://www.mckinsol.com/assets/siteImage/mckinsol-logo-full.png" alt="Logo" class="me-2 idmx-logo">
+    </a>
 
-                <a href="/index.html" class="btn btn-success">
-                    <i class="bi bi-box-arrow-right"></i>
-                </a>
-            </div>
-
-
+    <div class="d-flex align-items-center ms-auto gap-3">
+      <form class="d-flex" role="search">
+        <input class="form-control" type="search" placeholder="labelname" aria-label="Search">
+      </form>
+      <a href="#" class="text-success text-decoration-none">
+        <i class="bi bi-credit-card"></i> Upgrade Plan
+      </a>
+      <div class="d-flex align-items-center">
+        <img src="/asset/img_avatar.png" class="rounded-circle me-2 userpic" alt="User">
+        <div class="text-white">
+          <div>User</div>
+          <small>ID: 150001</small>
         </div>
-    </nav>
+      </div>
+      <a href="/index.html" class="btn btn-success">
+        <i class="bi bi-box-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<div class="page-container mt-2">
+  <h4 class="mb-2 ms-2">Bulk Emails</h4>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item dropdown"
+      (mouseenter)="openDropdown = true"
+      (mouseleave)="openDropdown = false"
+      [class.show]="openDropdown">
+      
+    <a class="nav-link dropdown-toggle"
+       routerLink="/"
+       [class.active]="segment === ''"
+       (click)="segment = ''">
+      Candidate
+    </a>
+
+    <ul class="dropdown-menu" [class.show]="openDropdown">
+      <li>
+        <a class="dropdown-item"
+           (click)="gotToCanidateList(); segment = ''">
+          Candidate List
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <!-- Vendor Tab -->
+  <li class="nav-item">
+    <button class="nav-link"
+            type="button"
+            [class.active]="segment === 'vendor'"
+            (click)="segment = 'vendor'; goTovendorbulkUpload()">
+      Vendor
+    </button>
+  </li>
+
+  <!-- View Category Tab -->
+  <li class="nav-item">
+    <button class="nav-link"
+            type="button"
+            [class.active]="segment === 'viewData'"
+            (click)="segment = 'viewData'; goToAbout()">
+      View Category
+    </button>
+  </li>
+
+</ul>
+
+
+</div>

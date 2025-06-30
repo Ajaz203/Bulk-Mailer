@@ -16,14 +16,14 @@ import Swal from 'sweetalert2';
 export class CatTableComponent implements OnInit {
 
   constructor(private service: EmailService, private dialog: MatDialog) { }
-
+  name: string = '';
   getDataArr: any = [];
 
   ngOnInit() {
     this.getData();
   }
 
-  // 🔥 Fetch Category List
+
   getData() {
     this.service.getCategory().subscribe((resp: any) => {
       console.log("Get category data:", resp);
@@ -31,7 +31,7 @@ export class CatTableComponent implements OnInit {
     });
   }
 
-  // ➕ Open Modal to Add Category
+ 
   openModal() {
     const dialogRef = this.dialog.open(PopupComponent, {
       width: '450px',
@@ -52,25 +52,25 @@ export class CatTableComponent implements OnInit {
   }
 
 
-  editCategory(item: any) {
-    const dialogRef = this.dialog.open(PopupComponent, {
-      width: '450px',
-      maxHeight: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog',
-      data: { name: item.name }  // Pass existing name to modal
-    });
+ editCategory(item: any) {
+  const dialogRef = this.dialog.open(PopupComponent, {
+    width: '450px',
+    disableClose: true,
+    panelClass: 'custom-dialog',
+    data: { name: item.name } 
+  });
 
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        const payload = { name: result };
-        this.service.updateCategory(item.id, payload).subscribe(() => {
-          Swal.fire('Updated', 'Category updated successfully!', 'success');
-          this.getData();
-        });
-      }
-    });
-  }
+  dialogRef.afterClosed().subscribe((result: any) => {
+    if (result) {
+      const payload = { name: result };
+      this.service.updateCategory(item.id, payload).subscribe(() => {
+        Swal.fire('Updated', 'Category updated successfully!', 'success');
+        this.getData();
+      });
+    }
+  });
+}
+
 
   deleteCategory(id: number) {
     Swal.fire({

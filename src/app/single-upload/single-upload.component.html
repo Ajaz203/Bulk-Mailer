@@ -31,28 +31,45 @@
   </div>
 
   <!-- Contact No -->
-  <div class="form-row">
-    <label>Contact No <span style="color: red;"> *</span></label>
-    <input
-      type="text"
-      [(ngModel)]="candidate.contact_no"
-      name="contactNo"
-      #contactNo="ngModel"
-      required
-      pattern="^[0-9]{10}$"
-      placeholder="Contact No"
-      [ngClass]="{ 'invalid-input': contactNo.invalid && contactNo.touched, 'valid-input': contactNo.valid && contactNo.touched }"
-    />
-  </div>
+<div class="form-row">
+  <label>Contact No <span style="color: red;"> *</span></label>
+  <input
+    type="text"
+    [(ngModel)]="candidate.contact_no"
+    name="contactNo"
+    #contactNo="ngModel"
+    required
+    maxlength="15"
+    placeholder="Contact No"
+    (keypress)="allowOnlyNumbers($event)"
+    (paste)="handlePaste($event)"
+    [ngClass]="{
+      'invalid-input': contactNo.invalid && contactNo.touched,
+      'valid-input': contactNo.valid && contactNo.touched
+    }"
+  />
+</div>
+
+
+
 
   <!-- Alternate Contact No -->
-  <div class="form-row">
+  <!-- <div class="form-row">
   <label>Alternate Contact No.</label>
   <input
     type="text"
     [(ngModel)]="candidate.alt_contact_no"
     name="alternateContactNo"
     placeholder="Alternate Contact No."
+  />
+</div> -->
+  <div class="form-row">
+  <label>Location</label>
+  <input
+    type="text"
+    [(ngModel)]="candidate.location"
+    name="alternateContactNo"
+    placeholder="Location"
   />
 </div>
 
@@ -73,6 +90,23 @@
       <option *ngFor="let item of dropDownArr" [value]="item.name">{{ item.name }}</option>
     </select>
   </div>
+  <div class="form-row">
+  <label>Visa Type</label>
+  
+  <select
+    [(ngModel)]="candidate.visa"
+    name="visa"
+    #visa="ngModel"
+    [ngClass]="{
+      'invalid-input': visa.invalid && visa.touched,
+      'valid-input': visa.valid && visa.touched
+    }"
+  >
+   <option *ngFor="let visa of visaOptions" [value]="visa">{{ visa }}</option>
+
+  </select>
+</div>
+
 
   <!-- Skills -->
   <div class="mb-3">

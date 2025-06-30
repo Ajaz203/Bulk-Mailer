@@ -6,8 +6,8 @@ export class EmailService {
   private refreshTableSubject = new Subject<void>();
   refreshTable$ = this.refreshTableSubject.asObservable();
   constructor(private http: HttpClient) { }
-  url: any = 'http://142.93.212.196:3000/';
-  // url: any = 'https://2390-122-161-72-104.ngrok-free.app/';
+  // url: any = 'http://142.93.212.196:3000/';
+  url: any = 'https://2390-122-161-72-104.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
@@ -70,12 +70,12 @@ export class EmailService {
 
   updateCategory(id: string, data: any) {
     const payload = { id, ...data };
-    return this.http.post(this.url + 'updateCategory', payload, { headers: this.header });
+    return this.http.post(this.url + 'categoryUpdate', payload, { headers: this.header });
   }
 
 
   deleteCategory(data: any) {
-    return this.http.post(this.url + 'deleteCategory', data, { headers: this.header });
+    return this.http.post(this.url + 'categoryDelete', data, { headers: this.header });
   }
 }
 

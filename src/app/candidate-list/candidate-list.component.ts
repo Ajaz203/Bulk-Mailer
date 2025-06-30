@@ -4,7 +4,6 @@ import { EmailService } from '../services/bulk-email.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { HeaderComponent } from '../header/header.component';
 import { ChangeDetectorRef } from '@angular/core';
 declare var bootstrap: any;
 
@@ -12,7 +11,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-candidate-list',
   standalone: true,
-  imports: [CommonModule, NgbPaginationModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, NgbPaginationModule, FormsModule],
   templateUrl: './candidate-list.component.html',
   styleUrls: ['./candidate-list.component.css']
 })
@@ -32,7 +31,7 @@ export class CandidateListComponent implements OnInit {
   http: any;
   selectionMode: 'all' | 'selected' = 'selected';
   isLoading: boolean = false;
-
+searchQuery: string = '';
 
   constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
   ngOnInit() {
@@ -100,32 +99,6 @@ export class CandidateListComponent implements OnInit {
     modal.show();
   }
 
-
-  // updateCandidate() {
-  //   this.isLoading = true;
-
-  //   this.service.updateCandidate(this.selectedCandidate.id, this.selectedCandidate).subscribe({
-  //     next: () => {
-  //       Swal.fire('Updated!', 'Candidate updated successfully', 'success');
-  //       this.getData();
-  //       const modalElement = document.getElementById('editModal');
-  //       if (modalElement) {
-  //         const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-  //         modal.hide();
-  //       }
-
-  //       this.selectedCandidate = null;
-  //     },
-  //     error: (err) => {
-  //       this.isLoading = false;
-  //       Swal.fire('Error!', err.error?.message || 'Failed to update candidate.', 'error');
-  //     },
-  //     complete: () => {
-  //       this.isLoading = false;
-  //     }
-  //   });
-  // }
-
   updateCandidate() {
     this.selectedCandidate.skills = this.selectedCandidate.skillsString
       .split(',')
@@ -183,7 +156,7 @@ export class CandidateListComponent implements OnInit {
     });
   }
 
-  // 🟩 When clicking Select Candidate Send
+
   handleSelectCandidateSend() {
     if (this.selectedCandidates.size === 0) {
       Swal.fire('Warning', 'Please select at least one candidate.', 'warning');
@@ -207,65 +180,78 @@ export class CandidateListComponent implements OnInit {
     console.log('Sending selected candidates:', Array.from(this.selectedCandidates));
 
   }
-  sendMail() {
-    const selectedEmails = this.selectionMode === 'all'
-      ? this.dataArr.map((c: { email: any }) => c.email)
-      : Array.from(this.selectedCandidates).map(c => c.email);
+sendMail() {
+  const selectedEmails = this.selectionMode === 'all'
+    ? this.dataArr.map((c: { email: any }) => c.email)
+    : Array.from(this.selectedCandidates).map(c => c.email);
 
-    if (selectedEmails.length === 0) {
-      Swal.fire('Error', 'No candidates selected.', 'error');
-      return;
-    }
-
-    if (!this.mailSubject || !this.mailBody) {
-      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-      return;
-    }
-
-    const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
-
-    const payload: any = {
-      mailSubject: this.mailSubject,
-      emails: selectedEmails,
-      mailBody: this.mailBody
-    };
-
-    if (isScheduled) {
-      payload.date = this.scheduleDate;
-      payload.time = this.scheduleTime;
-      payload.period = this.schedulePeriod;
-      payload.type = 'scheduled';
-    } else {
-      payload.type = 'immediate';
-    }
-
-    console.log('Payload:', payload);
-
-    this.isLoading = true;
-
-    this.service.sendMail(payload).subscribe({
-      next: () => {
-        Swal.fire('Success', 'Mail sent successfully!', 'success');
-        this.resetMailModal();
-        const modalElement = document.getElementById('mailModal');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-          modal.hide();
-        }
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'Failed to send mail.', 'error');
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
+  if (selectedEmails.length === 0) {
+    Swal.fire('Error', 'No candidates selected.', 'error');
+    return;
   }
+
+  if (!this.mailSubject || !this.mailBody) {
+    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+    return;
+  }
+
+  const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
+
+  const payload: any = {
+    mailSubject: this.mailSubject,
+    emails: selectedEmails,
+    mailBody: this.mailBody
+  };
+
+  if (isScheduled) {
+    const convertedTime = this.convertTo12Hour(this.scheduleTime);
+
+    payload.date = this.scheduleDate;
+    payload.time = convertedTime;           // ✅ Time in 12-hour format like "9:40"
+    payload.period = this.schedulePeriod;   // ✅ AM or PM
+    payload.type = 'scheduled';
+  } else {
+    payload.type = 'immediate';
+  }
+
+  console.log('Payload:', payload);
+
+  this.isLoading = true;
+
+  this.service.sendMail(payload).subscribe({
+    next: () => {
+      Swal.fire('Success', 'Mail sent successfully!', 'success');
+      this.resetMailModal();
+      const modalElement = document.getElementById('mailModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modal.hide();
+      }
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      Swal.fire('Error', 'Failed to send mail.', 'error');
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
+convertTo12Hour(time: string): string {
+  let [hours, minutes] = time.split(':').map(Number);
+
+  hours = hours % 12;
+  if (hours === 0) hours = 12;
+
+  return `${hours}:${minutes.toString().padStart(2, '0')}`;
+}
+
+
+
 
   resetMailModal() {
     this.mailSubject = '';
@@ -283,5 +269,22 @@ export class CandidateListComponent implements OnInit {
     console.log('Schedule:', this.scheduleDate, this.scheduleTime, this.schedulePeriod);
     // Add API call to save as draft
   }
+get filteredCandidates() {
+  if (!this.searchQuery) return this.dataArr;
+
+  const query = this.searchQuery.toLowerCase();
+
+  return this.dataArr.filter((c: any) =>
+    (c.name?.toLowerCase().includes(query)) ||
+    (c.email?.toLowerCase().includes(query)) ||
+    (c.contact_no?.toLowerCase().includes(query)) ||
+    (c.alt_contact_no?.toLowerCase().includes(query)) ||
+    (c.technology?.toLowerCase().includes(query)) ||
+    (c.location?.toLowerCase().includes(query)) ||
+    (c.visa?.toLowerCase().includes(query)) ||
+    (c.skills?.join(', ').toLowerCase().includes(query)) ||
+    (new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query))
+  );
+}
 
 }

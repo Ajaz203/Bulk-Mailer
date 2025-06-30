@@ -23,12 +23,31 @@ export class SingleUploadComponent implements OnInit {
     email: '',
     contact_no: '',
     alt_contact_no: '',
-    technology: ''
+    technology: '',
+    visa:'',
+    location: '',
   };
   dropDownArr: any = []
   ngOnInit() {
     this.getData();
   }
+visaOptions = [
+  'Citizen', 'Green Card', 'H1B', 'H1B Transfer', 'H4 EAD', 'L1', 'L2 EAD',
+  'GC EAD', 'OPT EAD', 'CPT', 'F1 (Student)', 'TN Visa', 'E3 Visa', 'B1/B2', 'Other'
+];
+allowOnlyNumbers(event: KeyboardEvent) {
+  const charCode = event.which ? event.which : event.keyCode;
+  if (charCode < 48 || charCode > 57) {
+    event.preventDefault();
+  }
+}
+
+handlePaste(event: ClipboardEvent) {
+  const pastedInput: string = event.clipboardData?.getData('text') || '';
+  if (!/^\d*$/.test(pastedInput)) {
+    event.preventDefault();
+  }
+}
 
   getData() {
     this.sevice.getCategory().subscribe((resp: any) => {
@@ -48,7 +67,9 @@ export class SingleUploadComponent implements OnInit {
         email: '',
         contact_no: '',
         alt_contact_no: '',
-        technology: ''
+        technology: '',
+        visa:'',
+    location: '',
       };
       this.skills = [];
       this.skill = '';
