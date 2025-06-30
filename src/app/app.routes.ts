@@ -4,9 +4,15 @@ import { CandidateListComponent } from './candidate-list/candidate-list.componen
 import { VendorCandidateListComponent } from './vendor-candidate-list/vendor-candidate-list.component';
 import { VendorBulkUploadComponent } from './vendor-bulk-upload/vendor-bulk-upload.component';
 import { UploadDashboardComponent } from './upload-dashboard/upload-dashboard.component';
+import { LoginComponent } from './login/login.component';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 export const routes: Routes = [
+    { path:'login',component:LoginComponent},
+    { path:'sign-up',component:CreateUserComponent},
+    { path:'forgot-password',component:ForgotPasswordComponent},
     {path:'',component:UploadDashboardComponent},
     { path: 'cat-table', component: CatTableComponent },
     { path: 'candidate-list', component: CandidateListComponent },

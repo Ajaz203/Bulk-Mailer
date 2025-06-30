@@ -6,6 +6,10 @@
       <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
     </div>
 
+    <button class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#draftModal" (click)="getDraftData()">
+      Show Drafts
+    </button>
+
 
     <div class="action-buttons ">
       <button class="btn btn-outline-secondary me-2" (click)="handleSelectCandidateSend()">
@@ -35,11 +39,13 @@
         <th>Name</th>
         <th>Email</th>
         <th>Contact No.</th>
+         <th>Visa</th>
+          <th>Location</th>
         <!-- <th>Alternate Contact No.</th> -->
         <th>Technology</th>
         <th>Skills</th>
-        <th>Location</th>
-        <th>Visa</th>
+       
+       
         <th>Created At</th>
         <th>Action</th>
       </tr>
@@ -53,6 +59,8 @@
         <td>{{ c.name }}</td>
         <td>{{ c.email}}</td>
         <td>{{ c.contact_no }}</td>
+        <td>{{ c.visa || 'NA' }}</td>
+          <td>{{ c.location || 'NA' }}</td>
         <!-- <td>{{ c.alt_contact_no || 'NA' }}</td> -->
         <td>{{ c.technology || 'NA' }}</td>
         <td>
@@ -61,8 +69,8 @@
           </span>
           <ng-template #noSkill>NA</ng-template>
         </td>
-        <td>{{ c.location || 'NA' }}</td>
-        <td>{{ c.visa || 'NA' }}</td>
+      
+        
         <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
         <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
 
@@ -95,25 +103,17 @@
 
       <!-- Body -->
       <div class="modal-body">
-        <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
-
-          <!-- Scheduler -->
-          <div class="d-flex align-items-center gap-2">
-            <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
-
-            <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
-              style="max-width: 160px;" />
-
-            <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
-              style="max-width: 120px;" />
-
-            <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod" style="max-width: 80px;">
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
-          </div>
-
+        <!-- Schedule -->
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate" style="max-width: 160px;" />
+          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width: 120px;" />
+          <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod" style="max-width: 80px;">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
         </div>
+
         <!-- Subject -->
         <div class="mb-3">
           <label class="form-label fw-medium">Subject</label>
@@ -123,20 +123,20 @@
         <!-- Description -->
         <div class="mb-3">
           <label class="form-label fw-medium">Description</label>
-          <textarea class="form-control" rows="5" [(ngModel)]="mailBody"
-            placeholder="Enter your mail content..."></textarea>
+          <textarea class="form-control" rows="5" [(ngModel)]="mailBody" placeholder="Enter your mail content..."></textarea>
         </div>
-
-        <!-- Footer -->
-        <div class="modal-footer">
-          <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
-          <button class="btn btn-success" (click)="sendMail()">Send</button>
-        </div>
-
       </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
+        <button class="btn btn-success" (click)="sendMail()">Send</button>
+      </div>
+
     </div>
   </div>
 </div>
+
 
 
 
@@ -164,17 +164,17 @@
         <div class="row g-3">
           <!-- Column 1 -->
           <div class="col-md-6">
-            <label >Name:</label>
+            <label>Name:</label>
             <input [(ngModel)]="selectedCandidate.name" class="form-control" />
           </div>
 
           <div class="col-md-6">
-            <label >Email:</label>
+            <label>Email:</label>
             <input [(ngModel)]="selectedCandidate.email" class="form-control" />
           </div>
 
           <div class="col-md-6">
-            <label >Contact No:</label>
+            <label>Contact No:</label>
             <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
           </div>
 
@@ -184,12 +184,12 @@
           </div> -->
 
           <div class="col-md-6">
-            <label >Technology:</label>
+            <label>Technology:</label>
             <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
           </div>
 
           <div class="col-md-6">
-            <label >Skills:</label>
+            <label>Skills:</label>
             <input [(ngModel)]="selectedCandidate.skillsString" class="form-control"
               placeholder="e.g. Angular, Node, Java" />
           </div>
@@ -200,7 +200,7 @@
           </div>
 
           <div class="col-md-6">
-            <label >Visa:</label>
+            <label>Visa:</label>
             <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
           </div>
         </div>
@@ -214,6 +214,54 @@
         <button type="button" class="btn btn-success" (click)="updateCandidate()">
           Save Changes
         </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Draft Modal -->
+<div class="modal fade" id="draftModal" tabindex="-1" aria-labelledby="draftModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Saved Drafts</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <table class="table table-bordered table-striped" *ngIf="draftList.length > 0">
+          <thead class="table-dark">
+            <tr>
+              <th>Subject</th>
+              <th>Emails</th>
+              <th>Body</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let draft of draftList">
+              <td>{{ draft.mailSubject }}</td>
+              <td>{{ draft.emails.join(', ') || '-' }}</td>
+              <td>{{ draft.mailBody }}</td>
+              <td>{{ draft.date || '-' }}</td>
+              <td>{{ draft.time ? draft.time + ' ' + draft.period : '-' }}</td>
+              <td>
+                <button 
+                  class="btn btn-sm btn-primary"
+                  (click)="openDraftInMail(draft)"
+                  data-bs-dismiss="modal"
+                  data-bs-toggle="modal"
+                  data-bs-target="#mailModal">
+                  Load
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
     </div>

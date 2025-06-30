@@ -67,6 +67,13 @@
   color: #5ab745;
   border-bottom: 2px solid #5ab745;
 }
+.nav-tabs .dropdown-menu {
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .dropdown-menu.show {
+  display: block;
+}
 
 
 /* Style adjustments (optional) */

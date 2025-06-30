@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { PopupComponent } from '../popup/popup.component';
+import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
   selector: 'app-cat-table',
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, FormsModule],
   templateUrl: './cat-table.component.html',
   styleUrl: './cat-table.component.css'
 })
@@ -18,7 +19,20 @@ export class CatTableComponent implements OnInit {
   constructor(private service: EmailService, private dialog: MatDialog) { }
   name: string = '';
   getDataArr: any = [];
+  categoryName = '';
+  isEditMode = false;
+  editId: number | null = null;
+  categoryList: any[] = [];
+  showForm = false;
 
+  newCategory = {
+    name: ''
+  };
+  showEditForm = false;
+selectedCategory: any = {
+  id: null,
+  name: ''
+};
   ngOnInit() {
     this.getData();
   }
@@ -31,46 +45,45 @@ export class CatTableComponent implements OnInit {
     });
   }
 
- 
-  openModal() {
-    const dialogRef = this.dialog.open(PopupComponent, {
-      width: '450px',
-      maxHeight: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog'
-    });
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        const payload = { name: result };
-        this.service.addCategory(payload).subscribe(() => {
-          Swal.fire('Success', 'Category added successfully!', 'success');
-          this.getData();
-        });
-      }
-    });
-  }
 
 
- editCategory(item: any) {
-  const dialogRef = this.dialog.open(PopupComponent, {
-    width: '450px',
-    disableClose: true,
-    panelClass: 'custom-dialog',
-    data: { name: item.name } 
-  });
-
-  dialogRef.afterClosed().subscribe((result: any) => {
-    if (result) {
-      const payload = { name: result };
-      this.service.updateCategory(item.id, payload).subscribe(() => {
-        Swal.fire('Updated', 'Category updated successfully!', 'success');
-        this.getData();
-      });
+submitForm() {
+  const payload = { name: this.newCategory.name };
+  this.service.addCategory(payload).subscribe({
+    next: () => {
+      Swal.fire('Success', 'Category added successfully!', 'success');
+      this.getData();
+      this.newCategory.name = '';
+      this.showForm = false;
+    },
+    error: () => {
+      Swal.fire('Error', 'Failed to add category', 'error');
     }
   });
 }
 
+  editCategory(item: any) {
+  this.selectedCategory = { ...item };
+  this.showEditForm = true;
+}
+
+updateCategory() {
+  const payload = { name: this.selectedCategory.name };
+  this.service.updateCategory(this.selectedCategory.id, payload).subscribe({
+    next: () => {
+      Swal.fire('Updated', 'Category updated successfully!', 'success');
+      this.getData();
+      this.closeEditForm();
+    },
+    error: () => {
+      Swal.fire('Error', 'Failed to update category', 'error');
+    }
+  });
+}
+closeEditForm() {
+  this.showEditForm = false;
+  this.selectedCategory = { id: null, name: '' };
+}
 
   deleteCategory(id: number) {
     Swal.fire({

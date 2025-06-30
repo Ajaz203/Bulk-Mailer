@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-
+import { EmailService } from '../services/bulk-email.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -14,8 +14,38 @@ export class HeaderComponent implements OnInit {
   openDropdown = false;
   segment: string = '';
   uploadedCandidates: any[] = [];
+  openMailDropdown = false;
+  draftList: any[] = [];
 
-  constructor(private router: Router) {}
+
+  constructor(private router: Router, private service: EmailService) {}
+
+
+getDraftData() {
+  const targetType = 'candidate'; // or 'vendor' if needed
+  this.service.getDrafts(targetType).subscribe({
+    next: (res) => {
+      this.draftList = res || [];
+      console.log('Draft Data:', res);
+    },
+    error: (err) => {
+      console.error('Error fetching drafts:', err);
+    }
+  });
+}
+
+openDrafts() {
+
+}
+openDraftInMail() {
+
+}
+
+sendMail() {
+  console.log('Send Mail clicked');
+}
+
+
 
   ngOnInit(): void {
     const currentUrl = this.router.url;

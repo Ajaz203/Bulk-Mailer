@@ -77,5 +77,31 @@ export class EmailService {
   deleteCategory(data: any) {
     return this.http.post(this.url + 'categoryDelete', data, { headers: this.header });
   }
+  UserRegister(data: any) {
+    return this.http.post(this.url + 'register', data, { headers: this.header });
+  }
+  loginUser(data: any) {
+    return this.http.post(this.url + 'login', data, { headers: this.header });
+  }
+  forgotPassword(data: any) {
+    return this.http.post(this.url + 'forgot-password', data, { headers: this.header });
+  }
+  verifyOtp(data: any) {
+    return this.http.post(this.url + 'verify-otp', data, { headers: this.header });
+  }
+  updatePassword(data: any) {
+    return this.http.post(this.url + 'reset-password', data, { headers: this.header });
+  }
+getDrafts(targetType: string) {
+  return this.http.get<any[]>(`${this.url}getDrafts`, {
+    headers: this.header,
+    params: { targetType }
+  });
+}
+
+
+
+
+  
 }
 

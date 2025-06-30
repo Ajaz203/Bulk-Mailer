@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { EmailService } from '../services/bulk-email.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
-import { HeaderComponent } from '../header/header.component';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 declare var bootstrap: any;
 @Component({
   selector: 'app-vendor-candidate-list',
-  imports: [NgbPaginationModule, CommonModule, HeaderComponent, FormsModule],
+  imports: [NgbPaginationModule, CommonModule, FormsModule],
   templateUrl: './vendor-candidate-list.component.html',
   styleUrl: './vendor-candidate-list.component.css'
 })
@@ -288,11 +287,11 @@ sendMail() {
   };
 
   if (isScheduled) {
-    const convertedTime = this.convertTo12Hour(this.scheduleTime); // ✅ Use converted time
+    const convertedTime = this.convertTo12Hour(this.scheduleTime); 
 
     payload.date = this.scheduleDate;
-    payload.time = convertedTime;          // ✅ Correct time in 12-hour format like '9:40'
-    payload.period = this.schedulePeriod;  // ✅ 'AM' or 'PM'
+    payload.time = convertedTime;       
+    payload.period = this.schedulePeriod;  
     payload.type = 'scheduled';
   } else {
     payload.type = 'immediate';
@@ -307,14 +306,12 @@ sendMail() {
       Swal.fire('Success', 'Mail sent successfully!', 'success');
       this.resetMailModal();
 
-      // ✅ Close modal
       const modalElement = document.getElementById('mailModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
         modal.hide();
       }
 
-      // ✅ Remove leftover backdrop
       const backdrop = document.querySelector('.modal-backdrop');
       if (backdrop) {
         backdrop.remove();
@@ -354,6 +351,6 @@ convertTo12Hour(time: string): string {
     console.log('Saving as Draft');
     console.log('Mail Content:', this.mailBody);
     console.log('Schedule:', this.scheduleDate, this.scheduleTime, this.schedulePeriod);
-    // Add API call to save as draft
+ 
   }
 }

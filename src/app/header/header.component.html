@@ -29,50 +29,73 @@
 <div class="page-container mt-2">
   <h4 class="mb-2 ms-2">Bulk Emails</h4>
 
-<ul class="nav nav-tabs">
-  <li class="nav-item dropdown"
-      (mouseenter)="openDropdown = true"
-      (mouseleave)="openDropdown = false"
-      [class.show]="openDropdown">
-      
-    <a class="nav-link dropdown-toggle"
-       routerLink="/"
-       [class.active]="segment === ''"
-       (click)="segment = ''">
-      Candidate
-    </a>
+  <ul class="nav nav-tabs">
 
-    <ul class="dropdown-menu" [class.show]="openDropdown">
-      <li>
-        <a class="dropdown-item"
-           (click)="gotToCanidateList(); segment = ''">
-          Candidate List
-        </a>
-      </li>
-    </ul>
-  </li>
+    <!-- Candidate Dropdown -->
+    <li class="nav-item dropdown" 
+        (mouseenter)="openDropdown = true" 
+        (mouseleave)="openDropdown = false" 
+        [class.show]="openDropdown">
+      <a class="nav-link dropdown-toggle" 
+         routerLink="/" 
+         [class.active]="segment === ''" 
+         (click)="segment = ''">
+        Candidate
+      </a>
+      <ul class="dropdown-menu" [class.show]="openDropdown">
+        <li>
+          <a class="dropdown-item" 
+             (click)="gotToCanidateList(); segment = ''">
+            Candidate List
+          </a>
+        </li>
+      </ul>
+    </li>
 
-  <!-- Vendor Tab -->
-  <li class="nav-item">
-    <button class="nav-link"
-            type="button"
-            [class.active]="segment === 'vendor'"
-            (click)="segment = 'vendor'; goTovendorbulkUpload()">
-      Vendor
-    </button>
-  </li>
+    <!-- Vendor Tab -->
+    <li class="nav-item">
+      <button class="nav-link" type="button" 
+              [class.active]="segment === 'vendor'"
+              (click)="segment = 'vendor'; goTovendorbulkUpload()">
+        Vendor
+      </button>
+    </li>
 
-  <!-- View Category Tab -->
-  <li class="nav-item">
-    <button class="nav-link"
-            type="button"
-            [class.active]="segment === 'viewData'"
-            (click)="segment = 'viewData'; goToAbout()">
-      View Category
-    </button>
-  </li>
+    <!-- View Category Tab -->
+    <li class="nav-item">
+      <button class="nav-link" type="button" 
+              [class.active]="segment === 'viewData'"
+              (click)="segment = 'viewData'; goToAbout()">
+        View Category
+      </button>
+    </li>
 
-</ul>
+    <!-- Mail Dropdown -->
+    <li class="nav-item dropdown" 
+        (mouseenter)="openMailDropdown = true" 
+        (mouseleave)="openMailDropdown = false" 
+        [class.show]="openMailDropdown">
+      <a class="nav-link dropdown-toggle" 
+         href="javascript:void(0)" 
+         [class.active]="segment === 'mail'" 
+         (click)="segment = 'mail'">
+        Mail
+      </a>
+      <ul class="dropdown-menu" [class.show]="openMailDropdown">
+        <li>
+          <a class="dropdown-item" 
+             (click)="sendMail(); segment = 'mail'">
+            All Mails
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" 
+             (click)="openDrafts(); segment = 'mail'">
+            Drafts
+          </a>
+        </li>
+      </ul>
+    </li>
 
-
+  </ul>
 </div>

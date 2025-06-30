@@ -1,0 +1,22 @@
+
+.main_wrapper {
+  background-color: #f8f9fa;
+}
+
+.login-sec {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+input {
+  border-radius: 8px;
+}
+
+button,
+a.btn {
+  border-radius: 8px;
+}
+
+span i {
+  cursor: pointer;
+}

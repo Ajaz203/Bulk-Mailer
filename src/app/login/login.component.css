@@ -1,0 +1,59 @@
+.main_wrapper {
+  background-color: #f8f9fa;
+}
+
+.right-section {
+  background-color: #fff;
+}
+
+.login-sec {
+  border-radius: 8px;
+}
+
+button,
+a.btn {
+  border-radius: 8px;
+}
+/* ✅ Toast Design */
+.custom-toast {
+  z-index: 1055;
+}
+
+.toast-content {
+  background-color: #333;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  min-width: 250px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.toast-success {
+  background-color: #28a745; /* Green */
+}
+
+.toast-error {
+  background-color: #dc3545; /* Red */
+}
+
+/* ✅ Loader Overlay */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(25, 25, 25, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1056;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+

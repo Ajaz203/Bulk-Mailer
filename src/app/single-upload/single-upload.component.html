@@ -50,7 +50,22 @@
   />
 </div>
 
+<div class="form-row">
+  <label>Visa Type</label>
+  
+  <select
+    [(ngModel)]="candidate.visa"
+    name="visa"
+    #visa="ngModel"
+    [ngClass]="{
+      'invalid-input': visa.invalid && visa.touched,
+      'valid-input': visa.valid && visa.touched
+    }"
+  >
+   <option *ngFor="let visa of visaOptions" [value]="visa">{{ visa }}</option>
 
+  </select>
+</div>
 
 
   <!-- Alternate Contact No -->
@@ -90,22 +105,7 @@
       <option *ngFor="let item of dropDownArr" [value]="item.name">{{ item.name }}</option>
     </select>
   </div>
-  <div class="form-row">
-  <label>Visa Type</label>
   
-  <select
-    [(ngModel)]="candidate.visa"
-    name="visa"
-    #visa="ngModel"
-    [ngClass]="{
-      'invalid-input': visa.invalid && visa.touched,
-      'valid-input': visa.valid && visa.touched
-    }"
-  >
-   <option *ngFor="let visa of visaOptions" [value]="visa">{{ visa }}</option>
-
-  </select>
-</div>
 
 
   <!-- Skills -->
