@@ -46,7 +46,20 @@ sendMail() {
 }
 
 
+close(){
 
+}
+
+
+  loadDraft(draft: any) {
+    // Emit or call parent function to load the draft
+    console.log('Load Draft:', draft);
+  }
+
+  deleteDraft(draft: any) {
+    // Emit or call parent function to delete the draft
+    console.log('Delete Draft:', draft);
+  }
   ngOnInit(): void {
     const currentUrl = this.router.url;
     console.log('Current URL:', currentUrl);

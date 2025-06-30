@@ -4,7 +4,9 @@
   background: #5ab745 !important;
 }
 
-
+table th {
+  font-weight: 500;
+}
 
 .popup-form {
   position: fixed;

@@ -1,0 +1,54 @@
+<div class="drafts-container mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">📑 Saved Drafts</h4>
+    <button class="btn btn-success" (click)="refreshDrafts()">
+      <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table custom-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Subject</th>
+          <th>Emails</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let draft of draftList; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ draft.mailSubject || 'No Subject' }}</td>
+          <td>
+            <div class="text-truncate" style="max-width: 250px;" 
+                 [title]="draft.emails?.join(', ')">
+              {{ draft.emails?.join(', ') }}
+            </div>
+          </td>
+          <td>
+            <div class="text-truncate" style="max-width: 300px;" 
+                 [title]="draft.mailBody">
+              {{ draft.mailBody || 'No Body Content' }}
+            </div>
+          </td>
+          <td>
+            <i class="bi bi-pencil-fill text-success me-2"
+               (click)="loadDraft(draft)"
+               title="Load Draft"></i>
+            <i class="bi bi-trash-fill text-danger"
+               (click)="deleteDraft(draft)"
+               title="Delete Draft"></i>
+          </td>
+        </tr>
+        <tr *ngIf="draftList.length === 0">
+          <td colspan="5" class="text-center text-muted py-3">
+            <i class="bi bi-inbox"></i> No Drafts Found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

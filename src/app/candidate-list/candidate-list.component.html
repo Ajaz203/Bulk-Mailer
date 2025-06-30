@@ -6,9 +6,9 @@
       <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
     </div>
 
-    <button class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#draftModal" (click)="getDraftData()">
+    <!-- <button class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#draftModal" (click)="getDraftData()">
       Show Drafts
-    </button>
+    </button> -->
 
 
     <div class="action-buttons ">
@@ -162,7 +162,7 @@
 
       <div class="modal-body">
         <div class="row g-3">
-          <!-- Column 1 -->
+    
           <div class="col-md-6">
             <label>Name:</label>
             <input [(ngModel)]="selectedCandidate.name" class="form-control" />
@@ -221,49 +221,4 @@
 </div>
 
 
-<!-- Draft Modal -->
-<div class="modal fade" id="draftModal" tabindex="-1" aria-labelledby="draftModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Saved Drafts</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
 
-      <div class="modal-body">
-        <table class="table table-bordered table-striped" *ngIf="draftList.length > 0">
-          <thead class="table-dark">
-            <tr>
-              <th>Subject</th>
-              <th>Emails</th>
-              <th>Body</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let draft of draftList">
-              <td>{{ draft.mailSubject }}</td>
-              <td>{{ draft.emails.join(', ') || '-' }}</td>
-              <td>{{ draft.mailBody }}</td>
-              <td>{{ draft.date || '-' }}</td>
-              <td>{{ draft.time ? draft.time + ' ' + draft.period : '-' }}</td>
-              <td>
-                <button 
-                  class="btn btn-sm btn-primary"
-                  (click)="openDraftInMail(draft)"
-                  data-bs-dismiss="modal"
-                  data-bs-toggle="modal"
-                  data-bs-target="#mailModal">
-                  Load
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-</div>

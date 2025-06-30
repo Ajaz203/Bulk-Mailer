@@ -32,20 +32,14 @@
   <ul class="nav nav-tabs">
 
     <!-- Candidate Dropdown -->
-    <li class="nav-item dropdown" 
-        (mouseenter)="openDropdown = true" 
-        (mouseleave)="openDropdown = false" 
-        [class.show]="openDropdown">
-      <a class="nav-link dropdown-toggle" 
-         routerLink="/" 
-         [class.active]="segment === ''" 
-         (click)="segment = ''">
+    <li class="nav-item dropdown" (mouseenter)="openDropdown = true" (mouseleave)="openDropdown = false"
+      [class.show]="openDropdown">
+      <a class="nav-link dropdown-toggle" routerLink="/" [class.active]="segment === ''" (click)="segment = ''">
         Candidate
       </a>
       <ul class="dropdown-menu" [class.show]="openDropdown">
         <li>
-          <a class="dropdown-item" 
-             (click)="gotToCanidateList(); segment = ''">
+          <a class="dropdown-item" (click)="gotToCanidateList(); segment = ''">
             Candidate List
           </a>
         </li>
@@ -54,48 +48,47 @@
 
     <!-- Vendor Tab -->
     <li class="nav-item">
-      <button class="nav-link" type="button" 
-              [class.active]="segment === 'vendor'"
-              (click)="segment = 'vendor'; goTovendorbulkUpload()">
+      <button class="nav-link" type="button" [class.active]="segment === 'vendor'"
+        (click)="segment = 'vendor'; goTovendorbulkUpload()">
         Vendor
       </button>
     </li>
 
     <!-- View Category Tab -->
     <li class="nav-item">
-      <button class="nav-link" type="button" 
-              [class.active]="segment === 'viewData'"
-              (click)="segment = 'viewData'; goToAbout()">
+      <button class="nav-link" type="button" [class.active]="segment === 'viewData'"
+        (click)="segment = 'viewData'; goToAbout()">
         View Category
       </button>
     </li>
 
     <!-- Mail Dropdown -->
-    <li class="nav-item dropdown" 
-        (mouseenter)="openMailDropdown = true" 
-        (mouseleave)="openMailDropdown = false" 
-        [class.show]="openMailDropdown">
-      <a class="nav-link dropdown-toggle" 
-         href="javascript:void(0)" 
-         [class.active]="segment === 'mail'" 
-         (click)="segment = 'mail'">
+    <li class="nav-item dropdown" (mouseenter)="openMailDropdown = true" (mouseleave)="openMailDropdown = false"
+      [class.show]="openMailDropdown">
+      <a class="nav-link dropdown-toggle" href="javascript:void(0)" [class.active]="segment === 'mail'"
+        (click)="segment = 'mail'">
         Mail
       </a>
       <ul class="dropdown-menu" [class.show]="openMailDropdown">
         <li>
-          <a class="dropdown-item" 
-             (click)="sendMail(); segment = 'mail'">
+          <a class="dropdown-item" (click)="sendMail(); segment = 'mail'">
             All Mails
           </a>
         </li>
         <li>
-          <a class="dropdown-item" 
-             (click)="openDrafts(); segment = 'mail'">
+          <a class="dropdown-item" routerLink="/drafts" routerLinkActive="active"
+            (click)="segment = 'mail'; getDraftData()">
             Drafts
           </a>
         </li>
+
       </ul>
     </li>
 
   </ul>
 </div>
+
+
+
+
+<!-- Draft Modal -->

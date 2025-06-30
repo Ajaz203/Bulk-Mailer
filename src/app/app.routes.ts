@@ -7,6 +7,7 @@ import { UploadDashboardComponent } from './upload-dashboard/upload-dashboard.co
 import { LoginComponent } from './login/login.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { DraftsComponent } from './drafts/drafts.component';
 
 
 export const routes: Routes = [
@@ -17,6 +18,7 @@ export const routes: Routes = [
     { path: 'cat-table', component: CatTableComponent },
     { path: 'candidate-list', component: CandidateListComponent },
     { path: 'vendor-list', component: VendorCandidateListComponent },
-    {path:"vendorbulkupload",component:VendorBulkUploadComponent}
+    {path:"vendorbulkupload",component:VendorBulkUploadComponent},
+    {path:'drafts',component:DraftsComponent}
 
 ];
