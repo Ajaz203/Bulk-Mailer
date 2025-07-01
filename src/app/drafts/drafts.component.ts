@@ -172,7 +172,7 @@ getDraftData() {
 
   console.log('Send Mail Payload:', payload);
 
-  this.isLoading = true; // ✅ Start Loader
+  this.isLoading = true; 
 
   const apiCall = this.targetType === 'vendor'
     ? this.service.vendorSendMail(payload)
@@ -194,7 +194,7 @@ getDraftData() {
       Swal.fire('Error', 'Failed to send mail.', 'error');
     },
     complete: () => {
-      this.isLoading = false; // ✅ Stop Loader
+      this.isLoading = false; 
     }
   });
 }
@@ -218,7 +218,7 @@ deleteDraft(draft: any) {
         targetType: draft.targetType || this.targetType
       };
 
-      this.isLoading = true; // ✅ Start Loader
+      this.isLoading = true; 
 
       this.service.deleteDraft(payload).subscribe({
         next: () => {
@@ -232,7 +232,7 @@ deleteDraft(draft: any) {
           Swal.fire('Error', 'Failed to delete draft.', 'error');
         },
         complete: () => {
-          this.isLoading = false; // ✅ Stop Loader
+          this.isLoading = false; 
         }
       });
     }
