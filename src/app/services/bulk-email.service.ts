@@ -92,12 +92,20 @@ export class EmailService {
   updatePassword(data: any) {
     return this.http.post(this.url + 'reset-password', data, { headers: this.header });
   }
+  deleteDraft(payload: any) {
+  return this.http.post(this.url + 'deleteDraft', payload, { headers: this.header });
+}
+
 getDrafts(targetType: string) {
-  return this.http.get<any[]>(`${this.url}getDrafts`, {
+  return this.http.get<any[]>(`${this.url}getDrafts?targetType=${targetType}`, {
     headers: this.header,
-    params: { targetType }
   });
 }
+
+
+
+
+
 
 
 

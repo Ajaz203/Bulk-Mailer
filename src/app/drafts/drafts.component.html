@@ -6,6 +6,20 @@
     </button>
   </div>
 
+<div class="btn-group mb-3">
+  <button class="btn btn-outline-primary" 
+          [class.active]="mailType === 'candidate'"
+          (click)="switchMailType('candidate')">
+    Candidate
+  </button>
+  <button class="btn btn-outline-warning" 
+          [class.active]="mailType === 'vendor'"
+          (click)="switchMailType('vendor')">
+    Vendor
+  </button>
+</div>
+
+
   <div class="table-responsive">
     <table class="table custom-table">
       <thead>
@@ -22,24 +36,18 @@
           <td>{{ i + 1 }}</td>
           <td>{{ draft.mailSubject || 'No Subject' }}</td>
           <td>
-            <div class="text-truncate" style="max-width: 250px;" 
-                 [title]="draft.emails?.join(', ')">
+            <div class="text-truncate" style="max-width: 250px;" [title]="draft.emails?.join(', ')">
               {{ draft.emails?.join(', ') }}
             </div>
           </td>
           <td>
-            <div class="text-truncate" style="max-width: 300px;" 
-                 [title]="draft.mailBody">
+            <div class="text-truncate" style="max-width: 300px;" [title]="draft.mailBody">
               {{ draft.mailBody || 'No Body Content' }}
             </div>
           </td>
           <td>
-            <i class="bi bi-pencil-fill text-success me-2"
-               (click)="loadDraft(draft)"
-               title="Load Draft"></i>
-            <i class="bi bi-trash-fill text-danger"
-               (click)="deleteDraft(draft)"
-               title="Delete Draft"></i>
+            <i class="bi bi-pencil-fill text-warning me-3" (click)="editDraft(draft)" title="Edit Draft"></i>
+            <i class="bi bi-trash-fill text-danger" (click)="deleteDraft(draft)" title="Delete Draft"></i>
           </td>
         </tr>
         <tr *ngIf="draftList.length === 0">
@@ -52,3 +60,46 @@
   </div>
 </div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="mailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Mail - {{ mailType | titlecase }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
+            style="max-width: 160px;" />
+          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
+            style="max-width: 120px;" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-medium">Subject</label>
+          <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-medium">Description</label>
+          <textarea class="form-control" rows="5" [(ngModel)]="mailBody"
+            placeholder="Enter your mail content..."></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="saveAsDraft()">
+          <i class="bi bi-save"></i> Save as Draft
+        </button>
+        <button class="btn btn-success" (click)="sendMail()">
+          <i class="bi bi-send"></i> Send
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

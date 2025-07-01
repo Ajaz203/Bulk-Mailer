@@ -78,13 +78,8 @@
             <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
               style="max-width: 160px;" />
 
-            <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
-              style="max-width: 120px;" />
+           <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width: 120px;" />
 
-            <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod" style="max-width: 80px;">
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
           </div>
 
         </div>
@@ -103,7 +98,7 @@
         <!-- Footer -->
         <div class="modal-footer">
           <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
-          <button class="btn btn-success" (click)="sendMail()">Send</button>
+          <button class="btn btn-success" (click)="vendorSendMail()">Send</button>
         </div>
 
       </div>

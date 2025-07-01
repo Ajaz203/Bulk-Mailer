@@ -1,16 +1,8 @@
 <div class="list-wrapper">
   <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
-
-
     <div class="d-flex align-items-center">
       <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
     </div>
-
-    <!-- <button class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#draftModal" (click)="getDraftData()">
-      Show Drafts
-    </button> -->
-
-
     <div class="action-buttons ">
       <button class="btn btn-outline-secondary me-2" (click)="handleSelectCandidateSend()">
         <i class="bi bi-send"></i> Select Candidate Send
@@ -39,13 +31,11 @@
         <th>Name</th>
         <th>Email</th>
         <th>Contact No.</th>
-         <th>Visa</th>
-          <th>Location</th>
+        <th>Visa</th>
+        <th>Location</th>
         <!-- <th>Alternate Contact No.</th> -->
         <th>Technology</th>
         <th>Skills</th>
-       
-       
         <th>Created At</th>
         <th>Action</th>
       </tr>
@@ -60,7 +50,7 @@
         <td>{{ c.email}}</td>
         <td>{{ c.contact_no }}</td>
         <td>{{ c.visa || 'NA' }}</td>
-          <td>{{ c.location || 'NA' }}</td>
+        <td>{{ c.location || 'NA' }}</td>
         <!-- <td>{{ c.alt_contact_no || 'NA' }}</td> -->
         <td>{{ c.technology || 'NA' }}</td>
         <td>
@@ -69,8 +59,6 @@
           </span>
           <ng-template #noSkill>NA</ng-template>
         </td>
-      
-        
         <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
         <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
 
@@ -85,72 +73,51 @@
   </table>
 </div>
 
-
-
-
-
 <!-- mail template model -->
 
 <div class="modal fade" id="mailModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-
-      <!-- Header -->
       <div class="modal-header">
         <h5 class="modal-title">Send Mail</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-
-      <!-- Body -->
       <div class="modal-body">
-        <!-- Schedule -->
         <div class="d-flex align-items-center gap-2 mb-3">
           <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
-          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate" style="max-width: 160px;" />
-          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width: 120px;" />
-          <select class="form-select form-select-sm" [(ngModel)]="schedulePeriod" style="max-width: 80px;">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-          </select>
-        </div>
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
+            style="max-width: 160px;" />
+        <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width: 120px;" />
 
-        <!-- Subject -->
+        </div>
         <div class="mb-3">
           <label class="form-label fw-medium">Subject</label>
           <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
         </div>
-
-        <!-- Description -->
         <div class="mb-3">
           <label class="form-label fw-medium">Description</label>
-          <textarea class="form-control" rows="5" [(ngModel)]="mailBody" placeholder="Enter your mail content..."></textarea>
+          <textarea class="form-control" rows="5" [(ngModel)]="mailBody"
+            placeholder="Enter your mail content..."></textarea>
         </div>
       </div>
-
-      <!-- Footer -->
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
         <button class="btn btn-success" (click)="sendMail()">Send</button>
       </div>
-
     </div>
   </div>
 </div>
 
-
-
-
 <!-- loader -->
+
 <div *ngIf="isLoading" class="loader-backdrop">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
 
-
-
-
 <!-- Edit Candidate Modal -->
+
 <div class="modal fade" id="editModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -162,7 +129,7 @@
 
       <div class="modal-body">
         <div class="row g-3">
-    
+
           <div class="col-md-6">
             <label>Name:</label>
             <input [(ngModel)]="selectedCandidate.name" class="form-control" />
@@ -177,7 +144,14 @@
             <label>Contact No:</label>
             <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
           </div>
-
+          <div class="col-md-6">
+            <label>Visa:</label>
+            <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
+          </div>
+          <div class="col-md-6">
+            <label>Location:</label>
+            <input [(ngModel)]="selectedCandidate.location" class="form-control" />
+          </div>
           <!-- <div class="col-md-6">
             <label class="fw-bold">Alternate Contact No:</label>
             <input [(ngModel)]="selectedCandidate.alt_contact_no" class="form-control" />
@@ -194,15 +168,6 @@
               placeholder="e.g. Angular, Node, Java" />
           </div>
 
-          <div class="col-md-6">
-            <label>Location:</label>
-            <input [(ngModel)]="selectedCandidate.location" class="form-control" />
-          </div>
-
-          <div class="col-md-6">
-            <label>Visa:</label>
-            <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
-          </div>
         </div>
       </div>
 
@@ -219,6 +184,3 @@
     </div>
   </div>
 </div>
-
-
-

@@ -28,7 +28,7 @@ export class VendorCandidateListComponent {
   mailDescription: any = '';
   http: any;
   selectionMode: 'all' | 'selected' = 'selected';
-
+  draftList: any[] = [];
 
 
   constructor(private service: EmailService, private cd: ChangeDetectorRef) { };
@@ -263,78 +263,71 @@ export class VendorCandidateListComponent {
       }
     });
   }
-sendMail() {
-  const selectedEmails = this.selectionMode === 'all'
-    ? this.dataArr.map((c: { email: any }) => c.email)
-    : Array.from(this.selectedCandidates).map(c => c.email);
+  vendorSendMail() {
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((c: { email: any }) => c.email)
+      : Array.from(this.selectedCandidates).map(c => c.email);
 
-  if (selectedEmails.length === 0) {
-    Swal.fire('Error', 'No candidates selected.', 'error');
-    return;
-  }
-
-  if (!this.mailSubject || !this.mailBody) {
-    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-    return;
-  }
-
-  const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
-
-  const payload: any = {
-    mailSubject: this.mailSubject,
-    emails: selectedEmails,
-    mailBody: this.mailBody
-  };
-
-  if (isScheduled) {
-    const convertedTime = this.convertTo12Hour(this.scheduleTime); 
-
-    payload.date = this.scheduleDate;
-    payload.time = convertedTime;       
-    payload.period = this.schedulePeriod;  
-    payload.type = 'scheduled';
-  } else {
-    payload.type = 'immediate';
-  }
-
-  console.log('Payload:', payload);
-
-  this.isLoading = true;
-
-  this.service.vendorSendMail(payload).subscribe({
-    next: () => {
-      Swal.fire('Success', 'Mail sent successfully!', 'success');
-      this.resetMailModal();
-
-      const modalElement = document.getElementById('mailModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-        modal.hide();
-      }
-
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      Swal.fire('Error', 'Failed to send mail.', 'error');
-    },
-    complete: () => {
-      this.isLoading = false;
+    if (selectedEmails.length === 0) {
+      Swal.fire('Error', 'No candidates selected.', 'error');
+      return;
     }
-  });
-}
 
-convertTo12Hour(time: string): string {
-  let [hours, minutes] = time.split(':').map(Number);
+    if (!this.mailSubject || !this.mailBody) {
+      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+      return;
+    }
 
-  hours = hours % 12;
-  if (hours === 0) hours = 12;
+    const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
 
-  return `${hours}:${minutes.toString().padStart(2, '0')}`;
-}
+    const payload: any = {
+      mailSubject: this.mailSubject,
+      emails: selectedEmails,
+      mailBody: this.mailBody
+    };
+
+    if (isScheduled) {
+      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
+      payload.type = 'scheduled';
+    } else {
+      payload.type = 'immediate';
+    }
+
+    console.log('Payload:', payload);
+
+    this.isLoading = true;
+
+    this.service.vendorSendMail(payload).subscribe({
+      next: () => {
+        Swal.fire('Success', 'Mail sent successfully!', 'success');
+        this.resetMailModal();
+
+        const modalElement = document.getElementById('mailModal');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modal.hide();
+        }
+
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to send mail.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+
 
 
   resetMailModal() {
@@ -348,9 +341,126 @@ convertTo12Hour(time: string): string {
   }
 
   saveAsDraft() {
-    console.log('Saving as Draft');
-    console.log('Mail Content:', this.mailBody);
-    console.log('Schedule:', this.scheduleDate, this.scheduleTime, this.schedulePeriod);
- 
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((v: { email: any }) => v.email)
+      : Array.from(this.selectedCandidates).map(v => v.email);
+
+    const isScheduled = this.scheduleDate && this.scheduleTime;
+
+    const payload: any = {
+      mailSubject: this.mailSubject || '',
+      emails: selectedEmails || [],
+      mailBody: this.mailBody || '',
+      type: 'draft'
+    };
+
+    if (isScheduled) {
+      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
+    }
+
+    console.log('Vendor Draft Payload:', payload);
+
+    this.isLoading = true;
+
+    this.service.vendorSendMail(payload).subscribe({
+      next: () => {
+        Swal.fire('Saved!', 'Draft saved successfully!', 'success');
+        this.resetMailModal();
+
+        const modalElement = document.getElementById('mailModal');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modal.hide();
+        }
+
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+
+        this.getDraftData();
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to save draft.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
+  getDraftData() {
+    const targetType = 'vendor';
+    this.service.getDrafts(targetType).subscribe({
+      next: (res) => {
+        this.draftList = res;
+        console.log('Draft Data:', res);
+      },
+      error: (err) => {
+        console.error('Error fetching drafts:', err);
+      }
+    });
+  }
+  loadDraft(draft: any) {
+    this.mailSubject = draft.mailSubject || '';
+    this.mailBody = draft.mailBody || '';
+    this.scheduleDate = draft.date || '';
+
+    if (draft.time && draft.period) {
+      this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
+      this.schedulePeriod = draft.period;
+    } else {
+      this.scheduleTime = '';
+      this.schedulePeriod = '';
+    }
+
+    this.selectedCandidates = new Set(draft.emails || []);
+    this.selectionMode = 'selected';
+
+    Swal.fire('Loaded!', 'Draft loaded successfully.', 'success');
+  }
+  openDraftInMail(draft: any) {
+    this.mailSubject = draft.mailSubject || '';
+    this.mailBody = draft.mailBody || '';
+    this.scheduleDate = draft.date || '';
+
+    if (draft.time && draft.period) {
+      this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
+      this.schedulePeriod = draft.period;
+    } else {
+      this.scheduleTime = '';
+      this.schedulePeriod = '';
+    }
+
+    this.selectedCandidates = new Set(draft.emails || []);
+    this.selectionMode = 'selected';
+
+    const modalElement = document.getElementById('mailModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+  convertTo12HourWithPeriod(time24: string): { time: string, period: string } {
+    const [hourStr, minute] = time24.split(':');
+    let hours = parseInt(hourStr, 10);
+    const period = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
+
+    return {
+      time: `${hours}:${minute.padStart(2, '0')}`,
+      period
+    };
+  }
+
+  convertTo24Hour(time12: string, period: string): string {
+    let [hours, minutes] = time12.split(':').map(Number);
+    if (period === 'PM' && hours < 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  }
+
 }
