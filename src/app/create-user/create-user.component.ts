@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,RouterLink } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.css']
 })

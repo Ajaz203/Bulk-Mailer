@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -16,7 +17,8 @@ export class HeaderComponent implements OnInit {
   uploadedCandidates: any[] = [];
   openMailDropdown = false;
   draftList: any[] = [];
-
+userName: string = '';
+  userId: string = '';
 
   constructor(private router: Router, private service: EmailService) {}
 
@@ -49,6 +51,22 @@ sendMail() {
 close(){
 
 }
+logout() {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to logout?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, Logout'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.clear();
+      this.router.navigate(['/login']);
+    }
+  });
+}
 
 
   loadDraft(draft: any) {
@@ -69,8 +87,10 @@ close(){
     } else if (currentUrl.includes('cat-table')) {
       this.segment = 'viewData';
     } else {
-      this.segment = ''; // Default Candidate
+      this.segment = ''; 
     }
+     this.userName = localStorage.getItem('name') || 'User';
+    this.userId = localStorage.getItem('userId') || 'Unknown';
   }
 
   dropdown() {

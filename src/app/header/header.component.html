@@ -5,22 +5,25 @@
     </a>
 
     <div class="d-flex align-items-center ms-auto gap-3">
-      <form class="d-flex" role="search">
+      <!-- <form class="d-flex" role="search">
         <input class="form-control" type="search" placeholder="labelname" aria-label="Search">
       </form>
       <a href="#" class="text-success text-decoration-none">
         <i class="bi bi-credit-card"></i> Upgrade Plan
-      </a>
+      </a> -->
       <div class="d-flex align-items-center">
         <img src="/asset/img_avatar.png" class="rounded-circle me-2 userpic" alt="User">
         <div class="text-white">
-          <div>User</div>
-          <small>ID: 150001</small>
+          <div>{{ userName }}</div>
+          <small>ID: {{ userId }}</small>
         </div>
+
       </div>
-      <a href="/index.html" class="btn btn-success">
-        <i class="bi bi-box-arrow-right"></i>
-      </a>
+      <button class="btn btn-success" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> 
+      </button>
+
+
     </div>
   </div>
 </nav>
@@ -76,8 +79,7 @@
           </a>
         </li>
         <li>
-          <a class="dropdown-item" routerLink="/drafts" 
-            (click)="segment = 'mail'; getDraftData()">
+          <a class="dropdown-item" routerLink="/drafts" (click)="segment = 'mail'; getDraftData()">
             Drafts
           </a>
         </li>

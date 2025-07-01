@@ -4,13 +4,13 @@ import { Router, RouterModule } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-drafts',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule,NgxPaginationModule],
   templateUrl: './drafts.component.html',
   styleUrls: ['./drafts.component.css']
 })
@@ -282,35 +282,19 @@ deleteDraft(draft: any) {
   );
 }
 
-  // Apply search filter
-  applyFilter() {
-    const term = this.searchTerm.toLowerCase();
-    this.filteredDraftList = this.draftList.filter(d =>
-      (d.mailSubject?.toLowerCase().includes(term) || '') ||
-      (d.emails?.join(', ').toLowerCase().includes(term) || '')
-    );
-    this.currentPage = 1; // Reset to first page
-  }
 
-  // For pagination
-  paginatedDrafts() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredDraftList.slice(start, start + this.itemsPerPage);
-  }
 
-  totalPages() {
-    return Math.ceil(this.filteredDraftList.length / this.itemsPerPage);
+get filteredDrafts() {
+  if (!this.searchTerm) {
+    return this.draftList;
   }
+  const term = this.searchTerm.toLowerCase();
+  return this.draftList.filter(
+    (item) =>
+      (item.mailSubject || '').toLowerCase().includes(term) ||
+      (item.mailBody || '').toLowerCase().includes(term) ||
+      (item.emails?.join(', ') || '').toLowerCase().includes(term)
+  );
+}
 
-  goToPage(page: number) {
-    this.currentPage = page;
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages()) this.currentPage++;
-  }
 }
