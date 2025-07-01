@@ -34,6 +34,8 @@ export class DraftsComponent implements OnInit {
   itemsPerPage = 5;
   isVendor = false;
 
+  allDrafts: any[] = [];
+
 
 
   constructor(private service: EmailService, private router: Router) { }
@@ -48,22 +50,23 @@ export class DraftsComponent implements OnInit {
     this.targetType = this.isVendor ? 'vendor' : 'candidate';
     this.getDraftData();
   }
-  getDraftData() {
-    this.isLoading = true;
-    this.service.getDrafts(this.targetType).subscribe({
-      next: (res) => {
-        this.draftList = (res || []).map((draft: any) => ({
-          ...draft,
-          targetType: draft.targetType || this.targetType
-        }));
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error fetching drafts:', err);
-        this.isLoading = false;
-      }
-    });
-  }
+  
+getDraftData() {
+  this.isLoading = true;
+  this.service.getDrafts(this.targetType).subscribe({
+    next: (res) => {
+      this.allDrafts = res || [];
+      this.switchTargetType(this.targetType);
+    },
+    error: (err) => {
+      console.error('Error fetching drafts:', err);
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
+
 
   editDraft(draft: any) {
     this.targetType = draft.targetType || this.targetType || 'candidate';  // 🔥 Important
@@ -136,99 +139,106 @@ export class DraftsComponent implements OnInit {
   }
 
   sendMail() {
-    const selectedEmails = this.selectionMode === 'all'
-      ? this.dataArr.map((c: { email: any }) => c.email)
-      : Array.from(this.selectedCandidates);
+  const selectedEmails = this.selectionMode === 'all'
+    ? this.dataArr.map((c: { email: any }) => c.email)
+    : Array.from(this.selectedCandidates);
 
-    if (selectedEmails.length === 0) {
-      Swal.fire('Error', 'No recipients selected.', 'error');
-      return;
+  if (selectedEmails.length === 0) {
+    Swal.fire('Error', 'No recipients selected.', 'error');
+    return;
+  }
+
+  if (!this.mailSubject || !this.mailBody) {
+    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+    return;
+  }
+
+  const isScheduled = this.scheduleDate && this.scheduleTime;
+
+  const payload: any = {
+    mailSubject: this.mailSubject,
+    emails: selectedEmails,
+    mailBody: this.mailBody,
+    type: isScheduled ? 'scheduled' : 'immediate',
+    targetType: this.targetType
+  };
+
+  if (isScheduled) {
+    const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+    payload.date = this.scheduleDate;
+    payload.time = time;
+    payload.period = period;
+  }
+
+  console.log('Send Mail Payload:', payload);
+
+  this.isLoading = true; // ✅ Start Loader
+
+  const apiCall = this.targetType === 'vendor'
+    ? this.service.vendorSendMail(payload)
+    : this.service.sendMail(payload);
+
+  apiCall.subscribe({
+    next: () => {
+      Swal.fire('Success', 'Mail sent successfully!', 'success');
+      if (this.editingDraftId) {
+        this.draftList = this.draftList.filter(
+          (d) => d.id !== this.editingDraftId && d._id !== this.editingDraftId
+        );
+      }
+      this.editingDraftId = '';
+      this.closeModal();
+    },
+    error: (err) => {
+      console.error(err);
+      Swal.fire('Error', 'Failed to send mail.', 'error');
+    },
+    complete: () => {
+      this.isLoading = false; // ✅ Stop Loader
     }
+  });
+}
 
-    if (!this.mailSubject || !this.mailBody) {
-      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-      return;
-    }
 
-    const isScheduled = this.scheduleDate && this.scheduleTime;
+deleteDraft(draft: any) {
+  const draftId = draft.id || draft._id;
 
-    const payload: any = {
-      mailSubject: this.mailSubject,
-      emails: selectedEmails,
-      mailBody: this.mailBody,
-      type: isScheduled ? 'scheduled' : 'immediate',
-      targetType: this.targetType  // 🔥 Important
-    };
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to delete this draft?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const payload = {
+        id: draftId,
+        targetType: draft.targetType || this.targetType
+      };
 
-    if (isScheduled) {
-      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
-      payload.date = this.scheduleDate;
-      payload.time = time;
-      payload.period = period;
-    }
+      this.isLoading = true; // ✅ Start Loader
 
-    console.log('Send Mail Payload:', payload);
-
-    this.isLoading = true;
-
-    const apiCall = this.targetType === 'vendor'
-      ? this.service.vendorSendMail(payload)
-      : this.service.sendMail(payload);
-
-    apiCall.subscribe({
-      next: () => {
-        Swal.fire('Success', 'Mail sent successfully!', 'success');
-        if (this.editingDraftId) {
+      this.service.deleteDraft(payload).subscribe({
+        next: () => {
+          Swal.fire('Deleted!', 'Draft has been deleted.', 'success');
           this.draftList = this.draftList.filter(
-            (d) => d.id !== this.editingDraftId && d._id !== this.editingDraftId
+            (d) => d.id !== draftId && d._id !== draftId
           );
+        },
+        error: (err) => {
+          console.error(err);
+          Swal.fire('Error', 'Failed to delete draft.', 'error');
+        },
+        complete: () => {
+          this.isLoading = false; // ✅ Stop Loader
         }
-        this.editingDraftId = '';
-        this.closeModal();
-      },
-      error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'Failed to send mail.', 'error');
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
-  }
+      });
+    }
+  });
+}
 
-  deleteDraft(draft: any) {
-    const draftId = draft.id || draft._id;
-
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to delete this draft?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const payload = {
-          id: draftId,
-          targetType: draft.targetType || this.targetType
-        };
-
-        this.service.deleteDraft(payload).subscribe({
-          next: () => {
-            Swal.fire('Deleted!', 'Draft has been deleted.', 'success');
-            this.draftList = this.draftList.filter(
-              (d) => d.id !== draftId && d._id !== draftId
-            );
-          },
-          error: (err) => {
-            console.error(err);
-            Swal.fire('Error', 'Failed to delete draft.', 'error');
-          }
-        });
-      }
-    });
-  }
 
   convertTo24Hour(time12: string, period: string): string {
     let [hours, minutes] = time12.split(':').map(Number);
@@ -258,13 +268,19 @@ export class DraftsComponent implements OnInit {
   }
 
   refreshDrafts() {
-    this.getDraftData();
-  }
+     this.isLoading = true;
+  this.getDraftData();
+}
   switchTargetType(type: 'candidate' | 'vendor') {
-    this.targetType = type;
-    this.getDraftData();
-  }
+  this.targetType = type;
+  this.filterDrafts();
+}
 
+  filterDrafts() {
+  this.draftList = this.allDrafts.filter(
+    (draft) => (draft.targetType || 'candidate') === this.targetType
+  );
+}
 
   // Apply search filter
   applyFilter() {
