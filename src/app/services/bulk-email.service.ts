@@ -18,15 +18,20 @@ export class EmailService {
     'ngrok-skip-browser-warning': 'true'
   };
 
-  getUserId() {
-    return Number(localStorage.getItem('userId')) || 0;
+ getUserId(): number {
+  if (typeof window !== 'undefined') {
+    const id = localStorage.getItem('userId');
+    return id ? Number(id) : 0;
   }
+  return 0;
+}
 
+postWithUserId(endpoint: string, data: any) {
+  const userId = this.getUserId();
+  const payload = { ...data, userId };
+  return this.http.post(this.url + endpoint, payload, { headers: this.header });
+}
 
-  postWithUserId(endpoint: string, data: any) {
-    const payload = { ...data, userId: this.getUserId() };
-    return this.http.post(this.url + endpoint, payload, { headers: this.header });
-  }
 
 
   getWithUserId(endpoint: string, params: any = {}) {
