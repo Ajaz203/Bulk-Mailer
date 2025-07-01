@@ -70,6 +70,7 @@ handlePaste(event: ClipboardEvent) {
         technology: '',
         visa:'',
     location: '',
+    userId:'',
       };
       this.skills = [];
       this.skill = '';

@@ -42,38 +42,44 @@ export class LoginComponent {
   }
 
   onSubmit() {
-  if (!this.email || !this.password) {
-    this.triggerToast('error', 'Please fill in both email and password.');
-    return;
+    if (!this.email || !this.password) {
+      this.triggerToast('error', 'Please fill in both email and password.');
+      return;
+    }
+
+    const payload = {
+      email: this.email,
+      password: this.password
+    };
+
+    this.loading = true;
+
+    this.service.loginUser(payload)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe({
+        next: (response: any) => {
+          this.triggerToast('success', response.message || 'Login successful!');
+
+          // ✅ Store userId, token, and name in localStorage
+          localStorage.setItem('userId', response.user.userId.toString());
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('name', response.user.name);
+          localStorage.setItem('email', response.user.email);
+
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 1000);
+        },
+        error: (error) => {
+          this.triggerToast(
+            'error',
+            error?.error?.message || 'Server error or Invalid email/password.'
+          );
+        }
+      });
   }
-
-  const payload = {
-    email: this.email,
-    password: this.password
-  };
-
-  this.loading = true;
-
-  this.service.loginUser(payload)
-    .pipe(
-      finalize(() => {
-        this.loading = false; // ✅ Always stops loading
-      })
-    )
-    .subscribe({
-      next: (response: any) => {
-        this.triggerToast('success', response.message || 'Login successful!');
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 1500);
-      },
-      error: (error) => {
-        this.triggerToast(
-          'error',
-          error?.error?.message || 'Server error or Invalid email/password.'
-        );
-      }
-    });
-}
-
 }

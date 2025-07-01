@@ -1,54 +1,95 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-@Injectable({ providedIn: 'root' })
+
+@Injectable({
+  providedIn: 'root'
+})
 export class EmailService {
   private refreshTableSubject = new Subject<void>();
   refreshTable$ = this.refreshTableSubject.asObservable();
+
   constructor(private http: HttpClient) { }
-  url: any = 'http://142.93.212.196:3000/';
-  // url: any = 'https://2390-122-161-72-104.ngrok-free.app/';
+  
+  url: string = 'http://142.93.212.196:3000/';
+  // url: string = 'https://2390-122-161-72-104.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
+  };
+
+  getUserId() {
+    return Number(localStorage.getItem('userId')) || 0;
   }
+
+
+  postWithUserId(endpoint: string, data: any) {
+    const payload = { ...data, userId: this.getUserId() };
+    return this.http.post(this.url + endpoint, payload, { headers: this.header });
+  }
+
+
+  getWithUserId(endpoint: string, params: any = {}) {
+    const updatedParams = { ...params, userId: this.getUserId() };
+    return this.http.get<any[]>(this.url + endpoint, {
+      headers: this.header,
+      params: updatedParams
+    });
+  }
+
   triggerTableReload() {
     this.refreshTableSubject.next();
   }
-  sendBulkEmail(data: any[]) {
-    return this.http.post('http://localhost:3000/sendBulkEmail', { data });
-  }
+
+  
   getCategory() {
     return this.http.get(this.url + 'category', { headers: this.header });
   }
 
   addCategory(data: any) {
-    return this.http.post(this.url + 'category', data, { headers: this.header })
+    return this.postWithUserId('category', data);
   }
+
+  updateCategory(id: string, data: any) {
+    return this.postWithUserId('categoryUpdate', { id, ...data });
+  }
+
+  deleteCategory(data: any) {
+    return this.postWithUserId('categoryDelete', data);
+  }
+
+
   createSingleReq(data: any) {
-    return this.http.post(this.url + 'candidateSingleUpload', data, { headers: this.header })
+    return this.postWithUserId('candidateSingleUpload', data);
   }
+
   getCandidateData(data: any) {
-    return this.http.post(this.url + 'getCandidates', data, { headers: this.header })
+    return this.postWithUserId('getCandidates', data);
   }
+
   bulkUpload(data: any) {
-    return this.http.post(this.url + 'candidateMassUpload', data)
+    return this.postWithUserId('candidateMassUpload', data);
   }
 
   updateCandidate(id: string, data: any) {
-    const payload = { id, ...data };
-    return this.http.post(this.url + 'candidateUpdate', payload, { headers: this.header });
+    return this.postWithUserId('candidateUpdate', { id, ...data });
   }
-
 
   deleteCandidate(data: any) {
-    return this.http.post(this.url + 'candidateDelete', data, { headers: this.header });
+    return this.postWithUserId('candidateDelete', data);
   }
+
   sendMail(data: any) {
-    return this.http.post(this.url + 'sendOrScheduleMail', data, { headers: this.header });
+    return this.postWithUserId('sendOrScheduleMail', data);
   }
+
+  sendBulkEmail(data: any[]) {
+    return this.postWithUserId('sendBulkEmail', { data });
+  }
+
+
   venorUpload(data: any) {
-    return this.http.post(this.url + 'vendorMassUpload', data)
+    return this.postWithUserId('vendorMassUpload', data);
   }
 
   getVendors() {
@@ -56,60 +97,43 @@ export class EmailService {
   }
 
   vendorUpdate(id: string, data: any) {
-    const payload = { id, ...data };
-    return this.http.post(this.url + 'vendorUpdate', payload, { headers: this.header });
+    return this.postWithUserId('vendorUpdate', { id, ...data });
   }
-
 
   vendorDelete(data: any) {
-    return this.http.post(this.url + 'vendorDelete', data, { headers: this.header });
+    return this.postWithUserId('vendorDelete', data);
   }
+
   vendorSendMail(data: any) {
-    return this.http.post(this.url + 'sendOrScheduleVendorMail', data, { headers: this.header });
+    return this.postWithUserId('sendOrScheduleVendorMail', data);
   }
 
-  updateCategory(id: string, data: any) {
-    const payload = { id, ...data };
-    return this.http.post(this.url + 'categoryUpdate', payload, { headers: this.header });
-  }
-
-
-  deleteCategory(data: any) {
-    return this.http.post(this.url + 'categoryDelete', data, { headers: this.header });
-  }
   UserRegister(data: any) {
-    return this.http.post(this.url + 'register', data, { headers: this.header });
+    return this.postWithUserId('register', data);
   }
+
   loginUser(data: any) {
     return this.http.post(this.url + 'login', data, { headers: this.header });
   }
+
   forgotPassword(data: any) {
-    return this.http.post(this.url + 'forgot-password', data, { headers: this.header });
+    return this.postWithUserId('forgot-password', data);
   }
+
   verifyOtp(data: any) {
-    return this.http.post(this.url + 'verify-otp', data, { headers: this.header });
+    return this.postWithUserId('verify-otp', data);
   }
+
   updatePassword(data: any) {
-    return this.http.post(this.url + 'reset-password', data, { headers: this.header });
+    return this.postWithUserId('reset-password', data);
   }
-  deleteDraft(payload: any) {
-  return this.http.post(this.url + 'deleteDraft', payload, { headers: this.header });
+
+ 
+  deleteDraft(data: any) {
+    return this.postWithUserId('deleteDraft', data);
+  }
+
+  getDrafts(targetType: string) {
+    return this.getWithUserId('getDrafts', { targetType });
+  }
 }
-
-getDrafts(targetType: string) {
-  return this.http.get<any[]>(`${this.url}getDrafts?targetType=${targetType}`, {
-    headers: this.header,
-  });
-}
-
-
-
-
-
-
-
-
-
-  
-}
-
