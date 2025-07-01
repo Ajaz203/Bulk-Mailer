@@ -32,7 +32,7 @@ export class CandidateListComponent implements OnInit {
   selectionMode: 'all' | 'selected' = 'selected';
   isLoading: boolean = false;
   searchQuery: string = '';
-
+  
   draftList: any[] = [];
   constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
   ngOnInit() {

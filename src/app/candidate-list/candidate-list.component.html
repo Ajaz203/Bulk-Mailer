@@ -14,13 +14,22 @@
     </div>
 
   </div>
-  <div class="d-flex align-items-center gap-2 mb-3">
-    <input type="text" class="form-control form-control-sm" placeholder="Search candidates..."
-      [(ngModel)]="searchQuery" />
-    <button class="btn btn-outline-secondary btn-sm" (click)="searchQuery = ''">
-      Clear
-    </button>
-  </div>
+ <div class="d-flex align-items-center gap-2 mb-3">
+  <input 
+    type="text" 
+    class="form-control form-control-sm" 
+    placeholder="Search candidates..." 
+    [(ngModel)]="searchQuery" 
+  />
+
+  <button 
+    *ngIf="searchQuery" 
+    class="btn btn-outline-secondary btn-sm" 
+    (click)="searchQuery = ''">
+    <i class="bi bi-x-lg"></i> Clear
+  </button>
+</div>
+
   <table class="table table-bordered">
     <thead>
       <tr>
