@@ -113,70 +113,53 @@ td i.text-success:hover {
 }
 
 
-.toggle-switch {
+.custom-switch {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
 }
 
-.toggle-switch input {
+.custom-switch .label {
+  font-weight: 700;
+  font-size: 16px;
+  color: #3c3c3c;
+}
+
+.switch-container {
+  position: relative;
+}
+
+.switch-container input {
   display: none;
 }
 
-.toggle-switch label {
-  display: flex;
-  align-items: center;
-  background-color: #e0e0e0;
-  border-radius: 50px;
-  cursor: pointer;
-  padding: 5px;
+.switch-container label {
+  display: block;
+  width: 70px;
+  height: 12px;
+  background-color: #e6e6e6;
+  border-radius: 6px;
   position: relative;
-  width: 190px;
-    height: 40px;
-  justify-content: space-between;
-  font-weight: 500;
-  color: #555;
-  user-select: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.toggle-switch .toggle-option {
-  width: 50%;
-  text-align: center;
-  z-index: 2;
-}
-
-.toggle-switch .toggle-slider {
+.switch-container .circle {
   position: absolute;
-  background-color: #0d6efd;
-  border-radius: 50px;
-  height: 90%;
-  width: 50%;
-  top: 5%;
-  left: 3px;
-  transition: 0.3s;
-  z-index: 1;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: #43a047; /* Green */
+  border-radius: 50%;
+  transition: left 0.3s;
 }
 
-.toggle-switch input:checked + label .toggle-slider {
-  left: calc(50% - 3px);
-  background-color: #0d6efd;
+.switch-container input:checked + label .circle {
+  left: 50px;
 }
 
-.toggle-switch input:checked + label .toggle-option:first-child {
-  color: #555;
-}
-
-.toggle-switch input:checked + label .toggle-option:last-child {
-  color: white;
-}
-
-.toggle-switch input:not(:checked) + label .toggle-option:first-child {
-  color: white;
-}
-
-.toggle-switch input:not(:checked) + label .toggle-option:last-child {
-  color: #555;
-}
 .table th, .table td {
   vertical-align: middle;
 }

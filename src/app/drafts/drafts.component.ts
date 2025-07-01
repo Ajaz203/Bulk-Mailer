@@ -31,7 +31,7 @@ export class DraftsComponent implements OnInit {
   searchTerm = '';
   filteredDraftList: any[] = [];
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 4;
   isVendor = false;
 
   allDrafts: any[] = [];
@@ -271,10 +271,12 @@ deleteDraft(draft: any) {
      this.isLoading = true;
   this.getDraftData();
 }
-  switchTargetType(type: 'candidate' | 'vendor') {
+ switchTargetType(type: 'candidate' | 'vendor') {
   this.targetType = type;
+  this.currentPage = 1; 
   this.filterDrafts();
 }
+
 
   filterDrafts() {
   this.draftList = this.allDrafts.filter(

@@ -9,23 +9,22 @@
 <div class="drafts-container">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">📑 Saved Drafts</h4>
-    <div class="toggle-switch mb-3">
-      <input type="checkbox" id="toggle" [checked]="targetType === 'vendor'"
-        (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
-      <label for="toggle">
-        <span class="toggle-option">Candidate</span>
-        <span class="toggle-slider"></span>
-        <span class="toggle-option">Vendor</span>
-      </label>
+
+  <div class="custom-switch">
+      <span class="label">Candidate</span>
+
+      <div class="switch-container">
+        <input type="checkbox" id="switch" [checked]="targetType === 'vendor'"
+          (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
+        <label for="switch">
+          <span class="circle"></span>
+        </label>
+      </div>
+
+      <span class="label">Vendor</span>
     </div>
-    <button class="btn btn-outline-primary" (click)="refreshDrafts()">
-  <i class="bi bi-arrow-clockwise"></i> 
-</button>
 
   </div>
-
-
-
 
   <!-- 🔍 Search Box -->
   <div class="card shadow">
@@ -33,6 +32,9 @@
       <h5 class="mb-0">Drafts List</h5>
       <input type="text" class="form-control w-25" placeholder="Search by subject or email..."
         [(ngModel)]="searchTerm" />
+         <button class="btn btn-outline-primary" (click)="refreshDrafts()">
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
     </div>
 
     <!-- 📄 Table -->
@@ -82,7 +84,7 @@
     </div>
 
 
-    <pagination-controls (pageChange)="currentPage = $event" [maxSize]="5" [directionLinks]="true" [autoHide]="true"
+    <pagination-controls (pageChange)="currentPage = $event" [maxSize]="4" [directionLinks]="true" [autoHide]="true"
       class="d-flex justify-content-center"></pagination-controls>
 
 
