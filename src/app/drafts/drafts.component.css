@@ -159,7 +159,7 @@ td i.text-success:hover {
 
 .toggle-switch input:checked + label .toggle-slider {
   left: calc(50% - 3px);
-  background-color: #ffc107;
+  background-color: #0d6efd;
 }
 
 .toggle-switch input:checked + label .toggle-option:first-child {
