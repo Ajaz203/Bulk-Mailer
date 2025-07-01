@@ -19,51 +19,56 @@ export class DraftsComponent implements OnInit {
   draftList: any[] = [];
   isLoading = false;
   dataArr: any = [];
-
   mailSubject = '';
   mailBody = '';
   scheduleDate = '';
   scheduleTime = '';
   schedulePeriod = '';
-
   editingDraftId: string = '';
   selectedCandidates = new Set<string>();
   selectionMode = 'selected';
+  targetType: 'candidate' | 'vendor' = 'candidate';
+  searchTerm = '';
+  filteredDraftList: any[] = [];
+  currentPage = 1;
+  itemsPerPage = 5;
+  isVendor = false;
 
-  mailType: 'candidate' | 'vendor' = 'candidate';
+
 
   constructor(private service: EmailService, private router: Router) { }
 
   ngOnInit(): void {
-     this.mailType = 'candidate';
     this.getDraftData();
   }
 
 
-getDraftData() {
-  this.isLoading = true;
 
-  this.service.getDrafts(this.mailType).subscribe({
-    next: (res) => {
-      this.draftList = (res || []).map((draft: any) => ({
-        ...draft,
-        mailSubject: draft.mailSubject,
-        mailBody: draft.mailBody
-      }));
-      this.isLoading = false;
-    },
-    error: (err) => {
-      console.error('Error fetching drafts:', err);
-      this.isLoading = false;
-    }
-  });
-}
-
-
+  toggleTargetType() {
+    this.targetType = this.isVendor ? 'vendor' : 'candidate';
+    this.getDraftData();
+  }
+  getDraftData() {
+    this.isLoading = true;
+    this.service.getDrafts(this.targetType).subscribe({
+      next: (res) => {
+        this.draftList = (res || []).map((draft: any) => ({
+          ...draft,
+          targetType: draft.targetType || this.targetType
+        }));
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching drafts:', err);
+        this.isLoading = false;
+      }
+    });
+  }
 
   editDraft(draft: any) {
-    this.editingDraftId = draft.id || draft._id;
+    this.targetType = draft.targetType || this.targetType || 'candidate';  // 🔥 Important
 
+    this.editingDraftId = draft.id || draft._id;
     this.mailSubject = draft.mailSubject || '';
     this.mailBody = draft.mailBody || '';
     this.scheduleDate = draft.date || '';
@@ -96,7 +101,7 @@ getDraftData() {
       emails: selectedEmails,
       mailBody: this.mailBody,
       type: 'draft',
-      mailType: this.mailType
+      targetType: this.targetType  // 🔥 Important
     };
 
     if (isScheduled) {
@@ -106,9 +111,11 @@ getDraftData() {
       payload.period = period;
     }
 
+    console.log('Save Draft Payload:', payload);
+
     this.isLoading = true;
 
-    const apiCall = this.mailType === 'vendor'
+    const apiCall = this.targetType === 'vendor'
       ? this.service.vendorSendMail(payload)
       : this.service.sendMail(payload);
 
@@ -127,7 +134,6 @@ getDraftData() {
       }
     });
   }
-
 
   sendMail() {
     const selectedEmails = this.selectionMode === 'all'
@@ -151,7 +157,7 @@ getDraftData() {
       emails: selectedEmails,
       mailBody: this.mailBody,
       type: isScheduled ? 'scheduled' : 'immediate',
-      mailType: this.mailType
+      targetType: this.targetType  // 🔥 Important
     };
 
     if (isScheduled) {
@@ -161,9 +167,11 @@ getDraftData() {
       payload.period = period;
     }
 
+    console.log('Send Mail Payload:', payload);
+
     this.isLoading = true;
 
-    const apiCall = this.mailType === 'vendor'
+    const apiCall = this.targetType === 'vendor'
       ? this.service.vendorSendMail(payload)
       : this.service.sendMail(payload);
 
@@ -188,7 +196,6 @@ getDraftData() {
     });
   }
 
-
   deleteDraft(draft: any) {
     const draftId = draft.id || draft._id;
 
@@ -204,7 +211,7 @@ getDraftData() {
       if (result.isConfirmed) {
         const payload = {
           id: draftId,
-          mailType: draft.mailType || this.mailType
+          targetType: draft.targetType || this.targetType
         };
 
         this.service.deleteDraft(payload).subscribe({
@@ -222,13 +229,6 @@ getDraftData() {
       }
     });
   }
-
-switchMailType(type: 'candidate' | 'vendor') {
-  this.mailType = type;
-  this.getDraftData();
-}
-
-
 
   convertTo24Hour(time12: string, period: string): string {
     let [hours, minutes] = time12.split(':').map(Number);
@@ -249,15 +249,6 @@ switchMailType(type: 'candidate' | 'vendor') {
     };
   }
 
-  resetMailModal() {
-    this.mailSubject = '';
-    this.mailBody = '';
-    this.scheduleDate = '';
-    this.scheduleTime = '';
-    this.schedulePeriod = '';
-    this.selectedCandidates.clear();
-  }
-
   closeModal() {
     const modalElement = document.getElementById('mailModal');
     const modal = bootstrap.Modal.getInstance(modalElement);
@@ -268,5 +259,42 @@ switchMailType(type: 'candidate' | 'vendor') {
 
   refreshDrafts() {
     this.getDraftData();
+  }
+  switchTargetType(type: 'candidate' | 'vendor') {
+    this.targetType = type;
+    this.getDraftData();
+  }
+
+
+  // Apply search filter
+  applyFilter() {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredDraftList = this.draftList.filter(d =>
+      (d.mailSubject?.toLowerCase().includes(term) || '') ||
+      (d.emails?.join(', ').toLowerCase().includes(term) || '')
+    );
+    this.currentPage = 1; // Reset to first page
+  }
+
+  // For pagination
+  paginatedDrafts() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredDraftList.slice(start, start + this.itemsPerPage);
+  }
+
+  totalPages() {
+    return Math.ceil(this.filteredDraftList.length / this.itemsPerPage);
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) this.currentPage--;
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages()) this.currentPage++;
   }
 }
