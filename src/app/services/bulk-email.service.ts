@@ -6,8 +6,8 @@ export class EmailService {
   private refreshTableSubject = new Subject<void>();
   refreshTable$ = this.refreshTableSubject.asObservable();
   constructor(private http: HttpClient) { }
-  // url: any = 'http://142.93.212.196:3000/';
-  url: any = 'https://2390-122-161-72-104.ngrok-free.app/';
+  url: any = 'http://142.93.212.196:3000/';
+  // url: any = 'https://2390-122-161-72-104.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
