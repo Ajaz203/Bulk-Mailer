@@ -32,7 +32,7 @@ export class SingleUploadComponent implements OnInit {
     this.getData();
   }
 visaOptions = [
-  'Citizen', 'Green Card', 'H1B', 'H1B Transfer', 'H4 EAD', 'L1', 'L2 EAD',
+  'US Citizen', 'Green Card', 'H1B', 'H1B Transfer', 'H4 EAD', 'L1', 'L2 EAD',
   'GC EAD', 'OPT EAD', 'CPT', 'F1 (Student)', 'TN Visa', 'E3 Visa', 'B1/B2', 'Other'
 ];
 allowOnlyNumbers(event: KeyboardEvent) {

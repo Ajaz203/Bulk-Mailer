@@ -104,7 +104,7 @@ getDraftData() {
       emails: selectedEmails,
       mailBody: this.mailBody,
       type: 'draft',
-      targetType: this.targetType  // 🔥 Important
+      targetType: this.targetType 
     };
 
     if (isScheduled) {

@@ -140,3 +140,17 @@ td i:hover {
   justify-content: center;
   align-items: center;
 }
+.search-wrapper input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.search-wrapper i.bi-search {
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+.search-wrapper button:hover i {
+  color: #000;
+  cursor: pointer;
+}
+

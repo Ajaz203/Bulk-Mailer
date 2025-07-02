@@ -29,7 +29,7 @@ export class VendorCandidateListComponent {
   http: any;
   selectionMode: 'all' | 'selected' = 'selected';
   draftList: any[] = [];
-
+ searchTerm = '';
 
   constructor(private service: EmailService, private cd: ChangeDetectorRef) { };
 
@@ -77,6 +77,15 @@ export class VendorCandidateListComponent {
       this.selectedCandidates.add(candidate);
     }
   }
+filteredData() {
+  if (!this.searchTerm) {
+    return this.dataArr;
+  }
+  const term = this.searchTerm.toLowerCase();
+  return this.dataArr.filter((item: any) => 
+    item.email.toLowerCase().includes(term)
+  );
+}
 
   // Toggle all selection
   toggleSelectAll(event: any) {

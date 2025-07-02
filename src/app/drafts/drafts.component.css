@@ -182,3 +182,21 @@ input[type="text"]::placeholder {
   background-color: #0d6efd;  
   color: white;
 }
+/* Apply this in your global styles.css or component styles */
+input.form-control:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.3);
+}
+
+.bi-search {
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+button .bi-x-circle-fill {
+  font-size: 1rem;
+}
+
+button:hover .bi-x-circle-fill {
+  color: #000;
+  cursor: pointer;
+}

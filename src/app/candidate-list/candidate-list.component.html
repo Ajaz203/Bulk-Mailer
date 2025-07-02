@@ -14,21 +14,28 @@
     </div>
 
   </div>
- <div class="d-flex align-items-center gap-2 mb-3">
+<div class="position-relative search-wrapper mb-2">
   <input 
     type="text" 
-    class="form-control form-control-sm" 
+    class="form-control form-control-sm ps-4 pe-5 rounded-pill" 
     placeholder="Search candidates..." 
-    [(ngModel)]="searchQuery" 
+    [(ngModel)]="searchQuery"
+    style="height: 40px;"
   />
 
+  <!-- Search Icon (Optional) -->
+  <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+
+  <!-- Clear Button -->
   <button 
-    *ngIf="searchQuery" 
-    class="btn btn-outline-secondary btn-sm" 
-    (click)="searchQuery = ''">
-    <i class="bi bi-x-lg"></i> Clear
+    *ngIf="searchQuery"
+    class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
+    (click)="searchQuery = ''"
+    style="background: transparent;">
+    <i class="bi bi-x-circle-fill text-muted"></i>
   </button>
 </div>
+
 
   <table class="table table-bordered">
     <thead>
@@ -57,7 +64,7 @@
         <td>{{ i + 1 }}</td>
         <td>{{ c.name }}</td>
         <td>{{ c.email}}</td>
-        <td>{{ c.contact_no }}</td>
+        <td>{{ c.contact_no || 'NA' }}</td>
         <td>{{ c.visa || 'NA' }}</td>
         <td>{{ c.location || 'NA' }}</td>
         <!-- <td>{{ c.alt_contact_no || 'NA' }}</td> -->

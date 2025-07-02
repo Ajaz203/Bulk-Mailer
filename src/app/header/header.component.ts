@@ -17,67 +17,49 @@ export class HeaderComponent implements OnInit {
   uploadedCandidates: any[] = [];
   openMailDropdown = false;
   draftList: any[] = [];
-userName: string = '';
+  userName: string = '';
   userId: string = '';
+  openDropdownVendor = false;
 
-  constructor(private router: Router, private service: EmailService) {}
+  constructor(private router: Router, private service: EmailService) { }
 
-
-getDraftData() {
-  const targetType = 'candidate'; // or 'vendor' if needed
-  this.service.getDrafts(targetType).subscribe({
-    next: (res) => {
-      this.draftList = res || [];
-      console.log('Draft Data:', res);
-    },
-    error: (err) => {
-      console.error('Error fetching drafts:', err);
-    }
-  });
-}
-
-openDrafts() {
-
-}
-openDraftInMail() {
-
-}
-
-sendMail() {
-  console.log('Send Mail clicked');
-}
-
-
-close(){
-
-}
-logout() {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'Do you want to logout?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Yes, Logout'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      localStorage.clear();
-      this.router.navigate(['/login']);
-    }
-  });
-}
-
-
-  loadDraft(draft: any) {
-    // Emit or call parent function to load the draft
-    console.log('Load Draft:', draft);
+  goToVendorList() {
+    this.router.navigate(['/vendor-list']);
+  }
+  getDraftData() {
+    const targetType = 'candidate';
+    this.service.getDrafts(targetType).subscribe({
+      next: (res) => {
+        this.draftList = res || [];
+        console.log('Draft Data:', res);
+      },
+      error: (err) => {
+        console.error('Error fetching drafts:', err);
+      }
+    });
   }
 
-  deleteDraft(draft: any) {
-    // Emit or call parent function to delete the draft
-    console.log('Delete Draft:', draft);
+  sendMail() {
+    console.log('Send Mail clicked');
   }
+
+  logout() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Logout'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
   ngOnInit(): void {
     const currentUrl = this.router.url;
     console.log('Current URL:', currentUrl);
@@ -87,9 +69,9 @@ logout() {
     } else if (currentUrl.includes('cat-table')) {
       this.segment = 'viewData';
     } else {
-      this.segment = ''; 
+      this.segment = '';
     }
-     this.userName = localStorage.getItem('name') || 'User';
+    this.userName = localStorage.getItem('name') || 'User';
     this.userId = localStorage.getItem('userId') || 'Unknown';
   }
 
