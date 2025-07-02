@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
     const targetType = 'candidate';
     this.service.getDrafts(targetType).subscribe({
       next: (res) => {
-        this.draftList = res || [];
+        this.draftList = Array.isArray(res) ? res : [];
         console.log('Draft Data:', res);
       },
       error: (err) => {
@@ -43,37 +43,46 @@ export class HeaderComponent implements OnInit {
     console.log('Send Mail clicked');
   }
 
-  logout() {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to logout?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, Logout'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.clear();
-        this.router.navigate(['/login']);
-      }
-    });
+isBrowser() {
+  return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+}
+
+logout() {
+  if (this.isBrowser()) {
+    localStorage.clear();
+  }
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to logout?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, Logout'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.router.navigate(['/login']);
+    }
+  });
+}
+
+ ngOnInit(): void {
+  const currentUrl = this.router.url;
+  console.log('Current URL:', currentUrl);
+
+  if (currentUrl.includes('vendorbulkupload')) {
+    this.segment = 'vendor';
+  } else if (currentUrl.includes('cat-table')) {
+    this.segment = 'viewData';
+  } else {
+    this.segment = '';
   }
 
-  ngOnInit(): void {
-    const currentUrl = this.router.url;
-    console.log('Current URL:', currentUrl);
-
-    if (currentUrl.includes('vendorbulkupload')) {
-      this.segment = 'vendor';
-    } else if (currentUrl.includes('cat-table')) {
-      this.segment = 'viewData';
-    } else {
-      this.segment = '';
-    }
+  if (this.isBrowser()) {
     this.userName = localStorage.getItem('name') || 'User';
     this.userId = localStorage.getItem('userId') || 'Unknown';
   }
+}
 
   dropdown() {
     this.segment = '';

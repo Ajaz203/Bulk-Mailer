@@ -50,10 +50,14 @@ export class BulkUploadComponent {
 
     console.log('Parsed Excel Data:', this.excelData);
 
-    const finalArr = this.excelData.map((item: any) => ({
-      ...item,
-      Skills: item.Skills?.split(',').map((skill: string) => skill.trim()) || []
-    }));
+ const userId = Number(localStorage.getItem('userId'));
+
+const finalArr = this.excelData.map((item: any) => ({
+  ...item,
+  Skills: item.Skills?.split(',').map((skill: string) => skill.trim()) || [],
+  userId
+}));
+
 
     this.service.bulkUpload(finalArr).subscribe({
       next: (resp: any) => {

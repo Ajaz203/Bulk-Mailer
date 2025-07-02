@@ -129,20 +129,29 @@ filteredData() {
 
     this.selected.set(selected);
   }
-  getData() {
-    this.isLoading = true;
-    this.service.getVendors().subscribe({
-      next: (resp: any) => {
-        console.log("vendor Response:", resp);
-        this.dataArr = resp;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        console.error('Failed to load data:', err);
-      }
-    });
+getData() {
+  this.isLoading = true;
+  const userId = localStorage.getItem('userId'); // or however you're storing it
+
+  if (!userId) {
+    console.error('User ID not found');
+    this.isLoading = false;
+    return;
   }
+
+  this.service.getVendors(userId).subscribe({
+    next: (resp: any) => {
+      console.log("vendor Response:", resp);
+      this.dataArr = resp;
+      this.isLoading = false;
+    },
+    error: (err) => {
+      this.isLoading = false;
+      console.error('Failed to load data:', err);
+    }
+  });
+}
+
   isPageFullySelected(): boolean {
     const start = (this.page() - 1) * this.pageSize;
     const end = Math.min(start + this.pageSize, this.candidates.length);

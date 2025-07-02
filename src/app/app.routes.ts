@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { DraftsComponent } from './drafts/drafts.component';
+import { AllMailsComponent } from './all-mails/all-mails.component';
 
 
 export const routes: Routes = [
@@ -19,6 +20,7 @@ export const routes: Routes = [
     { path: 'candidate-list', component: CandidateListComponent },
     { path: 'vendor-list', component: VendorCandidateListComponent },
     {path:"vendorbulkupload",component:VendorBulkUploadComponent},
-    {path:'drafts',component:DraftsComponent}
+    {path:'drafts',component:DraftsComponent},
+    {path:'all-mails',component:AllMailsComponent},
 
 ];

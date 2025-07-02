@@ -79,12 +79,12 @@
       </a>
       <ul class="dropdown-menu" [class.show]="openMailDropdown">
         <li>
-          <a class="dropdown-item" (click)="sendMail(); segment = 'mail'">
+          <a class="dropdown-item" routerLink="/all-mails" (click)="sendMail(); segment = 'mail'">
             All Mails
           </a>
         </li>
         <li>
-          <a class="dropdown-item" routerLink="/drafts" (click)="segment = 'mail'; getDraftData()">
+          <a class="dropdown-item" routerLink="/drafts" (click)="segment = 'mail'; ">
             Drafts
           </a>
         </li>

@@ -33,52 +33,60 @@ export class VendorBulkUploadComponent {
       this.selectedFile = file;
     }
   }
-  confirmFile(): void {
-    if (!this.selectedFile) return;
+confirmFile(): void {
+  if (!this.selectedFile) return;
 
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.onload = (e: any) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-      this.excelData = XLSX.utils.sheet_to_json(firstSheet);
+  reader.onload = (e: any) => {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: 'array' });
+    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+    this.excelData = XLSX.utils.sheet_to_json(firstSheet);
 
-      console.log('Parsed Excel Data:', this.excelData);
+    const userId = Number(localStorage.getItem('userId'));
 
-      const finalArr = this.excelData.map((item: any) => {
-        const { Skills, ...rest } = item;
-        return rest;
-      });
+    const finalArr: any[] = [];
 
-      this.service.venorUpload(finalArr).subscribe({
-        next: (resp: any) => {
-          console.log('Bulk Upload Response:', resp);
+this.excelData.forEach((item: any) => {
+  const { Skills, ...rest } = item;
+  finalArr.push({
+    ...rest,
+    userId: Number(userId) // ensure it's a number
+  });
+});
 
-          Swal.fire({
-            icon: 'success',
-            title: 'Uploaded!',
-            text: 'File uploaded successfully.',
-            confirmButtonColor: '#3085d6'
-          }).then(() => {
-            this.navigate();
-          });
-        },
-        error: (error: any) => {
-          console.error('Upload Error:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Upload Failed',
-            text: 'Something went wrong during file upload.',
-            confirmButtonColor: '#d33'
-          });
-        }
-      });
-    };
+    // ✅ Debug log
+    console.log("Final Payload (must be raw array):", finalArr);
+    console.log("Type of Payload:", Array.isArray(finalArr)); // should be true
 
-    reader.readAsArrayBuffer(this.selectedFile);
-  }
- async downloadMassTemplate() {
+    // ✅ Send plain array as payload
+    this.service.venorUpload(finalArr).subscribe({
+      next: (resp: any) => {
+        console.log('Upload success:', resp);
+        Swal.fire({
+          icon: 'success',
+          title: 'Uploaded!',
+          text: 'File uploaded successfully.',
+        }).then(() => this.navigate());
+      },
+      error: (error: any) => {
+        console.error('Upload failed:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Upload Failed',
+          text: error?.error?.message || 'Something went wrong.',
+        });
+      }
+    });
+  };
+
+  reader.readAsArrayBuffer(this.selectedFile);
+}
+
+
+
+  async downloadMassTemplate() {
     window.location.assign('../asset/VendorEmailerTemplate.xlsx');
   }
   navigate(): void {

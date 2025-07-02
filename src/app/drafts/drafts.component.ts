@@ -55,7 +55,7 @@ getDraftData() {
   this.isLoading = true;
   this.service.getDrafts(this.targetType).subscribe({
     next: (res) => {
-      this.allDrafts = res || [];
+      this.allDrafts = (res as any[]) || [];
       this.switchTargetType(this.targetType);
     },
     error: (err) => {
@@ -69,7 +69,7 @@ getDraftData() {
 
 
   editDraft(draft: any) {
-    this.targetType = draft.targetType || this.targetType || 'candidate';  // 🔥 Important
+    this.targetType = draft.targetType || this.targetType || 'candidate';  
 
     this.editingDraftId = draft.id || draft._id;
     this.mailSubject = draft.mailSubject || '';

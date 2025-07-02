@@ -1,0 +1,51 @@
+<div class="mail-container">
+  <div class="header">
+    <h2>📧 Sent Mails</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Search by Subject or Recipient"
+        [(ngModel)]="searchText" (input)="searchMails()" />
+    </div>
+    <div class="custom-switch">
+      <span class="label">Candidate</span>
+
+      <div class="switch-container">
+        <input type="checkbox" id="switch" 
+          [checked]="targetType === 'vendor'"
+          (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
+        <label for="switch">
+          <span class="circle"></span>
+        </label>
+      </div>
+
+      <span class="label">Vendor</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Recipient</th>
+            <th>Subject</th>
+            <th>Sent Date</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+         <tr *ngFor="let mail of sentMails; index as i">
+  <td>{{ i + 1 }}</td>
+  <td>{{ mail.email }}</td>
+  <td>{{ mail.mailSubject }}</td>
+  <td>{{ mail.sentAt | date: 'medium' }}</td>
+  <td>{{ mail.targetType }}</td>
+</tr>
+<tr *ngIf="sentMails.length === 0">
+  <td colspan="5" class="text-center">No Sent Mails Found</td>
+</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
