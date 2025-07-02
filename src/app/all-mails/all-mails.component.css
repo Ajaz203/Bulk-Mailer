@@ -48,7 +48,7 @@
 
 /* Container */
 .mail-container {
-  padding: 24px;
+  padding: 10px;
   max-width: 1200px;
   margin: auto;
 }
@@ -131,4 +131,22 @@
   text-align: center;
   padding: 12px;
   color: #888;
+}
+
+input.form-control:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.3);
+}
+
+.bi-search {
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+button .bi-x-circle-fill {
+  font-size: 1rem;
+}
+
+button:hover .bi-x-circle-fill {
+  color: #000;
+  cursor: pointer;
 }

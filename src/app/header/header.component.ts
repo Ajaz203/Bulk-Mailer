@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   draftList: any[] = [];
   userName: string = '';
   userId: string = '';
+  userEmail: string = '';
   openDropdownVendor = false;
 
   constructor(private router: Router, private service: EmailService) { }
@@ -81,6 +82,7 @@ logout() {
   if (this.isBrowser()) {
     this.userName = localStorage.getItem('name') || 'User';
     this.userId = localStorage.getItem('userId') || 'Unknown';
+    this.userEmail = localStorage.getItem('email') || 'Unknown';
   }
 }
 

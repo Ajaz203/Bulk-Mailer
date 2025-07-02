@@ -49,23 +49,25 @@
   />
 </div>
 
+<!-- visa type -->
 <div class="form-row">
   <label>Visa Type</label>
-  
+
   <select
     [(ngModel)]="candidate.visa"
     name="visa"
     #visa="ngModel"
     [ngClass]="{
       'invalid-input': visa.invalid && visa.touched,
-      'valid-input': visa.valid && visa.touched
+      'valid-input': visa.valid && visa.touched,
+      'placeholder-selected': candidate.visa === ''
     }"
+    class="form-select"
   >
-   <option *ngFor="let visa of visaOptions" [value]="visa">{{ visa }}</option>
-
+    <option value="" disabled selected hidden>Select a visa type</option>
+    <option *ngFor="let visa of visaOptions" [value]="visa">{{ visa }}</option>
   </select>
 </div>
-
 
   <!-- Alternate Contact No -->
   <!-- <div class="form-row">
@@ -77,6 +79,8 @@
     placeholder="Alternate Contact No."
   />
 </div> -->
+
+<!-- location -->
   <div class="form-row">
   <label>Location</label>
   <input
@@ -89,23 +93,27 @@
 
 
   <!-- Category -->
-  <div class="form-row">
-    <label>Technology</label>
-    
-    <select
-      [(ngModel)]="candidate.technology"
-      name="technology"
-      #category="ngModel"
-      [ngClass]="{ 'invalid-input': category.invalid && category.touched, 'valid-input': category.valid && category.touched 
-        
-      }"
-    >
-      <option value="NA">NA</option>
-      <option *ngFor="let item of dropDownArr" [value]="item.name">{{ item.name }}</option>
-    </select>
-  </div>
-  
+<div class="form-row">
+  <label>Technology</label>
 
+  <select
+    [(ngModel)]="candidate.technology"
+    name="technology"
+    #category="ngModel"
+    [ngClass]="{
+      'invalid-input': category.invalid && category.touched,
+      'valid-input': category.valid && category.touched,
+      'placeholder-selected': candidate.technology === ''
+    }"
+    class="form-select"
+  >
+    <option value="" disabled selected hidden>Select a technology</option>
+    <option value="NA">NA</option>
+    <option *ngFor="let item of dropDownArr" [value]="item.name">
+      {{ item.name }}
+    </option>
+  </select>
+</div>
 
   <!-- Skills -->
   <div class="mb-3">
@@ -116,7 +124,7 @@
           type="text"
           id="skillInput"
           class="form-control"
-          placeholder="labelname"
+          placeholder="Add Skills"
           [(ngModel)]="skill"
           (keyup.enter)="addSkill()"
           name="skillInput"

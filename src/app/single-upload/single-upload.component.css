@@ -141,3 +141,9 @@ button.save {
   border: 1px solid green !important;
   background-color: #e6ffe6 !important;
 }
+
+select.placeholder-selected {
+  color: #646363;
+ 
+}
+

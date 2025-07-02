@@ -1,16 +1,21 @@
-<div class="mail-container">
-  <div class="header">
-    <h2>📧 Sent Mails</h2>
-    <div class="search-bar">
-      <input type="text" placeholder="Search by Subject or Recipient"
-        [(ngModel)]="searchText" (input)="searchMails()" />
+<div class="mail-container container">
+  <div class="header d-flex flex-wrap justify-content-between align-items-center">
+    <h2 class="mb-2 mb-md-0">📧 Sent Mails</h2>
+
+    <div class="d-flex align-items-center gap-2 position-relative w-50">
+      <input type="text" class="form-control ps-4 pe-5 rounded-pill" placeholder="Search by subject or email..."
+        [(ngModel)]="searchTerm" />
+      <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+      <button *ngIf="searchTerm" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
+        (click)="searchTerm = ''" style="background: transparent;">
+        <i class="bi bi-x-circle-fill text-muted"></i>
+      </button>
     </div>
     <div class="custom-switch">
       <span class="label">Candidate</span>
 
       <div class="switch-container">
-        <input type="checkbox" id="switch" 
-          [checked]="targetType === 'vendor'"
+        <input type="checkbox" id="switch" [checked]="targetType === 'vendor'"
           (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
         <label for="switch">
           <span class="circle"></span>
@@ -20,32 +25,39 @@
       <span class="label">Vendor</span>
     </div>
   </div>
+</div>
 
-  <div class="card">
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>S.No</th>
-            <th>Recipient</th>
-            <th>Subject</th>
-            <th>Sent Date</th>
-            <th>Category</th>
-          </tr>
-        </thead>
-        <tbody>
-         <tr *ngFor="let mail of sentMails; index as i">
-  <td>{{ i + 1 }}</td>
-  <td>{{ mail.email }}</td>
-  <td>{{ mail.mailSubject }}</td>
-  <td>{{ mail.sentAt | date: 'medium' }}</td>
-  <td>{{ mail.targetType }}</td>
-</tr>
-<tr *ngIf="sentMails.length === 0">
-  <td colspan="5" class="text-center">No Sent Mails Found</td>
-</tr>
-        </tbody>
-      </table>
-    </div>
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">S.No</th>
+          <th scope="col">Recipient</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Sent Date</th>
+          <th scope="col">Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mail of sentMails; index as i">
+          <td>{{ i + 1 }}</td>
+          <td>{{ mail.email }}</td>
+          <td>{{ mail.mailSubject }}</td>
+          <td>{{ mail.sentAt | date: 'medium' }}</td>
+          <td>
+            <span class="badge" [ngClass]="{
+                  'bg-primary': mail.targetType === 'candidate',
+                  'bg-success': mail.targetType === 'vendor'
+                }">
+              {{ mail.targetType }}
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="sentMails.length === 0">
+          <td colspan="5" class="text-center text-muted py-3">No Sent Mails Found</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

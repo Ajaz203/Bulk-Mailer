@@ -15,7 +15,7 @@
         <img src="/asset/img_avatar.png" class="rounded-circle me-2 userpic" alt="User">
         <div class="text-white">
           <div>{{ userName }}</div>
-          <small>ID: {{ userId }}</small>
+          <small>{{ userEmail}}</small>
         </div>
 
       </div>
@@ -30,7 +30,22 @@
 
 
 <div class="page-container mt-2">
-  <h4 class="mb-2 ms-2">Bulk Emails</h4>
+
+  <div class="app-header d-flex justify-content-between align-items-center p-3 px-2 shadow-sm bg-white rounded-bottom">
+    <div class="d-flex align-items-center gap-2">
+
+      <h4 class="mb-0 fw-bold" style="color: #5ab745;">
+        SwiftSend <small class="text-muted fw-normal">by McKinsol</small>
+
+      </h4>
+    </div>
+
+    <div class="text-end">
+      <span class="badge bg-gradient-primary text-light fw-medium">Secure Mail Platform</span>
+    </div>
+  </div>
+
+
 
   <ul class="nav nav-tabs">
     <li class="nav-item dropdown" (mouseenter)="openDropdown = true" (mouseleave)="openDropdown = false"
