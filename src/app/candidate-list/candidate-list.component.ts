@@ -34,6 +34,8 @@ export class CandidateListComponent implements OnInit {
   searchQuery: string = '';
   searchTerm = '';
   draftList: any[] = [];
+  showFilterSection = false;
+  originalData: any;
   constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
   ngOnInit() {
     this.getData();
@@ -45,20 +47,53 @@ export class CandidateListComponent implements OnInit {
 
   }
 
-  getData() {
-    this.isLoading = true;
-    this.service.getCandidateData({}).subscribe({
-      next: (resp: any) => {
-        console.log("Candidate Response:", resp);
-        this.dataArr = resp;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        console.error('Failed to load data:', err);
-      }
-    });
+
+  filter = {
+    experience: '',
+    visa: '',
+    skills: ''
+  };
+
+  openFilterSection() {
+    this.showFilterSection = !this.showFilterSection;
   }
+
+applyFilters() {
+  const { experience, visa, skills } = this.filter;
+
+  this.dataArr = this.originalData.filter((candidate: any) => {
+    const matchExp = !experience || String(candidate.experience) === String(experience);
+    const matchVisa = !visa || (candidate.visa?.toLowerCase().includes(visa.toLowerCase()));
+    const matchSkills = !skills || (Array.isArray(candidate.skills)
+      ? candidate.skills.join(',').toLowerCase().includes(skills.toLowerCase())
+      : candidate.skills?.toLowerCase().includes(skills.toLowerCase()));
+
+    return matchExp && matchVisa && matchSkills;
+  });
+}
+
+
+
+resetFilters() {
+  this.filter = { experience: '', visa: '', skills: '' };
+  this.dataArr = [...this.originalData]; // Reset to full list
+}
+
+ getData() {
+  this.isLoading = true;
+  this.service.getCandidateData({}).subscribe({
+    next: (resp: any) => {
+      console.log("Candidate Response:", resp);
+      this.originalData = resp; // Save full data
+      this.dataArr = [...this.originalData]; // Initial render
+      this.isLoading = false;
+    },
+    error: (err) => {
+      this.isLoading = false;
+      console.error('Failed to load data:', err);
+    }
+  });
+}
 
 
   // Toggle single selection
@@ -381,23 +416,24 @@ export class CandidateListComponent implements OnInit {
 
 
 
-  get filteredCandidates() {
-    if (!this.searchQuery) return this.dataArr;
+ get filteredCandidates() {
+  if (!this.searchQuery) return this.dataArr;
 
-    const query = this.searchQuery.toLowerCase();
+  const query = this.searchQuery.toLowerCase();
 
-    return this.dataArr.filter((c: any) =>
-      (c.name?.toLowerCase().includes(query)) ||
-      (c.email?.toLowerCase().includes(query)) ||
-      (c.contact_no?.toLowerCase().includes(query)) ||
-      (c.alt_contact_no?.toLowerCase().includes(query)) ||
-      (c.technology?.toLowerCase().includes(query)) ||
-      (c.location?.toLowerCase().includes(query)) ||
-      (c.visa?.toLowerCase().includes(query)) ||
-      (c.skills?.join(', ').toLowerCase().includes(query)) ||
-      (new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query))
-    );
-  }
+  return this.dataArr.filter((c: any) =>
+    (c.name?.toLowerCase().includes(query)) ||
+    (c.email?.toLowerCase().includes(query)) ||
+    (c.contact_no?.toLowerCase().includes(query)) ||
+    (c.alt_contact_no?.toLowerCase().includes(query)) ||
+    (c.technology?.toLowerCase().includes(query)) ||
+    (c.location?.toLowerCase().includes(query)) ||
+    (c.visa?.toLowerCase().includes(query)) ||
+    (c.skills?.join(', ').toLowerCase().includes(query)) ||
+    (new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query))
+  );
+}
+
   openDraftInMail(draft: any) {
     this.mailSubject = draft.mailSubject || '';
     this.mailBody = draft.mailBody || '';
