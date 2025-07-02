@@ -9,6 +9,10 @@
   .btn-success {
     background: #5ab745 !important;
   }
+ .btn-outline-success:hover {
+  background-color: #5ab745 !important;
+  color: #fff !important; 
+}
 
   .btn-primary {
     background-color: #5ab745;
