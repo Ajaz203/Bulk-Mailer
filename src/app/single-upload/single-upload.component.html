@@ -114,7 +114,22 @@
     </option>
   </select>
 </div>
-
+<div class="form-row">
+  <label>Experience (in years)</label>
+  <input
+    type="number"
+    [(ngModel)]="candidate.experience"
+    name="experience"
+    #experience="ngModel"
+    min="0"
+    max="50"
+    placeholder="Years of Experience"
+    [ngClass]="{
+      'invalid-input': experience.invalid && experience.touched,
+      'valid-input': experience.valid && experience.touched
+    }"
+  />
+</div>
   <!-- Skills -->
   <div class="mb-3">
     <div class="input-fields">

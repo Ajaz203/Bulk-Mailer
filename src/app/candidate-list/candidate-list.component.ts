@@ -42,7 +42,7 @@ export class CandidateListComponent implements OnInit {
       this.getData();
     });
     this.getDraftData();
-    
+
   }
 
   getData() {
@@ -183,84 +183,84 @@ export class CandidateListComponent implements OnInit {
 
   }
   convertTo12HourFormat(time24: string): { time: string, period: string } {
-  if (!time24) return { time: '', period: '' };
+    if (!time24) return { time: '', period: '' };
 
-  const [hourStr, minute] = time24.split(':');
-  let hours = parseInt(hourStr, 10);
-  const period = hours >= 12 ? 'PM' : 'AM';
+    const [hourStr, minute] = time24.split(':');
+    let hours = parseInt(hourStr, 10);
+    const period = hours >= 12 ? 'PM' : 'AM';
 
-  hours = hours % 12;
-  if (hours === 0) hours = 12;
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
 
-  return {
-    time: `${hours}:${minute.padStart(2, '0')}`,
-    period
-  };
-}
+    return {
+      time: `${hours}:${minute.padStart(2, '0')}`,
+      period
+    };
+  }
 
-  
+
   sendMail() {
-  const selectedEmails = this.selectionMode === 'all'
-    ? this.dataArr.map((c: { email: any }) => c.email)
-    : Array.from(this.selectedCandidates).map(c => c.email);
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((c: { email: any }) => c.email)
+      : Array.from(this.selectedCandidates).map(c => c.email);
 
-  if (selectedEmails.length === 0) {
-    Swal.fire('Error', 'No candidates selected.', 'error');
-    return;
-  }
-
-  if (!this.mailSubject || !this.mailBody) {
-    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-    return;
-  }
-
-  const isScheduled = this.scheduleDate && this.scheduleTime;
-
-  const payload: any = {
-    mailSubject: this.mailSubject,
-    emails: selectedEmails,
-   mailBody: this.mailBody.replace(/\n/g, '<br>')
-    
-  };
-
-  if (isScheduled) {
-    const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
-
-    payload.date = this.scheduleDate;
-    payload.time = time;
-    payload.period = period;
-    payload.type = 'scheduled';
-  } else {
-    payload.type = 'immediate';
-  }
-
-  console.log('Payload:', payload);
-
-  this.isLoading = true;
-
-  this.service.sendMail(payload).subscribe({
-    next: () => {
-      Swal.fire('Success', 'Mail sent successfully!', 'success');
-      this.resetMailModal();
-      const modalElement = document.getElementById('mailModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-        modal.hide();
-      }
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      Swal.fire('Error', 'Failed to send mail.', 'error');
-    },
-    complete: () => {
-      this.isLoading = false;
+    if (selectedEmails.length === 0) {
+      Swal.fire('Error', 'No candidates selected.', 'error');
+      return;
     }
-  });
-}
+
+    if (!this.mailSubject || !this.mailBody) {
+      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+      return;
+    }
+
+    const isScheduled = this.scheduleDate && this.scheduleTime;
+
+    const payload: any = {
+      mailSubject: this.mailSubject,
+      emails: selectedEmails,
+      mailBody: this.mailBody.replace(/\n/g, '<br>')
+
+    };
+
+    if (isScheduled) {
+      const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
+
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
+      payload.type = 'scheduled';
+    } else {
+      payload.type = 'immediate';
+    }
+
+    console.log('Payload:', payload);
+
+    this.isLoading = true;
+
+    this.service.sendMail(payload).subscribe({
+      next: () => {
+        Swal.fire('Success', 'Mail sent successfully!', 'success');
+        this.resetMailModal();
+        const modalElement = document.getElementById('mailModal');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modal.hide();
+        }
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to send mail.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
 
   resetMailModal() {
     this.mailSubject = '';
@@ -272,56 +272,56 @@ export class CandidateListComponent implements OnInit {
 
   }
 
- saveAsDraft() {
-  const selectedEmails = this.selectionMode === 'all'
-    ? this.dataArr.map((c: { email: any }) => c.email)
-    : Array.from(this.selectedCandidates).map(c => c.email);
+  saveAsDraft() {
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((c: { email: any }) => c.email)
+      : Array.from(this.selectedCandidates).map(c => c.email);
 
-  const isScheduled = this.scheduleDate && this.scheduleTime;
+    const isScheduled = this.scheduleDate && this.scheduleTime;
 
-  const payload: any = {
-    mailSubject: this.mailSubject || '',
-    emails: selectedEmails || [],
-    mailBody: this.mailBody || '',
-    type: 'draft'
-  };
+    const payload: any = {
+      mailSubject: this.mailSubject || '',
+      emails: selectedEmails || [],
+      mailBody: this.mailBody || '',
+      type: 'draft'
+    };
 
-  if (isScheduled) {
-    const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
-    payload.date = this.scheduleDate;
-    payload.time = time;
-    payload.period = period;
-  }
-
-  console.log('Draft Payload:', payload);
-
-  this.isLoading = true;
-
-  this.service.sendMail(payload).subscribe({
-    next: () => {
-      Swal.fire('Saved!', 'Draft saved successfully!', 'success');
-      this.resetMailModal();
-
-      const modalElement = document.getElementById('mailModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-        modal.hide();
-      }
-
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      Swal.fire('Error', 'Failed to save draft.', 'error');
-    },
-    complete: () => {
-      this.isLoading = false;
+    if (isScheduled) {
+      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
     }
-  });
-}
+
+    console.log('Draft Payload:', payload);
+
+    this.isLoading = true;
+
+    this.service.sendMail(payload).subscribe({
+      next: () => {
+        Swal.fire('Saved!', 'Draft saved successfully!', 'success');
+        this.resetMailModal();
+
+        const modalElement = document.getElementById('mailModal');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modal.hide();
+        }
+
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to save draft.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
 
 
 
@@ -337,46 +337,46 @@ export class CandidateListComponent implements OnInit {
       }
     });
   }
-loadDraft(draft: any) {
-  this.mailSubject = draft.mailSubject || '';
-  this.mailBody = draft.mailBody || '';
-  this.scheduleDate = draft.date || '';
+  loadDraft(draft: any) {
+    this.mailSubject = draft.mailSubject || '';
+    this.mailBody = draft.mailBody || '';
+    this.scheduleDate = draft.date || '';
 
-  if (draft.time && draft.period) {
-    this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
-    this.schedulePeriod = draft.period;
-  } else {
-    this.scheduleTime = '';
-    this.schedulePeriod = '';
+    if (draft.time && draft.period) {
+      this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
+      this.schedulePeriod = draft.period;
+    } else {
+      this.scheduleTime = '';
+      this.schedulePeriod = '';
+    }
+
+    this.selectedCandidates = new Set(draft.emails || []);
+    this.selectionMode = 'selected';
+
+    Swal.fire('Loaded!', 'Draft loaded successfully.', 'success');
   }
 
-  this.selectedCandidates = new Set(draft.emails || []);
-  this.selectionMode = 'selected';
-
-  Swal.fire('Loaded!', 'Draft loaded successfully.', 'success');
-}
 
 
 
+  convertTo12HourWithPeriod(time24: string): { time: string, period: string } {
+    const [hourStr, minute] = time24.split(':');
+    let hours = parseInt(hourStr, 10);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
+    return {
+      time: `${hours}:${minute.padStart(2, '0')}`,
+      period
+    };
+  }
 
-convertTo12HourWithPeriod(time24: string): { time: string, period: string } {
-  const [hourStr, minute] = time24.split(':');
-  let hours = parseInt(hourStr, 10);
-  const period = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  if (hours === 0) hours = 12;
-  return {
-    time: `${hours}:${minute.padStart(2, '0')}`,
-    period
-  };
-}
-
-convertTo24Hour(time12: string, period: string): string {
-  let [hours, minutes] = time12.split(':').map(Number);
-  if (period === 'PM' && hours < 12) hours += 12;
-  if (period === 'AM' && hours === 12) hours = 0;
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-}
+  convertTo24Hour(time12: string, period: string): string {
+    let [hours, minutes] = time12.split(':').map(Number);
+    if (period === 'PM' && hours < 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  }
 
 
 
@@ -398,28 +398,25 @@ convertTo24Hour(time12: string, period: string): string {
       (new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query))
     );
   }
-openDraftInMail(draft: any) {
-  this.mailSubject = draft.mailSubject || '';
-  this.mailBody = draft.mailBody || '';
-  this.scheduleDate = draft.date || '';
+  openDraftInMail(draft: any) {
+    this.mailSubject = draft.mailSubject || '';
+    this.mailBody = draft.mailBody || '';
+    this.scheduleDate = draft.date || '';
 
-  if (draft.time && draft.period) {
-    this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
-    this.schedulePeriod = draft.period;
-  } else {
-    this.scheduleTime = '';
-    this.schedulePeriod = '';
+    if (draft.time && draft.period) {
+      this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
+      this.schedulePeriod = draft.period;
+    } else {
+      this.scheduleTime = '';
+      this.schedulePeriod = '';
+    }
+
+    this.selectedCandidates = new Set(draft.emails || []);
+    this.selectionMode = 'selected';
+
+    const modalElement = document.getElementById('mailModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
   }
-
-  this.selectedCandidates = new Set(draft.emails || []);
-  this.selectionMode = 'selected';
-
-  const modalElement = document.getElementById('mailModal');
-  const modal = new bootstrap.Modal(modalElement);
-  modal.show();
-}
-
-
-
 
 }

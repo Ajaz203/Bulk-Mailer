@@ -23,10 +23,7 @@
     style="height: 40px;"
   />
 
-  <!-- Search Icon (Optional) -->
   <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
-
-  <!-- Clear Button -->
   <button 
     *ngIf="searchQuery"
     class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
@@ -51,6 +48,7 @@
         <th>Location</th>
         <!-- <th>Alternate Contact No.</th> -->
         <th>Technology</th>
+        <th>Experience</th>
         <th>Skills</th>
         <th>Created At</th>
         <th>Action</th>
@@ -69,6 +67,7 @@
         <td>{{ c.location || 'NA' }}</td>
         <!-- <td>{{ c.alt_contact_no || 'NA' }}</td> -->
         <td>{{ c.technology || 'NA' }}</td>
+        <td>{{ c.experience || 'NA' }}</td>
         <td>
           <span *ngIf="c.skills?.length > 0; else noSkill">
             {{ c.skills.join(', ') }}
@@ -159,6 +158,10 @@
           <div class="col-md-6">
             <label>Contact No:</label>
             <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
+          </div>
+          <div class="col-md-6">
+            <label>Experience:</label>
+            <input [(ngModel)]="selectedCandidate.experience" class="form-control" />
           </div>
           <div class="col-md-6">
             <label>Visa:</label>
