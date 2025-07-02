@@ -219,7 +219,8 @@ export class CandidateListComponent implements OnInit {
   const payload: any = {
     mailSubject: this.mailSubject,
     emails: selectedEmails,
-    mailBody: this.mailBody
+   mailBody: this.mailBody.replace(/\n/g, '<br>')
+    
   };
 
   if (isScheduled) {
@@ -260,13 +261,6 @@ export class CandidateListComponent implements OnInit {
     }
   });
 }
-
-
-
-
-
-
-
 
   resetMailModal() {
     this.mailSubject = '';

@@ -11,8 +11,8 @@ export class EmailService {
 
   constructor(private http: HttpClient) { }
   
-  // url: string = 'http://142.93.212.196:3000/';
-  url: string = 'https://83a6-203-92-37-218.ngrok-free.app/';
+  url: string = 'http://142.93.212.196:3000/';
+  // url: string = 'https://83a6-203-92-37-218.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'

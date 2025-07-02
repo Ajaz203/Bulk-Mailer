@@ -301,7 +301,7 @@ getData() {
     const payload: any = {
       mailSubject: this.mailSubject,
       emails: selectedEmails,
-      mailBody: this.mailBody
+      mailBody: this.mailBody.replace(/\n/g, '<br>')
     };
 
     if (isScheduled) {
