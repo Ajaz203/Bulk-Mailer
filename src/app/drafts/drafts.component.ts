@@ -156,6 +156,7 @@ getDraftData() {
   const isScheduled = this.scheduleDate && this.scheduleTime;
 
   const payload: any = {
+    id :this.editingDraftId,
     mailSubject: this.mailSubject,
     emails: selectedEmails,
     mailBody: this.mailBody,
