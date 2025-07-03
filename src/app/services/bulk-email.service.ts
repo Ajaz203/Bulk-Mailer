@@ -151,6 +151,25 @@ venorUpload(payload: any[]) {
   updatePassword(data: any) {
     return this.postWithUserId('reset-password', data);
   }
+uploadProfileImage(data: FormData) {
+  return this.http.post(this.url + 'updateProfile', data, {
+    headers: new HttpHeaders({
+      'ngrok-skip-browser-warning': 'true'
+  
+    })
+  });
+}
+
+getUserProfileUpdate(userId: number) {
+  return this.http.post(this.url + 'getUserProfile', { userId }, {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': 'true'
+    })
+  });
+}
+
+
   getSentMails(data: any) {
     return this.postWithUserId('getAllMails', data);
   }

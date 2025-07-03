@@ -76,7 +76,7 @@ applyFilters() {
 
 resetFilters() {
   this.filter = { experience: '', visa: '', skills: '' };
-  this.dataArr = [...this.originalData]; // Reset to full list
+  this.dataArr = [...this.originalData]; 
 }
 
  getData() {
@@ -84,8 +84,8 @@ resetFilters() {
   this.service.getCandidateData({}).subscribe({
     next: (resp: any) => {
       console.log("Candidate Response:", resp);
-      this.originalData = resp; // Save full data
-      this.dataArr = [...this.originalData]; // Initial render
+      this.originalData = resp; 
+      this.dataArr = [...this.originalData]; 
       this.isLoading = false;
     },
     error: (err) => {
@@ -96,7 +96,6 @@ resetFilters() {
 }
 
 
-  // Toggle single selection
   toggleSelection(candidate: any) {
     if (this.selectedCandidates.has(candidate)) {
       this.selectedCandidates.delete(candidate);
@@ -105,7 +104,7 @@ resetFilters() {
     }
   }
 
-  // Toggle all selection
+  
   toggleSelectAll(event: any) {
     if (event.target.checked) {
       this.dataArr.forEach((candidate: any) => this.selectedCandidates.add(candidate));
@@ -114,7 +113,6 @@ resetFilters() {
     }
   }
 
-  // Check if all selected
   isAllSelected() {
     return this.dataArr.length > 0 && this.selectedCandidates.size === this.dataArr.length;
   }
@@ -126,8 +124,6 @@ resetFilters() {
 
   editCandidate(candidate: any) {
     this.selectedCandidate = { ...candidate };
-
-    // Convert skills array → string for input
     this.selectedCandidate.skillsString = Array.isArray(candidate.skills)
       ? candidate.skills.join(', ')
       : (candidate.skills || '');
@@ -361,7 +357,7 @@ resetFilters() {
 
 
   getDraftData() {
-    const targetType = 'candidate'; // Or 'vendor'
+    const targetType = 'candidate';
     this.service.getDrafts(targetType).subscribe({
       next: (res) => {
         this.draftList = res;

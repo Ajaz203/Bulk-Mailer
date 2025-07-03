@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
+import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+declare var bootstrap: any;
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
@@ -21,8 +23,140 @@ export class HeaderComponent implements OnInit {
   userId: string = '';
   userEmail: string = '';
   openDropdownVendor = false;
+  profileImage: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
 
   constructor(private router: Router, private service: EmailService) { }
+
+ ngOnInit(): void {
+  const currentUrl = this.router.url;
+
+  if (currentUrl.includes('vendorbulkupload')) {
+    this.segment = 'vendor';
+  } else if (currentUrl.includes('cat-table')) {
+    this.segment = 'viewData';
+  }
+
+  if (this.isBrowser()) {
+    this.userId = localStorage.getItem('userId') || '0';
+    this.userName = localStorage.getItem('name') || 'User';
+    this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
+    this.profileImage = localStorage.getItem('profileImage') || 'assets/img_avatar.png';
+  }
+
+  this.loadUserProfile(); 
+}
+
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;``
+    if (input?.files?.length) {
+      this.selectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.profileImage = e.target?.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  uploadToServer(file: File): void {
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+    formData.append('userId', this.userId);
+
+    this.service.uploadProfileImage(formData).subscribe({
+      next: (res: any) => {
+        console.log('Uploaded successfully:', res);
+      },
+      error: (err: any) => {
+        console.error('Upload failed:', err);
+      }
+    });
+  }
+  openEditProfileModal(): void {
+    const modalEl = document.getElementById('editProfileModal');
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  }
+
+  saveProfile(): void {
+    const formData = new FormData();
+    formData.append('userId', this.userId.toString());
+    formData.append('userName', this.userName.trim());
+
+    if (this.selectedFile instanceof File) {
+      formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.service.uploadProfileImage(formData).subscribe({
+      next: (res) => {
+        localStorage.setItem('name', this.userName);
+        Swal.fire({
+          icon: 'success',
+          title: 'Profile Updated',
+          text: 'Your profile has been updated successfully'
+        });
+
+        const modalEl = document.getElementById('editProfileModal');
+        if (modalEl) {
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          modal?.hide();
+        }
+      },
+      error: (err) => {
+        console.error('Profile update failed:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: 'Something went wrong while updating profile.'
+        });
+      }
+    });
+  }
+loadUserProfile(): void {
+  const userId = Number(this.userId);
+  if (!userId) {
+    console.warn('Invalid userId');
+    return;
+  }
+
+  this.service.getUserProfileUpdate(userId).subscribe({
+    next: (res: any) => {
+      console.log('Profile response:', res);
+
+      const user = res;
+
+      this.userName = user.name?.trim() || 'User';
+
+      let profilePath = user.profilePicture || '';
+      profilePath = profilePath.replace(/\\/g, '/'); 
+      const encodedPath = encodeURI(profilePath);
+
+      this.profileImage = encodedPath
+        ? `${this.service.url}${encodedPath}`
+        : 'assets/img_avatar.png';
+
+      localStorage.setItem('name', this.userName);
+      localStorage.setItem('profileImage', this.profileImage);
+
+      console.log('Final profile image URL:', this.profileImage);
+    },
+    error: (err) => {
+      console.error('Error loading profile:', err);
+      this.profileImage = 'assets/img_avatar.png';
+    }
+  });
+}
+
+setDefaultProfile(): void {
+  this.userName = 'User';
+  this.profileImage = 'assets/img_avatar.png';
+  localStorage.setItem('name', this.userName);
+  localStorage.setItem('profileImage', this.profileImage);
+}
 
   goToVendorList() {
     this.router.navigate(['/vendor-list']);
@@ -44,47 +178,30 @@ export class HeaderComponent implements OnInit {
     console.log('Send Mail clicked');
   }
 
-isBrowser() {
-  return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
-}
-
-logout() {
-  if (this.isBrowser()) {
-    localStorage.clear();
+  isBrowser() {
+    return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'Do you want to logout?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Yes, Logout'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.router.navigate(['/login']);
+
+  logout() {
+    if (this.isBrowser()) {
+      localStorage.clear();
     }
-  });
-}
-
- ngOnInit(): void {
-  const currentUrl = this.router.url;
-  console.log('Current URL:', currentUrl);
-
-  if (currentUrl.includes('vendorbulkupload')) {
-    this.segment = 'vendor';
-  } else if (currentUrl.includes('cat-table')) {
-    this.segment = 'viewData';
-  } else {
-    this.segment = '';
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Logout'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
-  if (this.isBrowser()) {
-    this.userName = localStorage.getItem('name') || 'User';
-    this.userId = localStorage.getItem('userId') || 'Unknown';
-    this.userEmail = localStorage.getItem('email') || 'Unknown';
-  }
-}
+
 
   dropdown() {
     this.segment = '';
