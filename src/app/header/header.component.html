@@ -84,16 +84,23 @@
     </div>
 
     <div class="text-end">
-      <span class="badge bg-gradient-primary text-light fw-medium">Secure Mail Platform</span>
+      <span class="badge bg-gradient-success text-dark fw-medium">Secure Mail Platform</span>
     </div>
   </div>
 
 
 
   <ul class="nav nav-tabs">
+    <li class="nav-item">
+    
+     <button class="nav-link" type="button" [class.active]="segment === 'dashboard'"
+        (click)="segment = 'dashboard'; goToDashboard()">
+        Dashboard
+      </button>
+    </li>
     <li class="nav-item dropdown" (mouseenter)="openDropdown = true" (mouseleave)="openDropdown = false"
       [class.show]="openDropdown">
-      <a class="nav-link dropdown-toggle" routerLink="/" [class.active]="segment === ''" (click)="segment = ''">
+      <a class="nav-link dropdown-toggle" routerLink="/candidate-upload" [class.active]="segment === ''" (click)="segment = ''">
         Candidate
       </a>
       <ul class="dropdown-menu" [class.show]="openDropdown">

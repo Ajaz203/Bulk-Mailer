@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule,NavigationEnd  } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -28,28 +28,32 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router, private service: EmailService) { }
 
- ngOnInit(): void {
-  const currentUrl = this.router.url;
+  ngOnInit(): void {
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      const url = event.urlAfterRedirects;
+      if (url.includes('/dashboard')) this.segment = 'dashboard';
+      else if (url.includes('/vendorbulkupload') || url.includes('/vendor-list')) this.segment = 'vendor';
+      else if (url.includes('/cat-table')) this.segment = 'viewData';
+      else if (url.includes('/all-mails') || url.includes('/drafts')) this.segment = 'mail';
+      else if (url === '/' || url.includes('/candidate-list')) this.segment = '';
+      else this.segment = '';
+    }
+  });
 
-  if (currentUrl.includes('vendorbulkupload')) {
-    this.segment = 'vendor';
-  } else if (currentUrl.includes('cat-table')) {
-    this.segment = 'viewData';
+    if (this.isBrowser()) {
+      this.userId = localStorage.getItem('userId') || '0';
+      this.userName = localStorage.getItem('name') || 'User';
+      this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
+      this.profileImage = localStorage.getItem('profileImage') || 'assets/img_avatar.png';
+    }
+
+    this.loadUserProfile();
   }
-
-  if (this.isBrowser()) {
-    this.userId = localStorage.getItem('userId') || '0';
-    this.userName = localStorage.getItem('name') || 'User';
-    this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
-    this.profileImage = localStorage.getItem('profileImage') || 'assets/img_avatar.png';
-  }
-
-  this.loadUserProfile(); 
-}
 
 
   onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;``
+    const input = event.target as HTMLInputElement; ``
     if (input?.files?.length) {
       this.selectedFile = input.files[0];
       const reader = new FileReader();
@@ -116,51 +120,48 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
-loadUserProfile(): void {
-  const userId = Number(this.userId);
-  if (!userId) {
-    console.warn('Invalid userId');
-    return;
-  }
-
-  this.service.getUserProfileUpdate(userId).subscribe({
-    next: (res: any) => {
-      console.log('Profile response:', res);
-
-      const user = res;
-
-      this.userName = user.name?.trim() || 'User';
-
-      let profilePath = user.profilePicture || '';
-      profilePath = profilePath.replace(/\\/g, '/'); 
-      const encodedPath = encodeURI(profilePath);
-
-      this.profileImage = encodedPath
-        ? `${this.service.url}${encodedPath}`
-        : 'assets/img_avatar.png';
-
-      localStorage.setItem('name', this.userName);
-      localStorage.setItem('profileImage', this.profileImage);
-
-      console.log('Final profile image URL:', this.profileImage);
-    },
-    error: (err) => {
-      console.error('Error loading profile:', err);
-      this.profileImage = 'assets/img_avatar.png';
+  loadUserProfile(): void {
+    const userId = Number(this.userId);
+    if (!userId) {
+      console.warn('Invalid userId');
+      return;
     }
-  });
-}
 
-setDefaultProfile(): void {
-  this.userName = 'User';
-  this.profileImage = 'assets/img_avatar.png';
-  localStorage.setItem('name', this.userName);
-  localStorage.setItem('profileImage', this.profileImage);
-}
+    this.service.getUserProfileUpdate(userId).subscribe({
+      next: (res: any) => {
+        console.log('Profile response:', res);
 
-  goToVendorList() {
-    this.router.navigate(['/vendor-list']);
+        const user = res;
+
+        this.userName = user.name?.trim() || 'User';
+
+        let profilePath = user.profilePicture || '';
+        profilePath = profilePath.replace(/\\/g, '/');
+        const encodedPath = encodeURI(profilePath);
+
+        this.profileImage = encodedPath
+          ? `${this.service.url}${encodedPath}`
+          : 'assets/img_avatar.png';
+
+        localStorage.setItem('name', this.userName);
+        localStorage.setItem('profileImage', this.profileImage);
+
+        console.log('Final profile image URL:', this.profileImage);
+      },
+      error: (err) => {
+        console.error('Error loading profile:', err);
+        this.profileImage = 'assets/img_avatar.png';
+      }
+    });
   }
+
+  setDefaultProfile(): void {
+    this.userName = 'User';
+    this.profileImage = 'assets/img_avatar.png';
+    localStorage.setItem('name', this.userName);
+    localStorage.setItem('profileImage', this.profileImage);
+  }
+
   getDraftData() {
     const targetType = 'candidate';
     this.service.getDrafts(targetType).subscribe({
@@ -177,7 +178,7 @@ setDefaultProfile(): void {
   sendMail() {
     console.log('Send Mail clicked');
   }
-
+  
   isBrowser() {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
@@ -201,13 +202,19 @@ setDefaultProfile(): void {
     });
   }
 
-
+  
+ goToDashboard(): void {
+  this.router.navigate(['/dashboard']);
+}
 
   dropdown() {
     this.segment = '';
     this.router.navigate(['/candidate-list']);
   }
-
+  
+  goToVendorList() {
+    this.router.navigate(['/vendor-list']);
+  }
   gotToCanidateList() {
     this.segment = '';
     this.router.navigate(['/candidate-list']);

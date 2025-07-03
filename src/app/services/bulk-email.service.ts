@@ -10,30 +10,30 @@ export class EmailService {
   refreshTable$ = this.refreshTableSubject.asObservable();
 
   constructor(private http: HttpClient) { }
-  
-  url: string = 'http://142.93.212.196:3000/';
-  // url: string = 'https://0dd1-203-92-37-218.ngrok-free.app/';
+
+  // url: string = 'http://142.93.212.196:3000/';
+  url: string = 'https://0dd1-203-92-37-218.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
   };
 
-getUserId(): number {
-  if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-    const id = localStorage.getItem('userId');
-    return id ? Number(id) : 0;
+  getUserId(): number {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const id = localStorage.getItem('userId');
+      return id ? Number(id) : 0;
+    }
+    console.warn('Not running in browser, userId is set to 0');
+    return 0;
   }
-  console.warn('Not running in browser, userId is set to 0');
-  return 0;
-}
 
 
 
-postWithUserId(endpoint: string, data: any) {
-  const userId = this.getUserId();
-  const payload = { ...data, userId };
-  return this.http.post(this.url + endpoint, payload, { headers: this.header });
-}
+  postWithUserId(endpoint: string, data: any) {
+    const userId = this.getUserId();
+    const payload = { ...data, userId };
+    return this.http.post(this.url + endpoint, payload, { headers: this.header });
+  }
 
 
 
@@ -49,7 +49,7 @@ postWithUserId(endpoint: string, data: any) {
     this.refreshTableSubject.next();
   }
 
-  
+
   getCategory() {
     return this.http.get(this.url + 'category', { headers: this.header });
   }
@@ -78,14 +78,14 @@ postWithUserId(endpoint: string, data: any) {
   // bulkUpload(data: any) {
   //   return this.postWithUserId('candidateMassUpload', data);
   // }
-bulkUpload(payload: any[]) {
-  return this.http.post(this.url + 'candidateMassUpload', payload, {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'ngrok-skip-browser-warning': 'true'
-    })
-  });
-}
+  bulkUpload(payload: any[]) {
+    return this.http.post(this.url + 'candidateMassUpload', payload, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      })
+    });
+  }
   updateCandidate(id: string, data: any) {
     return this.postWithUserId('candidateUpdate', { id, ...data });
   }
@@ -103,22 +103,22 @@ bulkUpload(payload: any[]) {
   }
 
 
-venorUpload(payload: any[]) {
-  return this.http.post(this.url + 'vendorMassUpload', payload, {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'ngrok-skip-browser-warning': 'true'
-    })
-  });
-}
+  venorUpload(payload: any[]) {
+    return this.http.post(this.url + 'vendorMassUpload', payload, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      })
+    });
+  }
 
 
 
 
- getVendors(userId: string) {
-  const payload = { userId };
-  return this.http.post(this.url + 'getVendors', payload, { headers: this.header });
-}
+  getVendors(userId: string) {
+    const payload = { userId };
+    return this.http.post(this.url + 'getVendors', payload, { headers: this.header });
+  }
 
   vendorUpdate(id: string, data: any) {
     return this.postWithUserId('vendorUpdate', { id, ...data });
@@ -151,38 +151,46 @@ venorUpload(payload: any[]) {
   updatePassword(data: any) {
     return this.postWithUserId('reset-password', data);
   }
-uploadProfileImage(data: FormData) {
-  return this.http.post(this.url + 'updateProfile', data, {
-    headers: new HttpHeaders({
-      'ngrok-skip-browser-warning': 'true'
-  
-    })
-  });
-}
-
-getUserProfileUpdate(userId: number) {
-  return this.http.post(this.url + 'getUserProfile', { userId }, {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'ngrok-skip-browser-warning': 'true'
-    })
-  });
-}
-
 
   getSentMails(data: any) {
     return this.postWithUserId('getAllMails', data);
   }
 
- 
+
   deleteDraft(data: any) {
     return this.postWithUserId('deleteDraft', data);
   }
 
   getDrafts(targetType: string) {
-  const userId = this.getUserId();
-  const payload = { targetType, userId };
-  return this.http.post<any[]>(this.url + 'getDrafts', payload, { headers: this.header });
-}
+    const userId = this.getUserId();
+    const payload = { targetType, userId };
+    return this.http.post<any[]>(this.url + 'getDrafts', payload, { headers: this.header });
+  }
+  uploadProfileImage(data: FormData) {
+    return this.http.post(this.url + 'updateProfile', data, {
+      headers: new HttpHeaders({
+        'ngrok-skip-browser-warning': 'true'
 
+      })
+    });
+  }
+
+  getUserProfileUpdate(userId: number) {
+    return this.http.post(this.url + 'getUserProfile', { userId }, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      })
+    });
+  }
+
+
+  getDashboardStats(userId: string) {
+    return this.http.post(this.url + 'dashboard-summary', { userId }, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      })
+    });
+  }
 }

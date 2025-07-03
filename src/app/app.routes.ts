@@ -9,18 +9,20 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { DraftsComponent } from './drafts/drafts.component';
 import { AllMailsComponent } from './all-mails/all-mails.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 export const routes: Routes = [
-    { path:'login',component:LoginComponent},
-    { path:'sign-up',component:CreateUserComponent},
-    { path:'forgot-password',component:ForgotPasswordComponent},
-    {path:'',component:UploadDashboardComponent},
+    { path: 'login', component: LoginComponent },
+    { path: 'sign-up', component: CreateUserComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'candidate-upload', component: UploadDashboardComponent },
     { path: 'cat-table', component: CatTableComponent },
     { path: 'candidate-list', component: CandidateListComponent },
     { path: 'vendor-list', component: VendorCandidateListComponent },
-    {path:"vendorbulkupload",component:VendorBulkUploadComponent},
-    {path:'drafts',component:DraftsComponent},
-    {path:'all-mails',component:AllMailsComponent},
+    { path: "vendorbulkupload", component: VendorBulkUploadComponent },
+    { path: 'drafts', component: DraftsComponent },
+    { path: 'all-mails', component: AllMailsComponent },
+    { path: 'dashboard', component: DashboardComponent },
 
 ];

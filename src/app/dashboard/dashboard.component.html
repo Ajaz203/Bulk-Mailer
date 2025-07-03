@@ -1,0 +1,61 @@
+<div class="container py-4">
+  <h2 class="mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+
+  <div class="row g-4">
+
+    <div class="col-md-4">
+      <div class="card text-bg-primary shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Sent Mails</h5>
+          <p class="card-text display-6 fw-bold">{{ sentCount }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-bg-warning shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Drafts</h5>
+          <p class="card-text display-6 fw-bold">{{ draftCount }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-bg-success shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Vendors Uploaded</h5>
+          <p class="card-text display-6 fw-bold">{{ vendorCount }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-12">
+      <h4 class="mb-3">Recent Sent Mails</h4>
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Subject</th>
+            <th>Recipient</th>
+            <th>Date Sent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mail of recentMails; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ mail.subject }}</td>
+            <td>{{ mail.to }}</td>
+            <td>{{ mail.date | date: 'short' }}</td>
+          </tr>
+          <tr *ngIf="recentMails.length === 0">
+            <td colspan="4" class="text-center">No data available.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -63,15 +63,13 @@ export class LoginComponent {
       .subscribe({
         next: (response: any) => {
           this.triggerToast('success', response.message || 'Login successful!');
-
-          // ✅ Store userId, token, and name in localStorage
           localStorage.setItem('userId', response.user.userId.toString());
           localStorage.setItem('token', response.token);
           localStorage.setItem('name', response.user.name);
           localStorage.setItem('email', response.user.email);
 
           setTimeout(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/dashboard']);
           }, 1000);
         },
         error: (error) => {
