@@ -59,11 +59,7 @@ header {
   font-size: small;
 
 }
-   * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+   
 /* bof:header bar */
 .navbar-custom {
   background-color: #13333F;

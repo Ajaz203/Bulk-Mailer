@@ -48,7 +48,8 @@
           <td>{{ i + 1 }}</td>
           <td>{{ mail.email }}</td>
           <td>{{ mail.mailSubject }}</td>
-          <td>{{ mail.sentAt | date: 'medium' }}</td>
+          <td>{{ mail.sentAt | date: 'yyyy-MM-dd , hh:mm:ss a' }}</td>
+
           <td>
             <span class="badge" [ngClass]="{
                   'bg-primary': mail.targetType === 'candidate',

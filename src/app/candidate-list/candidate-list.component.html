@@ -102,7 +102,7 @@
           </span>
           <ng-template #noSkill>NA</ng-template>
         </td>
-        <td>{{ c.createdAt | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ c.createdAt | date: 'yyyy-MM-dd' }}</td>
         <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
 
           <i class="bi bi-pencil-square text-dark fs-5" (click)="editCandidate(c)" title="Edit">

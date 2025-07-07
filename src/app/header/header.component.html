@@ -7,8 +7,7 @@
     <div class="d-flex align-items-center ms-auto gap-4 position-relative">
       <div class="d-flex align-items-center gap-3 dropdown">
         <div class="avatar-wrapper">
-          <img [src]="profileImage || ''" (error)="profileImage = ''"
-            alt="Profile" class="avatar-img" />
+          <img [src]="profileImage || ''" (error)="profileImage = ''" alt="Profile" class="avatar-img" />
 
         </div>
 
@@ -72,91 +71,95 @@
   </div>
 </div>
 
-<div class="page-container mt-2">
+<div class="page-container">
 
-  <div class="app-header d-flex justify-content-between align-items-center p-3 pb-2 px-0 bg-white border-bottom rounded-bottom-0">
-    <div class="d-flex align-items-center gap-2">
+ <div
+  class="app-header d-flex justify-content-between align-items-center p-3 pb-2 px-0 bg-white border-bottom rounded-bottom-0">
+  <div class="d-flex flex-column">
+    <!-- Title -->
+    <h4 class="mb-1 fw-bold" style="color: #5ab745;">
+      SwiftSend <small class="text-muted fw-normal">by McKinsol</small>
+    </h4>
 
-      <h4 class="mb-0 fw-bold" style="color: #5ab745;">
-        SwiftSend <small class="text-muted fw-normal">by McKinsol</small>
-
-      </h4>
-    </div>
-
-    <div class="text-end">
+    <!-- Badge with info icon (below the title) -->
+    <div class="d-inline-flex align-items-center">
+      <i class="bi bi-info-circle-fill text-muted" title="Your emails are encrypted and securely delivered."></i>
       <span class="badge bg-gradient-success text-dark fw-medium">Secure Mail Platform</span>
     </div>
   </div>
-
-
-<div class="container py-2" style="max-width: 1200px;">
-  <ul class="nav nav-tabs border-0 pt-3">
-    <li class="nav-item">
-    
-     <button class="nav-link" type="button" [class.active]="segment === 'dashboard'"
-        (click)="segment = 'dashboard'; goToDashboard()">
-        Dashboard
-      </button>
-    </li>
-    <li class="nav-item dropdown" (mouseenter)="openDropdown = true" (mouseleave)="openDropdown = false"
-      [class.show]="openDropdown">
-      <a class="nav-link dropdown-toggle" routerLink="/candidate-upload" [class.active]="segment === ''" (click)="segment = ''">
-        Candidate
-      </a>
-      <ul class="dropdown-menu" [class.show]="openDropdown">
-        <li>
-          <a class="dropdown-item" (click)="gotToCanidateList(); segment = ''">
-            Candidate List
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item dropdown" (mouseenter)="openDropdownVendor = true" (mouseleave)="openDropdownVendor = false"
-      [class.show]="openDropdownVendor">
-
-      <a class="nav-link dropdown-toggle" role="button" [class.active]="segment === 'vendor'"
-        (click)="segment = 'vendor'; goTovendorbulkUpload()">
-        Vendor
-      </a>
-
-      <ul class="dropdown-menu" [class.show]="openDropdownVendor">
-        <li>
-          <a class="dropdown-item" (click)="goToVendorList(); segment = 'vendor'">
-            Vendor List
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <button class="nav-link" type="button" [class.active]="segment === 'viewData'"
-        (click)="segment = 'viewData'; goToAbout()">
-        View Category
-      </button>
-    </li>
-
-    <li class="nav-item dropdown" (mouseenter)="openMailDropdown = true" (mouseleave)="openMailDropdown = false"
-      [class.show]="openMailDropdown">
-      <a class="nav-link dropdown-toggle" href="javascript:void(0)" [class.active]="segment === 'mail'"
-        (click)="segment = 'mail'">
-        Mail
-      </a>
-      <ul class="dropdown-menu" [class.show]="openMailDropdown">
-        <li>
-          <a class="dropdown-item" routerLink="/all-mails" (click)="sendMail(); segment = 'mail'">
-            All Mails
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" routerLink="/drafts" (click)="segment = 'mail'; ">
-            Drafts
-          </a>
-        </li>
-
-      </ul>
-    </li>
-
-  </ul>
-  </div>
 </div>
+
+
+
+    <div class="container py-2" style="max-width: 1200px;">
+      <ul class="nav nav-tabs border-0 pt-3">
+        <li class="nav-item">
+
+          <button class="nav-link" type="button" [class.active]="segment === 'dashboard'"
+            (click)="segment = 'dashboard'; goToDashboard()">
+            Dashboard
+          </button>
+        </li>
+        <li class="nav-item dropdown" (mouseenter)="openDropdown = true" (mouseleave)="openDropdown = false"
+          [class.show]="openDropdown">
+          <a class="nav-link dropdown-toggle" routerLink="/candidate-upload" [class.active]="segment === ''"
+            (click)="segment = ''">
+            Candidate
+          </a>
+          <ul class="dropdown-menu" [class.show]="openDropdown">
+            <li>
+              <a class="dropdown-item" (click)="gotToCanidateList(); segment = ''">
+                Candidate List
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown" (mouseenter)="openDropdownVendor = true" (mouseleave)="openDropdownVendor = false"
+          [class.show]="openDropdownVendor">
+
+          <a class="nav-link dropdown-toggle" role="button" [class.active]="segment === 'vendor'"
+            (click)="segment = 'vendor'; goTovendorbulkUpload()">
+            Vendor
+          </a>
+
+          <ul class="dropdown-menu" [class.show]="openDropdownVendor">
+            <li>
+              <a class="dropdown-item" (click)="goToVendorList(); segment = 'vendor'">
+                Vendor List
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <button class="nav-link" type="button" [class.active]="segment === 'viewData'"
+            (click)="segment = 'viewData'; goToAbout()">
+            View Category
+          </button>
+        </li>
+
+        <li class="nav-item dropdown" (mouseenter)="openMailDropdown = true" (mouseleave)="openMailDropdown = false"
+          [class.show]="openMailDropdown">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0)" [class.active]="segment === 'mail'"
+            (click)="segment = 'mail'">
+            Mail
+          </a>
+          <ul class="dropdown-menu" [class.show]="openMailDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/all-mails" (click)="sendMail(); segment = 'mail'">
+                All Mails
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/drafts" (click)="segment = 'mail'; ">
+                Drafts
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
