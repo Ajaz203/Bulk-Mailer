@@ -43,6 +43,7 @@
 .custom-table thead tr:first-child th:first-child {
   border-top-left-radius: 12px;
 }
+
 .custom-table thead tr:first-child th:last-child {
   border-top-right-radius: 12px;
 }
@@ -89,6 +90,7 @@ td i.text-success:hover {
 
 /* Responsive Fix */
 @media (max-width: 768px) {
+
   .custom-table th,
   .custom-table td {
     font-size: 13px;
@@ -99,6 +101,7 @@ td i.text-success:hover {
     padding: 16px;
   }
 }
+
 .loader-overlay {
   position: fixed;
   top: 0;
@@ -106,7 +109,8 @@ td i.text-success:hover {
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.7);
-  z-index: 9999; /* 🔥 Very high */
+  z-index: 9999;
+  /* 🔥 Very high */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,16 +155,18 @@ td i.text-success:hover {
   transform: translate(0, -50%);
   width: 20px;
   height: 20px;
-  background-color: #43a047; /* Green */
+  background-color: #43a047;
+  /* Green */
   border-radius: 50%;
   transition: left 0.3s;
 }
 
-.switch-container input:checked + label .circle {
+.switch-container input:checked+label .circle {
   left: 50px;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   vertical-align: middle;
 }
 
@@ -171,6 +177,7 @@ td i.text-success:hover {
 input[type="text"]::placeholder {
   color: #999;
 }
+
 .btn-refresh {
   background-color: white;
   border: 1px solid #0d6efd;
@@ -179,9 +186,10 @@ input[type="text"]::placeholder {
 }
 
 .btn-refresh:hover {
-  background-color: #0d6efd;  
+  background-color: #0d6efd;
   color: white;
 }
+
 /* Apply this in your global styles.css or component styles */
 input.form-control:focus {
   box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.3);
@@ -199,4 +207,21 @@ button .bi-x-circle-fill {
 button:hover .bi-x-circle-fill {
   color: #000;
   cursor: pointer;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.badge-success {
+  background-color: #28a745;
+}
+
+.table th {
+  font-weight: 500;
+  font-size: 1rem;
 }

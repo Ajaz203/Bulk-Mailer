@@ -1,126 +1,119 @@
 <div class="container" style="max-width: 1200px;">
-<div class="list-wrapper">
-<div class="d-flex align-items-center justify-content-between flex-wrap w-100 mb-3">
-  <div class="d-flex align-items-center">
-    <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
+  <div class="list-wrapper">
+    <div class="d-flex align-items-center justify-content-between flex-wrap w-100 mb-3">
+      <div class="d-flex align-items-center">
+        <strong>Candidate Bulk List - ({{ dataArr.length }})</strong>
+      </div>
+
+      <div class="action-buttons d-flex flex-wrap gap-2">
+        <button class="btn btn-outline-success" (click)="openFilterSection()">
+          <i class="bi bi-funnel"></i> Filter
+        </button>
+
+        <button class="btn btn-outline-secondary" (click)="handleSelectCandidateSend()">
+          <i class="bi bi-send"></i> Select Candidate Send
+        </button>
+
+        <button class="btn btn-success" (click)="handleAllCandidateSend()">
+          <i class="bi bi-send"></i> All Candidate Send
+        </button>
+      </div>
+    </div>
+    <!-- Filter Section -->
+    <div *ngIf="showFilterSection" class="card p-3 mb-3 border shadow-sm">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Experience</label>
+          <input type="number" [(ngModel)]="filter.experience" name="exp" class="form-control" placeholder="e.g. 2" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Visa</label>
+          <input type="text" [(ngModel)]="filter.visa" name="visa" class="form-control" placeholder="e.g. H1B" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Skills</label>
+          <input type="text" [(ngModel)]="filter.skills" name="skills" class="form-control"
+            placeholder="e.g. Angular" />
+        </div>
+        <div class="col-md-3 d-flex align-items-end justify-content-end gap-2">
+          <button class="btn btn-outline-secondary" (click)="resetFilters()">Reset</button>
+          <button class="btn btn-outline-success" (click)="applyFilters()">Apply </button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="position-relative search-wrapper mb-2">
+      <input type="text" class="form-control form-control-sm ps-4 pe-5 rounded-pill" placeholder="Search candidates..."
+        [(ngModel)]="searchQuery" style="height: 40px;" />
+
+      <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+      <button *ngIf="searchQuery" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
+        (click)="searchQuery = ''" style="background: transparent;">
+        <i class="bi bi-x-circle-fill text-muted"></i>
+      </button>
+    </div>
+
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
+          </th>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Contact No.</th>
+          <th>Visa</th>
+          <th>Location</th>
+          <!-- <th>Alternate Contact No.</th> -->
+          <th>Technology</th>
+          <th>Experience</th>
+          <th>Skills</th>
+          <th>Created At</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of filteredCandidates; let i = index">
+          <td>
+            <input type="checkbox" [checked]="selectedCandidates.has(c)" (change)="toggleSelection(c)" />
+          </td>
+          <td>{{ i + 1 }}</td>
+          <td>{{ c.name }}</td>
+          <td>{{ c.email}}</td>
+          <td>{{ c.contact_no || 'NA' }}</td>
+          <td>{{ c.visa || 'NA' }}</td>
+          <td>{{ c.location || 'NA' }}</td>
+          <!-- <td>{{ c.alt_contact_no || 'NA' }}</td> -->
+          <td>{{ c.technology || 'NA' }}</td>
+          <td>{{ c.experience || 'NA' }}</td>
+          <td>
+            <span *ngIf="c.skills?.length > 0; else noSkill">
+              {{ c.skills.join(', ') }}
+            </span>
+            <ng-template #noSkill>NA</ng-template>
+          </td>
+          <td>{{ c.createdAt | date: 'yyyy-MM-dd' }}</td>
+          <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
+
+            <i class="bi bi-pencil-square text-dark fs-5" (click)="editCandidate(c)" title="Edit">
+            </i>
+
+            <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(c.id)" title="Delete">
+            </i>
+          </td>
+        </tr>
+        <tr *ngIf="filteredCandidates.length === 0">
+          <td colspan="12" class="text-center text-muted py-4">
+            <i class="bi bi-person-x fs-4 me-2"></i> No Candidates Found
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
   </div>
-
-  <div class="action-buttons d-flex flex-wrap gap-2">
-    <button class="btn btn-outline-success" (click)="openFilterSection()">
-      <i class="bi bi-funnel"></i> Filter
-    </button>
-
-    <button class="btn btn-outline-secondary" (click)="handleSelectCandidateSend()">
-      <i class="bi bi-send"></i> Select Candidate Send
-    </button>
-
-    <button class="btn btn-success" (click)="handleAllCandidateSend()">
-      <i class="bi bi-send"></i> All Candidate Send
-    </button>
-  </div>
-</div>
-<!-- Filter Section -->
-<div *ngIf="showFilterSection" class="card p-3 mb-3 border shadow-sm">
-  <div class="row g-3">
-    <div class="col-md-3">
-      <label class="form-label">Experience</label>
-      <input type="number" [(ngModel)]="filter.experience" name="exp" class="form-control" placeholder="e.g. 2" />
-    </div>
-    <div class="col-md-3">
-      <label class="form-label">Visa</label>
-      <input type="text" [(ngModel)]="filter.visa" name="visa" class="form-control" placeholder="e.g. H1B" />
-    </div>
-    <div class="col-md-3">
-      <label class="form-label">Skills</label>
-      <input type="text" [(ngModel)]="filter.skills" name="skills" class="form-control" placeholder="e.g. Angular" />
-    </div>
-    <div class="col-md-3 d-flex align-items-end justify-content-end gap-2">
-      <button class="btn btn-outline-secondary" (click)="resetFilters()">Reset</button>
-         <button class="btn btn-outline-success" (click)="applyFilters()">Apply </button>
-
-    </div>
-  </div>
-</div>
-
-<div class="position-relative search-wrapper mb-2">
-  <input 
-    type="text" 
-    class="form-control form-control-sm ps-4 pe-5 rounded-pill" 
-    placeholder="Search candidates..." 
-    [(ngModel)]="searchQuery"
-    style="height: 40px;"
-  />
-
-  <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
-  <button 
-    *ngIf="searchQuery"
-    class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
-    (click)="searchQuery = ''"
-    style="background: transparent;">
-    <i class="bi bi-x-circle-fill text-muted"></i>
-  </button>
-</div>
-
-
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>
-          <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
-        </th>
-        <th>S.No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Contact No.</th>
-        <th>Visa</th>
-        <th>Location</th>
-        <!-- <th>Alternate Contact No.</th> -->
-        <th>Technology</th>
-        <th>Experience</th>
-        <th>Skills</th>
-        <th>Created At</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let c of filteredCandidates; let i = index">
-        <td>
-          <input type="checkbox" [checked]="selectedCandidates.has(c)" (change)="toggleSelection(c)" />
-        </td>
-        <td>{{ i + 1 }}</td>
-        <td>{{ c.name }}</td>
-        <td>{{ c.email}}</td>
-        <td>{{ c.contact_no || 'NA' }}</td>
-        <td>{{ c.visa || 'NA' }}</td>
-        <td>{{ c.location || 'NA' }}</td>
-        <!-- <td>{{ c.alt_contact_no || 'NA' }}</td> -->
-        <td>{{ c.technology || 'NA' }}</td>
-        <td>{{ c.experience || 'NA' }}</td>
-        <td>
-          <span *ngIf="c.skills?.length > 0; else noSkill">
-            {{ c.skills.join(', ') }}
-          </span>
-          <ng-template #noSkill>NA</ng-template>
-        </td>
-        <td>{{ c.createdAt | date: 'yyyy-MM-dd' }}</td>
-        <td style="cursor: pointer;" class="d-flex align-items-center justify-content-center gap-3">
-
-          <i class="bi bi-pencil-square text-dark fs-5" (click)="editCandidate(c)" title="Edit">
-          </i>
-
-          <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(c.id)" title="Delete">
-          </i>
-        </td>
-      </tr>
-         <tr *ngIf="filteredCandidates.length === 0">
-  <td colspan="12" class="text-center text-muted py-4">
-    <i class="bi bi-person-x fs-4 me-2"></i> No Candidates Found
-  </td>
-</tr>
-
-    </tbody>
-  </table>
-</div>
 </div>
 <!-- mail template model -->
 
@@ -136,7 +129,8 @@
           <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
           <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
             style="max-width: 160px;" />
-        <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width: 120px;" />
+          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
+            style="max-width: 120px;" />
 
         </div>
         <div class="mb-3">
@@ -237,5 +231,3 @@
     </div>
   </div>
 </div>
-
-

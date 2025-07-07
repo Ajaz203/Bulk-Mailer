@@ -117,9 +117,14 @@
     cursor: pointer;
   }
 
+  .table th{
+        font-weight: 500;
+        font-size: 1rem;
+  }
   .table th,
   .table td {
     text-align: center;
+    
   }
 
 
