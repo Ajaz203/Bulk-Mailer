@@ -76,11 +76,11 @@ export class DashboardComponent implements OnInit {
 
         const o = res.overview || {};
         this.overviewStats = [
-          { label: 'Sent', count: o.totalEmailsSent || 0 },
-          { label: 'Drafts', count: o.totalDrafts || 0 },
-          { label: 'Scheduled', count: o.totalScheduled || 0 },
-          { label: 'Candidates', count: o.totalCandidates || 0 },
-          { label: 'Vendors', count: o.totalVendors || 0 }
+          { label: 'Sent', count: o.totalEmailsSent || 0, icon: 'bi-send' },
+          { label: 'Drafts', count: o.totalDrafts || 0, icon: 'bi-file-earmark-text' },
+          { label: 'Scheduled', count: o.totalScheduled || 0, icon: 'bi-clock-history' },
+          { label: 'Candidates', count: o.totalCandidates || 0, icon: 'bi-person' },
+          { label: 'Vendors', count: o.totalVendors || 0, icon: 'bi-building' }
         ];
 
         const trend = res.emailTrend || [];
@@ -107,14 +107,23 @@ export class DashboardComponent implements OnInit {
           labels: this.emailTypeLabels,
           datasets: [{
             data: types.map((t: any) => t.count),
-            backgroundColor: this.generateColors(types.length),
-            hoverBackgroundColor: types.map(() => '#5ab745'), 
+            backgroundColor: types.map((t: any) => {
+              const type = t.type?.trim().toLowerCase();
+              if (type === 'immediate') return '#F0561D';
+              if (type === 'scheduled') return '#F8AE54';
+              return '#cccccc'; // fallback
+            }),
+            hoverBackgroundColor: types.map((t: any) => {
+              const type = t.type?.trim().toLowerCase();
+              if (type === 'immediate') return '#F0561D';
+              if (type === 'scheduled') return '#F8AE54';
+              return '#cccccc'; // fallback
+            }),
             hoverOffset: 8,
             borderWidth: 1,
             borderColor: '#fff'
           }]
         };
-
 
 
         this.userRoles = res.userRoles || [];
