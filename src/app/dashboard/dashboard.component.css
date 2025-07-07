@@ -1,0 +1,23 @@
+.text-primary {
+  color: #00457c !important;
+}
+
+.badge {
+  font-size: 0.95rem;
+  border-radius: 0.5rem;
+}
+
+.card-body h5 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+}

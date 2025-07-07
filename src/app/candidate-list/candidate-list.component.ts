@@ -83,7 +83,7 @@ resetFilters() {
   this.isLoading = true;
   this.service.getCandidateData({}).subscribe({
     next: (resp: any) => {
-      console.log("Candidate Response:", resp);
+      // console.log("Candidate Response:", resp);
       this.originalData = resp; 
       this.dataArr = [...this.originalData]; 
       this.isLoading = false;
@@ -361,7 +361,7 @@ resetFilters() {
     this.service.getDrafts(targetType).subscribe({
       next: (res) => {
         this.draftList = res;
-        console.log('Draft Data:', res);
+        // console.log('Draft Data:', res);
       },
       error: (err) => {
         console.error('Error fetching drafts:', err);

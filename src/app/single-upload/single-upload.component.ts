@@ -52,7 +52,7 @@ export class SingleUploadComponent implements OnInit {
 
   getData() {
     this.sevice.getCategory().subscribe((resp: any) => {
-      console.log("getCategory category data is", resp);
+      // console.log("getCategory category data is", resp);
       this.dropDownArr = resp;
     })
   }

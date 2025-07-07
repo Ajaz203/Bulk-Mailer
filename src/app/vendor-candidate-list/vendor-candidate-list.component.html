@@ -4,7 +4,8 @@
 
     <!-- Left: Heading -->
     <div class="d-flex align-items-center">
-      <strong>Vendor Bulk List - ({{ dataArr.length }})</strong>
+      <strong>Vendor Bulk List - ({{ dataArr?.length || 0 }})</strong>
+
     </div>
 
     <div class="action-buttons ">

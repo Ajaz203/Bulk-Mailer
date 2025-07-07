@@ -7,7 +7,7 @@
     <div class="d-flex align-items-center ms-auto gap-4 position-relative">
       <div class="d-flex align-items-center gap-3 dropdown">
         <div class="avatar-wrapper">
-          <img [src]="profileImage || 'assets/img_avatar.png'" (error)="profileImage = 'assets/img_avatar.png'"
+          <img [src]="profileImage || ''" (error)="profileImage = ''"
             alt="Profile" class="avatar-img" />
 
         </div>
@@ -52,7 +52,7 @@
       <div class="modal-body text-center p-4">
         <label for="modalProfileUpload" class="d-block mb-3 text-center" style="cursor: pointer;">
           <div class="avatar-wrapper mx-auto">
-            <img [src]="profileImage || 'assets/img_avatar.png'" class="avatar-img" alt="Profile" />
+            <img [src]="profileImage || ''" class="avatar-img" alt="Profile" />
           </div>
           <input type="file" id="modalProfileUpload" hidden accept="image/*" (change)="onFileSelected($event)" />
           <div class="small text-muted mt-2">Click to change</div>

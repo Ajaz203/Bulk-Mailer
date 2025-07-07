@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
       this.userId = localStorage.getItem('userId') || '0';
       this.userName = localStorage.getItem('name') || 'User';
       this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
-      this.profileImage = localStorage.getItem('profileImage') || 'assets/img_avatar.png';
+      this.profileImage = localStorage.getItem('profileImage') || '';
     }
 
     this.loadUserProfile();
@@ -129,7 +129,7 @@ export class HeaderComponent implements OnInit {
 
     this.service.getUserProfileUpdate(userId).subscribe({
       next: (res: any) => {
-        console.log('Profile response:', res);
+        // console.log('Profile response:', res);
 
         const user = res;
 
@@ -141,7 +141,7 @@ export class HeaderComponent implements OnInit {
 
         this.profileImage = encodedPath
           ? `${this.service.url}${encodedPath}`
-          : 'assets/img_avatar.png';
+          : '';
 
         localStorage.setItem('name', this.userName);
         localStorage.setItem('profileImage', this.profileImage);
@@ -150,14 +150,14 @@ export class HeaderComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading profile:', err);
-        this.profileImage = 'assets/img_avatar.png';
+        this.profileImage = '';
       }
     });
   }
 
   setDefaultProfile(): void {
     this.userName = 'User';
-    this.profileImage = 'assets/img_avatar.png';
+    this.profileImage = '';
     localStorage.setItem('name', this.userName);
     localStorage.setItem('profileImage', this.profileImage);
   }

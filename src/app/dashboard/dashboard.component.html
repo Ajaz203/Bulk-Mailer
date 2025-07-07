@@ -1,61 +1,58 @@
-<div class="container py-4">
-  <h2 class="mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
-
-  <div class="row g-4">
-
-    <div class="col-md-4">
-      <div class="card text-bg-primary shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Total Sent Mails</h5>
-          <p class="card-text display-6 fw-bold">{{ sentCount }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="card text-bg-warning shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Drafts</h5>
-          <p class="card-text display-6 fw-bold">{{ draftCount }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="card text-bg-success shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Vendors Uploaded</h5>
-          <p class="card-text display-6 fw-bold">{{ vendorCount }}</p>
-        </div>
-      </div>
-    </div>
-
+<div class="container py-4" style="max-width: 1200px;">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-semibold text-dark mb-0">
+      👋 Welcome, <span class="text-primary">{{ userName }}</span>
+    </h2>
+    <span class="badge bg-light text-dark border px-3 py-2 shadow-sm">Dashboard</span>
   </div>
 
-  <div class="row mt-5">
-    <div class="col-12">
-      <h4 class="mb-3">Recent Sent Mails</h4>
-      <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-          <tr>
-            <th>#</th>
-            <th>Subject</th>
-            <th>Recipient</th>
-            <th>Date Sent</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let mail of recentMails; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ mail.subject }}</td>
-            <td>{{ mail.to }}</td>
-            <td>{{ mail.date | date: 'short' }}</td>
-          </tr>
-          <tr *ngIf="recentMails.length === 0">
-            <td colspan="4" class="text-center">No data available.</td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-4 mb-4">
+    <div class="col" *ngFor="let stat of overviewStats">
+      <div class="card h-100 border-0 shadow-sm rounded-4">
+        <div class="card-body text-center py-3">
+          <div class="mb-2 text-secondary">
+            <i class="bi bi-graph-up-arrow fs-4"></i>
+          </div>
+          <div class="fw-medium text-muted small text-uppercase">{{ stat.label }}</div>
+          <div class="fs-4 fw-bold text-dark">{{ stat.count }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body">
+          <h5 class="fw-semibold mb-3">📈 Email Trend (Last 7 Days)</h5>
+          <div *ngIf="isBrowser">
+            <canvas baseChart
+              [data]="emailTrendData"
+              [labels]="emailTrendLabels"
+              [options]="lineChartOptions"
+              [type]="'line'"
+              height="250">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
+          <h5 class="fw-semibold mb-3 text-dark">📊 Email Type Distribution</h5>
+          <div *ngIf="isBrowser" style="width: 100%; max-width: 220px;">
+            <canvas baseChart
+              [data]="emailTypeData"
+              [labels]="emailTypeLabels"
+              [type]="'pie'"
+              [options]="pieChartOptions"
+              height="220">
+            </canvas>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

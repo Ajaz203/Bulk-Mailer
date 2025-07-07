@@ -31,7 +31,7 @@ export class VendorCandidateListComponent {
   draftList: any[] = [];
  searchTerm = '';
 
-  constructor(private service: EmailService, private cd: ChangeDetectorRef) { };
+  constructor(private service: EmailService, private cd: ChangeDetectorRef,) { };
 
   private _candidates = signal<any[]>([]);
   @Input()
@@ -97,9 +97,9 @@ filteredData() {
   }
 
   // Check if all selected
-  isAllSelected() {
-    return this.dataArr.length > 0 && this.selectedCandidates.size === this.dataArr.length;
-  }
+ isAllSelected(): boolean {
+  return this.dataArr?.length > 0 && this.selectedCandidates.size === this.dataArr.length;
+}
 
   sendSingle(candidate: any) {
     console.log('Sending single candidate:', candidate);
@@ -141,7 +141,7 @@ getData() {
 
   this.service.getVendors(userId).subscribe({
     next: (resp: any) => {
-      console.log("vendor Response:", resp);
+      // console.log("vendor Response:", resp);
       this.dataArr = resp;
       this.isLoading = false;
     },

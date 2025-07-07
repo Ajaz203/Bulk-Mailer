@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -15,16 +15,24 @@ import { ToastrModule } from 'ngx-toastr';
 export class AppComponent {
   title = 'bulkEmailAppFrontend';
   hideHeader: boolean = false;
+  isBrowser: boolean;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         const publicRoutes = ['/login', '/sign-up', '/forgot-password'];
-        const isLoggedIn = !!localStorage.getItem('token'); 
         const currentUrl = event.url;
-        this.hideHeader = publicRoutes.includes(currentUrl);
-        if (!isLoggedIn && !publicRoutes.includes(currentUrl)) {
-          this.router.navigate(['/login']);
+
+        if (this.isBrowser) {
+          const isLoggedIn = !!localStorage.getItem('token');
+          this.hideHeader = publicRoutes.includes(currentUrl);
+          if (!isLoggedIn && !publicRoutes.includes(currentUrl)) {
+            this.router.navigate(['/login']);
+          }
+        } else {
+          this.hideHeader = publicRoutes.includes(currentUrl);
         }
       }
     });
