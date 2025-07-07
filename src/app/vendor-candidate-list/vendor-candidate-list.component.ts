@@ -78,12 +78,15 @@ export class VendorCandidateListComponent {
     }
   }
 filteredData() {
+  if (!this.dataArr) return [];
+
   if (!this.searchTerm) {
     return this.dataArr;
   }
+
   const term = this.searchTerm.toLowerCase();
-  return this.dataArr.filter((item: any) => 
-    item.email.toLowerCase().includes(term)
+  return this.dataArr.filter((item: any) =>
+    item.email?.toLowerCase().includes(term)
   );
 }
 
@@ -315,7 +318,7 @@ getData() {
       payload.type = 'immediate';
     }
 
-    console.log('Payload:', payload);
+    // console.log('Payload:', payload);
 
     this.isLoading = true;
 

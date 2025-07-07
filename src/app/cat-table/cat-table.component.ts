@@ -40,7 +40,7 @@ selectedCategory: any = {
 
   getData() {
     this.service.getCategory().subscribe((resp: any) => {
-      console.log("Get category data:", resp);
+      // console.log("Get category data:", resp);
       this.getDataArr = resp;
     });
   }
