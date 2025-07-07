@@ -1,6 +1,6 @@
 .bulk-upload-card {
     max-width: 500px;
-    margin: 40px auto;
+    margin: 10px auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -67,7 +67,7 @@
 }
 
 .action-buttons {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     justify-content: flex-end;
     gap: 10px;
