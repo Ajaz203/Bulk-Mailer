@@ -28,18 +28,33 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router, private service: EmailService) { }
 
-  ngOnInit(): void {
+ngOnInit(): void {
+  const currentUrl = this.router.url;
+  this.setSegmentFromUrl(currentUrl);
+
   this.router.events.subscribe(event => {
     if (event instanceof NavigationEnd) {
-      const url = event.urlAfterRedirects;
-      if (url.includes('/dashboard')) this.segment = 'dashboard';
-      else if (url.includes('/vendorbulkupload') || url.includes('/vendor-list')) this.segment = 'vendor';
-      else if (url.includes('/cat-table')) this.segment = 'viewData';
-      else if (url.includes('/all-mails') || url.includes('/drafts')) this.segment = 'mail';
-      else if (url === '/' || url.includes('/candidate-list')) this.segment = '';
-      else this.segment = '';
+      this.setSegmentFromUrl(event.urlAfterRedirects);
     }
   });
+}
+
+setSegmentFromUrl(url: string): void {
+  if (url.includes('/dashboard')) {
+    this.segment = 'dashboard';
+  } else if (url.includes('/vendorbulkupload') || url.includes('/vendor-list')) {
+    this.segment = 'vendor';
+  } else if (url.includes('/cat-table')) {
+    this.segment = 'viewData';
+  } else if (url.includes('/all-mails') || url.includes('/drafts')) {
+    this.segment = 'mail';
+  } else if (url.includes('/candidate-upload') || url.includes('/candidate-list')) {
+    this.segment = ''; 
+  } else {
+    this.segment = ''; 
+  }
+
+
 
     if (this.isBrowser()) {
       this.userId = localStorage.getItem('userId') || '0';
