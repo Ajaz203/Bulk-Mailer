@@ -1,62 +1,49 @@
-<div class="main_wrapper d-flex align-items-center justify-content-center vh-100">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-5">
-        <div class="login-sec p-4 shadow rounded">
-          <h2 class="mb-3">Login</h2>
+<div
+  class="login-wrapper d-flex align-items-center justify-content-center"
+  style="background: url('asset/bulkemail-bg.png') center center / cover no-repeat; min-height: 100vh;"
+>
+  <div
+    class="login-container glass-card p-4 p-md-5 d-flex flex-column flex-md-row gap-4 align-items-center shadow-lg rounded-4">
+    <div class="d-none d-md-block">
+      <img src="asset/Computer login-bro.png" alt="Illustration" class="img-fluid" style="max-width: 250px;">
+    </div>
+    <div style="min-width: 280px; width: 100%; max-width: 380px;">
+      <h3 class="text-center text-white  mb-4">Sign in</h3>
 
-          <form (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Enter your email"
-                [(ngModel)]="email"
-                name="email"
-                required
-              />
-            </div>
-
-            <div class="mb-3 position-relative">
-              <label class="form-label">Password</label>
-              <input
-                [type]="showPassword ? 'text' : 'password'"
-                class="form-control"
-                placeholder="Enter your password"
-                [(ngModel)]="password"
-                name="password"
-                required
-              />
-              <span
-                class="position-absolute end-0 top-50 translate-middle-y me-3"
-                style="cursor: pointer;"
-                (click)="togglePassword()"
-              >
-                <i class="bi" [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
-              </span>
-            </div>
-
-            <div class="d-flex justify-content-between mb-3">
-              <a routerLink="/forgot-password" class="btn btn-outline-secondary w-50 me-2">
-                Can't access your account?
-              </a>
-              <a routerLink="/sign-up" class="btn btn-outline-secondary w-50">
-                Create New Account
-              </a>
-            </div>
-
-            <button type="submit" class="btn btn-success w-100">
-              {{ loading ? 'Please wait...' : 'Submit' }}
-            </button>
-          </form>
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label ">Email</label>
+          <input type="email" class="form-control" placeholder="Enter your email" [(ngModel)]="email" name="email"
+            required />
         </div>
-      </div>
+
+        <div class="mb-3 position-relative">
+          <label class="form-label">Password</label>
+          <input [type]="showPassword ? 'text' : 'password'" class="form-control pe-5" placeholder="Enter your password"
+            [(ngModel)]="password" name="password" required />
+
+          <span class="position-absolute" style="top: 75%; right: 1rem; transform: translateY(-50%); cursor: pointer;"
+            (click)="togglePassword()">
+            <i class="bi text-black" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+          <a routerLink="/forgot-password" class="small text-black">Forgot password?</a>
+          <a routerLink="/sign-up" class="small text-black">Create account</a>
+        </div>
+
+        <button class="btn btn-success w-100 " type="submit">
+          {{ loading ? 'Please wait...' : 'Login' }}
+        </button>
+      </form>
     </div>
   </div>
 </div>
 
-<!-- 🔥 Loader -->
+
+
+<!-- Loader -->
 <div *ngIf="loading" class="loader-overlay">
   <div class="spinner-border text-light" role="status"></div>
 </div>

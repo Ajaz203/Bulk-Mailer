@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule,NavigationEnd  } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
 import { FormsModule } from '@angular/forms';
-import Cropper from 'cropperjs';
 import Swal from 'sweetalert2';
+
 declare var bootstrap: any;
 @Component({
   selector: 'app-header',
@@ -17,8 +17,6 @@ export class HeaderComponent implements OnInit {
   @ViewChild('imageRef', { static: false }) imageRef!: ElementRef;
   imageUrl: string | null = null;
   croppedImage: string | null = null;
-  cropper!: Cropper;
-
   openDropdown = false;
   segment: string = '';
   uploadedCandidates: any[] = [];

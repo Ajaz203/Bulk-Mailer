@@ -12,7 +12,7 @@ export class EmailService {
   constructor(private http: HttpClient) { }
 
   url: string = 'http://142.93.212.196:3000/';
-  // url: string = 'https://0dd1-203-92-37-218.ngrok-free.app/';
+  // url: string = 'https://08295fa3753a.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
@@ -141,8 +141,9 @@ export class EmailService {
   }
 
   forgotPassword(data: any) {
-    return this.postWithUserId('forgot-password', data);
-  }
+  return this.http.post(this.url + 'forgot-password', data, { headers: this.header });
+}
+
 
   verifyOtp(data: any) {
     return this.postWithUserId('verify-otp', data);

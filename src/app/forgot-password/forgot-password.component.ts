@@ -19,7 +19,7 @@ export class ForgotPasswordComponent {
   newPassword: string = '';
   acceptTerms: boolean = false;
   loading: boolean = false;
-
+  showPassword: boolean = false;
   isOtpStep: boolean = false;
   isResetPasswordStep: boolean = false;
 
@@ -27,9 +27,13 @@ export class ForgotPasswordComponent {
     private router: Router,
     private service: EmailService,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
-  // ✅ Toast Helper
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+
   triggerToast(type: 'success' | 'error' | 'info' | 'warning', message: string) {
     this.toastr[type](message, type.toUpperCase(), {
       timeOut: 3000,
@@ -49,7 +53,6 @@ export class ForgotPasswordComponent {
     }
   }
 
-  // 🔥 Send OTP Step
   sendOtp() {
     if (!this.email) {
       this.triggerToast('error', 'Email is required.');
@@ -76,7 +79,6 @@ export class ForgotPasswordComponent {
       });
   }
 
-  // 🔥 Verify OTP Step
   verifyOtp() {
     if (!this.otp) {
       this.triggerToast('error', 'Please enter the OTP.');
@@ -100,7 +102,7 @@ export class ForgotPasswordComponent {
       });
   }
 
-  // 🔥 Reset Password Step
+
   resetPassword() {
     if (!this.newPassword) {
       this.triggerToast('error', 'New password is required.');

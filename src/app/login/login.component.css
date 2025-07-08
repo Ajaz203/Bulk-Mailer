@@ -10,11 +10,7 @@
   border-radius: 8px;
 }
 
-button,
-a.btn {
-  border-radius: 8px;
-}
-/* ✅ Toast Design */
+
 .custom-toast {
   z-index: 1055;
 }
@@ -31,14 +27,14 @@ a.btn {
 }
 
 .toast-success {
-  background-color: #28a745; /* Green */
+  background-color: #28a745;
+  
 }
 
 .toast-error {
-  background-color: #dc3545; /* Red */
+  background-color: #dc3545; 
 }
 
-/* ✅ Loader Overlay */
 .loader-overlay {
   position: fixed;
   top: 0;
@@ -50,6 +46,7 @@ a.btn {
   align-items: center;
   justify-content: center;
   z-index: 1056;
+
 }
 
 .spinner-border {
@@ -57,3 +54,49 @@ a.btn {
   height: 3rem;
 }
 
+a{
+  color: blue;
+}
+
+
+.login-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3); 
+  z-index: 1;
+}
+
+.login-container {
+  position: relative;
+  z-index: 2;
+}
+
+
+.glass-card {
+  background: linear-gradient(to bottom right, #abc2d6, #848b96); 
+  border: none;
+  max-width: 900px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-left: 400px;
+}
+
+.glass-card input.form-control {
+  background-color: #ffffff;
+  color: #000;
+  border: none;
+  box-shadow: none;
+}
+
+.glass-card input.form-control:focus {
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+}
