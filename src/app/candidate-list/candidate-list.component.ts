@@ -265,7 +265,7 @@ resetFilters() {
       payload.type = 'immediate';
     }
 
-    console.log('Payload:', payload);
+    // console.log('Payload:', payload);
 
     this.isLoading = true;
 

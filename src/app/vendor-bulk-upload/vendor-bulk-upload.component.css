@@ -3,7 +3,7 @@
     margin: 10px auto;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
     font-family: 'Segoe UI', sans-serif;
 }
@@ -66,12 +66,6 @@
     font-size: 14px;
 }
 
-.action-buttons {
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
 
 .action-buttons {
     padding: 8px 16px;
@@ -80,17 +74,21 @@
     cursor: pointer;
     border: none;
     transition: background-color 0.2s;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .action-buttons .btn-outline-secondary {
     border-color: #ced4da;
-            text-wrap-mode: nowrap;
+    text-wrap-mode: nowrap;
 }
 
 .action-buttons .btn-outline-secondary:hover {
     color: #5ab745;
-            background: none;
-            border-color: #ced4da;
+    background: none;
+    border-color: #ced4da;
 }
 
 .action-buttons .btn-success {
