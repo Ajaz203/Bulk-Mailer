@@ -34,56 +34,98 @@ export class VendorBulkUploadComponent {
     }
   }
 confirmFile(): void {
-  if (!this.selectedFile) return;
+  if (!this.selectedFile) {
+    this.isUploading = false;
+    return;
+  }
 
   const reader = new FileReader();
 
   reader.onload = (e: any) => {
-    const data = new Uint8Array(e.target.result);
-    const workbook = XLSX.read(data, { type: 'array' });
-    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    this.excelData = XLSX.utils.sheet_to_json(firstSheet);
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+      this.excelData = XLSX.utils.sheet_to_json(firstSheet);
 
-    const userId = Number(localStorage.getItem('userId'));
+      const userId = Number(localStorage.getItem('userId'));
+      const finalArr: any[] = [];
 
-    const finalArr: any[] = [];
-
-this.excelData.forEach((item: any) => {
-  const { Skills, ...rest } = item;
-  finalArr.push({
-    ...rest,
-    userId: Number(userId) // ensure it's a number
-  });
-});
-
-    // ✅ Debug log
-    console.log("Final Payload (must be raw array):", finalArr);
-    console.log("Type of Payload:", Array.isArray(finalArr)); // should be true
-
-    // ✅ Send plain array as payload
-    this.service.venorUpload(finalArr).subscribe({
-      next: (resp: any) => {
-        console.log('Upload success:', resp);
-        Swal.fire({
-          icon: 'success',
-          title: 'Uploaded!',
-          text: 'File uploaded successfully.',
-        }).then(() => this.navigate());
-      },
-      error: (error: any) => {
-        console.error('Upload failed:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Upload Failed',
-          text: error?.error?.message || 'Something went wrong.',
+      this.excelData.forEach((item: any) => {
+        const { Skills, ...rest } = item;
+        finalArr.push({
+          ...rest,
+          userId: Number(userId)
         });
-      }
+      });
+
+      console.log("Final Payload (must be raw array):", finalArr);
+      console.log("Type of Payload:", Array.isArray(finalArr));
+
+      this.service.venorUpload(finalArr).subscribe({
+        next: (resp: any) => {
+          console.log('Upload success:', resp);
+          Swal.fire({
+            icon: 'success',
+            title: 'Uploaded!',
+            text: 'File uploaded successfully.',
+          }).then(() => {
+            this.navigate();
+            this.isUploading = false; // ✅ Reset after success
+          });
+        },
+        error: (error: any) => {
+          console.error('Upload failed:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Upload Failed',
+            text: error?.error?.message || 'Something went wrong.',
+          });
+          this.isUploading = false; // ✅ Reset after failure
+        },
+        complete: () => {
+          // ✅ Ensure spinner stops no matter what
+          this.isUploading = false;
+        }
+      });
+
+    } catch (err) {
+      console.error('Parsing error:', err);
+      this.isUploading = false;
+      Swal.fire({
+        icon: 'error',
+        title: 'Parsing Failed',
+        text: 'Invalid file or format.',
+      });
+    }
+  };
+
+  reader.onerror = (err) => {
+    console.error('File read error:', err);
+    this.isUploading = false;
+    Swal.fire({
+      icon: 'error',
+      title: 'File Read Error',
+      text: 'Could not read the file.',
     });
   };
 
   reader.readAsArrayBuffer(this.selectedFile);
 }
 
+ uploadFile() {
+    if (!this.selectedFile) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'No File Selected',
+        text: 'Please select a file to upload.',
+      });
+      return;
+    }
+
+    this.isUploading = true;
+    this.confirmFile();
+  }
 
 
   async downloadMassTemplate() {
@@ -97,19 +139,7 @@ this.excelData.forEach((item: any) => {
     this.file = null;
     this.fileName = '';
   }
-  uploadFile() {
-    if (!this.selectedFile) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'No File Selected',
-        text: 'Please select a file to upload.',
-      });
-      return;
-    }
-
-    this.isUploading = true;
-    this.confirmFile();
-  }
+ 
 
   removeFile() {
     this.fileName = '';

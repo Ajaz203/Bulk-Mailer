@@ -37,61 +37,6 @@ export class BulkUploadComponent {
     }
   }
 
- confirmFile(): void {
-  if (!this.selectedFile) return;
-
-  const reader = new FileReader();
-
-  reader.onload = (e: any) => {
-    const data = new Uint8Array(e.target.result);
-    const workbook = XLSX.read(data, { type: 'array' });
-    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    this.excelData = XLSX.utils.sheet_to_json(firstSheet);
-
-    console.log('Parsed Excel Data:', this.excelData);
-
- const userId = Number(localStorage.getItem('userId'));
-
-const finalArr = this.excelData.map((item: any) => ({
-  ...item,
-  Skills: item.Skills?.split(',').map((skill: string) => skill.trim()) || [],
-  userId
-}));
-
-
-    this.service.bulkUpload(finalArr).subscribe({
-      next: (resp: any) => {
-        console.log('Bulk Upload Response:', resp);
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Uploaded!',
-          text: 'File uploaded successfully.',
-          confirmButtonColor: '#3085d6'
-        }).then(() => {
-          this.navigate();
-          this.resetFileUpload();
-        });
-      },
-      error: (error) => {
-        console.error('Upload Error:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Upload Failed',
-          text: 'Something went wrong during file upload.',
-          confirmButtonColor: '#d33'
-        });
-      }
-    });
-  };
-
-  reader.readAsArrayBuffer(this.selectedFile);
-}
-
-navigate(): void {
-  this.router.navigate(['/candidate-list']);
-}
-
 uploadFile(): void {
   if (!this.selectedFile) {
     Swal.fire({
@@ -106,6 +51,86 @@ uploadFile(): void {
   this.confirmFile();
 }
 
+confirmFile(): void {
+  if (!this.selectedFile) {
+    this.isUploading = false;
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = (e: any) => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+      this.excelData = XLSX.utils.sheet_to_json(firstSheet);
+
+      console.log('Parsed Excel Data:', this.excelData);
+
+      const userId = Number(localStorage.getItem('userId'));
+
+      const finalArr = this.excelData.map((item: any) => ({
+        ...item,
+        Skills: item.Skills?.split(',').map((skill: string) => skill.trim()) || [],
+        userId
+      }));
+
+      this.service.bulkUpload(finalArr).subscribe({
+        next: (resp: any) => {
+          console.log('Bulk Upload Response:', resp);
+          Swal.fire({
+            icon: 'success',
+            title: 'Uploaded!',
+            text: 'File uploaded successfully.',
+            confirmButtonColor: '#3085d6'
+          }).then(() => {
+            this.navigate();
+            this.resetFileUpload();
+          });
+        },
+        error: (error) => {
+          console.error('Upload Error:', error);
+          this.isUploading = false; // ✅ Reset here on failure
+          Swal.fire({
+            icon: 'error',
+            title: 'Upload Failed',
+            text: 'Something went wrong during file upload.',
+            confirmButtonColor: '#d33'
+          });
+        },
+        complete: () => {
+          this.isUploading = false; // ✅ Always reset when done
+        }
+      });
+    } catch (err) {
+      console.error('Parsing Error:', err);
+      this.isUploading = false;
+      Swal.fire({
+        icon: 'error',
+        title: 'Parsing Failed',
+        text: 'Invalid file format or data.',
+      });
+    }
+  };
+
+  reader.onerror = (err) => {
+    console.error('File read error:', err);
+    this.isUploading = false;
+    Swal.fire({
+      icon: 'error',
+      title: 'File Read Failed',
+      text: 'Could not read the file.',
+    });
+  };
+
+  reader.readAsArrayBuffer(this.selectedFile);
+}
+
+
+navigate(): void {
+  this.router.navigate(['/candidate-list']);
+}
   resetFileUpload() {
     this.file = null;
     this.fileName = '';

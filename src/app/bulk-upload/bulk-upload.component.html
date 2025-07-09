@@ -47,12 +47,11 @@
 
   <div class="action-buttons">
     <button class="btn btn-outline-secondary" (click)="removeFile()">Reset</button>
-    <button class="btn btn-success" (click)="uploadFile()" [disabled]="!fileName || isUploading">
+  <button class="btn btn-success" (click)="uploadFile()" [disabled]="!fileName || isUploading">
+  <span *ngIf="isUploading" class="spinner-border spinner-border-sm me-2"></span>
+  {{ isUploading ? 'Uploading...' : 'Upload File' }}
+</button>
 
-      <span *ngIf="isUploading" class="spinner-border spinner-border-sm me-2"></span>
-      {{ isUploading ? 'Uploading...' : 'Upload File' }}
-
-    </button>
 
   </div>
 </div>
