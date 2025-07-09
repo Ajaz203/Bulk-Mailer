@@ -48,7 +48,7 @@
       </div>
 
       <!-- 📄 Table -->
-      <div class="table-responsive">
+      <div class="table-responsive ">
         <table class="table table-bordered table-hover align-middle">
           <thead class="table-primary">
             <tr>
@@ -61,41 +61,41 @@
             </tr>
           </thead>
           <tbody>
-           <tr
-  *ngFor="let draft of filteredDrafts | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
-  <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-  <td>{{ draft.mailSubject || 'No Subject' }}</td>
-  <td>
-    <div class="text-truncate" style="max-width: 250px;" [title]="draft.emails?.join(', ')">
-      {{ draft.emails?.join(', ') }}
-    </div>
-  </td>
-  <td>
-    <div class="text-truncate" style="max-width: 300px;" [title]="draft.mailBody">
-      {{ draft.mailBody || 'No Body Content' }}
-    </div>
-  </td>
-  <td>
-    <button class="btn btn-sm" (click)="editDraft(draft)">
-      <i class="bi bi-pencil-square"></i>
-    </button>
-    <button class="btn btn-sm" (click)="deleteDraft(draft)">
-      <i class="bi bi-trash3 text-danger"></i>
-    </button>
-  </td>
-  <td>
-    <span class="badge" [ngClass]="{
-      'bg-primary': draft.targetType === 'candidate',
-      'bg-success': draft.targetType === 'vendor'
-    }">
-      {{ draft.targetType }}
-    </span>
-  </td>
-</tr>
+            <tr
+              *ngFor="let draft of filteredDrafts | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
+              <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td>{{ draft.mailSubject || 'No Subject' }}</td>
+              <td>
+                <div class="text-truncate" style="max-width: 250px;" [title]="draft.emails?.join(', ')">
+                  {{ draft.emails?.join(', ') }}
+                </div>
+              </td>
+              <td>
+                <div class="text-truncate" style="max-width: 300px;" [title]="draft.mailBody">
+                  {{ draft.mailBody || 'No Body Content' }}
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-sm" (click)="editDraft(draft)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm" (click)="deleteDraft(draft)">
+                  <i class="bi bi-trash3 text-danger"></i>
+                </button>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="{
+                    'bg-primary': draft.targetType === 'candidate',
+                     'bg-success': draft.targetType === 'vendor'
+                  }">
+                  {{ draft.targetType }}
+                </span>
+              </td>
+            </tr>
 
 
             <tr *ngIf="filteredDrafts.length === 0">
-              <td colspan="5" class="text-center text-muted py-4">
+              <td colspan="6" class="text-center text-muted py-4">
                 <i class="bi bi-inbox"></i> No Drafts Found
               </td>
             </tr>
