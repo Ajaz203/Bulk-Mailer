@@ -6,6 +6,13 @@ import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 declare var bootstrap: any;
+
+interface UserVendor {
+  userId: number;
+  name: string;
+  email: string;
+}
+
 @Component({
   selector: 'app-vendor-candidate-list',
   imports: [NgbPaginationModule, CommonModule, FormsModule],
@@ -29,8 +36,12 @@ export class VendorCandidateListComponent {
   http: any;
   selectionMode: 'all' | 'selected' = 'selected';
   draftList: any[] = [];
- searchTerm = '';
-
+  searchTerm = '';
+  userVendorList: any[] = [];
+  expandedUserId: number | null = null;
+  expandedVendorList: any[] = [];
+  selectedUser: any = null;
+  vendorList: any[] = [];
   constructor(private service: EmailService, private cd: ChangeDetectorRef,) { };
 
   private _candidates = signal<any[]>([]);
@@ -53,7 +64,73 @@ export class VendorCandidateListComponent {
     this.service.refreshTable$.subscribe(() => {
       this.getData();
     });
+    this.fetchUsersWithVendors();
   }
+  fetchUsersWithVendors(): void {
+    this.service.getUsersWithVendors({}).subscribe({
+      next: (res) => {
+        this.userVendorList = Array.isArray(res) ? res : [];
+      },
+      error: (err) => {
+        console.error('Error fetching user-vendor data:', err);
+      }
+    });
+  }
+
+
+
+
+  toggleUserDetails(user: any): void {
+    if (this.expandedUserId === user.userId) {
+      this.expandedUserId = null;
+      this.expandedVendorList = [];
+      return;
+    }
+
+    this.expandedUserId = user.userId;
+
+    this.service.getVendorsByUser(user.userId).subscribe({
+      next: (res) => {
+        this.expandedVendorList = Array.isArray(res) ? res : [];
+      },
+      error: (err) => {
+        console.error('Error loading vendors for user:', err);
+        this.expandedVendorList = [];
+      }
+    });
+  }
+
+ openUserVendors(user: any) {
+  this.selectedUser = user;
+
+  this.service.getVendorsByUser(user.userId).subscribe({
+    next: (res) => {
+      this.vendorList = Array.isArray(res) ? res : [];
+
+      
+      const modal = new bootstrap.Modal(document.getElementById('vendorModal'));
+      modal.show();
+    },
+    error: (err) => {
+      console.error('Failed to load vendors:', err);
+    }
+  });
+}
+
+  get filteredUserList(): UserVendor[] {
+    const term = this.searchTerm.toLowerCase();
+    return this.userVendorList.filter(user =>
+      user.name?.toLowerCase().includes(term) ||
+      user.email?.toLowerCase().includes(term) ||
+      user.company?.toLowerCase().includes(term)
+    );
+  }
+
+  get paginatedUserList(): UserVendor[] {
+    const start = (this.page() - 1) * this.pageSize;
+    return this.filteredUserList.slice(start, start + this.pageSize);
+  }
+
 
   handleSelectCandidateSend() {
     if (this.selectedCandidates.size === 0) {
@@ -77,18 +154,18 @@ export class VendorCandidateListComponent {
       this.selectedCandidates.add(candidate);
     }
   }
-filteredData() {
-  if (!this.dataArr) return [];
+  filteredData() {
+    if (!this.dataArr) return [];
 
-  if (!this.searchTerm) {
-    return this.dataArr;
+    if (!this.searchTerm) {
+      return this.dataArr;
+    }
+
+    const term = this.searchTerm.toLowerCase();
+    return this.dataArr.filter((item: any) =>
+      item.email?.toLowerCase().includes(term)
+    );
   }
-
-  const term = this.searchTerm.toLowerCase();
-  return this.dataArr.filter((item: any) =>
-    item.email?.toLowerCase().includes(term)
-  );
-}
 
   // Toggle all selection
   toggleSelectAll(event: any) {
@@ -100,9 +177,9 @@ filteredData() {
   }
 
   // Check if all selected
- isAllSelected(): boolean {
-  return this.dataArr?.length > 0 && this.selectedCandidates.size === this.dataArr.length;
-}
+  isAllSelected(): boolean {
+    return this.dataArr?.length > 0 && this.selectedCandidates.size === this.dataArr.length;
+  }
 
   sendSingle(candidate: any) {
     console.log('Sending single candidate:', candidate);
@@ -132,28 +209,28 @@ filteredData() {
 
     this.selected.set(selected);
   }
-getData() {
-  this.isLoading = true;
-  const userId = localStorage.getItem('userId'); // or however you're storing it
+  getData() {
+    this.isLoading = true;
+    const userId = localStorage.getItem('userId');
 
-  if (!userId) {
-    console.error('User ID not found');
-    this.isLoading = false;
-    return;
-  }
-
-  this.service.getVendors(userId).subscribe({
-    next: (resp: any) => {
-      // console.log("vendor Response:", resp);
-      this.dataArr = resp;
+    if (!userId) {
+      console.error('User ID not found');
       this.isLoading = false;
-    },
-    error: (err) => {
-      this.isLoading = false;
-      console.error('Failed to load data:', err);
+      return;
     }
-  });
-}
+
+    this.service.getVendors(userId).subscribe({
+      next: (resp: any) => {
+        // console.log("vendor Response:", resp);
+        this.dataArr = resp;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Failed to load data:', err);
+      }
+    });
+  }
 
   isPageFullySelected(): boolean {
     const start = (this.page() - 1) * this.pageSize;

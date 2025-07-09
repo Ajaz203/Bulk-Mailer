@@ -1,10 +1,8 @@
 <div class="container" style="max-width: 1200px;">
   <div class="list-wrapper">
     <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
-
-      <!-- Left: Heading -->
       <div class="d-flex align-items-center">
-        <strong>Vendor Bulk List - ({{ dataArr?.length || 0 }})</strong>
+        <strong>Vendor Bulk List - ({{ userVendorList.length || 0 }})</strong>
 
       </div>
 
@@ -22,51 +20,80 @@
     <div class="d-flex align-items-center gap-2 position-relative mb-2">
       <input type="text" class="form-control ps-4 pe-5 rounded-pill" placeholder="Search by subject or email..."
         [(ngModel)]="searchTerm" />
-
-      <!-- Search Icon (optional) -->
       <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
 
-      <!-- Clear Button -->
       <button *ngIf="searchTerm" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
         (click)="searchTerm = ''" style="background: transparent;">
         <i class="bi bi-x-circle-fill text-muted"></i>
       </button>
     </div>
-      <div class="table-container" style="max-height: 400px; overflow-y: auto;">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>
-            <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
-          </th>
-          <th>S.No</th>
-          <th>Email</th>
-          <!-- <th>Created At</th> -->
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of filteredData(); let i = index">
-          <td>
-            <input type="checkbox" [checked]="selectedCandidates.has(c)" (change)="toggleSelection(c)" />
-          </td>
-          <td>{{ i + 1 }}</td>
-          <td>{{ c.email }}</td>
-          <td class="d-flex align-items-center justify-content-center gap-3">
-            <i class="bi bi-pencil-square text-dark fs-5" (click)="editCandidate(c)" title="Edit"></i>
-            <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(c.id)" title="Delete"></i>
-          </td>
-        </tr>
-        <tr *ngIf="filteredData()?.length === 0">
+    <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+      <table class="table table-bordered table-striped">
+        <thead class="table-primary">
+          <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of userVendorList; let i = index" (click)="openUserVendors(user)"
+            style="cursor: pointer;">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.name || '-' }}</td>
+            <td>{{ user.email || '-' }}</td>
+          </tr>
 
-          <td colspan="12" class="text-center text-muted py-4">
-            <i class="bi bi-building-x fs-4 me-2"></i> No Vendors Found
-          </td>
-        </tr>
+          <tr *ngIf="userVendorList.length === 0">
+            <td colspan="3" class="text-center text-muted py-3">No users found.</td>
+          </tr>
+        </tbody>
+      </table>
 
-      </tbody>
+    </div>
 
-    </table>
+  </div>
+</div>
+
+
+<div class="modal fade" id="vendorModal" tabindex="-1" aria-labelledby="vendorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="vendorModalLabel">
+          Vendors of {{ selectedUser?.name }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vendor of vendorList; let j = index">
+              <td>{{ j + 1 }}</td>
+              <td>{{ vendor.email }}</td>
+              <td class="d-flex align-items-center justify-content-center gap-3">
+                <i class="bi bi-pencil-square text-dark fs-5" (click)="editCandidate(vendor)" title="Edit"></i>
+                <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(vendor.id)" title="Delete"></i>
+              </td>
+            </tr>
+            <tr *ngIf="vendorList.length === 0">
+              <td colspan="3" class="text-center text-muted py-3">No vendors found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>

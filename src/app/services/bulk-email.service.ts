@@ -13,8 +13,8 @@ export class EmailService {
     private router: Router
   ) { }
 
-  url: string = 'http://142.93.212.196:3000/';
-  // url: string = 'https://a713bc8d3743.ngrok-free.app/';
+  // url: string = 'http://142.93.212.196:3000/';
+  url: string = 'https://a713bc8d3743.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
@@ -29,11 +29,11 @@ export class EmailService {
     return 0;
   }
   checkloginStatus() {
-     if (typeof window !== 'undefined' && localStorage.getItem('token')) {
-    this.router.navigate(['/dashboard']);
-  } else {
-    this.router.navigate(['/login']);
-  }
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   postWithUserId(endpoint: string, data: any) {
@@ -201,4 +201,20 @@ export class EmailService {
       })
     });
   }
+  getVendorsByUser(userId: number) {
+    return this.http.post(this.url + 'getVendorsByUser', { userId }, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      })
+    });
+  }
+  getUsersWithVendors(params: any) {
+    return this.http.get<any[]>(this.url + 'getUsersWithVendors', {
+      headers: this.header,
+      params: params
+    });
+  }
+
+
 }
