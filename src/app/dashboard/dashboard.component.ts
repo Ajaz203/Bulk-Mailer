@@ -3,7 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { EmailService } from '../services/bulk-email.service';
 import { ChartOptions } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
-
+import { ChartConfiguration } from 'chart.js';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -21,9 +21,35 @@ export class DashboardComponent implements OnInit {
   userRoles: any[] = [];
   isBrowser: boolean = false;
 
-  lineChartOptions: ChartOptions<'line'> = {
+    lineChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 5000, // Adjust step size based on your data
+          callback: function (value: number | string): string {
+            return Number(value).toLocaleString(); // format with commas
+          }
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          color: '#333'
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function (ctx) {
+            return `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`;
+          }
+        }
+      }
+    }
   };
 
   pieChartOptions: ChartOptions<'pie'> = {
