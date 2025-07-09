@@ -1,10 +1,7 @@
-<div
-  class="register-wrapper d-flex align-items-center justify-content-center"
-  style="background: url('asset/bulkemail.png') center center / cover no-repeat; min-height: 100vh;"
->
+<div class="register-wrapper d-flex align-items-center justify-content-center"
+  style="background: url('asset/bulkemail.png') center center / cover no-repeat; min-height: 100vh;">
   <div
-    class="register-container glass-card p-4 p-md-5 d-flex flex-column flex-md-row gap-4 align-items-center shadow-lg rounded-4"
-  >
+    class="register-container glass-card p-4 p-md-5 d-flex flex-column flex-md-row gap-4 align-items-center shadow-lg rounded-4">
     <!-- Illustration -->
     <!-- <div class="d-none d-md-block">
       <img src="asset/Sign up-bro.png" alt="Illustration" class="img-fluid" style="max-width: 250px;" />
@@ -14,59 +11,77 @@
     <div style="min-width: 380px; width: 100%; max-width: 380px;">
       <h3 class="text-center text-white mb-4">Create an Account</h3>
 
-      <form (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label class="form-label">Name</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter your name"
-            [(ngModel)]="name"
-            name="name"
-            required
-          />
-        </div>
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+  <!-- Name -->
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      name="name"
+      [(ngModel)]="name"
+      required
+      #nameInput="ngModel"
+    />
+    <div *ngIf="nameInput.invalid && nameInput.touched" class="text-danger">
+      Name is required.
+    </div>
+  </div>
 
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            placeholder="Enter your email"
-            [(ngModel)]="email"
-            name="email"
-            required
-          />
-        </div>
+  <!-- Email -->
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      name="email"
+      placeholder="test@example.com"
+      [(ngModel)]="email"
+      required
+      #emailInput="ngModel"
+      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    />
+    <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger mt-1">
+      <div *ngIf="emailInput.errors?.['required']">Email is required.</div>
+      <div *ngIf="emailInput.errors?.['pattern']">Enter a valid email (e.g., test&#64;example.com).</div>
+    </div>
+  </div>
 
-        <div class="mb-3 position-relative">
-          <label class="form-label">Password</label>
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            class="form-control pe-5"
-            placeholder="Enter your password"
-            [(ngModel)]="password"
-            name="password"
-            required
-          />
-          <span
-            class="position-absolute"
-            style="top: 75%; right: 1rem; transform: translateY(-50%); cursor: pointer;"
-            (click)="togglePassword()"
-          >
-            <i class="bi text-black" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-          </span>
-        </div>
+  <!-- Password -->
+  <div class="mb-3 position-relative">
+    <label class="form-label">Password</label>
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      class="form-control pe-5"
+      name="password"
+      [(ngModel)]="password"
+      required
+      #passwordInput="ngModel"
+    />
+    <span
+      class="position-absolute"
+      style="top: 75%; right: 1rem; transform: translateY(-50%); cursor: pointer;"
+      (click)="togglePassword()"
+    >
+      <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+    </span>
+    <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger mt-1">
+      Password is required.
+    </div>
+  </div>
 
-        <div class="d-flex justify-content-between mb-3">
-          <a routerLink="/login" class="small text-black">Already have an account?</a>
-        </div>
+  <!-- Submit -->
+  <button
+    type="submit"
+    class="btn btn-success w-100"
+    [disabled]="loading || registerForm.invalid || emailInput.invalid"
+  >
+    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+    Submit
+  </button>
+</form>
 
-        <button type="submit" class="btn btn-success w-100" [disabled]="loading">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-          Submit
-        </button>
-      </form>
+
     </div>
   </div>
 </div>

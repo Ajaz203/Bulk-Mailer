@@ -56,19 +56,30 @@
 </div>
 
 
-<div class="modal fade" id="vendorModal" tabindex="-1" aria-labelledby="vendorModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="vendorModal"
+  tabindex="-1"
+  aria-labelledby="vendorModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="vendorModalLabel">
-          Vendors of {{ selectedUser?.name }}
+        <h5 class="modal-title fw-semibold" id="vendorModalLabel">
+          Vendor List - {{ selectedUser?.name || '-' }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
 
       <div class="modal-body">
-        <table class="table table-bordered table-sm">
-          <thead>
+        <table class="table table-bordered table-striped">
+          <thead class="table-primary">
             <tr>
               <th>S.No</th>
               <th>Email</th>
@@ -76,23 +87,36 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let vendor of vendorList; let j = index">
-              <td>{{ j + 1 }}</td>
+            <tr *ngFor="let vendor of vendorList; let i = index">
+              <td>{{ i + 1 }}</td>
               <td>{{ vendor.email }}</td>
-              <td class="d-flex align-items-center justify-content-center gap-3">
-                <i class="bi bi-pencil-square text-dark fs-5" (click)="editCandidate(vendor)" title="Edit"></i>
-                <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(vendor.id)" title="Delete"></i>
+              <td class="d-flex align-items-center justify-content-center gap-2">
+                <i
+                  class="bi bi-pencil-square text-dark fs-5"
+                  (click)="editCandidate(vendor)"
+                  title="Edit"
+                ></i>
+                <i
+                  class="bi bi-trash3 text-danger fs-5"
+                  (click)="deleteCandidate(vendor.id)"
+                  title="Delete"
+                ></i>
               </td>
             </tr>
+
             <tr *ngIf="vendorList.length === 0">
-              <td colspan="3" class="text-center text-muted py-3">No vendors found.</td>
+              <td colspan="3" class="text-center text-muted py-3">
+                No vendors found.
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
       </div>
     </div>
   </div>

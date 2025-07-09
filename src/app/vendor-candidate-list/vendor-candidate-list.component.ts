@@ -221,7 +221,7 @@ export class VendorCandidateListComponent {
 
     this.service.getVendors(userId).subscribe({
       next: (resp: any) => {
-        // console.log("vendor Response:", resp);
+   
         this.dataArr = resp;
         this.isLoading = false;
       },

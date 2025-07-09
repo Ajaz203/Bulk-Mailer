@@ -154,3 +154,7 @@ thead.sticky-top {
   z-index: 1;
   background-color: #f8f9fa; /* Bootstrap's table-light */
 }
+
+.modal-content {
+  transition: all 0.3s ease;
+}
