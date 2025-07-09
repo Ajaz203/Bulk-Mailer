@@ -1,5 +1,6 @@
 
 
-<app-header *ngIf="!hideHeader"></app-header>
+<app-header *ngIf="!hideHeader && !publicRoutes.includes(currentUrl)"></app-header>
+
 
 <router-outlet />

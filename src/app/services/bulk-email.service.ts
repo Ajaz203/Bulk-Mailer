@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-
+import { Router, RouterLink } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +9,9 @@ export class EmailService {
   private refreshTableSubject = new Subject<void>();
   refreshTable$ = this.refreshTableSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private router: Router
+  ) { }
 
   url: string = 'http://142.93.212.196:3000/';
   // url: string = 'https://08295fa3753a.ngrok-free.app/';
@@ -26,8 +28,13 @@ export class EmailService {
     console.warn('Not running in browser, userId is set to 0');
     return 0;
   }
-
-
+  checkloginStatus() {
+     if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+    this.router.navigate(['/dashboard']);
+  } else {
+    this.router.navigate(['/login']);
+  }
+  }
 
   postWithUserId(endpoint: string, data: any) {
     const userId = this.getUserId();
@@ -141,8 +148,8 @@ export class EmailService {
   }
 
   forgotPassword(data: any) {
-  return this.http.post(this.url + 'forgot-password', data, { headers: this.header });
-}
+    return this.http.post(this.url + 'forgot-password', data, { headers: this.header });
+  }
 
 
   verifyOtp(data: any) {

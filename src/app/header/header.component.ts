@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule,NavigationEnd  } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -32,6 +32,20 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private service: EmailService) { }
 
 ngOnInit(): void {
+  if (this.isBrowser()) {
+    this.userId = localStorage.getItem('userId') || '0';
+    this.userName = localStorage.getItem('name') || 'User';
+    this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
+    this.profileImage = localStorage.getItem('profileImage') || '';
+  }
+
+
+  if (this.userId && this.userId !== '0') {
+    this.loadUserProfile();
+  } else {
+    console.warn('User not logged in yet. Skipping loadUserProfile.');
+  }
+
   const currentUrl = this.router.url;
   this.setSegmentFromUrl(currentUrl);
 
@@ -42,31 +56,19 @@ ngOnInit(): void {
   });
 }
 
-setSegmentFromUrl(url: string): void {
-  if (url.includes('/dashboard')) {
-    this.segment = 'dashboard';
-  } else if (url.includes('/vendorbulkupload') || url.includes('/vendor-list')) {
-    this.segment = 'vendor';
-  } else if (url.includes('/cat-table')) {
-    this.segment = 'viewData';
-  } else if (url.includes('/all-mails') || url.includes('/drafts')) {
-    this.segment = 'mail';
-  } else if (url.includes('/candidate-upload') || url.includes('/candidate-list')) {
-    this.segment = ''; 
-  } else {
-    this.segment = ''; 
-  }
 
-
-
-    if (this.isBrowser()) {
-      this.userId = localStorage.getItem('userId') || '0';
-      this.userName = localStorage.getItem('name') || 'User';
-      this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
-      this.profileImage = localStorage.getItem('profileImage') || '';
+  setSegmentFromUrl(url: string): void {
+    if (url.includes('/dashboard')) {
+      this.segment = 'dashboard';
+    } else if (url.includes('/vendorbulkupload') || url.includes('/vendor-list')) {
+      this.segment = 'vendor';
+    } else if (url.includes('/cat-table')) {
+      this.segment = 'viewData';
+    } else if (url.includes('/all-mails') || url.includes('/drafts')) {
+      this.segment = 'mail';
+    } else {
+      this.segment = '';
     }
-
-    this.loadUserProfile();
   }
 
 
@@ -139,39 +141,38 @@ setSegmentFromUrl(url: string): void {
     });
   }
   loadUserProfile(): void {
-    const userId = Number(this.userId);
-    if (!userId) {
-      console.warn('Invalid userId');
-      return;
-    }
+  const userIdStr = localStorage.getItem('userId');
+  const userId = Number(userIdStr);
 
-    this.service.getUserProfileUpdate(userId).subscribe({
-      next: (res: any) => {
-        // console.log('Profile response:', res);
-
-        const user = res;
-
-        this.userName = user.name?.trim() || 'User';
-
-        let profilePath = user.profilePicture || '';
-        profilePath = profilePath.replace(/\\/g, '/');
-        const encodedPath = encodeURI(profilePath);
-
-        this.profileImage = encodedPath
-          ? `${this.service.url}${encodedPath}`
-          : '';
-
-        localStorage.setItem('name', this.userName);
-        localStorage.setItem('profileImage', this.profileImage);
-
-        console.log('Final profile image URL:', this.profileImage);
-      },
-      error: (err) => {
-        console.error('Error loading profile:', err);
-        this.profileImage = '';
-      }
-    });
+  if (!userId || isNaN(userId)) {
+    console.warn('Invalid userId', userIdStr);
+    return;
   }
+
+  this.service.getUserProfileUpdate(userId).subscribe({
+    next: (res: any) => {
+      const user = res;
+      this.userName = user.name?.trim() || 'User';
+
+      let profilePath = user.profilePicture || '';
+      profilePath = profilePath.replace(/\\/g, '/');
+      const encodedPath = encodeURI(profilePath);
+
+      this.profileImage = encodedPath
+        ? `${this.service.url}${encodedPath}`
+        : '';
+
+      localStorage.setItem('name', this.userName);
+      localStorage.setItem('profileImage', this.profileImage);
+    },
+    error: (err) => {
+      console.error('Error loading profile:', err);
+      this.profileImage = '';
+    }
+  });
+}
+
+
 
   setDefaultProfile(): void {
     this.userName = 'User';
@@ -196,7 +197,7 @@ setSegmentFromUrl(url: string): void {
   sendMail() {
     console.log('Send Mail clicked');
   }
-  
+
   isBrowser() {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
@@ -220,16 +221,16 @@ setSegmentFromUrl(url: string): void {
     });
   }
 
-  
- goToDashboard(): void {
-  this.router.navigate(['/dashboard']);
-}
+
+  goToDashboard(): void {
+    this.router.navigate(['/dashboard']);
+  }
 
   dropdown() {
     this.segment = '';
     this.router.navigate(['/candidate-list']);
   }
-  
+
   goToVendorList() {
     this.router.navigate(['/vendor-list']);
   }

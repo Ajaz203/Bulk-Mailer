@@ -12,5 +12,5 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     provideAnimations(),
     provideToastr(),
-  ],
+  ]
 }).catch(err => console.error(err));
