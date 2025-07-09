@@ -202,24 +202,25 @@ ngOnInit(): void {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
 
-  logout() {
-    if (this.isBrowser()) {
-      localStorage.clear();
-    }
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to logout?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, Logout'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.router.navigate(['/login']);
+ logout() {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to logout?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, Logout'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      if (this.isBrowser()) {
+        localStorage.clear();
       }
-    });
-  }
+      this.router.navigate(['/login']);
+    }
+  });
+}
+
 
 
   goToDashboard(): void {
