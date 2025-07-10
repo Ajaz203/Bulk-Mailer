@@ -5,6 +5,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { forkJoin, map } from 'rxjs';
 declare var bootstrap: any;
 
 interface UserVendor {
@@ -64,7 +65,8 @@ export class VendorCandidateListComponent {
     this.service.refreshTable$.subscribe(() => {
       this.getData();
     });
-    this.fetchUsersWithVendors();
+    // this.fetchUsersWithVendors();
+        this.fetchUsersWithVendorMapping();
   }
   fetchUsersWithVendors(): void {
     this.service.getUsersWithVendors({}).subscribe({
@@ -79,7 +81,6 @@ export class VendorCandidateListComponent {
 
 
 
-
   toggleUserDetails(user: any): void {
     if (this.expandedUserId === user.userId) {
       this.expandedUserId = null;
@@ -89,33 +90,20 @@ export class VendorCandidateListComponent {
 
     this.expandedUserId = user.userId;
 
-    this.service.getVendorsByUser(user.userId).subscribe({
-      next: (res) => {
-        this.expandedVendorList = Array.isArray(res) ? res : [];
-      },
-      error: (err) => {
-        console.error('Error loading vendors for user:', err);
-        this.expandedVendorList = [];
-      }
-    });
+   this.service.getVendorsByUser(this.selectedUser.userId).subscribe({
+  next: (res) => {
+    this.vendorList = Array.isArray(res) ? res : [];
+    this.isLoading = false;
+  },
+  error: (err) => {
+    this.isLoading = false;
+    console.error('Failed to reload vendor list after deletion:', err);
+  }
+});
+
   }
 
- openUserVendors(user: any) {
-  this.selectedUser = user;
 
-  this.service.getVendorsByUser(user.userId).subscribe({
-    next: (res) => {
-      this.vendorList = Array.isArray(res) ? res : [];
-
-      
-      const modal = new bootstrap.Modal(document.getElementById('vendorModal'));
-      modal.show();
-    },
-    error: (err) => {
-      console.error('Failed to load vendors:', err);
-    }
-  });
-}
 
   get filteredUserList(): UserVendor[] {
     const term = this.searchTerm.toLowerCase();
@@ -132,28 +120,25 @@ export class VendorCandidateListComponent {
   }
 
 
-  handleSelectCandidateSend() {
-    if (this.selectedCandidates.size === 0) {
-      Swal.fire('Warning', 'Please select at least one candidate.', 'warning');
-      return;
-    }
-    this.selectionMode = 'selected';
-    const modal = new bootstrap.Modal(document.getElementById('mailModal')!);
-    modal.show();
+ handleSelectCandidateSend() {
+  const selected = Array.from(this.selectedCandidates).filter(c => this.vendorList.includes(c));
+  
+  if (selected.length === 0) {
+    Swal.fire('Warning', 'Please select at least one candidate.', 'warning');
+    return;
   }
 
-  handleAllCandidateSend() {
-    this.selectionMode = 'all';
-    const modal = new bootstrap.Modal(document.getElementById('mailModal')!);
-    modal.show();
-  }
-  toggleSelection(candidate: any) {
-    if (this.selectedCandidates.has(candidate)) {
-      this.selectedCandidates.delete(candidate);
-    } else {
-      this.selectedCandidates.add(candidate);
-    }
-  }
+  this.selectionMode = 'selected';
+  const modal = new bootstrap.Modal(document.getElementById('mailModal')!);
+  modal.show();
+}
+
+handleAllCandidateSend() {
+  this.selectionMode = 'all';
+  const modal = new bootstrap.Modal(document.getElementById('mailModal')!);
+  modal.show();
+}
+
   filteredData() {
     if (!this.dataArr) return [];
 
@@ -167,19 +152,28 @@ export class VendorCandidateListComponent {
     );
   }
 
-  // Toggle all selection
-  toggleSelectAll(event: any) {
-    if (event.target.checked) {
-      this.dataArr.forEach((candidate: any) => this.selectedCandidates.add(candidate));
-    } else {
-      this.selectedCandidates.clear();
-    }
-  }
 
-  // Check if all selected
-  isAllSelected(): boolean {
-    return this.dataArr?.length > 0 && this.selectedCandidates.size === this.dataArr.length;
+ toggleSelectAll(event: any) {
+  if (event.target.checked) {
+    this.vendorList.forEach((vendor: any) => this.selectedCandidates.add(vendor));
+  } else {
+    this.selectedCandidates.clear();
   }
+}
+
+toggleSelection(vendor: any) {
+  if (this.selectedCandidates.has(vendor)) {
+    this.selectedCandidates.delete(vendor);
+  } else {
+    this.selectedCandidates.add(vendor);
+  }
+}
+
+isAllSelected(): boolean {
+  return this.vendorList.length > 0 && this.vendorList.every(v => this.selectedCandidates.has(v));
+}
+
+
 
   sendSingle(candidate: any) {
     console.log('Sending single candidate:', candidate);
@@ -257,13 +251,6 @@ export class VendorCandidateListComponent {
   }
 
 
-  // clearSelection() {
-  //   console.log("clearSelection is called")
-  //   this.selected.set(new Set());
-  //   console.log(this.selected)
-
-  // }
-
   sendSelected() {
     console.log("sendSelected is called")
 
@@ -302,131 +289,213 @@ export class VendorCandidateListComponent {
     }
   }
 
-
+editModalInstance: any = null;
   editCandidate(candidate: any) {
-    this.selectedCandidate = { ...candidate };
-    const modal = new bootstrap.Modal(document.getElementById('editModal')!);
-    modal.show();
+  this.selectedCandidate = {
+    ...candidate,
+    userId: this.selectedUser?.userId  // ⬅️ set correct userId!
+  };
+
+  const modalElement = document.getElementById('editModal');
+  if (modalElement) {
+    this.editModalInstance = new bootstrap.Modal(modalElement);
+    this.editModalInstance.show();
+  }
+}
+
+
+
+updateCandidate() {
+  if (!this.selectedCandidate?.id) {
+    Swal.fire('Error', 'Candidate ID missing.', 'error');
+    return;
   }
 
-  updateCandidate() {
-    this.service.vendorUpdate(this.selectedCandidate.id, this.selectedCandidate)
-      .subscribe({
-        next: (res) => {
-          Swal.fire('Updated!', 'Candidate updated successfully', 'success');
-          this.getData();
+  // ✅ Attach correct userId
+  this.selectedCandidate.userId = this.selectedUser?.userId;
 
-          const modalElement = document.getElementById('editModal');
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal?.hide();
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      });
-  }
+  this.service.vendorUpdate(this.selectedCandidate.id, this.selectedCandidate).subscribe({
+    next: () => {
+      Swal.fire('Updated!', 'Candidate updated successfully.', 'success');
 
-  deleteCandidate(id: any) {
-    if (!id) {
-      Swal.fire('Error', 'ID is missing!', 'error');
-      return;
+      if (this.editModalInstance) {
+        this.editModalInstance.hide();
+      }
+
+      document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
+      document.body.classList.remove('modal-open');
+      document.body.style.removeProperty('padding-right');
+
+      this.openUserVendors(this.selectedUser);
+      this.fetchUsersWithVendorMapping();  // ⬅️ reload list correctly
+    },
+    error: (err) => {
+      console.error(err);
+      Swal.fire('Error', 'Failed to update candidate.', 'error');
     }
+  });
+}
 
-    const payload = { id: id };
 
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.isLoading = true;
+  trackByVendorId(index: number, vendor: any): number {
+    return vendor.id;
+  }
 
-        this.service.vendorDelete(payload).subscribe({
-          next: () => {
-            Swal.fire('Deleted!', 'Candidate has been deleted.', 'success');
-            this.dataArr = this.dataArr.filter((c: { id: any; }) => c.id !== id);
-            this.isLoading = false;
+fetchUsersWithVendorMapping(): void {
+    this.service.getUsersWithVendors({}).subscribe({
+      next: (users) => {
+        const userList = Array.isArray(users) ? users : [];
+
+        const userVendorObservables = userList.map(user =>
+          this.service.getVendorsByUser(user.userId).pipe(
+            map(vendors => ({ ...user, vendors }))
+          )
+        );
+
+        forkJoin(userVendorObservables).subscribe({
+          next: (combinedUsersWithVendors) => {
+            this.userVendorList = combinedUsersWithVendors;
+            console.log('✅ Combined user list with vendors:', this.userVendorList);
           },
           error: (err) => {
-            this.isLoading = false;
-            console.error(err);
-            Swal.fire('Error!', err.error?.error || 'Failed to delete candidate.', 'error');
+            console.error('Failed to load vendors per user:', err);
           }
         });
+      },
+      error: (err) => {
+        console.error('Failed to fetch users:', err);
       }
     });
   }
-  vendorSendMail() {
-    const selectedEmails = this.selectionMode === 'all'
-      ? this.dataArr.map((c: { email: any }) => c.email)
-      : Array.from(this.selectedCandidates).map(c => c.email);
 
-    if (selectedEmails.length === 0) {
-      Swal.fire('Error', 'No candidates selected.', 'error');
-      return;
-    }
 
-    if (!this.mailSubject || !this.mailBody) {
-      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-      return;
-    }
 
-    const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
+openUserVendors(user: any): void {
+    this.selectedUser = user;
 
-    const payload: any = {
-      mailSubject: this.mailSubject,
-      emails: selectedEmails,
-      mailBody: this.mailBody.replace(/\n/g, '<br>')
-    };
+    this.service.getVendorsByUser(user.userId).subscribe({
+      next: (res) => {
+        this.vendorList = Array.isArray(res) ? res : [];
 
-    if (isScheduled) {
-      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+        document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('padding-right');
 
-      payload.date = this.scheduleDate;
-      payload.time = time;
-      payload.period = period;
-      payload.type = 'scheduled';
-    } else {
-      payload.type = 'immediate';
-    }
-
-    // console.log('Payload:', payload);
-
-    this.isLoading = true;
-
-    this.service.vendorSendMail(payload).subscribe({
-      next: () => {
-        Swal.fire('Success', 'Mail sent successfully!', 'success');
-        this.resetMailModal();
-
-        const modalElement = document.getElementById('mailModal');
+        const modalElement = document.getElementById('vendorModal');
         if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-          modal.hide();
-        }
-
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
+          const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modalInstance.show();
         }
       },
       error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'Failed to send mail.', 'error');
-      },
-      complete: () => {
-        this.isLoading = false;
+        console.error('Failed to load vendors:', err);
       }
     });
   }
+deleteCandidate(id: any) {
+  if (!id) {
+    Swal.fire('Error', 'ID is missing!', 'error');
+    return;
+  }
+
+  const payload = { id: id };
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.isLoading = true;
+
+      this.service.vendorDelete(payload).subscribe({
+        next: () => {
+          Swal.fire('Deleted!', 'Candidate has been deleted.', 'success');
+
+          // ✅ Remove from vendorList (used in modal)
+          this.vendorList = this.vendorList.filter((c: { id: any }) => c.id !== id);
+
+          // Also update dataArr if needed globally
+          this.dataArr = this.dataArr?.filter((c: { id: any }) => c.id !== id);
+
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.isLoading = false;
+          console.error(err);
+          Swal.fire('Error!', err.error?.error || 'Failed to delete candidate.', 'error');
+        }
+      });
+    }
+  });
+}
 
 
+vendorSendMail() {
+  const sourceList = this.selectionMode === 'all' ? this.vendorList : Array.from(this.selectedCandidates);
 
+  const selectedEmails = sourceList.map((c: { email: any }) => c.email);
+
+  if (selectedEmails.length === 0) {
+    Swal.fire('Error', 'No candidates selected.', 'error');
+    return;
+  }
+
+  if (!this.mailSubject || !this.mailBody) {
+    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+    return;
+  }
+
+  const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
+
+  const payload: any = {
+    mailSubject: this.mailSubject,
+    emails: selectedEmails,
+    mailBody: this.mailBody.replace(/\n/g, '<br>')
+  };
+
+  if (isScheduled) {
+    const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+
+    payload.date = this.scheduleDate;
+    payload.time = time;
+    payload.period = period;
+    payload.type = 'scheduled';
+  } else {
+    payload.type = 'immediate';
+  }
+
+  this.isLoading = true;
+
+  this.service.vendorSendMail(payload).subscribe({
+    next: () => {
+      Swal.fire('Success', 'Mail sent successfully!', 'success');
+      this.resetMailModal();
+
+      const modalElement = document.getElementById('mailModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modal.hide();
+      }
+
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      Swal.fire('Error', 'Failed to send mail.', 'error');
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
 
   resetMailModal() {
     this.mailSubject = '';
