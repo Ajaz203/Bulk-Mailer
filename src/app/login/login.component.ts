@@ -64,6 +64,14 @@ export class LoginComponent {
       .subscribe({
         next: (response: any) => {
           this.triggerToast('success', response.message || 'Login successful!');
+          const user = {
+          userId: response.user.userId,
+          name: response.user.name,
+          email: response.user.email
+        };
+
+  
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
           localStorage.setItem('userId', response.user.userId.toString());
           localStorage.setItem('token', response.token);
           localStorage.setItem('name', response.user.name);

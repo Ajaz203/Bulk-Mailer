@@ -185,7 +185,6 @@ isAllSelected(): boolean {
     console.log('Sending single candidate:', candidate);
 
   }
-  // on page change, update signal
   onPageChange(newPage: number) {
     this.page.set(newPage);
   }
@@ -461,7 +460,8 @@ vendorSendMail() {
   const payload: any = {
     mailSubject: this.mailSubject,
     emails: selectedEmails,
-    mailBody: this.mailBody.replace(/\n/g, '<br>')
+    mailBody: this.mailBody.replace(/\n/g, '<br>'),
+    
   };
 
   if (isScheduled) {

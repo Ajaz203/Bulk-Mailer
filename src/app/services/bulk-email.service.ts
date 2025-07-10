@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,11 +36,20 @@ export class EmailService {
     }
   }
 
-  postWithUserId(endpoint: string, data: any) {
-    const userId = this.getUserId();
-    const payload = { ...data, userId };
-    return this.http.post(this.url + endpoint, payload, { headers: this.header });
-  }
+postWithUserId(endpoint: string, data: any) {
+  const userId = localStorage.getItem('userId');
+  const userEmail = localStorage.getItem('email');
+  const userName = localStorage.getItem('name');
+
+  const payload = {
+    ...data,
+    userId: userId ? +userId : null,
+    userEmail: userEmail || '',
+    userName: userName || ''
+  };
+
+  return this.http.post(this.url + endpoint, payload, { headers: this.header });
+}
 
 
 

@@ -36,6 +36,8 @@ export class CandidateListComponent implements OnInit {
   draftList: any[] = [];
   showFilterSection = false;
   originalData: any;
+    selectedUser: any = null; 
+ 
   constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
   ngOnInit() {
     this.getData();
@@ -58,42 +60,42 @@ export class CandidateListComponent implements OnInit {
     this.showFilterSection = !this.showFilterSection;
   }
 
-applyFilters() {
-  const { experience, visa, skills } = this.filter;
+  applyFilters() {
+    const { experience, visa, skills } = this.filter;
 
-  this.dataArr = this.originalData.filter((candidate: any) => {
-    const matchExp = !experience || String(candidate.experience) === String(experience);
-    const matchVisa = !visa || (candidate.visa?.toLowerCase().includes(visa.toLowerCase()));
-    const matchSkills = !skills || (Array.isArray(candidate.skills)
-      ? candidate.skills.join(',').toLowerCase().includes(skills.toLowerCase())
-      : candidate.skills?.toLowerCase().includes(skills.toLowerCase()));
+    this.dataArr = this.originalData.filter((candidate: any) => {
+      const matchExp = !experience || String(candidate.experience) === String(experience);
+      const matchVisa = !visa || (candidate.visa?.toLowerCase().includes(visa.toLowerCase()));
+      const matchSkills = !skills || (Array.isArray(candidate.skills)
+        ? candidate.skills.join(',').toLowerCase().includes(skills.toLowerCase())
+        : candidate.skills?.toLowerCase().includes(skills.toLowerCase()));
 
-    return matchExp && matchVisa && matchSkills;
-  });
-}
+      return matchExp && matchVisa && matchSkills;
+    });
+  }
 
 
 
-resetFilters() {
-  this.filter = { experience: '', visa: '', skills: '' };
-  this.dataArr = [...this.originalData]; 
-}
+  resetFilters() {
+    this.filter = { experience: '', visa: '', skills: '' };
+    this.dataArr = [...this.originalData];
+  }
 
- getData() {
-  this.isLoading = true;
-  this.service.getCandidateData({}).subscribe({
-    next: (resp: any) => {
-      // console.log("Candidate Response:", resp);
-      this.originalData = resp; 
-      this.dataArr = [...this.originalData]; 
-      this.isLoading = false;
-    },
-    error: (err) => {
-      this.isLoading = false;
-      console.error('Failed to load data:', err);
-    }
-  });
-}
+  getData() {
+    this.isLoading = true;
+    this.service.getCandidateData({}).subscribe({
+      next: (resp: any) => {
+        // console.log("Candidate Response:", resp);
+        this.originalData = resp;
+        this.dataArr = [...this.originalData];
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Failed to load data:', err);
+      }
+    });
+  }
 
 
   toggleSelection(candidate: any) {
@@ -104,7 +106,7 @@ resetFilters() {
     }
   }
 
-  
+
   toggleSelectAll(event: any) {
     if (event.target.checked) {
       this.dataArr.forEach((candidate: any) => this.selectedCandidates.add(candidate));
@@ -229,69 +231,70 @@ resetFilters() {
     };
   }
 
+sendMail() {
+  const selectedEmails = this.selectionMode === 'all'
+    ? this.dataArr.map((c: { email: any }) => c.email)
+    : Array.from(this.selectedCandidates).map(c => c.email);
 
-  sendMail() {
-    const selectedEmails = this.selectionMode === 'all'
-      ? this.dataArr.map((c: { email: any }) => c.email)
-      : Array.from(this.selectedCandidates).map(c => c.email);
-
-    if (selectedEmails.length === 0) {
-      Swal.fire('Error', 'No candidates selected.', 'error');
-      return;
-    }
-
-    if (!this.mailSubject || !this.mailBody) {
-      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-      return;
-    }
-
-    const isScheduled = this.scheduleDate && this.scheduleTime;
-
-    const payload: any = {
-      mailSubject: this.mailSubject,
-      emails: selectedEmails,
-      mailBody: this.mailBody.replace(/\n/g, '<br>')
-
-    };
-
-    if (isScheduled) {
-      const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
-
-      payload.date = this.scheduleDate;
-      payload.time = time;
-      payload.period = period;
-      payload.type = 'scheduled';
-    } else {
-      payload.type = 'immediate';
-    }
-
-    // console.log('Payload:', payload);
-
-    this.isLoading = true;
-
-    this.service.sendMail(payload).subscribe({
-      next: () => {
-        Swal.fire('Success', 'Mail sent successfully!', 'success');
-        this.resetMailModal();
-        const modalElement = document.getElementById('mailModal');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-          modal.hide();
-        }
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'Failed to send mail.', 'error');
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
+  if (selectedEmails.length === 0) {
+    Swal.fire('Error', 'No candidates selected.', 'error');
+    return;
   }
+
+  if (!this.mailSubject || !this.mailBody) {
+    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+    return;
+  }
+
+  const isScheduled = this.scheduleDate && this.scheduleTime;
+
+const payload: any = {
+  mailSubject: this.mailSubject,
+  emails: selectedEmails,
+  mailBody: this.mailBody.replace(/\n/g, '<br>'),
+  
+};
+
+
+  if (isScheduled) {
+    const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
+
+    payload.date = this.scheduleDate;
+    payload.time = time;
+    payload.period = period;
+    payload.type = 'scheduled';
+  } else {
+    payload.type = 'immediate';
+  }
+
+  this.isLoading = true;
+
+  this.service.sendMail(payload).subscribe({
+    next: () => {
+      Swal.fire('Success', 'Mail sent successfully!', 'success');
+      this.resetMailModal();
+
+      const modalElement = document.getElementById('mailModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modal.hide();
+      }
+
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      Swal.fire('Error', 'Failed to send mail.', 'error');
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
+
 
   resetMailModal() {
     this.mailSubject = '';
@@ -412,23 +415,23 @@ resetFilters() {
 
 
 
- get filteredCandidates() {
-  if (!this.searchQuery) return this.dataArr;
+  get filteredCandidates() {
+    if (!this.searchQuery) return this.dataArr;
 
-  const query = this.searchQuery.toLowerCase();
+    const query = this.searchQuery.toLowerCase();
 
-  return this.dataArr.filter((c: any) =>
-    (c.name?.toLowerCase().includes(query)) ||
-    (c.email?.toLowerCase().includes(query)) ||
-    (c.contact_no?.toLowerCase().includes(query)) ||
-    (c.alt_contact_no?.toLowerCase().includes(query)) ||
-    (c.technology?.toLowerCase().includes(query)) ||
-    (c.location?.toLowerCase().includes(query)) ||
-    (c.visa?.toLowerCase().includes(query)) ||
-    (c.skills?.join(', ').toLowerCase().includes(query)) ||
-    (new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query))
-  );
-}
+    return this.dataArr.filter((c: any) =>
+      (c.name?.toLowerCase().includes(query)) ||
+      (c.email?.toLowerCase().includes(query)) ||
+      (c.contact_no?.toLowerCase().includes(query)) ||
+      (c.alt_contact_no?.toLowerCase().includes(query)) ||
+      (c.technology?.toLowerCase().includes(query)) ||
+      (c.location?.toLowerCase().includes(query)) ||
+      (c.visa?.toLowerCase().includes(query)) ||
+      (c.skills?.join(', ').toLowerCase().includes(query)) ||
+      (new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query))
+    );
+  }
 
   openDraftInMail(draft: any) {
     this.mailSubject = draft.mailSubject || '';
