@@ -43,6 +43,8 @@ export class VendorCandidateListComponent {
   expandedVendorList: any[] = [];
   selectedUser: any = null;
   vendorList: any[] = [];
+  searchTermUser: string = '';
+searchTermVendor: string = '';
   constructor(private service: EmailService, private cd: ChangeDetectorRef,) { };
 
   private _candidates = signal<any[]>([]);
@@ -105,15 +107,19 @@ export class VendorCandidateListComponent {
 
 
 
-  get filteredUserList(): UserVendor[] {
-    const term = this.searchTerm.toLowerCase();
-    return this.userVendorList.filter(user =>
-      user.name?.toLowerCase().includes(term) ||
-      user.email?.toLowerCase().includes(term) ||
-      user.company?.toLowerCase().includes(term)
-    );
-  }
-
+ get filteredUserList() {
+  const term = this.searchTermUser.toLowerCase();
+  return this.userVendorList.filter(user =>
+    user.name?.toLowerCase().includes(term) ||
+    user.email?.toLowerCase().includes(term)
+  );
+}
+get filteredVendorList() {
+  const term = this.searchTermVendor.toLowerCase();
+  return this.vendorList.filter(v =>
+    v.email?.toLowerCase().includes(term)
+  );
+}
   get paginatedUserList(): UserVendor[] {
     const start = (this.page() - 1) * this.pageSize;
     return this.filteredUserList.slice(start, start + this.pageSize);
