@@ -26,6 +26,7 @@
             <th>S.No</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Uploaded Vendors</th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +35,8 @@
             <td>{{ i + 1 }}</td>
             <td>{{ user.name || '-' }}</td>
             <td>{{ user.email || '-' }}</td>
+            <td>{{ user.vendors?.length || 0 }}</td>
+             
           </tr>
           <tr *ngIf="userVendorList.length === 0">
             <td colspan="3" class="text-center text-muted py-3">No users found.</td>
