@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ToastrService,ToastrModule } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { EmailService } from '../services/bulk-email.service';
 import { finalize } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink,  ToastrModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
