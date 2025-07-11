@@ -420,13 +420,8 @@ deleteCandidate(id: any) {
       this.service.vendorDelete(payload).subscribe({
         next: () => {
           Swal.fire('Deleted!', 'Candidate has been deleted.', 'success');
-
-          // ✅ Remove from vendorList (used in modal)
           this.vendorList = this.vendorList.filter((c: { id: any }) => c.id !== id);
-
-          // Also update dataArr if needed globally
           this.dataArr = this.dataArr?.filter((c: { id: any }) => c.id !== id);
-
           this.isLoading = false;
         },
         error: (err) => {
@@ -441,7 +436,10 @@ deleteCandidate(id: any) {
 
 
 vendorSendMail() {
-  const sourceList = this.selectionMode === 'all' ? this.vendorList : Array.from(this.selectedCandidates);
+  const sourceList =
+    this.selectionMode === 'all'
+      ? this.vendorList
+      : Array.from(this.selectedCandidates);
 
   const selectedEmails = sourceList.map((c: { email: any }) => c.email);
 
@@ -450,22 +448,31 @@ vendorSendMail() {
     return;
   }
 
-  if (!this.mailSubject || !this.mailBody) {
+  if (!this.mailSubject?.trim() || !this.mailBody?.trim()) {
     Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
     return;
   }
 
-  const isScheduled = this.scheduleDate && this.scheduleTime && this.schedulePeriod;
+  // LOG the values to debug
+  console.log('Schedule Date:', this.scheduleDate);
+  console.log('Schedule Time:', this.scheduleTime);
+  console.log('Schedule Period:', this.schedulePeriod);
+
+  const isScheduled =
+    this.scheduleDate?.trim?.() &&
+    this.scheduleTime?.trim?.() &&
+    this.schedulePeriod?.trim?.();
 
   const payload: any = {
     mailSubject: this.mailSubject,
     emails: selectedEmails,
     mailBody: this.mailBody.replace(/\n/g, '<br>'),
-    
   };
 
   if (isScheduled) {
-    const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+    const { time, period } = this.convertTo12HourWithPeriod(
+      this.scheduleTime
+    );
 
     payload.date = this.scheduleDate;
     payload.time = time;
@@ -484,7 +491,9 @@ vendorSendMail() {
 
       const modalElement = document.getElementById('mailModal');
       if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        const modal =
+          bootstrap.Modal.getInstance(modalElement) ||
+          new bootstrap.Modal(modalElement);
         modal.hide();
       }
 
@@ -499,9 +508,10 @@ vendorSendMail() {
     },
     complete: () => {
       this.isLoading = false;
-    }
+    },
   });
 }
+
 
   resetMailModal() {
     this.mailSubject = '';

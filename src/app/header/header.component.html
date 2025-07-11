@@ -94,10 +94,8 @@
       <ul class="nav nav-tabs border-0 pt-3">
         <li class="nav-item">
 
-          <button class="nav-link" type="button" [class.active]="segment === 'dashboard'"
-            (click)="segment = 'dashboard'; goToDashboard()">
-            Dashboard
-          </button>
+          <a class="nav-link" [class.active]="segment === 'dashboard'" routerLink="/dashboard">Dashboard</a>
+
         </li>
         <li class="nav-item dropdown" (mouseenter)="openDropdown = true" (mouseleave)="openDropdown = false"
           [class.show]="openDropdown">
@@ -132,10 +130,10 @@
         </li>
 
         <li class="nav-item">
-          <button class="nav-link" type="button" [class.active]="segment === 'viewData'"
+          <a class="nav-link" type="button" [class.active]="segment === 'viewData'"
             (click)="segment = 'viewData'; goToAbout()">
             View Technology
-          </button>
+          </a>
         </li>
 
         <li class="nav-item dropdown" (mouseenter)="openMailDropdown = true" (mouseleave)="openMailDropdown = false"
