@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { EmailService } from '../services/bulk-email.service';
-import { ChartOptions } from 'chart.js';
+import { ChartOptions, ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -16,22 +16,42 @@ export class DashboardComponent implements OnInit {
   overviewStats: any[] = [];
   emailTrendLabels: string[] = [];
   emailTrendData: any = { labels: [], datasets: [] };
+  sendMailTrendData: any = { labels: [], datasets: [] };
   emailTypeLabels: string[] = [];
   emailTypeData: any = { labels: [], datasets: [] };
   userRoles: any[] = [];
   isBrowser: boolean = false;
 
-    lineChartOptions: ChartConfiguration<'line'>['options'] = {
+  lineChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          stepSize: 5000, // Adjust step size based on your data
-          callback: function (value: number | string): string {
-            return Number(value).toLocaleString(); // format with commas
+          stepSize: 1000,
+          callback: (value: number | string): string => Number(value).toLocaleString()
+        },
+        title: {
+          display: true,
+          text: 'Emails Sent',
+          color: '#666',
+          font: {
+            weight: 'bold'
           }
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Days',
+          color: '#666',
+          font: {
+            weight: 'bold'
+          }
+        },
+        ticks: {
+          color: '#333'
         }
       }
     },
@@ -39,13 +59,16 @@ export class DashboardComponent implements OnInit {
       legend: {
         display: true,
         labels: {
-          color: '#333'
+          color: '#333',
+          font: {
+            weight: 'bold'
+          }
         }
       },
       tooltip: {
         callbacks: {
           label: function (ctx) {
-            return `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`;
+            return `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} mails`;
           }
         }
       }
@@ -110,6 +133,29 @@ export class DashboardComponent implements OnInit {
         ];
 
         const trend = res.emailTrend || [];
+
+        // For chart with actual date labels
+        this.sendMailTrendData = {
+          labels: trend.map((d: any) =>
+            new Date(d.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+          ),
+          datasets: [
+            {
+              label: 'Sent Emails',
+              data: trend.map((d: any) => d.count),
+              borderColor: '#00457c',
+              backgroundColor: 'rgba(0, 69, 124, 0.1)',
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: '#00457c',
+              pointBorderColor: '#00457c',
+              pointHoverRadius: 6,
+              pointRadius: 4
+            }
+          ]
+        };
+
+        // Optional: if you still use this
         this.emailTrendLabels = trend.map((d: any) => d.date);
         this.emailTrendData = {
           labels: this.emailTrendLabels,
@@ -126,7 +172,6 @@ export class DashboardComponent implements OnInit {
           ]
         };
 
-
         const types = res.emailTypes || [];
         this.emailTypeLabels = types.map((t: any) => t.type);
         this.emailTypeData = {
@@ -137,20 +182,19 @@ export class DashboardComponent implements OnInit {
               const type = t.type?.trim().toLowerCase();
               if (type === 'immediate') return '#F0561D';
               if (type === 'scheduled') return '#F8AE54';
-              return '#cccccc'; // fallback
+              return '#cccccc';
             }),
             hoverBackgroundColor: types.map((t: any) => {
               const type = t.type?.trim().toLowerCase();
               if (type === 'immediate') return '#F0561D';
               if (type === 'scheduled') return '#F8AE54';
-              return '#cccccc'; // fallback
+              return '#cccccc';
             }),
             hoverOffset: 8,
             borderWidth: 1,
             borderColor: '#fff'
           }]
         };
-
 
         this.userRoles = res.userRoles || [];
       },

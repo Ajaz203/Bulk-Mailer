@@ -20,22 +20,21 @@
   </div>
 
   <div class="row g-4 mb-4">
-   <div class="col-lg-8">
-  <div class="card border-1 shadow-sm rounded-4">
-    <div class="card-body">
-      <h5 class="fw-semibold mb-3">📈 Email Trend (Last 7 Days)</h5>
-      <div *ngIf="isBrowser">
-        <canvas
-          baseChart
-          [data]="emailTrendData"
-          [options]="lineChartOptions"
-          [type]="'line'"
-          height="250"
-        ></canvas>
+    <div class="col-lg-8">
+      <div class="card border-1 shadow-sm rounded-4">
+        <div class="card-body">
+          <h5 class="fw-semibold mb-3">📬 Sent Mails (Last 7 Days)</h5>
+          <div *ngIf="isBrowser">
+            <canvas baseChart [data]="sendMailTrendData" [options]="lineChartOptions" [type]="'line'"
+              height="250"></canvas>
+
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+
+
+
 
 
     <div class="col-lg-4">
