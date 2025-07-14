@@ -1,3 +1,9 @@
+::ng-deep ngx-editor .NgxEditor__Content {
+  min-height: 200px;
+  /* max-height: 500px; */
+  overflow-y: auto;
+}
+
   
    .action-buttons {
     /* margin-top: 20px; */

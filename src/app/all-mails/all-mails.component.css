@@ -1,3 +1,6 @@
+.table-responsive {
+  overflow-x: auto;
+}
 
 .custom-switch {
   display: flex;

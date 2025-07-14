@@ -36,7 +36,7 @@
             <td>{{ user.name || '-' }}</td>
             <td>{{ user.email || '-' }}</td>
             <td>{{ user.vendors?.length || 0 }}</td>
-             
+
           </tr>
           <tr *ngIf="userVendorList.length === 0">
             <td colspan="3" class="text-center text-muted py-3">No users found.</td>
@@ -154,8 +154,9 @@
 
         <div class="mb-3">
           <label class="form-label fw-medium">Description</label>
-          <textarea class="form-control" rows="5" [(ngModel)]="mailBody"
-            placeholder="Enter your mail content..."></textarea>
+          <ngx-editor [editor]="editor!" [(ngModel)]="mailBody" placeholder="Enter your mail content...">
+          </ngx-editor>
+
         </div>
       </div>
 

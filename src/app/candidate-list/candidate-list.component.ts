@@ -5,13 +5,16 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
+import { Editor, Toolbar } from 'ngx-editor';
+import { NgxEditorModule } from 'ngx-editor';
+
 declare var bootstrap: any;
 
 
 @Component({
   selector: 'app-candidate-list',
   standalone: true,
-  imports: [CommonModule, NgbPaginationModule, FormsModule],
+  imports: [CommonModule, NgbPaginationModule,FormsModule,NgxEditorModule],
   templateUrl: './candidate-list.component.html',
   styleUrls: ['./candidate-list.component.css']
 })
@@ -37,18 +40,32 @@ export class CandidateListComponent implements OnInit {
   showFilterSection = false;
   originalData: any;
     selectedUser: any = null; 
- 
+   editor!: Editor;
+  htmlContent: string = '';
+toolbar: Toolbar = [
+  ['bold', 'italic', 'underline'],
+  ['text_color', 'background_color'],
+  ['link'],
+  ['bullet_list', 'ordered_list'],
+  ['code', 'blockquote'],
+  ['align_left', 'align_center', 'align_right']
+];
+
   constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
+
   ngOnInit() {
     this.getData();
     this.cdr.detectChanges();
     this.service.refreshTable$.subscribe(() => {
       this.getData();
     });
+    this.editor = new Editor();
     this.getDraftData();
-
+    
   }
-
+ngOnDestroy(): void {
+  this.editor?.destroy();
+}
 
   filter = {
     experience: '',
@@ -251,7 +268,7 @@ sendMail() {
 const payload: any = {
   mailSubject: this.mailSubject,
   emails: selectedEmails,
-  mailBody: this.mailBody.replace(/\n/g, '<br>'),
+  mailBody: this.mailBody,
   
 };
 

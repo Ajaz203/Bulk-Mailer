@@ -135,9 +135,11 @@
         </div>
         <div class="mb-3">
           <label class="form-label fw-medium">Description</label>
-          <textarea class="form-control" rows="5" [(ngModel)]="mailBody"
-            placeholder="Enter your mail content..."></textarea>
+          <ngx-editor *ngIf="editor" [editor]="editor" [(ngModel)]="mailBody" placeholder="Enter your mail content...">
+          </ngx-editor>
+
         </div>
+
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
