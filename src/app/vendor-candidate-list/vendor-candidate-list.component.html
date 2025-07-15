@@ -152,17 +152,14 @@
         </div>
 
 
-          <div class="mb-4">
-  <label class="form-label fw-medium mb-2">Description</label>
+        <div class="mb-4">
+          <label class="form-label fw-medium mb-2">Description</label>
 
-<ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
-<ngx-editor
-  [editor]="editor"
-  [(ngModel)]="mailBody"
-  placeholder="Type your email...">
-</ngx-editor>
+          <ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
+          <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email...">
+          </ngx-editor>
 
-</div>
+        </div>
       </div>
 
       <div class="modal-footer">

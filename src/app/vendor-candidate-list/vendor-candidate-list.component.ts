@@ -69,13 +69,13 @@ export class VendorCandidateListComponent {
 
   pageNumber = 1;
   ngOnInit() {
+    this.editor = new Editor();
     this.getData();
     this.service.refreshTable$.subscribe(() => {
       this.getData();
     });
     // this.fetchUsersWithVendors();
     this.fetchUsersWithVendorMapping();
-    this.editor = new Editor();
   }
   ngOnDestroy(): void {
     if (this.editor) {
