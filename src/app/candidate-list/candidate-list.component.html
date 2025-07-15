@@ -125,8 +125,10 @@
         <!-- Schedule Section -->
         <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
           <label class="fw-medium mb-0" style="min-width: 80px;">Schedule:</label>
-          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate" style="max-width: 160px;" />
-          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width: 120px;" />
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
+            style="max-width: 160px;" />
+          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
+            style="max-width: 120px;" />
         </div>
 
         <!-- Subject -->
@@ -135,17 +137,14 @@
           <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter mail subject..." />
         </div>
 
-  <div class="mb-4">
-  <label class="form-label fw-medium mb-2">Description</label>
+        <div class="mb-4">
+          <label class="form-label fw-medium mb-2">Description</label>
 
-<ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
-<ngx-editor
-  [editor]="editor"
-  [(ngModel)]="mailBody"
-  placeholder="Type your email...">
-</ngx-editor>
+          <ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
+          <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email...">
+          </ngx-editor>
 
-</div>
+        </div>
 
 
       </div>
