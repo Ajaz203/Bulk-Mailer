@@ -138,10 +138,13 @@
             <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
           </div>
 
-          <div class="mb-3">
-            <label class="form-label fw-medium">Description</label>
-            <textarea class="form-control" rows="5" [(ngModel)]="mailBody"
-              placeholder="Enter your mail content..."></textarea>
+          <div class="mb-4">
+            <label class="form-label fw-medium mb-2">Description</label>
+
+            <ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
+            <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email...">
+            </ngx-editor>
+
           </div>
 
         </div>
