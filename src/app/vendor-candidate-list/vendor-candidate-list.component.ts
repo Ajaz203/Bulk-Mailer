@@ -6,8 +6,8 @@ import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, map } from 'rxjs';
-import { Editor, Toolbar } from 'ngx-editor';
-import { NgxEditorModule } from 'ngx-editor';
+import {  Toolbar } from 'ngx-editor';
+import { NgxEditorModule ,Editor} from 'ngx-editor';
 
 declare var bootstrap: any;
 
@@ -48,9 +48,8 @@ export class VendorCandidateListComponent {
   vendorList: any[] = [];
   searchTermUser: string = '';
   searchTermVendor: string = '';
-  editor: Editor | undefined;
   htmlContent: string = '';
-
+ editor!: Editor;
 
   constructor(private service: EmailService, private cd: ChangeDetectorRef,) { };
 
