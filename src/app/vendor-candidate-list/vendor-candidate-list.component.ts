@@ -220,29 +220,31 @@ export class VendorCandidateListComponent {
 
     this.selected.set(selected);
   }
-  getData() {
-    this.isLoading = true;
-    const userId = localStorage.getItem('userId');
+  // getData() {
+  //   this.isLoading = true;
+  //   const userId = localStorage.getItem('userId');
 
-    if (!userId) {
-      console.error('User ID not found');
-      this.isLoading = false;
-      return;
-    }
+  //   if (!userId) {
+  //     console.error('User ID not found');
+  //     this.isLoading = false;
+  //     return;
+  //   }
 
-    this.service.getVendors(userId).subscribe({
-      next: (resp: any) => {
+  //   this.service.getVendors(userId).subscribe({
+  //     next: (resp: any) => {
 
-        this.dataArr = resp;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        console.error('Failed to load data:', err);
-      }
-    });
-  }
-
+  //       this.dataArr = resp;
+  //       this.isLoading = false;
+  //     },
+  //     error: (err) => {
+  //       this.isLoading = false;
+  //       console.error('Failed to load data:', err);
+  //     }
+  //   });
+  // }
+getData() {
+  this.isLoading = false;
+}
   isPageFullySelected(): boolean {
     const start = (this.page() - 1) * this.pageSize;
     const end = Math.min(start + this.pageSize, this.candidates.length);
@@ -269,7 +271,7 @@ export class VendorCandidateListComponent {
 
 
   sendSelected() {
-    console.log("sendSelected is called")
+    // console.log("sendSelected is called")
 
     const selectedData = Array.from(this.selected()).map(i => this.candidates[i]);
 
@@ -372,7 +374,7 @@ export class VendorCandidateListComponent {
         forkJoin(userVendorObservables).subscribe({
           next: (combinedUsersWithVendors) => {
             this.userVendorList = combinedUsersWithVendors;
-            console.log('✅ Combined user list with vendors:', this.userVendorList);
+            // console.log('✅ Combined user list with vendors:', this.userVendorList);
           },
           error: (err) => {
             console.error('Failed to load vendors per user:', err);
@@ -556,7 +558,7 @@ export class VendorCandidateListComponent {
       payload.period = period;
     }
 
-    console.log('Vendor Draft Payload:', payload);
+    // console.log('Vendor Draft Payload:', payload);
 
     this.isLoading = true;
 

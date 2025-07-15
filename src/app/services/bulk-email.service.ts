@@ -13,8 +13,8 @@ export class EmailService {
     private router: Router
   ) { }
 
-  // url: string = 'http://142.93.212.196:3000/';
-  url: string = 'https://829c2c096113.ngrok-free.app/';
+  url: string = 'http://142.93.212.196:3000/';
+  // url: string = 'https://829c2c096113.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
