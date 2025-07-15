@@ -3,6 +3,26 @@
   overflow-y: auto;
 }
 
+ngx-editor-menu {
+  display: block;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem 0.375rem 0 0;
+  padding: 0.5rem;
+  background: #f8f9fa;
+}
+
+.ngx-editor {
+  border: 1px solid #ced4da;
+  border-radius: 0 0 0.375rem 0.375rem;
+  min-height: 180px;
+  padding: 1rem;
+  background: #fff;
+  font-size: 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+
+
 
    .action-buttons {
     /* margin-top: 20px; */

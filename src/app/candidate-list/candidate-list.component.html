@@ -114,40 +114,50 @@
 <!-- mail template model -->
 
 <div class="modal fade" id="mailModal" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Send Mail</h5>
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content shadow rounded-4">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title fw-semibold"> Compose Mail</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
-        <div class="d-flex align-items-center gap-2 mb-3">
-          <label class="fw-medium mb-0" style="white-space: nowrap;">Schedule:</label>
-          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
-            style="max-width: 160px;" />
-          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
-            style="max-width: 120px;" />
 
+      <div class="modal-body p-4">
+        <!-- Schedule Section -->
+        <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+          <label class="fw-medium mb-0" style="min-width: 80px;">Schedule:</label>
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate" style="max-width: 160px;" />
+          <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width: 120px;" />
         </div>
-        <div class="mb-3">
-          <label class="form-label fw-medium">Subject</label>
-          <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
-        </div>
-        <div class="mb-3">
-          <label class="form-label fw-medium">Description</label>
-          <ngx-editor *ngIf="editor" [editor]="editor" [(ngModel)]="mailBody" placeholder="Enter your mail content...">
-          </ngx-editor>
 
+        <!-- Subject -->
+        <div class="mb-4">
+          <label class="form-label fw-medium"> Subject</label>
+          <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter mail subject..." />
         </div>
+
+  <div class="mb-4">
+  <label class="form-label fw-medium mb-2">Description</label>
+
+<ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
+<ngx-editor
+  [editor]="editor"
+  [(ngModel)]="mailBody"
+  placeholder="Type your email...">
+</ngx-editor>
+
+</div>
+
 
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="saveAsDraft()">Save as Draft</button>
-        <button class="btn btn-success" (click)="sendMail()">Send</button>
+
+      <div class="modal-footer bg-light py-3 px-4">
+        <button class="btn btn-outline-secondary" (click)="saveAsDraft()"> Save as Draft</button>
+        <button class="btn btn-success" (click)="sendMail()"> Send</button>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- loader -->
 

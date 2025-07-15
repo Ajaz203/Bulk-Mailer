@@ -5,8 +5,8 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
-import { Editor, Toolbar } from 'ngx-editor';
-import { NgxEditorModule } from 'ngx-editor';
+import { Toolbar } from 'ngx-editor';
+import { NgxEditorModule,Editor } from 'ngx-editor';
 
 declare var bootstrap: any;
 
@@ -54,12 +54,12 @@ toolbar: Toolbar = [
   constructor(private service: EmailService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.editor = new Editor();
     this.getData();
     this.cdr.detectChanges();
     this.service.refreshTable$.subscribe(() => {
       this.getData();
     });
-    this.editor = new Editor();
     this.getDraftData();
     
   }
@@ -271,7 +271,7 @@ const payload: any = {
   mailBody: this.mailBody,
   
 };
-
+    console.log('Mail sent:', this.mailSubject, this.mailBody);
 
   if (isScheduled) {
     const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
