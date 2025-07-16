@@ -28,13 +28,13 @@ export class EmailService {
     console.warn('Not running in browser, userId is set to 0');
     return 0;
   }
-  checkloginStatus() {
-    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }
+  // checkloginStatus() {
+  //   if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+  //     this.router.navigate(['/dashboard']);
+  //   } else {
+  //     this.router.navigate(['/login']);
+  //   }
+  // }
 
 postWithUserId(endpoint: string, data: any) {
   const userId = localStorage.getItem('userId');

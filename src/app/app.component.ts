@@ -19,7 +19,7 @@ export class AppComponent {
   publicRoutes: any;
   currentUrl:any
   constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object, private bulkEmailService: EmailService) {
-    this.bulkEmailService.checkloginStatus()
+    // this.bulkEmailService.checkloginStatus()
     this.isBrowser = isPlatformBrowser(this.platformId);
 
     this.router.events.subscribe((event: Event) => {
