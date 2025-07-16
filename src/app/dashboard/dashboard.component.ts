@@ -101,7 +101,15 @@ export class DashboardComponent implements OnInit {
       }
     }
   };
-
+  refreshDashboard() {
+    console.log('Refreshing dashboard...');
+    // Fetch latest stats and chart data
+    // Example: this.loadDashboardData();
+  }
+    navigateTo(link: string) {
+    console.log('Navigate to:', link);
+    // this.router.navigateByUrl(link);
+  }
   constructor(
     private service: EmailService,
     @Inject(PLATFORM_ID) private platformId: Object

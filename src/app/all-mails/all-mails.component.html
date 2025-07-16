@@ -35,42 +35,53 @@
   </div>
 
   <!-- Responsive Table -->
-   <div class="table-container" style="max-height: 400px; overflow-y: auto;">
-  <div class="card shadow-sm mt-4">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle mb-0 text-nowrap">
-        <thead class="table-light">
-          <tr>
-            <th scope="col">S.No</th>
-            <th scope="col">Recipient</th>
-            <th scope="col">Subject</th>
-            <th scope="col">Sent Date</th>
-            <th scope="col">Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let mail of sentMails; index as i">
-            <td>{{ i + 1 }}</td>
-            <td>{{ mail.email }}</td>
-            <td>{{ mail.mailSubject }}</td>
-            <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
-            <td>
-              <span class="badge" [ngClass]="{
+  <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+    <div class="card shadow-sm mt-4">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle mb-0 text-nowrap">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">S.No</th>
+              <th scope="col">Recipient</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Sent Date</th>
+              <th scope="col">Category</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let mail of sentMails; index as i">
+              <td>{{ i + 1 }}</td>
+              <td>{{ mail.email }}</td>
+              <td>{{ mail.mailSubject }}</td>
+              <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
+              <td>
+                <span class="badge" [ngClass]="{
                   'bg-primary': mail.targetType === 'candidate',
-                  'bg-success': mail.targetType === 'vendor'
+                  'bg-secondary': mail.targetType === 'vendor'
                 }">
-                {{ mail.targetType }}
-              </span>
-            </td>
-          </tr>
-          <tr *ngIf="sentMails.length === 0">
-            <td colspan="5" class="text-center text-muted py-4">
-              <i class="bi bi-send-fill text-success"></i> No Sent Mails Found
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  {{ mail.targetType }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-success': mail.status === 'success',
+                  'bg-warning': mail.status === 'pending',
+                  'bg-danger': mail.status === 'failed'
+                }">
+                  {{ mail.status }}
+                </span>
+
+
+            </tr>
+            <tr *ngIf="sentMails.length === 0">
+              <td colspan="5" class="text-center text-muted py-4">
+                <i class="bi bi-send-fill text-success"></i> No Sent Mails Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
   </div>
 </div>

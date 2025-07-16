@@ -21,13 +21,16 @@ import { EmailService } from '../services/bulk-email.service';
   targetType: 'candidate' | 'vendor' = 'candidate';
   isLoading = false;
 searchTerm: any;
-
+ refreshInterval: any;
   constructor(private service: EmailService) {}
 
   ngOnInit(): void {
     this.viewMail();
+     this.refreshInterval = setInterval(() => this.viewMail(), 5000);
   }
-
+  ngOnDestroy(): void {
+    clearInterval(this.refreshInterval); 
+  }
   viewMail() {
     this.isLoading = true;
     this.service.getSentMails({}).subscribe(

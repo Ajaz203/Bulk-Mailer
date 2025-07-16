@@ -41,12 +41,13 @@
   transform: translate(0, -50%);
   width: 20px;
   height: 20px;
-  background-color: #43a047; /* Green */
+  background-color: #43a047;
+  /* Green */
   border-radius: 50%;
   transition: left 0.3s;
 }
 
-.switch-container input:checked + label .circle {
+.switch-container input:checked+label .circle {
   left: 50px;
 }
 
@@ -125,7 +126,7 @@
   border-radius: 20px;
   color: #fff;
   font-size: 0.85rem;
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .badge-success {
@@ -155,7 +156,10 @@ button:hover .bi-x-circle-fill {
   color: #000;
   cursor: pointer;
 }
-  .table th{
-        font-weight: 500;
-        font-size: 1rem;
-  }
+
+.table th {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+
