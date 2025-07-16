@@ -30,6 +30,7 @@
           </label>
         </div>
         <span class="label small">Vendor</span>
+
       </div>
     </div>
   </div>
@@ -37,7 +38,28 @@
   <!-- Responsive Table -->
   <div class="table-container" style="max-height: 400px; overflow-y: auto;">
     <div class="card shadow-sm mt-4">
+    <div class="d-flex justify-content-end mb-3 gap-2">
+  <button class="btn btn-outline-success btn-sm"
+          [ngClass]="{ 'active': currentStatusFilter === 'success' }"
+          (click)="filterByStatus('success')">
+    Success Mails
+  </button>
+
+  <button class="btn btn-outline-danger btn-sm"
+          [ngClass]="{ 'active': currentStatusFilter === 'failed' }"
+          (click)="filterByStatus('failed')">
+    Failed Mails
+  </button>
+
+  <button class="btn btn-outline-secondary btn-sm"
+          [ngClass]="{ 'active': currentStatusFilter === 'all' }"
+          (click)="resetFilter()">
+    All Mails
+  </button>
+</div>
+
       <div class="table-responsive">
+        <div *ngIf="!isLoading">
         <table class="table table-bordered table-hover align-middle mb-0 text-nowrap">
           <thead class="table-light">
             <tr>
@@ -50,7 +72,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let mail of sentMails; index as i">
+            <tr *ngFor="let mail of sentMails; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ mail.email }}</td>
               <td>{{ mail.mailSubject }}</td>
@@ -75,13 +97,22 @@
 
             </tr>
             <tr *ngIf="sentMails.length === 0">
-              <td colspan="5" class="text-center text-muted py-4">
+              <td colspan="6" class="text-center text-muted py-4">
                 <i class="bi bi-send-fill text-success"></i> No Sent Mails Found
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+      </div>
     </div>
   </div>
+</div>
+
+
+<div *ngIf="isLoading" class="text-center py-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-2 text-muted">Loading sent mails...</p>
 </div>

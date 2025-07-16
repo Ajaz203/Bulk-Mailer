@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmailService } from '../services/bulk-email.service';
-
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-all-mails',
   standalone: true,
@@ -11,8 +11,8 @@ import { EmailService } from '../services/bulk-email.service';
   styleUrls: ['./all-mails.component.css']
 })
 
-  
- export class AllMailsComponent implements OnInit {
+
+export class AllMailsComponent implements OnInit {
   allMails: any[] = [];
   candidateMails: any[] = [];
   vendorMails: any[] = [];
@@ -20,39 +20,75 @@ import { EmailService } from '../services/bulk-email.service';
   searchText: string = '';
   targetType: 'candidate' | 'vendor' = 'candidate';
   isLoading = false;
-searchTerm: any;
- refreshInterval: any;
-  constructor(private service: EmailService) {}
+  searchTerm: any;
+  refreshInterval: any;
+  originalMails: any[] = [];
+isFilterApplied: boolean = false;
+showInitialLoader: boolean = true;
+currentStatusFilter: 'success' | 'failed' | 'all' = 'all';
+
+  constructor(private service: EmailService,  private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.viewMail();
-     this.refreshInterval = setInterval(() => this.viewMail(), 5000);
+    this.refreshInterval = setInterval(() => this.viewMail(), 5000);
   }
   ngOnDestroy(): void {
-    clearInterval(this.refreshInterval); 
+    clearInterval(this.refreshInterval);
   }
-  viewMail() {
-    this.isLoading = true;
-    this.service.getSentMails({}).subscribe(
-  (res: any) => {
-    const mails: any[] = res as any[];
-    this.allMails = mails || [];
-    this.candidateMails = mails.filter(mail => mail.targetType === 'candidate');
-    this.vendorMails = mails.filter(mail => mail.targetType === 'vendor');
-    this.updateSentMails();
-    this.isLoading = false;
-  },
-  (err) => {
-    console.error('Error fetching mails:', err);
-    this.allMails = [];
-    this.candidateMails = [];
-    this.vendorMails = [];
-    this.sentMails = [];
-    this.isLoading = false;
-  }
-);
+filterByStatus(status: 'success' | 'failed') {
+  this.currentStatusFilter = status;
+  const baseArray = this.targetType === 'candidate' ? this.candidateMails : this.vendorMails;
+  this.sentMails = baseArray.filter(
+    mail => mail.status?.trim().toLowerCase() === status
+  );
+  this.isFilterApplied = true;
+  this.cdr.detectChanges();
+}
 
-  }
+resetFilter() {
+  this.currentStatusFilter = 'all';
+  this.isFilterApplied = false;
+  this.updateSentMails();
+  this.cdr.detectChanges();
+}
+
+viewMail() {
+  if (this.showInitialLoader) this.isLoading = true;
+
+  this.service.getSentMails({}).subscribe(
+    (res: any) => {
+      const mails: any[] = res || [];
+      this.allMails = mails;
+      this.originalMails = mails;
+
+      this.candidateMails = mails.filter(mail => mail.targetType === 'candidate');
+      this.vendorMails = mails.filter(mail => mail.targetType === 'vendor');
+
+      if (!this.isFilterApplied) {
+        this.updateSentMails();
+      }
+
+      if (this.showInitialLoader) {
+        this.isLoading = false;
+        this.showInitialLoader = false; // hide loader after first successful load
+      }
+
+      this.cdr.detectChanges();
+    },
+    (err) => {
+      console.error('Error fetching mails:', err);
+      this.allMails = [];
+      this.candidateMails = [];
+      this.vendorMails = [];
+      this.sentMails = [];
+      this.isLoading = false;
+      this.showInitialLoader = false;
+      this.cdr.detectChanges();
+    }
+  );
+}
+
 
   switchTargetType(type: 'candidate' | 'vendor') {
     if (this.targetType !== type) {

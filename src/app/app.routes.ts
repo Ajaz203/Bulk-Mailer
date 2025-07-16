@@ -1,7 +1,6 @@
 import { Routes, CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { LoginComponent } from './login/login.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -30,7 +29,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: CreateUserComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-
   { path: 'candidate-upload', component: UploadDashboardComponent, canActivate: [authGuard] },
   { path: 'cat-table', component: CatTableComponent, canActivate: [authGuard] },
   { path: 'candidate-list', component: CandidateListComponent, canActivate: [authGuard] },

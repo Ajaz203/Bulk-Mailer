@@ -20,6 +20,7 @@
     </div>
 
     <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+      <div *ngIf="!isLoading">
       <table class="table table-bordered table-hover table-striped">
         <thead class="table-primary">
           <tr>
@@ -43,6 +44,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
@@ -196,8 +198,11 @@
 </div>
 
 <!-- Loader -->
-<div *ngIf="isLoading" class="loader-backdrop">
+
+
+<div *ngIf="isLoading" class="text-center py-5">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
+  <p class="mt-2 text-muted">Fetching vendor list...</p>
 </div>

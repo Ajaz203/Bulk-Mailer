@@ -360,32 +360,37 @@ getData() {
     return vendor.id;
   }
 
-  fetchUsersWithVendorMapping(): void {
-    this.service.getUsersWithVendors({}).subscribe({
-      next: (users) => {
-        const userList = Array.isArray(users) ? users : [];
+fetchUsersWithVendorMapping(): void {
+  this.isLoading = true; 
 
-        const userVendorObservables = userList.map(user =>
-          this.service.getVendorsByUser(user.userId).pipe(
-            map(vendors => ({ ...user, vendors }))
-          )
-        );
+  this.service.getUsersWithVendors({}).subscribe({
+    next: (users) => {
+      const userList = Array.isArray(users) ? users : [];
 
-        forkJoin(userVendorObservables).subscribe({
-          next: (combinedUsersWithVendors) => {
-            this.userVendorList = combinedUsersWithVendors;
-            // console.log('✅ Combined user list with vendors:', this.userVendorList);
-          },
-          error: (err) => {
-            console.error('Failed to load vendors per user:', err);
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Failed to fetch users:', err);
-      }
-    });
-  }
+      const userVendorObservables = userList.map(user =>
+        this.service.getVendorsByUser(user.userId).pipe(
+          map(vendors => ({ ...user, vendors }))
+        )
+      );
+
+      forkJoin(userVendorObservables).subscribe({
+        next: (combinedUsersWithVendors) => {
+          this.userVendorList = combinedUsersWithVendors;
+          this.isLoading = false; 
+        },
+        error: (err) => {
+          console.error('Failed to load vendors per user:', err);
+          this.isLoading = false; 
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Failed to fetch users:', err);
+      this.isLoading = false; 
+    }
+  });
+}
+
 
 
 
