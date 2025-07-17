@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmailService } from '../services/bulk-email.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-all-mails',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbPaginationModule],
   templateUrl: './all-mails.component.html',
   styleUrls: ['./all-mails.component.css']
 })
@@ -36,6 +37,13 @@ currentStatusFilter: 'success' | 'failed' | 'all' = 'all';
   ngOnDestroy(): void {
     clearInterval(this.refreshInterval);
   }
+  page = 1;
+pageSize = 10;
+
+get paginatedMails() {
+  const start = (this.page - 1) * this.pageSize;
+  return this.sentMails.slice(start, start + this.pageSize);
+}
 filterByStatus(status: 'success' | 'failed') {
   this.currentStatusFilter = status;
   const baseArray = this.targetType === 'candidate' ? this.candidateMails : this.vendorMails;
@@ -52,6 +60,7 @@ resetFilter() {
   this.updateSentMails();
   this.cdr.detectChanges();
 }
+
 
 viewMail() {
   if (this.showInitialLoader) this.isLoading = true;
@@ -71,7 +80,7 @@ viewMail() {
 
       if (this.showInitialLoader) {
         this.isLoading = false;
-        this.showInitialLoader = false; // hide loader after first successful load
+        this.showInitialLoader = false; 
       }
 
       this.cdr.detectChanges();

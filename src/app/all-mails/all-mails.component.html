@@ -34,33 +34,29 @@
       </div>
     </div>
   </div>
-
-  <!-- Responsive Table -->
   <div class="table-container" style="max-height: 400px; overflow-y: auto;">
     <div class="card shadow-sm mt-4">
-    <div class="d-flex justify-content-end mb-3 gap-2">
-  <button class="btn btn-outline-success btn-sm"
-          [ngClass]="{ 'active': currentStatusFilter === 'success' }"
+      <div class="d-flex justify-content-end mb-3 gap-2">
+        <button class="btn btn-outline-success btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'success' }"
           (click)="filterByStatus('success')">
-    Success Mails
-  </button>
+          Success Mails
+        </button>
 
-  <button class="btn btn-outline-danger btn-sm"
-          [ngClass]="{ 'active': currentStatusFilter === 'failed' }"
+        <button class="btn btn-outline-danger btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'failed' }"
           (click)="filterByStatus('failed')">
-    Failed Mails
-  </button>
+          Failed Mails
+        </button>
 
-  <button class="btn btn-outline-secondary btn-sm"
-          [ngClass]="{ 'active': currentStatusFilter === 'all' }"
+        <button class="btn btn-outline-secondary btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'all' }"
           (click)="resetFilter()">
-    All Mails
-  </button>
-</div>
+          All Mails
+        </button>
+      </div>
 
-      <div class="table-responsive">
-        <div *ngIf="!isLoading">
-        <table class="table table-bordered table-hover align-middle mb-0 text-nowrap">
+
+    <div class="table-responsive shadow rounded-3 border p-3 bg-white">
+      <div *ngIf="!isLoading">
+        <table class="table table-bordered table-hover">
           <thead class="table-light">
             <tr>
               <th scope="col">S.No</th>
@@ -72,8 +68,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let mail of sentMails; let i = index">
-              <td>{{ i + 1 }}</td>
+            <tr *ngFor="let mail of paginatedMails; let i = index">
+              <td>{{ (page - 1) * pageSize + i + 1 }}</td>
               <td>{{ mail.email }}</td>
               <td>{{ mail.mailSubject }}</td>
               <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
@@ -93,8 +89,7 @@
                 }">
                   {{ mail.status }}
                 </span>
-
-
+              </td>
             </tr>
             <tr *ngIf="sentMails.length === 0">
               <td colspan="6" class="text-center text-muted py-4">
@@ -103,12 +98,26 @@
             </tr>
           </tbody>
         </table>
-      </div>
+
+        <nav class="mt-3 d-flex justify-content-center" *ngIf="sentMails.length > pageSize">
+          <ngb-pagination
+            [collectionSize]="sentMails.length"
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [boundaryLinks]="true"
+            [maxSize]="5"
+            size="sm"
+            class="mb-0">
+          </ngb-pagination>
+        </nav>
       </div>
     </div>
   </div>
 </div>
 
+
+    </div>
+  
 
 <div *ngIf="isLoading" class="text-center py-5">
   <div class="spinner-border text-primary" role="status">
