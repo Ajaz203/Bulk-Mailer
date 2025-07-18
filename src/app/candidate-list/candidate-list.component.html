@@ -150,9 +150,17 @@
       </div>
 
       <div class="modal-footer bg-light py-3 px-4">
-        <button class="btn btn-outline-secondary" (click)="saveAsDraft()"> Save as Draft</button>
-        <button class="btn btn-success" (click)="sendMail()"> Send</button>
+        <button class="btn btn-outline-secondary" (click)="saveAsDraft()" [disabled]="isLoading">
+          Save as Draft
+        </button>
+
+        <button class="btn btn-success d-flex align-items-center gap-2" (click)="sendMail()" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf="!isLoading">Send</span>
+          <span *ngIf="isLoading">Sending...</span>
+        </button>
       </div>
+
     </div>
   </div>
 </div>

@@ -4,13 +4,12 @@
 
   <!-- Name -->
   <div class="form-row">
-    <label>Name <span style="color: red;"> *</span></label>
+    <label>Name</label>
     <input
       type="text"
       [(ngModel)]="candidate.name"
       name="name"
       #name="ngModel"
-      required
       placeholder="Name"
       [ngClass]="{ 'invalid-input': name.invalid && name.touched, 'valid-input': name.valid && name.touched }"
     />
