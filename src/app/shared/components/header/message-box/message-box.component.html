@@ -1,0 +1,20 @@
+<app-feather-icons [icon]="'message-square'" (click)="toggle()"></app-feather-icons>
+<ul class="chat-dropdown onhover-show-div" [class.active]="isActive">
+  <li>
+    <app-feather-icons [icon]="'message-square'"></app-feather-icons>
+    <h6 class="f-18 mb-0">Message Box </h6>
+  </li>
+  @for(details of headerMessageBox; track details){
+  <li>
+    <div class="media">
+      <img class="img-fluid rounded-circle me-3" [src]="details.url" alt="user1">
+      <div class="status-circle {{ details.status }}"></div>
+      <div class="media-body"><span>{{ details.name }}</span>
+        <p>{{ details.description }}</p>
+      </div>
+      <p class="f-12 font-{{ details.fontColor }}">{{ details.time }}</p>
+    </div>
+  </li>
+  }
+  <li class="text-center"> <a class="btn btn-primary" href="javascript:void(0)">View All </a></li>
+</ul>

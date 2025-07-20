@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Add New car</h5>
+          </div>
+          <div class="card-body">
+            <form class="theme-form mega-form">
+              <div class="mb-3">
+                <label class="form-label-title">Car Name</label>
+                <input class="form-control" type="text" placeholder="Car Name">
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title ">Upload Car Image here
+                </label>
+                <dropzone [config]="config" [message]="text" class="custom-dropzone" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title  ">Facility</label>
+                <tag-input class="form-control" type="text" name="tags"></tag-input>
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title ">Fare/km</label>
+                <div class="input-group mb-3"><span class="input-group-text">$
+                  </span>
+                  <input class="form-control" placeholder="20" type="text" aria-label="Amount (to the nearest dollar)">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="car-type" class="form-label-title ">Car Type</label>
+                <select id="car-type" class="js-example-basic-single col-sm-12">
+                  <option value="MI">Mini</option>
+                  <option value="ME">Medium</option>
+                  <option value="DU">Standard</option>
+                  <option value="CY">Sadan</option>
+                  <option value="TA">Luxury</option>
+                  <option value="TA">Tempo Travel</option>
+                  <option value="DE">Mini Bus</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer text-end">
+            <button class="btn btn-primary me-3">Submit</button>
+            <button class="btn btn-outline-primary">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

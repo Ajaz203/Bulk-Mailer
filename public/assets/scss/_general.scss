@@ -1,0 +1,32 @@
+
+
+.bg-size{
+  background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+// restaurant pages
+
+.is_stuck {
+  position: fixed;
+  top: 60px;
+  width: 100%;
+
+  &.faq-sticky-tab, &.dashboard-stick-section{
+    width: 100% !important
+  }
+}
+
+
+.is_not_stuck {
+    position: absolute;
+    top: auto;
+    width: 100%;
+    bottom: 0px;
+
+    &.faq-sticky-tab, &.dashboard-stick-section{
+      width: 100% !important
+    }
+}

@@ -1,0 +1,62 @@
+<div class="row">
+
+  <div class="col-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Add New Package</h5>
+          </div>
+          <div class="card-body">
+            <form class="theme-form mega-form">
+              <div class="mb-3">
+                <label class="form-label-title">Tour Name</label>
+                <input class="form-control" type="text" placeholder="Tour name">
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title  ">Tour Places</label>
+                <tag-input class="form-control" type="text" name="tags"></tag-input>
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title ">Upload Tour Banner Image here </label>
+                  <dropzone [config]="config" [message]="text" class="custom-dropzone" (error)="onUploadError($event)"
+                  (success)="onUploadSuccess($event)"></dropzone>
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title ">Tour Duration </label>
+                <input class="form-control" type="Number" placeholder="Enter Duration of tour">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label-title ">Package Price</label>
+                <div class="input-group mb-3"><span class="input-group-text">$ </span>
+                  <input class="form-control" placeholder="$200" type="text" aria-label="Amount (to the nearest dollar)">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="tour-category" class="form-label-title ">Tour Category</label>
+                <select id="tour-category" class="js-example-basic-single col-sm-12">
+
+                  <option value="BU">Business Travel</option>
+                  <option value="FA">Family Vacation</option>
+                  <option value="LO">Long-Term Slow Trip</option>
+                  <option value="GR">Group Travel</option>
+                  <option value="LU">Luxury Travel</option>
+                  <option value="WE"> Weekend Travel</option>
+                  <option value="RO">Road Trip</option>
+                  <option value="AD">Adventure Travel</option> 
+                </select>
+              </div>
+            </form>
+
+          </div>
+          <div class="card-footer text-end">
+            <button class="btn btn-primary me-3">Submit</button>
+            <button class="btn btn-outline-primary">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

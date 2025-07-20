@@ -1,0 +1,598 @@
+{
+  "tours": [
+    {
+      "id": 1,
+      "categoryTitle": "hot air balloon",
+      "categoryDescription": "Experience the thrill of a hot air balloon ride with breathtaking views",
+      "categoryImage": "assets/images/tours/1.jpg",
+      "price": 320,
+      "discountPrice": 210,
+      "days": 5,
+      "night": 6,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 2,
+      "categoryTitle": "Cool water ride",
+      "categoryDescription": "Experience a thrilling aquatic adventure on the Cool Water Ride",
+      "categoryImage": "assets/images/tours/2.jpg",
+      "price": 300,
+      "discountPrice": 200,
+      "days": 4,
+      "night": 3,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 3,
+      "categoryTitle": "Tour of Shimala",
+      "categoryDescription": "Explore the picturesque hills of Shimla on a guided tour, and immerse yourself in the natural beauty and colonial charm of this enchanting hill station",
+      "categoryImage": "assets/images/tours/3.jpg",
+      "price": 280,
+      "discountPrice": 210,
+      "days": 5,
+      "night": 6,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 4,
+      "categoryTitle": "Beautiful Bali",
+      "categoryDescription": "Bali, a tropical paradise nestled in Indonesia's archipelago, captivates with its lush landscapes, serene beaches, and vibrant cultural tapestry, offering a perfect blend of relaxation and adventure in an enchanting island setting.",
+      "categoryImage": "assets/images/tours/4.jpg",
+      "price": 350,
+      "discountPrice": 345,
+      "days": 5,
+      "night": 6,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 5,
+      "categoryTitle": "Best of Europe",
+      "categoryDescription": "A captivating journey through the continent's rich tapestry of cultures, where historic landmarks, artistic masterpieces, and culinary delights converge to create an unforgettable mosaic of experiences.",
+      "categoryImage": "assets/images/tours/5.jpg",
+      "price": 320,
+      "discountPrice": 210,
+      "days": 5,
+      "night": 6,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 6,
+      "categoryTitle": "Dubai Adventure",
+      "categoryDescription": "Embark on a thrilling journey through a dazzling metropolis where futuristic skyscrapers meet ancient traditions, offering an unparalleled fusion of luxury, adrenaline-pumping activities, and awe-inspiring desert landscapes.",
+      "categoryImage": "assets/images/tours/6.jpg",
+      "price": 300,
+      "discountPrice": 200,
+      "days": 4,
+      "night": 3,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 7,
+      "categoryTitle": "Exploring sydney",
+      "categoryDescription": "Embark on a captivating exploration of Sydney, where iconic landmarks like the Sydney Opera House and Harbour Bridge blend seamlessly with vibrant neighborhoods, offering a perfect fusion of cosmopolitan culture and natural beauty along its stunning coastline.",
+      "categoryImage": "assets/images/tours/7.jpg",
+      "price": 280,
+      "discountPrice": 210,
+      "days": 5,
+      "night": 6,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 8,
+      "categoryTitle": "Splendid Spain",
+      "categoryDescription": "Spain, a land of vibrant culture and rich history, captivates with its splendid blend of passionate flamenco, stunning architecture, and sun-kissed beaches.",
+      "categoryImage": "assets/images/tours/8.jpg",
+      "price": 350,
+      "discountPrice": 345,
+      "days": 5,
+      "night": 6,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 9,
+      "categoryTitle": "Simply Nauritius",
+      "categoryDescription": "A tropical paradise renowned for its pristine beaches, vibrant coral reefs, and multicultural charm.",
+      "categoryImage": "assets/images/tours/9.jpg",
+      "price": 320,
+      "discountPrice": 210,
+      "days": 5,
+      "night": 6,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    },
+    {
+      "id": 10,
+      "categoryTitle": "Canadian Delight",
+      "categoryDescription": "A culinary journey celebrating the diverse and flavorful tastes of Canada.",
+      "categoryImage": "assets/images/tours/10.jpg",
+      "price": 300,
+      "discountPrice": 200,
+      "days": 4,
+      "night": 3,
+      "person": 2,
+      "tag": true,
+      "tagTitle": "offer"
+    }
+  ],
+  "tourDetail": [
+    {
+      "highlight": [
+        {
+          "description": "Hola Espana! The vibrant country of Spain beckons for an adventure that lets us explore the sights 'n' sounds of this remarkable destination. Visit architechturally brilliant and culture-rich cities of Madrid, Seville, Barcelona, Cordoba, Valencia on this tour and have the experience of a lifetime!",
+          "textClass": "top-space",
+          "highLightPosition": "top"
+        },
+        {
+          "data": [
+            {
+              "title": "inclusion",
+              "details": [
+                {
+                  "data": "Return economy class airfare with taxes"
+                },
+                {
+                  "data": "Barcelona to Prague Internal flight ticket"
+                },
+                {
+                  "data": "2 Nights Stay With Breakfast At Prague"
+                },
+                {
+                  "data": "2 Nights Stay With Breakfast At Budapest"
+                },
+                {
+                  "data": "1 Night Stay With Breakfast At Vienna"
+                },
+                {
+                  "data": "Normal Visa Charges of Schengen"
+                },
+                {
+                  "data": "5% GST"
+                }
+              ]
+            },
+            {
+              "title": "exclusion",
+              "details": [
+                {
+                  "data": "Any Extra Sightseeing Which Is Not Mentioned In The Itinerary"
+                },
+                {
+                  "data": "Overseas Travel Insurance & Personal Expense Such As Mineral Water, Laundry Etc"
+                },
+                {
+                  "data": "Personal expenses"
+                },
+                {
+                  "data": "Excess baggage charge"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "image": "assets/images/tour/spain.jpg"
+        },
+        {
+          "id": 2,
+          "title": "a road rip along spain's mediterranean coast",
+          "description": "A road trip along Spain’s Mediterranean coast is a guarantee of sunshine, lovely beaches, and plenty of destinations with things to see and do. We suggest following the coastline at your own pace, without a fixed timetable and with room to improvise.We choose Barcelona as a starting point because it’s a huge transport hub. You might fancy heading north for a couple of days to see the Costa Brava (Girona): beautiful bays like Roses, coves where the pine trees grow right to the shoreline, large seaside resorts and the fishing villages that once inspired Dalí.",
+          "highLightPosition": "bottom"
+        },
+        {
+          "id": 3,
+          "title": "the history of spain's great civilisations",
+          "description": "In Spain, you can get a history lesson while you enjoy your holiday. Let us show you places to visit where you can discover milestones of human development, like the earliest humans, the birth of art, and the power of the great civilisations.",
+          "highLightPosition": "bottom"
+        },
+        {
+          "id": 4,
+          "title": "foodies, prepare to be enthused",
+          "description": "From tasty tapas to superb seafood and traditional roasts, food in Spain is all about making the most of the best local produce.Whether you're on a city break in Barcelona or Madrid, or you've plumped for a countryside or coastal retreat, Spanish food is full of flavour and character.",
+          "textClass": "bottom-space",
+          "highLightPosition": "bottom"
+        }
+      ]
+    },
+    {
+      "itinerary": [
+        {
+          "id": 1,
+          "title": "Madrid (1 Night)",
+          "description": "Welcome to Madrid - the capital city of Spain. On arrival we enjoy the city orientation tour which includes the Plaza de Espana, Sabatini Garden, Cervantes Statue, Cibeles fountain, Parliament, Puerto del sol. Then visit the Royal Palace and Prado Museum – one of the world's greatest art galleries. From inside.",
+          "facility": [
+            {
+              "title": "dinner",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "night stay in madrid",
+              "icon": "assets/images/icon/tour/bed.png"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Madrid – Toledo – Seville (2 Nights)",
+          "description": "Today we proceed to Toledo - declared as World Heritage Site by UNESCO. On arrival we visit the city's most famous monument Santa Maria la Blanca Synagogue. Then we visit Sword factory. Later we leave for Seville",
+          "facility": [
+            {
+              "title": "breakfast",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "lunch",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "dinner",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "night stay in seville",
+              "icon": "assets/images/icon/tour/bed.png"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Seville",
+          "description": "Today we enjoy Seville city tour wherein, we visit the massive cathedral with the Tomb of Christopher Columbus, Moorish Giralda Tower, The Alcázar, a photo stop at Santa Cruz Quarter with flower decked balconies and the Ultramodern expo site - a small scale model of 'Victoria' the first vessel to circumnavigate the globe. Then we visit Metropol Parasol - The largest wooden structure in the world. In the evening we enjoy the Flamenco Show with dinner.",
+          "facility": [
+            {
+              "title": "breakfast",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "lunch",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "dinner",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "night stay in seville",
+              "icon": "assets/images/icon/tour/bed.png"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Seville – Costa Del Sol – Malaga (1 Night)",
+          "description": "Today we proceed to Costa del Sol - a region in the south of Spain. Here we explore Puerto Banus, then we proceed to Malaga. On arrival we enjoy orientation tour which includes Cathedral of Malaga, Plaza de la Merced, The Museo Picasso from outside, then we visit Moorish fortress La Alcazaba.",
+          "facility": [
+            {
+              "title": "breakfast",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "lunch",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "dinner",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "night stay in Málaga",
+              "icon": "assets/images/icon/tour/bed.png"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Malaga – Cordoba – Valencia (1 Night)",
+          "description": "Today we proceed to Cordoba. On arrival we visit Mezquita from inside followed by orientation city tour which includes Roman bridge, Arab waterwheels and Plaza del Potro. Then we leave for Valencia.",
+          "facility": [
+            {
+              "title": "breakfast",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "lunch",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "dinner",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "night stay in Valencia",
+              "icon": "assets/images/icon/tour/bed.png"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Valencia – Barcelona (2 Nights)",
+          "description": "Today we enjoy orientation city tour which includes Plaza del Mercado, Serranos Towers, Plaza de Ayuntamento and Cathedral of Valencia. Then we visit City of Arts and Sciences- to see the work of the Valencian architect Santiago Calatrava, several of its buildings have become icons in the city. Then we visit Ceramics Museum from inside. Later we proceed to Barcelona. On arrival we visit Poble Espanyol – an open air Archaeological museum and Spanish village showing replicas of characteristic houses from all regions of Spain.",
+          "facility": [
+            {
+              "title": "breakfast",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "lunch",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "dinner",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "night stay in Barcelona",
+              "icon": "assets/images/icon/tour/bed.png"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "title": "Barcelona",
+          "description": "Today we enjoy Barcelona city orientation tour which includes Olympic stadium, colourful La Ramblas, Statue of Christopher Columbus and visit Gaudi's Sagrada Familia Cathedral Antoni Gaudí's unfinished masterpiece. Later we take a cable car ride to Montjuic hill which gives a panoramic view of the entire Barcelona city and Tibidado hill. Today evening we enjoy beach front of Barcelona.",
+          "facility": [
+            {
+              "title": "breakfast",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "lunch",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "dinner",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "night stay in Barcelona",
+              "icon": "assets/images/icon/tour/bed.png"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Departure from Barcelona",
+          "description": "It’s time now to say goodbye to our travel companions. Let us be in contact with each other through email, Facebook, and meet again on one more memorable tour. See you all!!",
+          "facility": [
+            {
+              "title": "breakfast",
+              "icon": "assets/images/icon/tour/fork.png"
+            },
+            {
+              "title": "lunch",
+              "icon": "assets/images/icon/tour/fork.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "gallery": [
+        {
+          "id": 1,
+          "url": "assets/images/tours/tour/7.jpg"
+        },
+        {
+          "id": 2,
+          "url": "assets/images/tours/tour/8.jpg"
+        },
+        {
+          "id": 3,
+          "url": "assets/images/tours/tour/9.jpg"
+        },
+        {
+          "id": 4,
+          "url": "assets/images/tours/tour/10.jpg"
+        },
+        {
+          "id": 5,
+          "url": "assets/images/tours/tour/11.jpg"
+        },
+        {
+          "id": 6,
+          "url": "assets/images/tours/tour/12.jpg"
+        }
+      ]
+    },
+    {
+      "accommodation": [
+        {
+          "id": 1,
+          "hotelName": "the venetian",
+          "description": "The Venetian Hotel is a lavish resort in Las Vegas, featuring opulent Italian-inspired architecture, complete with indoor canals and gondola rides",
+          "location": "Newyork",
+          "img": "assets/images/hotel/gallery/1.jpg",
+          "review": 26412,
+          "rating": 4,
+          "hotelFacility": ["bar","wifi","beach","swimming"]
+        },
+        {
+          "id": 2,
+          "hotelName": "The Ritz-Carlton",
+          "description": "Nestled in the heart of Paris, this iconic hotel offers exquisite luxury and impeccable service, providing an elegant retreat near the Louvre",
+          "location": "Paris",
+          "img": "assets/images/hotel/gallery/2.jpg",
+          "review": 26412,
+          "rating": 4,
+          "hotelFacility": ["bar","wifi","restaurant","swimming"]
+        },
+        {
+          "id": 3,
+          "hotelName": "Burj Al Arab",
+          "description": "Standing tall on its own island, this sail-shaped marvel is synonymous with luxury, offering unparalleled views of the Arabian Gulf and a lavish experience",
+          "location": "Dubai",
+          "img": "assets/images/hotel/gallery/3.jpg",
+          "review": 26412,
+          "rating": 4,
+          "hotelFacility": ["wifi","beach","swimming"]
+        }
+      ]
+    },
+    {
+      "location": {
+        "url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.1583091352!2d-74.11976373946229!3d40.69766374859258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY%2C+USA!5e0!3m2!1sen!2sin!4v1563449626439!5m2!1sen!2sin"
+      }
+    },
+    {
+      "review": [
+        {
+          "id": 1,
+          "title": "Wonderful Experience...!!",
+          "by": "xyz",
+          "date": "jun 18, 2019",
+          "review": "Our family holiday to Spain was awesome .pocket friendly rates that make planning a holiday a delight. I got a good hotels, flight discount for my round trip flight for the same trip while booking from sites.Thank you moment for giving us a wonderful experience.",
+          "rating": 5
+        },
+        {
+          "id": 2,
+          "title": "Excellent Arrangements",
+          "by": "xyz",
+          "date": "jun 18, 2019",
+          "review": "Rica holidays planned our family trip to Spain, it was so perfect. Everything was flawless, in-case if any confusions there was always someone to assist us at any point. Had a wonderful experience and thanks to these guys for making it happen. I would really recommend them for further vacation planning.",
+          "rating": 4
+        },
+        {
+          "id": 3,
+          "title": "Best getaway destination with family",
+          "by": "xyz",
+          "date": "jun 18, 2019",
+          "review": "Extremely happy with my trip to Spain. All the arrangements were spot on and cabs were punctual. Never had any hiccups and we enjoyed the trip immensely. Thanks you for organizing such a wonderful trip and taking care of all my special request with patience and skill.",
+          "rating": 3
+        }
+      ]
+    },
+    {
+      "policy": [
+        {
+          "title": "Payment Policy",
+          "details": [
+            {
+              "data": "Initial deposit – INR. 1, 00,000 per person at the time of booking."
+            },
+            {
+              "data": "1st part payment 50% of the tour cost at least 60 days prior departure."
+            },
+            {
+              "data": "Balance payment 30 days prior departure."
+            }
+          ]
+        },
+        {
+          "title": "Cancellation Policy",
+          "details": [
+            {
+              "data": "Deposit of INR 1,00,000 per person is non-refundable in any case once booking is confirmed."
+            },
+            {
+              "data": "45 Days to 60 days prior to departure – 50% of the total tour cost."
+            },
+            {
+              "data": "30 to 44 Days prior to departure 75 % of the tour cost."
+            },
+            {
+              "data": "Within 30 days of departure 100% of the tour cost."
+            }
+          ]
+        },
+        {
+          "title": "Important Terms and Conditions",
+          "details": [
+            {
+              "data": "All travelers have to carry their own passports, tickets, forex & any other important documents. It is recommended to leave passport photocopy at your resident, office & carry one copy while travelling."
+            },
+            {
+              "data": "Passengers having excess baggage over 20 kgs per person in check in baggage & 07 kgs in hand luggage are liable to pay excess baggage charge directly at airport."
+            },
+            {
+              "data": "Any sightseeing not mentioned in the itinerary will have to be paid directly."
+            },
+            {
+              "data": "For the convenience of passengers the itinerary may be amended."
+            },
+            {
+              "data": "Flight cost and availability are subject to change at time of actual booking."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tourPackageDetail": [
+    {
+      "id": 1,
+      "categoryName": "Business Travel",
+      "tours": 10,
+      "days": 35
+    },
+    {
+      "id": 2,
+      "categoryName": "The Impromptu Trip",
+      "tours": 9,
+      "days": 25
+    },
+    {
+      "id": 3,
+      "categoryName": "Family Vacation",
+      "tours": 5,
+      "days": 10
+    },
+    {
+      "id": 4,
+      "categoryName": "Long-Term Slow Trip",
+      "tours": 12,
+      "days": 16
+    },
+    {
+      "id": 5,
+      "categoryName": "Package Name Here",
+      "tours": 7,
+      "days": 15
+    },
+    {
+      "id": 6,
+      "categoryName": "Group Travel",
+      "tours": 15,
+      "days": 30
+    },
+    {
+      "id": 7,
+      "categoryName": "Luxury Travel",
+      "tours": 17,
+      "days": 40
+    },
+    {
+      "id": 8,
+      "categoryName": "Volunteer Travel",
+      "tours": 12,
+      "days": 14
+    },
+    {
+      "id": 9,
+      "categoryName": "No Destination Travel",
+      "tours": 9,
+      "days": 8
+    },
+    {
+      "id": 10,
+      "categoryName": "Adventure Travel",
+      "tours": 20,
+      "days": 40
+    }
+  ]
+}

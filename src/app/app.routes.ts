@@ -1,42 +1,31 @@
-import { Routes, CanActivateFn } from '@angular/router';
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { CreateUserComponent } from './create-user/create-user.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { UploadDashboardComponent } from './upload-dashboard/upload-dashboard.component';
-import { CatTableComponent } from './cat-table/cat-table.component';
-import { CandidateListComponent } from './candidate-list/candidate-list.component';
-import { VendorCandidateListComponent } from './vendor-candidate-list/vendor-candidate-list.component';
-import { VendorBulkUploadComponent } from './vendor-bulk-upload/vendor-bulk-upload.component';
-import { DraftsComponent } from './drafts/drafts.component';
-import { AllMailsComponent } from './all-mails/all-mails.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-
-const authGuard: CanActivateFn = () => {
-  const router = inject(Router);
-  const userId = localStorage.getItem('userId');
-  if (userId) {
-    return true;
-  } else {
-    router.navigate(['/login']);
-    return false;
-  }
-};
+import { Routes } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
+import { LayoutComponent } from './shared/components/layouts/layout/layout.component';
+import { AdminGuard } from './shared/guard/admin.guard';
+import { content } from './shared/routes/routes';
+import { FullComponent } from './shared/components/layouts/full/full.component';
+import { full } from './shared/routes/full-routes';
 
 export const routes: Routes = [
-  // { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'sign-up', component: CreateUserComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'candidate-upload', component: UploadDashboardComponent, canActivate: [authGuard] },
-  { path: 'cat-table', component: CatTableComponent, canActivate: [authGuard] },
-  { path: 'candidate-list', component: CandidateListComponent, canActivate: [authGuard] },
-  { path: 'vendor-list', component: VendorCandidateListComponent, canActivate: [authGuard] },
-  { path: 'vendorbulkupload', component: VendorBulkUploadComponent, canActivate: [authGuard] },
-  { path: 'drafts', component: DraftsComponent, canActivate: [authGuard] },
-  { path: 'all-mails', component: AllMailsComponent, canActivate: [authGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
-
-  { path: '**', redirectTo: 'login' }
+    {
+        path: '',
+        redirectTo: '/dashboard',
+        pathMatch: 'full'
+    },
+    {
+        path: 'auth/login',
+        component: LoginComponent
+    },
+    {
+        path: '',
+        component: LayoutComponent,
+        canActivate: [AdminGuard],
+        children: content
+    },
+    {
+        path: '',
+        component: FullComponent,
+        canActivate: [AdminGuard],
+        children: full
+    }
 ];

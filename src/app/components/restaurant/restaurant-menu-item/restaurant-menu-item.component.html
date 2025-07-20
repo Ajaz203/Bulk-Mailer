@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header  card-header--2">
+        <div>
+          <h5>Menu</h5>
+        </div>
+        <form class="d-inline-flex">
+          <a href="javascript:void(0)" class="btn btn-theme" [routerLink]="['/restaurant/add-menu-item']">
+            <app-feather-icons [icon]="'plus-square'"></app-feather-icons>Add New
+          </a>
+        </form>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="all-hotel-table table-responsive table-desi">
+            <table class="menu-table table table-striped">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Item Name</th>
+                  <th>Item Type</th>
+                  <th>Item Price</th>
+                  <th>View</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(item of menuItem; track item){
+                  <tr>
+                    <td><span><img [src]="item.image" alt="users"></span>
+                    </td>
+                    <td><a href="javascript:void(0)"><span class="  d-block fw-bold ">{{ item.itemName }}</span></a>
+                    </td>
+                    <td><span class="badge badge-{{ item.badgeColor }}"> {{ item.itemType }}</span></td>
+                    <td>${{ item.price }}</td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class=" pagination-box">
+        <app-pagination></app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

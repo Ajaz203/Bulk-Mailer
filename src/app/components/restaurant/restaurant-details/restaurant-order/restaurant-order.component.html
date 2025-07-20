@@ -1,0 +1,30 @@
+<div class="">
+  <div class="container-fluid p-0" data-sticky_parent>
+    <div class="row m-0">
+      <div class="col-xl-3 col-lg-4 d-lg-block d-none p-0">
+        <div class="product_img_scroll" [class.is_stuck]="isStuck" [class.is_not_stuck]="isNotStuck" data-sticky_column>
+          <nav id="order-menu" class="order-menu">
+            <div class="search-bar">
+              <div class="search">
+                <input type="text" placeholder="Search Dishes..">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+            <nav class="nav nav-pills flex-column">
+              <app-restaurant-order-menu [restaurantOrders]="restaurantOrders"></app-restaurant-order-menu>
+            </nav>
+          </nav>
+        </div>
+      </div>
+      <div class="col-xl-9 col-lg-8 p-0">
+        <div class="pro_sticky_info" data-sticky_column>
+          <div data-spy="scroll">
+            <div class="order-menu-section">
+              <app-restaurant-order-menu-item [restaurantOrders]="restaurantOrders"></app-restaurant-order-menu-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

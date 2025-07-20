@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header  card-header--2 package-card">
+        <div>
+          <h5>Car's Details</h5>
+        </div>
+        <form class="d-inline-flex">
+          <button class="btn align-items-center btn-theme me-3"> <i class="fa fa-pencil-square-o me-2"></i>Edit
+          </button>
+          <button class="btn align-items-center d-flex btn-outline"> <i class="fa fa-trash-o me-2"></i>Delete
+          </button>
+        </form>
+      </div>
+      <div class="card-body">
+        <!-- section start -->
+        <section class="single-section small-section bg-inner">
+          <div class="row">
+            <h2 class="cars-title mb-2 mt-2">Peugeot Citroen
+            </h2>
+            <div class="col-12">
+              <div class="image_section ">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="responsive arrow-dark zoom-gallery ratio2_3">
+                      <owl-carousel-o [options]="options">
+                        @for(images of cabImages; track images){
+                          <ng-template carouselSlide>
+                            <div>
+                              <a href="javascript:void(0)" class="bg-size" [style.background-image]="'url('+ images.image +')'">
+                                <img [src]="images.image" class="img-fluid blur-up lazyload bg-img w-100" alt="car-image" style="display: none;">
+                              </a>
+                            </div>
+                          </ng-template>
+                        }
+                      </owl-carousel-o>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cab-single-detail">
+                <div class="title-car">
+                  <h5>Peugeot Citroen</h5>
+                  <h6>fare/km : <span>$24</span></h6>
+                </div>
+                <p class="description">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores dicta exercitationem laboriosam nam non, officia omnis, quae quibusdam quis repellendus repudiandae voluptate. Corporis dolore inventore non. Dolorem excepturi nostrum sint?
+                </p>
+                <div class="overview">
+                  <h6>car overview</h6>
+                  <ul>
+                    <li><img src="assets/images/cab/icon/seat.png" class="img-fluid blur-up lazyload" alt="seat-icon"> 5 seater
+                    </li>
+                    <li><img src="assets/images/cab/icon/luggage.png" class="img-fluid blur-up lazyload" alt="luggage-icon"> 2 luggage
+                    </li>
+                  </ul>
+                  <ul>
+                    <li><img src="assets/images/cab/icon/snowflake.png" class="img-fluid blur-up lazyload" alt="ac-icon"> AC</li>
+                    <li><img src="assets/images/cab/icon/settings.png" class="img-fluid blur-up lazyload" alt="gear-icon"> automatic</li>
+                  </ul>
+                </div>
+                <div class="details g-4 row">
+                  @for(details of cabDetails; track details){
+                    <div class="col-sm-6">
+                      <div class="overview">
+                        <h6>{{ details.title }}</h6>
+                        <ul>
+                          @for(data of details.details; track data){
+                            <li>{{ data.data }}</li>
+                          }
+                        </ul>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- section end -->
+      </div>
+    </div>
+  </div>
+</div>

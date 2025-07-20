@@ -1,0 +1,26 @@
+// Bootstrap Layout scss
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+// Owl Carousel
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+//  Light Box
+@import "@angular/cdk/overlay-prebuilt.css";
+
+// Date Time Picker
+@import "@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+
+@import "./font-awesome.scss";
+@import "../scss/vendors/feather-icon.scss";
+
+@import 'dropzone/dist/min/dropzone.min.css';
+
+@import "../scss/vendors/themify.scss";
+
+@import './general';
+@import './dropzone.scss';
+
+@import './style.scss';
+@import './responsive.scss';
+

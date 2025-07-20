@@ -1,0 +1,103 @@
+{
+  "booking": [
+    {
+      "id": 1,
+      "bookingTitle": "Dubai To Paris",
+      "bookingType": "plane",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Past",
+      "badgeColor": "past"
+    },
+    {
+      "id": 2,
+      "bookingTitle": "Sea View Hotel",
+      "bookingType": "building",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Cancelled",
+      "badgeColor": "cancel"
+    },
+    {
+      "id": 3,
+      "bookingTitle": "Paris To Toulouse",
+      "bookingType": "car",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Upcoming",
+      "badgeColor": "upcoming"
+    },
+    {
+      "id": 4,
+      "bookingTitle": "Dubai To Paris",
+      "bookingType": "plane",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Upcoming",
+      "badgeColor": "upcoming"
+    },
+    {
+      "id": 5,
+      "bookingTitle": "Sea View Hotel",
+      "bookingType": "building",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Past",
+      "badgeColor": "past"
+    },
+    {
+      "id": 6,
+      "bookingTitle": "Paris To Toulouse",
+      "bookingType": "car",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Cancelled",
+      "badgeColor": "cancel"
+    },
+    {
+      "id": 7,
+      "bookingTitle": "Dubai To Paris",
+      "bookingType": "plane",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Past",
+      "badgeColor": "past"
+    },
+    {
+      "id": 8,
+      "bookingTitle": "Sea View Hotel",
+      "bookingType": "building",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Upcoming",
+      "badgeColor": "upcoming"
+    },
+    {
+      "id": 9,
+      "bookingTitle": "Paris To Toulouse",
+      "bookingType": "car",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Cancelled",
+      "badgeColor": "cancel"
+    },
+    {
+      "id": 10,
+      "bookingTitle": "Dubai To Paris",
+      "bookingType": "plane",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Past",
+      "badgeColor": "past"
+    },
+    {
+      "id": 11,
+      "bookingTitle": "Sea View Hotel",
+      "bookingType": "building",
+      "price": 2500,
+      "date": "20 Oct, 2020",
+      "status": "Cancelled",
+      "badgeColor": "cancel"
+    }
+  ]
+}

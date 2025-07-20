@@ -1,0 +1,12 @@
+<ul>
+  @for(menu of restaurantOrders; track menu){
+  <li><a class="nav-link" [class.active]="activeTab == menu.value" (click)="setPage(menu.value)">{{ menu.title }}</a></li>
+  @if(menu.children){
+  <nav class="nav nav-pills flex-column">
+    @for(childMenu of menu.children; track childMenu){
+    <a class="nav-link ms-3" [class.active]="activeChild == childMenu.value" (click)="setPage(childMenu.value)">{{ childMenu.title }}</a>
+    }
+  </nav>
+  }
+  }
+</ul>

@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header  card-header--2">
+        <div>
+          <h5>All Cars</h5>
+        </div>
+        <form class="d-inline-flex">
+          <a href="javascript:void(0)" class="btn btn-theme" [routerLink]="['/cab/add-new-car']">
+            <app-feather-icons [icon]="'plus-square'"></app-feather-icons>Add New
+          </a>
+        </form>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class=" table-responsive table-desi">
+            <table class="all-cars-table table table-striped">
+              <thead>
+                <tr>
+                  <th>Car Photo</th>
+                  <th>Car Name</th>
+                  <th>Type</th>
+                  <th>Fare/km</th>
+                  <th>View</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(details of cabs; track details){
+                  <tr>
+                    <td><span><img [src]="details.image" alt="users"></span>
+                    </td>
+                    <td><a href="javascript:void(0)"><span class="  d-block fw-bold ">{{ details.carName }}</span></a>
+                    </td>
+                    <td><span class="badge badge-{{ details.badgeColor }}"> {{ details.carType }}</span></td>
+                    <td>${{ details.fare}}</td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class=" pagination-box">
+        <app-pagination></app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

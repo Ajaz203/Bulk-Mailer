@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header all-user-card card-header--2">
+        <div>
+          <h5>All Users</h5>
+        </div>
+       <div class="custom-search-wrapper mt-2">
+  <i class="feather icon-search"></i>
+  <input
+    type="text"
+    class="custom-search-input"
+    placeholder="Search .."
+    [(ngModel)]="searchText"
+  />
+</div>
+
+</div>
+   
+
+
+      <div class="card-body">
+        <div class="table-responsive table-desi">
+          <table class="user-table table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Active</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let details of paginatedUsers | search: searchText">
+                <td>
+                  <a href="javascript:void(0)">
+                    <span class="d-block">{{ details.name }}</span>
+                    <span>{{ details.subTitle }}</span>
+                  </a>
+                </td>
+                <td>{{ details.email }}</td>
+                <td>
+                  <span class="status-circless" [ngClass]="details.isActive ? 'active-circless' : 'inactive-circless'"
+                    title="{{ details.isActive ? 'Active' : 'Inactive' }}">
+                  </span>
+                </td>
+
+
+
+                <td>{{ details.role }}</td>
+                <td>
+                  <label class="switch">
+                    <input type="checkbox" [checked]="details.isActive" (change)="toggleActive(details)">
+                    <span class="slider round"></span>
+                  </label>
+                </td>
+                <td>
+                  <a href="javascript:void(0)" (click)="openEditPopup(details)"><i class="fa fa-pencil-square-o"
+                      aria-hidden="true"></i></a>
+                </td>
+
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="pagination-box d-flex justify-content-center mt-3">
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="prevPage()"
+          [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button class="btn btn-sm btn-outline-primary ms-2" (click)="nextPage()"
+          [disabled]="currentPage === totalPages">Next</button>
+      </div>
+
+      <div class="modal fade show d-block" tabindex="-1" *ngIf="isEditMode" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <form (ngSubmit)="updateUser()" class="p-3">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+              </div>
+
+              <div class="modal-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="selectedUser.name" name="name" required />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Update</button>
+                <button type="button" class="btn btn-secondary ms-2" (click)="isEditMode = false">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

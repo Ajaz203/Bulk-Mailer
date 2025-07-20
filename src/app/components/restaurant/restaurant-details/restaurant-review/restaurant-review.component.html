@@ -1,0 +1,10 @@
+@for(review of restaurantReview; track review){
+  <div class="review-box">
+    <div class="rating">
+      <ngb-rating [rate]="review.rating"></ngb-rating>
+      <span>{{ review.title }}</span>
+    </div>
+    <h6>by {{ review.by }}, {{ review.date }}</h6>
+    <p>{{ review.review }}</p>
+  </div>
+}

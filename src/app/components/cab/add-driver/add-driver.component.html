@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <!--driver detail start-->
+        <div class="card">
+          <div class="card-header">
+            <h5>Add New Driver</h5>
+          </div>
+          <div class="card-body">
+            <form class="theme-form mega-form">
+              <div class="mb-3">
+                <label class="form-label-title ">Driver Name</label>
+                <input class="form-control" type="text" placeholder="Driver Name">
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title ">Upload Driver Image here </label>
+                <dropzone [config]="config" [message]="text" class="custom-dropzone" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+              </div>
+              <div class="mb-3">
+                <label for="gender" class="form-label-title ">Gender</label>
+                <select id="gender" class="form-control js-example-basic-single col-sm-12">
+                  <option value="MA">Male</option>
+                  <option value="FE">Female</option>
+                  <option value="HO">Other</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title">Date of Birthdate </label>
+                <div class="input-group date" id="dt-date" data-target-input="nearest">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="18 april" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" />
+                    <div class="input-group-text" data-target="#dt-date" data-toggle="datetimepicker"><i class="fa fa-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3 choose">
+                <label class="form-label-title ">ID Document </label>
+                <input class="form-control " type="file" data-bs-original-title="" title="">
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title ">Contact Number</label>
+                <input class="form-control" type="Number" placeholder="Contact Number">
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title "> Email Address</label>
+                <input class="form-control" type="email" placeholder=" Email address">
+              </div>
+            </form>
+          </div>
+          <div class="card-footer text-end">
+            <button class="btn btn-primary me-3">Submit</button>
+            <button class="btn btn-outline-primary">Cancel</button>
+          </div>
+        </div>
+        <!--driver detail end-->
+      </div>
+    </div>
+  </div>
+</div>

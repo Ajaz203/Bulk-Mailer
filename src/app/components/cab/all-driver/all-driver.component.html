@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header  card-header--2">
+        <div>
+          <h5>All Drivers</h5>
+        </div>
+        <form class="d-inline-flex">
+          <a href="javascript:void(0)" class="btn btn-theme" [routerLink]="['/cab/add-driver']">
+            <app-feather-icons [icon]="'plus-square'"></app-feather-icons>Add New
+          </a>
+        </form>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="table-responsive table-desi">
+            <table class="user-table all-driver-table table table-striped">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Driver Name</th>
+                  <th>Gender</th>
+                  <th>Location</th>
+                  <th>Phone</th>
+                  <th>View</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(details of drivers; track details){
+                  <tr>
+                    <td><span><img [src]="details.image" alt="users"></span>
+                    </td>
+                    <td><a href="javascript:void(0)"><span class="d-block fw-bold ">{{ details.name }}</span></a>
+                    </td>
+                    <td>{{ details.gender }}</td>
+                    <td>
+                      <span> <i class="fa fa-car"></i>{{ details.fromLocation }}</span>
+                      <span class="line"></span>
+                      <span> <i class="fa fa-map-marker"></i>{{ details.toLocation }}</span>
+                    </td>
+                    <td>{{ details.phone }}</td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                      <a href="javascript:void(0)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class=" pagination-box">
+        <app-pagination></app-pagination>
+      </div>
+    </div>
+  </div>
+
+</div>

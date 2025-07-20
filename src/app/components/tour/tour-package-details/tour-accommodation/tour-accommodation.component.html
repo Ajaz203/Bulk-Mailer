@@ -1,0 +1,60 @@
+<div class="list-view">
+  @for(details of accommodations; track details){
+  <div class="list-box">
+    <div class="list-img">
+      <a href="javascript:void(0)" [routerLink]="['/tour/listing/list-view/list-view']">
+        <img [src]="details.img" class="img-fluid blur-up lazyload" alt="destination-image">
+      </a>
+    </div>
+    <div class="list-content">
+      <div>
+        <a href="javascript:void(0)" [routerLink]="['/tour/listing/list-view/list-view']">
+          <h5>{{ details.hotelName }}</h5>
+        </a>
+        <p>{{ details.location }}, 2km from center</p>
+        <div class="rating">
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star-o"></i>
+          <span>{{ details.review }} review</span>
+        </div>
+        <p class="hotel-info">{{ details.description }}</p>
+        <div class="facility-icon">
+          @if(details.hotelFacility.includes('bar')){
+          <div class="facility-box">
+            <img src="assets/images/icon/hotel/beer.png" class="img-fluid blur-up lazyload" alt="beer-icon">
+            <span>bar</span>
+          </div>
+          }
+          @if(details.hotelFacility.includes('wifi')){
+          <div class="facility-box">
+            <img src="assets/images/icon/hotel/wifi.png" class="img-fluid blur-up lazyload" alt="wifi-icon">
+            <span>wifi</span>
+          </div>
+          }
+          @if(details.hotelFacility.includes('restaurant')){
+          <div class="facility-box">
+            <img src="assets/images/icon/tour/fork.png" class="img-fluid blur-up lazyload" alt="fork-icon">
+            <span>restaurant</span>
+          </div>
+          }
+          @if(details.hotelFacility.includes('beach')){
+          <div class="facility-box">
+            <img src="assets/images/icon/hotel/sunset.png" class="img-fluid blur-up lazyload" alt="sunset-icon">
+            <span>beach</span>
+          </div>
+          }
+          @if(details.hotelFacility.includes('swimming')){
+          <div class="facility-box">
+            <img src="assets/images/icon/hotel/pool.png" class="img-fluid blur-up lazyload" alt="pool-icon">
+            <span>swimming</span>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

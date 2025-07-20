@@ -1,0 +1,763 @@
+{
+  "restaurant": [
+    {
+      "id": 1,
+      "restaurantName": "Food Way",
+      "location": "Sydney,",
+      "image": "assets/images/restaurant/1.jpg",
+      "restaurantType": "chinese",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "primary"
+    },
+    {
+      "id": 2,
+      "restaurantName": "Table Talk",
+      "location": "Auckland, New Zealand",
+      "image": "assets/images/restaurant/2.jpg",
+      "restaurantType": "chinese",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "primary"
+    },
+    {
+      "id": 3,
+      "restaurantName": "Blue Vally",
+      "location": "Brunswick Heads,",
+      "image": "assets/images/restaurant/3.jpg",
+      "restaurantType": "chinese",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "primary"
+    },
+    {
+      "id": 4,
+      "restaurantName": "Desi Eatey",
+      "location": "Rio de Janeiro, Brazil",
+      "image": "assets/images/restaurant/4.jpg",
+      "restaurantType": "indian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "secondary"
+    },
+    {
+      "id": 5,
+      "restaurantName": "Eat Bite",
+      "location": "Bogotá, Colombia",
+      "image": "assets/images/restaurant/5.jpg",
+      "restaurantType": "indian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "secondary"
+    },
+    {
+      "id": 6,
+      "restaurantName": "Chez Bruce",
+      "location": "Santiago, Chile",
+      "image": "assets/images/restaurant/6.jpg",
+      "restaurantType": "indian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "secondary"
+    },
+    {
+      "id": 7,
+      "restaurantName": "Seven Park place",
+      "location": "Rio de Janeiro, Brazil",
+      "image": "assets/images/restaurant/7.jpg",
+      "restaurantType": "indian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "secondary"
+    },
+    {
+      "id": 8,
+      "restaurantName": "The Waterside",
+      "location": "Montevideo, Uruguay",
+      "image": "assets/images/restaurant/8.jpg",
+      "restaurantType": "indian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "secondary"
+    },
+    {
+      "id": 9,
+      "restaurantName": "Peppers",
+      "location": "Tabasco, Mexico",
+      "image": "assets/images/restaurant/9.jpg",
+      "restaurantType": "Italian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "primary"
+    },
+    {
+      "id": 10,
+      "restaurantName": "Benu",
+      "location": "Soufrière, Saint Lucia",
+      "image": "assets/images/restaurant/10.jpg",
+      "restaurantType": "Italian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "primary"
+    },
+    {
+      "id": 11,
+      "restaurantName": "Wild Thyme",
+      "location": "Illunois, United States",
+      "image": "assets/images/restaurant/11.jpg",
+      "restaurantType": "Italian",
+      "phone": "+304-921-8122",
+      "email": "KevinAMillett@jourrapide.com",
+      "badgeColor": "primary"
+    }
+  ],
+  "restaurantOrders": [
+    {
+      "id": 1,
+      "title": "quick bites",
+      "value": "bites",
+      "children": [
+        {
+          "id": 1,
+          "title": "potato chips",
+          "value": "chips",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Veg Cheese Quesadillas",
+              "description": "Mexican quesadillas overloaded with exotic vegetables, layered with house special salsa sauce and lots of cheese.",
+              "price": "10",
+              "mealType": "veg",
+              "itemsValue": 1
+            },
+            {
+              "id": 2,
+              "title": "Barbaresca Pasta",
+              "description": "Spinach ravioli with combination sauce, broccoli, zucchini.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "salad",
+          "value": "salad",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Veg Cheese Quesadillas",
+              "description": "Mexican quesadillas overloaded with exotic vegetables, layered with house special salsa sauce and lots of cheese.",
+              "price": "10",
+              "mealType": "veg",
+              "itemsValue": 1
+            },
+            {
+              "id": 2,
+              "title": "Barbaresca Pasta",
+              "description": "Spinach ravioli with combination sauce, broccoli, zucchini.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "fries",
+          "value": "fries",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Veg Cheese Quesadillas",
+              "description": "Mexican quesadillas overloaded with exotic vegetables, layered with house special salsa sauce and lots of cheese.",
+              "price": "10",
+              "mealType": "veg",
+              "itemsValue": 1
+            },
+            {
+              "id": 2,
+              "title": "Barbaresca Pasta",
+              "description": "Spinach ravioli with combination sauce, broccoli, zucchini.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "cheese sticks",
+          "value": "sticks",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Sprouts Salad",
+              "description": "Tomato, cucumber, peppers, olives, onion, feta, iceberg lettuce.",
+              "price": "10",
+              "mealType": "veg",
+              "itemsValue": 1
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "garlic bread",
+          "value": "bread",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Barbaresca Pasta",
+              "description": "Spinach ravioli with combination sauce, broccoli, zucchini.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "sandwich",
+      "value": "sandwich",
+      "totalItems": 5,
+      "items": [
+        {
+          "id": 1,
+          "title": "Sprouts Salad",
+          "description": "Tomato, cucumber, peppers, olives, onion, feta, iceberg lettuce.",
+          "price": "10",
+          "mealType": "non-veg",
+          "itemsValue": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "pizza",
+      "value": "pizza",
+      "totalItems": 5,
+      "items": [
+        {
+          "id": 1,
+          "title": "Sprouts Salad",
+          "description": "Tomato, cucumber, peppers, olives, onion, feta, iceberg lettuce.",
+          "price": "10",
+          "mealType": "veg",
+          "itemsValue": 1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "combo",
+      "value": "combo",
+      "totalItems": 5,
+      "items": [
+        {
+          "id": 1,
+          "title": "Veg Cheese Quesadillas",
+          "description": "Mexican quesadillas overloaded with exotic vegetables, layered with house special salsa sauce and lots of cheese.",
+          "price": "10",
+          "mealType": "veg",
+          "itemsValue": 1
+        },
+        {
+          "id": 2,
+          "title": "Sprouts Salad",
+          "description": "Tomato, cucumber, peppers, olives, onion, feta, iceberg lettuce.",
+          "price": "10",
+          "mealType": "non-veg",
+          "itemsValue": 1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "deserts",
+      "value": "deserts",
+      "children": [
+        {
+          "id": 1,
+          "title": "cheesecakes",
+          "value": "cheesecakes",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Sprouts Salad",
+              "description": "Tomato, cucumber, peppers, olives, onion, feta, iceberg lettuce.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "lime pie",
+          "value": "lime",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Veg Cheese Quesadillas",
+              "description": "Mexican quesadillas overloaded with exotic vegetables, layered with house special salsa sauce and lots of cheese.",
+              "price": "10",
+              "mealType": "veg",
+              "itemsValue": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "cream cream",
+          "value": "cream",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Veg Cheese Quesadillas",
+              "description": "Mexican quesadillas overloaded with exotic vegetables, layered with house special salsa sauce and lots of cheese.",
+              "price": "10",
+              "mealType": "veg",
+              "itemsValue": 1
+            },
+            {
+              "id": 2,
+              "title": "Sprouts Salad",
+              "description": "Spinach ravioli with combination sauce, broccoli, zucchini.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "rice pudding",
+          "value": "pudding",
+          "totalItems": 5,
+          "items": [
+            {
+              "id": 1,
+              "title": "Veg Cheese Quesadillas",
+              "description": "Mexican quesadillas overloaded with exotic vegetables, layered with house special salsa sauce and lots of cheese.",
+              "price": "10",
+              "mealType": "veg",
+              "itemsValue": 1
+            },
+            {
+              "id": 2,
+              "title": "Barbaresca Pasta",
+              "description": "Spinach ravioli with combination sauce, broccoli, zucchini.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            },
+            {
+              "id": 3,
+              "title": "Sprouts Salad",
+              "description": "Spinach ravioli with combination sauce, broccoli, zucchini.",
+              "price": "10",
+              "mealType": "non-veg",
+              "itemsValue": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "restaurantOverview": [
+    {
+      "id": 1,
+      "sectionClass": "",
+      "items": [
+        {
+          "id": 1,
+          "title": "Phone number: 09876543210"
+        },
+        {
+          "id": 2,
+          "title": "cuisine",
+          "data": [
+            {
+              "item": "Fast Food"
+            },
+            {
+              "item": "cafe"
+            },
+            {
+              "item": "italian"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "opening hours",
+          "data": [
+            {
+              "item": "Monday to Friday: 11.00 a.m. to 11.00 p.m."
+            },
+            {
+              "item": "Saturday & Sunday: 10.00 a.m. to 12.00 p.m."
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "address",
+          "data": [
+            {
+              "item": "9716 Riverside Dr, Mays Landing, NJ 08330"
+            },
+            {
+              "item": "24 Lafayette Drive, Ladson, SC 29456"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "sectionClass": "about-sec mt-sm-0 mt-2",
+      "items": [
+        {
+          "id": 1,
+          "title": "facility",
+          "data": [
+            {
+              "item": "card accepted"
+            },
+            {
+              "item": "parking availble"
+            },
+            {
+              "item": "banquet area"
+            },
+            {
+              "item": "home delivery"
+            },
+            {
+              "item": "table booking"
+            },
+            {
+              "item": "available for events"
+            },
+            {
+              "item": "game zone"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "restaurantGallery": [
+    {
+      "id": 1,
+      "image": "assets/images/restaurant/environment/1.jpg",
+      "fileType": "image"
+    },
+    {
+      "id": 2,
+      "image": "assets/images/restaurant/environment/2.jpg",
+      "fileType": "image"
+    },
+    {
+      "id": 3,
+      "image": "assets/images/restaurant/environment/3.jpg",
+      "fileType": "image"
+    },
+    {
+      "id": 4,
+      "image": "assets/images/restaurant/environment/4.jpg",
+      "fileType": "image"
+    },
+    {
+      "id": 5,
+      "image": "assets/images/restaurant/environment/5.jpg",
+      "fileType": "image"
+    },
+    {
+      "id": 6,
+      "image": "assets/images/restaurant/environment/6.jpg",
+      "fileType": "image"
+    }
+  ],
+  "restaurantLocation": {
+      "url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.9147718689!2d-74.11976358820196!3d40.69740344169578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1568001991098!5m2!1sen!2sin"
+  },
+  "restaurantReview": [
+    {
+      "id": 1,
+      "title": "Wonderful Experience...!!",
+      "by": "xyz",
+      "date": "jun 18, 2019",
+      "review": "Serve a healthy and good food. Having a parking facility and there are also waiting area available. These place is perfect for Celebration of birthday",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "title": "Excellent Arrangements",
+      "by": "xyz",
+      "date": "jun 18, 2019",
+      "review": "Italian Restro is one of the most favourite restaurant of all time. Here you can get all kind of food in very hygienic preparations and tasty. Staff are also very cooperative and humble. I would like to recommend this restaurant for all food lovers.",
+      "rating": 4
+    },
+    {
+      "id": 3,
+      "title": "Best Italian cuisine",
+      "by": "xyz",
+      "date": "jun 18, 2019",
+      "review": "The best Italian cuisine restaurant, the dishes are very authentic. A must try for all the Italian and Mexican food lovers.I am sure once u visit, you will be a fan of this place.",
+      "rating": 3
+    }
+  ],
+  "addRestaurantDetails": [
+    {
+      "restaurantType": [
+        {
+          "id": 1,
+          "title": "Fine Dining",
+          "value": "FD"
+        },
+        {
+          "id": 2,
+          "title": "Casual Dining",
+          "value": "CD"
+        },
+        {
+          "id": 3,
+          "title": "Contemporary Casual",
+          "value": "CC"
+        },
+        {
+          "id": 4,
+          "title": "Family Style",
+          "value": "FS"
+        },
+        {
+          "id": 5,
+          "title": "Fast Casual",
+          "value": "FC"
+        },
+        {
+          "id": 6,
+          "title": "Fast Food",
+          "value": "FF"
+        },
+        {
+          "id": 7,
+          "title": "Buffet",
+          "value": "BU"
+        }
+      ],
+      "country": [
+        {
+          "id": 1,
+          "title": "Austria",
+          "value": "austria"
+        },
+        {
+          "id": 2,
+          "title": "Azerbaijan",
+          "value": "azerbaijan"
+        },
+        {
+          "id": 3,
+          "title": "Bahrain",
+          "value": "bahrain"
+        }
+      ],
+      "state": [
+        {
+          "id": 1,
+          "title": "Ottawa",
+          "value": "ottawa"
+        },
+        {
+          "id": 2,
+          "title": "Praia",
+          "value": "praia"
+        },
+        {
+          "id": 3,
+          "title": "Yaounde",
+          "value": "yaounde"
+        }
+      ],
+      "city": [
+        {
+          "id": 1,
+          "title": "Vienna",
+          "value": "vienna"
+        },
+        {
+          "id": 2,
+          "title": "Nassau",
+          "value": "nassau"
+        },
+        {
+          "id": 3,
+          "title": "Manama",
+          "value": "manama"
+        }
+      ],
+      "restaurantFacility": [
+        {
+          "data": [
+            {
+              "id": 1,
+              "title": "Wi-Fi",
+              "value": "wifi",
+              "checked": true
+            },
+            {
+              "id": 2,
+              "title": "Free secure parking",
+              "value": "freeParking",
+              "checked": true
+            },
+            {
+              "id": 3,
+              "title": "Drying room/outside clothesline",
+              "value": "dryingRoom",
+              "checked": false
+            },
+            {
+              "id": 4,
+              "title": "Laundry facilities",
+              "value": "laundry",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "id": 5,
+              "title": "The Coffee & Tea Service system",
+              "value": "coffeeTea",
+              "checked": true
+            },
+            {
+              "id": 6,
+              "title": "Dinner service",
+              "value": "dinner ",
+              "checked": false
+            },
+            {
+              "id": 7,
+              "title": "Children menu",
+              "value": "childrenMenu",
+              "checked": false
+            },
+            {
+              "id": 8,
+              "title": "Room Service",
+              "value": "roomService",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "menuItem": [
+    {
+      "id": 1,
+      "itemName": "Classic comfort food",
+      "image": "assets/images/menu-food/1.jpg",
+      "itemType": "Chinese",
+      "badgeColor": "primary",
+      "price": 20
+    },
+    {
+      "id": 2,
+      "itemName": "Local ingredients",
+      "image": "assets/images/menu-food/2.jpg",
+      "itemType": "Chinese",
+      "badgeColor": "primary",
+      "price": 30
+    },
+    {
+      "id": 3,
+      "itemName": "Gourmet versions of classics",
+      "image": "assets/images/menu-food/3.jpg",
+      "itemType": "Chinese",
+      "badgeColor": "primary",
+      "price": 25
+    },
+    {
+      "id": 4,
+      "itemName": "Healthy kids' menus",
+      "image": "assets/images/menu-food/4.jpg",
+      "itemType": "Indian",
+      "badgeColor": "secondary",
+      "price": 50
+    },
+    {
+      "id": 5,
+      "itemName": "Vegetable-centric dishes",
+      "image": "assets/images/menu-food/5.jpg",
+      "itemType": "Indian",
+      "badgeColor": "secondary",
+      "price": 35
+    },
+    {
+      "id": 6,
+      "itemName": "Lemon Garlic Penne",
+      "image": "assets/images/menu-food/6.jpg",
+      "itemType": "Indian",
+      "badgeColor": "secondary",
+      "price": 25
+    },
+    {
+      "id": 7,
+      "itemName": "Buttered popcorn",
+      "image": "assets/images/menu-food/7.jpg",
+      "itemType": "American",
+      "badgeColor": "primary",
+      "price": 50
+    },
+    {
+      "id": 8,
+      "itemName": "Masala dosa",
+      "image": "assets/images/menu-food/8.jpg",
+      "itemType": "Indian",
+      "badgeColor": "secondary",
+      "price": 10
+    },
+    {
+      "id": 9,
+      "itemName": "Seafood paella",
+      "image": "assets/images/menu-food/9.jpg",
+      "itemType": "Spainis",
+      "badgeColor": "secondary",
+      "price": 25
+    },
+    {
+      "id": 10,
+      "itemName": "Som tam",
+      "image": "assets/images/menu-food/10.jpg",
+      "itemType": "Thailand",
+      "badgeColor": "secondary",
+      "price": 45
+    },
+    {
+      "id": 11,
+      "itemName": "Poutine",
+      "image": "assets/images/menu-food/11.jpg",
+      "itemType": "Canada",
+      "badgeColor": "primary",
+      "price": 25
+    }
+  ]
+}

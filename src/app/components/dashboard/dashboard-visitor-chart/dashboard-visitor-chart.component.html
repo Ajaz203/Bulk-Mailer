@@ -1,0 +1,29 @@
+<div class="h-100">
+  <div class="card o-hidden  ">
+    <div class="card-header">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="card-header-title">
+          <h5>Visitors </h5>
+
+        </div>
+        <div class="dropdown" ngbDropdown>
+          <button class="btn dropdown-toggle" id="dropdownMenuButton" type="button" ngbDropdownToggle>Weekly</button>
+          <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+            <a class="dropdown-item" href="#" ngbDropdownItem>Weekly</a>
+            <a class="dropdown-item" href="#" ngbDropdownItem>Monthly</a>
+            <a class="dropdown-item" href="#" ngbDropdownItem>Yearly</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body ">
+      <div class="pie-chart">
+        <div id="pie-chart-visitors">
+          <apx-chart [series]="dashboardVisitorChart.series" [labels]="dashboardVisitorChart.labels" [chart]="dashboardVisitorChart.chart"
+                     [colors]="dashboardVisitorChart.colors" [plotOptions]="dashboardVisitorChart.plotOptions" [dataLabels]="dashboardVisitorChart.dataLabels"
+                     [legend]="dashboardVisitorChart.legend" [responsive]="dashboardVisitorChart.responsive"></apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

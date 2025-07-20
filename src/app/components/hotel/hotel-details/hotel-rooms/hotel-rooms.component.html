@@ -1,0 +1,74 @@
+  <table class="rooms-box border-0">
+    <tbody>
+      @for(details of hotelRooms; track details){
+      <tr>
+        <td>
+          <a href="javascript:void(0)" [routerLink]="['/hotel/listing/grid/2-grid']">
+            <img [src]="details.roomImage" class="img-fluid blur-up lazyload" alt="room-image">
+          </a>
+        </td>
+        <td>
+          <h6 class="room-title">{{ details.roomType }}</h6>
+          <div class="room-detail">
+            <div class="row g-2">
+              <div class="col-sm-6 col-md-4 p-0">
+                <h6>Amenities</h6>
+                <div class="facility-detail">
+                  <ul>
+                    @for(amenities of details.amenities; track amenities){
+                      @if(amenities.includes('bed')){
+                        <li><img src="assets/images/icon/tour/bed.png" class="img-fluid blur-up lazyload" alt="bed-icon">
+                          king/twin
+                        </li>
+                     }
+                      @if(amenities.includes('pool')){
+                        <li><img src="assets/images/icon/hotel/pool.png" class="img-fluid blur-up lazyload" alt="pool-icon">
+                          Pool View
+                        </li>
+                      }
+                      @if(amenities.includes('shower')){
+                        <li><img src="assets/images/icon/hotel/shower.png" class="img-fluid blur-up lazyload" alt="shower-icon">
+                          Shower
+                        </li>
+                      }
+                      @if(amenities.includes('tv')){
+                        <li><img src="assets/images/icon/hotel/television.png" class="img-fluid blur-up lazyload" alt="television-icon">
+                          LCD TV
+                        </li>
+                      }
+                      @if(amenities.includes('couch')){
+                        <li><img src="assets/images/icon/hotel/couch.png" class="img-fluid blur-up lazyload" alt="couch-icon">
+                          couch
+                        </li>
+                      }
+                    }
+                  </ul>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4 p-0">
+                <h6>Guest Service</h6>
+                <div class="facility-detail">
+                  <ul>
+                    @for(services of details.guestService; track services){
+                      <li><i class="fa fa-check"></i> {{ services }}</li>
+                    }
+                  </ul>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4 p-0">
+                <h6>inclusion</h6>
+                <div class="facility-detail">
+                  <ul>
+                    @for(inclusion of details.inclusion; track inclusion){
+                      <li><i class="fa fa-check"></i> {{ inclusion }}</li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>

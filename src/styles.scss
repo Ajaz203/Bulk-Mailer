@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../public/assets/scss/app.scss";
+@import 'ngx-toastr/toastr';
+
+
+  .toast-top-right {
+    position: fixed !important;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+  }

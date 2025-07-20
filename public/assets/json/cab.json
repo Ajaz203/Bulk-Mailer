@@ -1,0 +1,282 @@
+{
+  "cab": [
+    {
+      "id": 1,
+      "carName": "Peugeot Citroen",
+      "image": "assets/images/cars/1.png",
+      "carType": "Sadan",
+      "badgeColor": "primary",
+      "fare": 20
+    },
+    {
+      "id": 2,
+      "carName": "Suzuki",
+      "image": "assets/images/cars/2.png",
+      "carType": "Medium",
+      "badgeColor": "primary",
+      "fare": 30
+    },
+    {
+      "id": 3,
+      "carName": "Fiat Chrysler",
+      "image": "assets/images/cars/3.png",
+      "carType": "Mini",
+      "badgeColor": "primary",
+      "fare": 15
+    },
+    {
+      "id": 4,
+      "carName": "Honda",
+      "image": "assets/images/cars/4.png",
+      "carType": "Standard",
+      "badgeColor": "secondary",
+      "fare": 40
+    },
+    {
+      "id": 5,
+      "carName": "Ford",
+      "image": "assets/images/cars/5.png",
+      "carType": "Tempo Travel",
+      "badgeColor": "secondary",
+      "fare": 55
+    },
+    {
+      "id": 6,
+      "carName": "Hyundai-Kia",
+      "image": "assets/images/cars/6.png",
+      "carType": "SUV",
+      "badgeColor": "secondary",
+      "fare": 25
+    },
+    {
+      "id": 7,
+      "carName": "General Motors",
+      "image": "assets/images/cars/7.png",
+      "carType": "Luxury",
+      "badgeColor": "primary",
+      "fare": 20
+    },
+    {
+      "id": 8,
+      "carName": "Plug-In Hybrid Cars",
+      "image": "assets/images/cars/8.png",
+      "carType": "Luxury",
+      "badgeColor": "primary",
+      "fare": 20
+    },
+    {
+      "id": 9,
+      "carName": "Pick-Up Vehicles",
+      "image": "assets/images/cars/9.png",
+      "carType": "Luxury",
+      "badgeColor": "primary",
+      "fare": 20
+    },
+    {
+      "id": 10,
+      "carName": "Kia EV6",
+      "image": "assets/images/cars/10.png",
+      "carType": "Luxury",
+      "badgeColor": "secondary",
+      "fare": 20
+    },
+    {
+      "id": 11,
+      "carName": "Kia Creed",
+      "image": "assets/images/cars/11.png",
+      "carType": "Luxury",
+      "badgeColor": "secondary",
+      "fare": 20
+    }
+  ],
+  "cabImages": [
+    {
+      "id": 1,
+      "image": "assets/images/cab/car/24.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 2,
+      "image": "assets/images/cab/car/25.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 3,
+      "image": "assets/images/cab/car/22.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 4,
+      "image": "assets/images/cab/car/24.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 5,
+      "image": "assets/images/cab/car/25.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 6,
+      "image": "assets/images/cab/car/22.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 7,
+      "image": "assets/images/cab/car/24.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 8,
+      "image": "assets/images/cab/car/25.jpg",
+      "imageType": "image"
+    },
+    {
+      "id": 9,
+      "image": "assets/images/cab/car/22.jpg",
+      "imageType": "image"
+    }
+  ],
+  "cabDetails": [
+    {
+      "title": "include in this price:",
+      "details": [
+        {
+          "data": "cancellation"
+        },
+         {
+          "data": "theft protection"
+        },
+         {
+          "data": "local taxes"
+        },
+         {
+          "data": "Prices are inclusive of all the taxes"
+        },
+         {
+          "data": "fuel charges"
+        },
+         {
+          "data": "driver allowance"
+        }
+      ]
+    },
+    {
+      "title": "exclude in this price:",
+      "details": [
+        {
+          "data": "late return charges"
+        },
+         {
+          "data": "Night Allowance"
+        },
+         {
+          "data": "Parking"
+        },
+         {
+          "data": "toll / state tax"
+        }
+      ]
+    }
+  ],
+  "cabDrivers": [
+    {
+      "id": 1,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/1.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 2,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/2.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 3,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/3.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 4,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/4.jpg",
+      "gender": "Female",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 5,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/5.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 6,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/6.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 7,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/7.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 8,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/8.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 9,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/9.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 10,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/10.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    },
+    {
+      "id": 11,
+      "name": "Kevin A. Millett",
+      "image": "assets/images/users/11.jpg",
+      "gender": "Male",
+      "fromLocation": "Amroha",
+      "toLocation": "Bahraich",
+      "phone": "+352-956-452"
+    }
+  ]
+}

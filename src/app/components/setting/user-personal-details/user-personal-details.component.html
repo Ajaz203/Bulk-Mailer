@@ -1,0 +1,49 @@
+<form class="theme-form mega-form">
+  <div class="personal-info">
+    <div class="personal-info__img">
+      <img src="assets/images/users/4.jpg" alt="user4">
+    </div>
+    <div class="  personal-info__uplode">
+      <p>Max file size is 5MB,Minimum dimension 150x150 And Suitable files are .jpg & .png </p>
+      <div class="uplode-img">
+        <input type="file" id="img" name="img" accept="image/*">
+        <label for="img">
+          <app-feather-icons [icon]="'upload'"></app-feather-icons> Uploade Image here</label>
+      </div>
+      <button class=" btn btn-primary btn--hover" type="submit"> Remove image</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <label class="form-label-title mt-3">First Name</label>
+      <input class="form-control" type="text" placeholder="First Name">
+    </div>
+    <div class="col-sm-6">
+      <label class="form-label-title mt-3">Last Name</label>
+      <input class="form-control" type="text" placeholder="Last Name">
+    </div>
+    <div class="col-sm-6">
+      <label class="form-label-title mt-3">Email Address</label>
+      <input class="form-control" type="Email" placeholder="Email Address">
+    </div>
+    <div class="col-sm-6">
+      <label class="form-label-title mt-3">Contact Numer</label>
+      <input class="form-control" type="number" placeholder="Contact Number">
+    </div>
+    <div class="col-sm-6 custom-date">
+      <label class="form-label-title mt-3">Date of Birthdate </label>
+      <div class="input-group date" id="dt-date" data-target-input="nearest">
+        <div class="input-group">
+          <input class="form-control" placeholder="18 april" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" />
+          <div class="input-group-text" data-target="#dt-date" data-toggle="datetimepicker"><i class="fa fa-calendar"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <label class="form-label-title mt-3">Address</label>
+      <input class="form-control" type="text" placeholder="Address">
+    </div>
+  </div>
+  <button class="btn btn-primary mt-3" type="button">Save Change </button>
+</form>

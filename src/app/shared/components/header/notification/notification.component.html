@@ -1,0 +1,18 @@
+<li class="onhover-dropdown" (click)="toggle()">
+  <div class="notification-box">
+    <i class="fa fa-bell-o"> </i>
+    <span class="badge rounded-pill badge-theme">4 </span>
+  </div>
+  <ul class="notification-dropdown onhover-show-div" [class.active]="isActive">
+    <li>
+      <app-feather-icons [icon]="'bell'"></app-feather-icons>
+      <h6 class="f-18 mb-0">Notitications</h6>
+    </li>
+    @for(details of headerNotification; track details){
+    <li>
+      <p><i class="fa fa-circle-o me-3 font-{{ details.fontColor }}"> </i>{{ details.title }} <span class="pull-right">{{ details.time }}</span></p>
+    </li>
+    }
+    <li><a class="btn btn-primary" href="#">Check all notification</a></li>
+  </ul>
+</li>

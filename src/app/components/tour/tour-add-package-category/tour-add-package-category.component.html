@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Add New Package Category</h5>
+          </div>
+          <div class="card-body">
+            <div class="theme-form mega-form">
+              <div class="mb-3">
+                <label class="form-label-title">Tour Name</label>
+                <input class="form-control" type="text" placeholder="Tour name">
+              </div>
+              <div class="mb-3">
+                <label class="form-label-title  ">Tour Places</label>
+                <tag-input class="form-control" type="text" name="tags"></tag-input>
+              </div>
+              <label class="form-label-title ">Tour package Description</label>
+              <div class="NgxEditor__Wrapper">
+                <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+                <ngx-editor [editor]="editor" [ngModel]="html" [disabled]="false" [placeholder]="'Type here...'"></ngx-editor>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button class="btn btn-primary me-3">Submit</button>
+            <button class="btn btn-outline-primary">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<ul class="nav nav-tabs mt-0" id="top-tab" role="tablist">
+  @for(tab of restaurantTab; track tab){
+    <li class="nav-item">
+      <a class="nav-link" href="javascript:void(0)" [class.active]="activeTab == tab.value" (click)="changeTab(tab.value)">{{ tab.title }}</a>
+    </li>
+  }
+</ul>

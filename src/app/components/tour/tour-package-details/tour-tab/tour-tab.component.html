@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs" id="top-tab" role="tablist">
+  @for(tab of tourTab; track tab){
+    <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" [class.active]="activeTab == tab.value" href="javascript:void(0)" (click)="getTabValue(tab.value)">{{ tab.title }}</a></li>
+  }
+</ul>

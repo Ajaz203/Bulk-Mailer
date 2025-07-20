@@ -1,0 +1,16 @@
+<div class="row">
+  @for(details of hotelFacility; track details){
+  <div class="col-xl-3 col-6">
+    @for(facility of details.data; track facility){
+    <h6 [class.mt-2]="facility.marginClass">
+      <img [src]="facility.icon" class="img-fluid blur-up lazyload" alt="icon"> {{ facility.title }}
+    </h6>
+    <ul>
+      @for(data of facility.details; track data){
+      <li><i class="fa fa-check"></i> {{ data }}</li>
+      }
+    </ul>
+    }
+  </div>
+  }
+</div>

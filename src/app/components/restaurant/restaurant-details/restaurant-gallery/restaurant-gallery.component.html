@@ -1,0 +1,16 @@
+<div class="container-fluid p-0 ratio3_2">
+  <div class="row g-4  zoom-gallery">
+    @for(images of restaurantGallery; track images){
+      <div class="col-lg-4 col-sm-6">
+        <div class="overlay" gallerize>
+          <a class="bg-size" href="javascript:void(0)" [style.background-image]="'url('+ images.image +')'" (click)="openLightBox()">
+            <div class="overlay-background">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </div>
+            <img [src]="images.image" alt="restaurant-image" class="img-fluid blur-up lazyload bg-img" style="display: none;">
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+</div>

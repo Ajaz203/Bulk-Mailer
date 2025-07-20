@@ -1,0 +1,10 @@
+@for(details of policy; track details){
+  <div class="about-sec">
+    <h6>{{ details.title }}</h6>
+    <ul>
+      @for(policy of details.details; track policy){
+        <li>{{ policy.data }}</li>
+      }
+    </ul>
+  </div>
+}

@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-header-title card-header">
+    <h5>Tours</h5>
+  </div>
+  <div class="card-body">
+    <div class="dashboard-tours ratio3_2">
+      <div class="w-100 dashboard-slider">
+        @if(tourCategory){
+          <owl-carousel-o [options]="options">
+            @for(details of tourCategory; track details){
+              <ng-template carouselSlide>
+                <div class="category-box">
+                  <div class="img-category">
+                    <div class="img-category-box bg-size" [style.background-image]="'url(' + details.categoryImage +')'">
+                      <img [src]="details.categoryImage" alt="tour-image" class="img-fluid bg-img" style="display: none;">
+                    </div>
+                    <div class="top-bar">
+                      @if(details.tag){
+                        <span class="offer">{{ details.tagTitle }}</span>
+                      }
+                      <h5><del>${{ details.price }}</del> ${{ details.discountPrice }}</h5>
+                    </div>
+                    <div class="like-cls">
+                      <i class="fa fa-heart"><span class="effect"></span></i>
+                    </div>
+                  </div>
+                  <div class="content-category">
+                    <div class="top">
+                      <h3>{{ details.categoryTitle }}</h3>
+                      <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                      </div>
+                    </div>
+                    <p>{{ details.categoryDescription }}</p>
+                    <h6>{{ details.days }} days | {{ details.night }} nights <span> {{ details.person }} person</span></h6>
+                  </div>
+                </div>
+              </ng-template>
+            }
+          </owl-carousel-o>
+        }
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
