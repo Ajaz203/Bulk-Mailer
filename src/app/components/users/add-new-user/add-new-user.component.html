@@ -26,10 +26,18 @@
                 </div>
               </div>
 
-              <div class="mb-3">
+              <div class="mb-3 position-relative">
                 <label class="form-label-title">Password</label>
-                <input class="form-control" type="password" placeholder="Password" formControlName="password"
-                  [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+
+                <div class="input-group">
+                  <input class="form-control" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+                    formControlName="password"
+                    [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched" />
+                  <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()"
+                    style="border: none; background: none;" tabindex="-1">
+                    {{ showPassword ? '🙈' : '👁️' }}
+                  </button>
+                </div>
 
                 <div class="invalid-feedback"
                   *ngIf="userForm.get('password')?.errors && userForm.get('password')?.touched">
@@ -41,6 +49,7 @@
                   </div>
                 </div>
               </div>
+
 
               <div class="card-footer text-end">
                 <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid || isLoading">

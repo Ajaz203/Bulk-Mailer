@@ -10,8 +10,8 @@ import { UserService } from '../../../shared/services/user.service';
 })
 
 export class AddNewUserComponent {
-  submittedEmails: Set<string> = new Set(); // Track submitted emails
-
+  submittedEmails: Set<string> = new Set(); 
+  showPassword: boolean = false;
   userForm: FormGroup
   public config: DropzoneConfigInterface = {
     // Change this to your upload POST address:
@@ -79,6 +79,11 @@ export class AddNewUserComponent {
   }
   cancel(): void {
   this.userForm.reset();
+}
+
+
+togglePassword(): void {
+  this.showPassword = !this.showPassword;
 }
 
 }
