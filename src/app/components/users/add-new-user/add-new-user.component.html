@@ -8,60 +8,73 @@
           </div>
           <div class="card-body">
             <form class="theme-form mega-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+          
               <div class="mb-3">
                 <label class="form-label-title">User Name</label>
                 <input class="form-control" type="text" placeholder="User Name" formControlName="name"
                   [class.is-invalid]="userForm.get('name')?.invalid && userForm.get('name')?.touched">
-                <div class="invalid-feedback" *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
-                  Please fill the name
+                <div class="invalid-feedback" *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid">
+                  Name is required
                 </div>
               </div>
 
+         
               <div class="mb-3">
                 <label class="form-label-title">Email Address</label>
                 <input class="form-control" type="email" placeholder="Email Address" formControlName="email"
                   [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched">
-                <div class="invalid-feedback" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
-                  Please enter a valid email address
+                <div class="invalid-feedback" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
+                  <div *ngIf="userForm.get('email')?.errors?.['required']">Email is required</div>
+                  <div *ngIf="userForm.get('email')?.errors?.['email']">Please enter a valid email address</div>
                 </div>
               </div>
 
-              <div class="mb-3 position-relative">
+             
+              <div class="mb-3">
                 <label class="form-label-title">Password</label>
-
                 <div class="input-group">
                   <input class="form-control" [type]="showPassword ? 'text' : 'password'" placeholder="Password"
                     formControlName="password"
                     [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched" />
-                  <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()"
-                    style="border: none; background: none;" tabindex="-1">
-                    {{ showPassword ? '🙈' : '👁️' }}
+                  <button type="button" (click)="togglePassword()" class="btn btn-light" tabindex="-1">
+                    <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                      fill="currentColor" viewBox="0 0 16 16">
+                      <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    </svg>
+                    <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                      fill="currentColor" viewBox="0 0 16 16">
+                      <path
+                        d="M13.359 11.238C14.47 10.184 15.293 8.797 15.94 8c-.746-.9-2.926-3.5-7.94-3.5a8.5 8.5 0 0 0-2.056.247l1.169 1.169a3.5 3.5 0 0 1 3.853 3.853l1.393 1.393zm.707.707-11-11-.708.708 2.262 2.261C2.556 5.54.853 7.5.06 8.5c.746.9 2.926 3.5 7.94 3.5 1.3 0 2.442-.207 3.443-.556l2.203 2.203.708-.708z" />
+                    </svg>
                   </button>
                 </div>
-
                 <div class="invalid-feedback"
-                  *ngIf="userForm.get('password')?.errors && userForm.get('password')?.touched">
+                  *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid">
                   <div *ngIf="userForm.get('password')?.errors?.['required']">Password is required</div>
-                  <div *ngIf="userForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters
+                  <div *ngIf="userForm.get('password')?.errors?.['minlength']">
+                    Password must be at least 6 characters
                   </div>
                   <div *ngIf="userForm.get('password')?.errors?.['pattern']">
-                    Password must contain upper & lowercase letters, a number, and a special character
+                    Must contain upper & lowercase letters, a number, and a special character
                   </div>
                 </div>
               </div>
 
-
+           
               <div class="card-footer text-end">
-                <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid || isLoading">
+                <button class="btn btn-primary" type="submit">
                   <span *ngIf="!isLoading">Submit</span>
                   <span *ngIf="isLoading">
                     <i class="spinner-border spinner-border-sm me-1"></i> Submitting...
                   </span>
                 </button>
-
-                <button class="btn btn-outline-primary ms-2" (click)="cancel()">Reset</button>
+                <button type="button" class="btn btn-outline-primary ms-2" (click)="cancel()">Reset</button>
               </div>
             </form>
+
+
           </div>
 
 
