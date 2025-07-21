@@ -93,7 +93,7 @@ export class AddNewUserComponent {
       next: (res: any) => {
         this.isLoading = false;
         this.submittedEmails.add(email);
-        this.service.showToast('success', 'User added successfully');
+        this.service.showToast('success', res.message);
         this.userForm.reset();
       },
       error: (err: any) => {

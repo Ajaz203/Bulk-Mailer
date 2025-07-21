@@ -18,47 +18,72 @@ import { UserService } from '../../shared/services/user.service';
 })
 export class DashboardComponent {
 
-public topCommonData = [
-  {
-    id: 1,
-    title: "Total Earnings",
-    count: 6659
-  },
-  {
-    id: 2,
-    title: "Total Bookings",
-    count: 9856
-  },
-  {
-    id: 3,
-    title: "Reviews",
-    count: 893
-  },
-  {
-    id: 4,
-    title: "Total Users",
-    count: 45631
-  }
-];
+ topCommonData:any = [];
 
 
 
   constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
-    this.getData();
+  ngOnInit(){
+   
+    this.getAll();
   }
 
-  getData(): void {
-    this.userService.getUsers().subscribe({
-      next: (res: any) => {
-        if (res && res.length) {
-          this.topCommonData = res;
+
+getAll() {
+  this.userService.getAllStat().subscribe({
+    next: (res: any) => {
+      const overview = res?.overview;
+
+      this.topCommonData = overview ? [
+        {
+          id: 1,
+          title: 'Total Emails Sent',
+          count: overview.totalEmailsSent
+        },
+        {
+          id: 2,
+          title: 'Total Drafts',
+          count: overview.totalDrafts
+        },
+        {
+          id: 3,
+          title: 'Total Scheduled',
+          count: overview.totalScheduled
+        },
+        {
+          id: 4,
+          title: 'Total Candidates',
+          count: overview.totalCandidates
+        },
+        {
+          id: 5,
+          title: 'Total Vendors',
+          count: overview.totalVendors
+        },
+      ] : [];
+
+      // Now fetch total users and append
+      this.userService.getUsers().subscribe({
+        next: (userRes: any) => {
+          if (userRes?.totalUsers !== undefined) {
+            this.topCommonData.push({
+              id: 6,
+              title: 'Total Users',
+              count: userRes.totalUsers
+            });
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching users', err);
         }
-      },
-      error: (err) => {
-        console.error('API failed, using static data', err);
-        // Do nothing, static data remains
-      }
-    });
-}}
+      });
+    },
+    error: (err) => {
+      console.error('Error fetching overview stats', err);
+    }
+  });
+}
+
+
+}

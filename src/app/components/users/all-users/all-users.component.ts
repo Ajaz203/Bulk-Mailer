@@ -33,7 +33,7 @@ selectedUser: any = null;
 
   getData(){
      this.userService.getUsers().subscribe((res: any) => {
-      this.users = res?.user?.rows || [];
+      this.users = res?.user || [];
       this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
       this.updatePaginatedUsers();
     });
@@ -74,7 +74,7 @@ selectedUser: any = null;
         if (newStatus) {
           this.userService.showToast('success', res.message || 'Account activated');
         } else {
-          this.userService.showToast('error', res.message || 'Account deactivated');
+          this.userService.showToast('success', res.message || 'Account deactivated');
         }
       },
       error: () => {

@@ -1,17 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { users } from '../interface/user';
 import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  apiUrl:any='https://b6fd1e050d9d.ngrok-free.app/'
+    private userSubject = new BehaviorSubject<any>(null); 
+  apiUrl:any='https://77a40b8cdaf8.ngrok-free.app/'
     header: any = {
     "ngrok-skip-browser-warning": "true",
   }
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {
+     const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.userSubject.next(JSON.parse(storedUser));
+    }
+  }
 
   // User
   user(): Observable<users>{
@@ -31,6 +37,23 @@ export class UserService {
   }
   updateUser(data:any) {
     return this.http.post(this.apiUrl + "updateUserById", data);
+  }
+  login(data:any) {
+    return this.http.post(this.apiUrl + "login", data);
+  }
+  setUser(user: any): void {
+    this.userSubject.next(user);
+     localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getUser(): Observable<any> {
+    return this.userSubject.asObservable();
+  }
+  clearUser(): void {
+    this.userSubject.next(null);
+  }
+    getAllStat() {
+    return this.http.get(this.apiUrl + "getAllStats",{ headers: this.header });
   }
 }
 
