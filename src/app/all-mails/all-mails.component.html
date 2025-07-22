@@ -106,18 +106,19 @@
     </table>
 
     <!-- Pagination -->
-    <nav class="mt-3 d-flex justify-content-center" *ngIf="totalRecords > pageSize">
-      <ngb-pagination
-        [collectionSize]="totalRecords"
-        [(page)]="page"
-        [pageSize]="pageSize"
-        (pageChange)="onPageChange($event)"
-        [boundaryLinks]="true"
-        [maxSize]="5"
-        size="sm"
-        class="mb-0">
-      </ngb-pagination>
-    </nav>
+   <nav class="mt-3 d-flex justify-content-center" *ngIf="totalRecords > pageSize">
+<ngb-pagination
+  [collectionSize]="totalRecords"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  (pageChange)="onPageChange($event)"
+  [boundaryLinks]="true"
+  [maxSize]="5"
+  size="sm"
+  class="mb-0">
+</ngb-pagination>
+</nav>
+
   </div>
 </div>
 

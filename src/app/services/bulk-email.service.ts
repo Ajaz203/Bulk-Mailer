@@ -14,7 +14,7 @@ export class EmailService {
   ) { }
 
   url: string = 'http://142.93.212.196:3000/';
-  // url: string = 'https://52f48ada7682.ngrok-free.app/';
+  // url: string = 'https://5286bb0f5884.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
