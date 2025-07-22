@@ -61,7 +61,7 @@ mails: any[] = [];
     const start = (this.page - 1) * this.pageSize;
     return this.sentMails.slice(start, start + this.pageSize);
   }
- getFilteredPaginatedMails(): any[] {
+getFilteredPaginatedMails(): any[] {
   const filtered = this.sentMails
     .filter(mail => mail.targetType === this.targetType)
     .filter(mail => {
@@ -73,20 +73,29 @@ mails: any[] = [];
       );
     });
 
-  this.totalRecords = filtered.length;
-
   const start = (this.page - 1) * this.pageSize;
   return filtered.slice(start, start + this.pageSize);
 }
 
+get filteredMailCount(): number {
+  return this.sentMails
+    .filter(mail => mail.targetType === this.targetType)
+    .filter(mail => {
+      if (!this.searchText) return true;
+      const search = this.searchText.toLowerCase();
+      return (
+        mail.email?.toLowerCase().includes(search) ||
+        mail.mailSubject?.toLowerCase().includes(search)
+      );
+    }).length;
+}
 
 viewMail() {
-  const payload = {
-    page: this.page,
-    limit: this.pageSize,
+  const payload: any = {
     targetType: this.targetType,
     status: this.currentStatusFilter !== 'all' ? this.currentStatusFilter : undefined,
-
+    page: 1,
+    limit: 10000 
   };
 
   if (this.showInitialLoader) this.isLoading = true;
@@ -94,13 +103,12 @@ viewMail() {
   this.service.getSentMails(payload).subscribe(
     (res: any) => {
       this.sentMails = res?.data || [];
-      this.totalRecords = res?.total || 0;
+      this.totalRecords = this.sentMails.length;
       this.isLoading = false;
       this.showInitialLoader = false;
       this.cdr.detectChanges();
     },
     (err) => {
-      console.error('Error fetching mails:', err);
       this.sentMails = [];
       this.totalRecords = 0;
       this.isLoading = false;
@@ -109,6 +117,7 @@ viewMail() {
     }
   );
 }
+
 
 
 onPageChange(pageNum: number): void {
