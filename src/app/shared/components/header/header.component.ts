@@ -15,9 +15,9 @@ import { ClickOutsideDirective } from '../../directive/click-outside.directive';
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss',
-    imports: [FeatherIconsComponent, ReactiveFormsModule, FormsModule,
-        RouterLink, NotificationComponent, ThemeModeComponent, ClickOutsideDirective,
-        MessageBoxComponent, FullScreenComponent, UserProfileComponent, SlicePipe]
+    imports: [FeatherIconsComponent, ReactiveFormsModule, FormsModule
+        , NotificationComponent, ThemeModeComponent,
+        MessageBoxComponent, FullScreenComponent, UserProfileComponent]
 })
 
 export class HeaderComponent {

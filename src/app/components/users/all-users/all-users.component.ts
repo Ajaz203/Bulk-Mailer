@@ -12,7 +12,7 @@ import { SearchPipe } from '../../../pipes/search.pipe';
   standalone: true,
   templateUrl: './all-users.component.html',
   styleUrl: './all-users.component.scss',
-  imports: [RouterLink, FeatherIconsComponent, PaginationComponent, CommonModule,FormsModule,SearchPipe]
+  imports: [ CommonModule,FormsModule,SearchPipe]
 })
 export class AllUsersComponent {
 

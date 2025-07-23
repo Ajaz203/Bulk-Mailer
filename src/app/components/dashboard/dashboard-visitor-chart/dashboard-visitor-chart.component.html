@@ -1,34 +1,36 @@
 <div class="h-100">
-  <div class="card o-hidden">
-    <div class="card-header">
-      <div class="d-flex align-items-center justify-content-between">
-        <div class="card-header-title">
-          <h5>Email Stats</h5>
+  <div class="card border-0 shadow-sm rounded-4 bg-white">
+    <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom px-4 py-3">
+      <h5 class="mb-0 text-secondary fw-semibold">Email Statistics</h5>
+      <!-- <div ngbDropdown class="dropdown">
+        <button
+          class="btn btn-sm bg-light text-dark border dropdown-toggle"
+          ngbDropdownToggle
+          id="dropdownMenuButton"
+          type="button"
+          aria-expanded="false"
+        >
+          Weekly
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+          <button class="dropdown-item" ngbDropdownItem>Weekly</button>
+          <button class="dropdown-item" ngbDropdownItem>Monthly</button>
+          <button class="dropdown-item" ngbDropdownItem>Yearly</button>
         </div>
-        <div class="dropdown" ngbDropdown>
-          <button class="btn dropdown-toggle" id="dropdownMenuButton" type="button" ngbDropdownToggle>Weekly</button>
-          <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-            <a class="dropdown-item" href="#" ngbDropdownItem>Weekly</a>
-            <a class="dropdown-item" href="#" ngbDropdownItem>Monthly</a>
-            <a class="dropdown-item" href="#" ngbDropdownItem>Yearly</a>
-          </div>
-        </div>
-      </div>
+      </div> -->
     </div>
-    <div class="card-body">
-      <div class="pie-chart">
-        <div id="pie-chart-visitors">
-          <apx-chart
-            [series]="dashboardVisitorChart.series"
-            [labels]="dashboardVisitorChart.labels"
-            [chart]="dashboardVisitorChart.chart"
-            [colors]="dashboardVisitorChart.colors"
-            [plotOptions]="dashboardVisitorChart.plotOptions"
-            [dataLabels]="dashboardVisitorChart.dataLabels"
-            [legend]="dashboardVisitorChart.legend"
-            [responsive]="dashboardVisitorChart.responsive">
-          </apx-chart>
-        </div>
+
+    <div class="card-body px-4 py-4">
+      <div class="text-center mb-2">
+        <small class="text-muted">Visitor Distribution Overview</small>
+      </div>
+      <div class="d-flex justify-content-center">
+        <canvas baseChart
+          [data]="pieChartData"
+          [type]="pieChartType"
+          class="w-100"
+          style="max-width: 400px;"
+        ></canvas>
       </div>
     </div>
   </div>

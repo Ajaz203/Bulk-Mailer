@@ -1,20 +1,15 @@
 import { Component } from '@angular/core';
-import * as data from '../../shared/data/data/dashboard';
-import { DashboardToursComponent } from './dashboard-tours/dashboard-tours.component';
-import { DashboardWorldMapComponent } from './dashboard-world-map/dashboard-world-map.component';
-import { DashboardTrafficChartComponent } from './dashboard-traffic-chart/dashboard-traffic-chart.component';
-import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
-import { DashboardBookingHistoryComponent } from './dashboard-booking-history/dashboard-booking-history.component';
 import { DashboardEarningChartComponent } from './dashboard-earning-chart/dashboard-earning-chart.component';
 import { DashboardVisitorChartComponent } from './dashboard-visitor-chart/dashboard-visitor-chart.component';
 import { TopCommonDataComponent } from './top-common-data/top-common-data.component';
 import { UserService } from '../../shared/services/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
-    imports: [TopCommonDataComponent, DashboardVisitorChartComponent, DashboardEarningChartComponent, DashboardBookingHistoryComponent, NgbDatepicker, DashboardTrafficChartComponent, DashboardWorldMapComponent, DashboardToursComponent]
+    imports: [TopCommonDataComponent, DashboardVisitorChartComponent, DashboardEarningChartComponent,CommonModule]
 })
 export class DashboardComponent {
 
@@ -39,7 +34,8 @@ getAll() {
         {
           id: 1,
           title: 'Total Emails Sent',
-          count: overview.totalEmailsSent
+          count: overview.totalEmailsSent,
+          
         },
         {
           id: 2,
@@ -62,8 +58,6 @@ getAll() {
           count: overview.totalVendors
         },
       ] : [];
-
-      // Now fetch total users and append
       this.userService.getUsers().subscribe({
         next: (userRes: any) => {
           if (userRes?.totalUsers !== undefined) {

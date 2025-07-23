@@ -4,11 +4,12 @@ import { Router, RouterLink } from '@angular/router';
 import { FeatherIconsComponent } from '../../shared/components/ui/feather-icons/feather-icons.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from '../../shared/services/user.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  imports: [RouterLink, FeatherIconsComponent, ReactiveFormsModule, FormsModule]
+  imports: [ ReactiveFormsModule, FormsModule,CommonModule]
 })
 export class LoginComponent {
 

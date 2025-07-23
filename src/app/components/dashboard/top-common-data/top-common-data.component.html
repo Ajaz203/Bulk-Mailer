@@ -1,11 +1,14 @@
-<div class="card o-hidden">
-  <div class="card-body">
-    <div class="media align-items-center static-top-widget">
-      <div class="media-body p-0">
-        <span class="m-0">{{ data.title }}</span>
-        <h4 class="mb-0 counter">{{ data.count }}</h4>
-      </div>
+<div class="admin-card card shadow-sm border-0" [ngClass]="getBorderClass(data.title)">
+  <div class="card-body d-flex align-items-center justify-content-between">
+    <div>
+      <p class="admin-card-title mb-1 text-bold">{{ data.title }}</p>
+      <h4 class="admin-card-count mb-0">{{ data.count }}</h4>
     </div>
+
+    <div class="admin-card-icon rounded-circle d-flex align-items-center justify-content-center"
+      [ngStyle]="getBgStyle(data.title)" style="width: 50px; height: 50px;">
+      <i class="fs-4 text-white" [class]="'bi ' + getIcon(data.title)"></i>
+    </div>
+
   </div>
 </div>
-

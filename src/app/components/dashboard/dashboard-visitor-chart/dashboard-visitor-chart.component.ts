@@ -1,71 +1,68 @@
-import { Component } from '@angular/core';
-import { dashboardVisitorChart } from '../../../shared/data/chart/dashboard-chart';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { Component, OnInit } from '@angular/core';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../shared/services/user.service';
-@Component({
-    selector: 'app-dashboard-visitor-chart',
-    templateUrl: './dashboard-visitor-chart.component.html',
-    styleUrl: './dashboard-visitor-chart.component.scss',
-    imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem, NgApexchartsModule]
-})
-export class DashboardVisitorChartComponent {
+import { ChartConfiguration, ChartType } from 'chart.js';
+import { NgChartsModule } from 'ng2-charts'; 
 
-  // public dashboardVisitorChart = dashboardVisitorChart;
- dashboardVisitorChart: any;
+@Component({
+  selector: 'app-dashboard-visitor-chart',
+  standalone: true,
+  templateUrl: './dashboard-visitor-chart.component.html',
+  styleUrl: './dashboard-visitor-chart.component.scss',
+  imports: [
+ 
+    NgChartsModule 
+  ]
+})
+export class DashboardVisitorChartComponent implements OnInit {
+
+  public pieChartType: ChartType = 'pie';
+
+  public pieChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: ['Today', 'This Week', 'This Month'],
+    datasets: [
+      {
+        data: [0, 0, 0],
+        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+        borderWidth: 1
+      }
+    ]
+  };
+
+  public pieChartOptions: ChartConfiguration<'pie'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#6c757d'
+        }
+      }
+    }
+  };
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getAll();
+    this.loadChartData();
   }
 
-  getAll() {
+  loadChartData(): void {
     this.userService.getAllStat().subscribe({
       next: (res: any) => {
-        const emailStats = res?.emailStats;
+        const stats = res?.emailStats || {};
+        const today = stats.today || 0;
+        const thisWeek = stats.thisWeek || 0;
+        const thisMonth = stats.thisMonth || 0;
 
-        if (emailStats) {
-          this.dashboardVisitorChart = {
-            series: [
-              emailStats.today || 0,
-              emailStats.thisWeek || 0,
-              emailStats.thisMonth || 0
-            ],
-            labels: ['Today', 'This Week', 'This Month'],
-            chart: {
-              type: 'pie',
-              height: 350
-            },
-            colors: ['#36b9cc', '#4e73df', '#1cc88a'],
-            dataLabels: {
-              enabled: true
-            },
-            plotOptions: {
-              pie: {
-                expandOnClick: true
-              }
-            },
-            legend: {
-              position: 'bottom'
-            },
-            responsive: [{
-              breakpoint: 480,
-              options: {
-                chart: {
-                  width: 320
-                },
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }]
-          };
-        }
+        // Update chart data directly
+        this.pieChartData.datasets[0].data = [today, thisWeek, thisMonth];
+
+        // Optional: trigger chart update
+        this.pieChartData = { ...this.pieChartData };
       },
-      error: (err) => {
-        console.error('Error fetching stats', err);
-      }
+      error: (error) => console.error('Error loading statistics:', error)
     });
   }
 }
