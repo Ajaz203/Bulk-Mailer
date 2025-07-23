@@ -1,45 +1,39 @@
-<div class="card">
-  <div class="card-header">
-    <div class="card-header-title">
-      <h5>Booking History</h5>
-
-    </div>
-
-
+<div class="card shadow-sm border-0">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 text-primary fw-bold">Top 5 Users</h5>
+    <span class="badge bg-light text-muted">This Week</span>
   </div>
-  <div class="card-body">
-    <div class="table-responsive ">
-      <table class=" dashboard-table table border-0 ">
 
-        <tbody>
-          @for(details of dashboardBookingHistory; track details){
-            <tr>
-              <td><img [src]="details.image" alt="tour 1"></td>
-              <td><span class="fw-500"> {{ details.title }}</span><span>{{ details.location }}</span></td>
-              <td><span> {{ details.nights }} Night </span></td>
-              <td><span><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <title>flight_takeoff</title>
-                    <path d="M22.078 9.656q0.141 0.609-0.164 1.125t-0.914 0.703q-5.813 1.547-9.656 2.578l-5.297 1.406-1.594 0.469-2.625-4.5 1.453-0.375 1.969 1.5 4.969-1.313-4.125-7.172 1.922-0.516 6.891 6.422 5.344-1.406q0.609-0.188 1.148 0.141t0.68 0.938zM2.484 18.984h19.031v2.016h-19.031v-2.016z">
-                    </path>
-                  </svg>{{ details.journeyDate }}</span>
-              </td>
-              <td><span></span>
-                <span>{{ details.totalHours }} ({{ details.totalStop }})</span>
-              </td>
-              <td><span><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <title>flight_land</title>
-                    <path d="M14.016 14.438q-3.844-1.078-9.656-2.578l-1.594-0.469v-5.156l1.453 0.375 0.938 2.344 4.969 1.313v-8.25l1.922 0.516 2.766 9 5.297 1.406q0.609 0.188 0.914 0.727t0.164 1.148q-0.188 0.609-0.703 0.891t-1.125 0.141zM2.484 18.984h19.031v2.016h-19.031v-2.016z">
-                    </path>
-                  </svg>{{ details.dropDate }}</span>
-              </td>
-              <td><span class="badge badge-{{ details.badgeColor }}">{{ details.badgeText }}</span>
-              </td>
-              <td><span>${{ details.price }}</span>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+  <div class="card-body p-0">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex align-items-center justify-content-between"
+        *ngFor="let user of top5Users; trackBy: trackByUser">
+        <div class="d-flex align-items-center gap-3">
+          <div class="user-avatar position-relative">
+            <!-- If image exists, show it -->
+            <img *ngIf="user.profileImage" [src]="user.profileImage" alt="{{ user.name }}"
+              class="rounded-circle border border-2 border-primary-subtle shadow-sm" width="48" height="48" />
+
+            <!-- If no image, show initials -->
+            <div *ngIf="!user.profileImage"
+              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+              style="width: 48px; height: 48px;">
+              {{ getInitials(user.name) }}
+            </div>
+          </div>
+
+
+          <div>
+            <h6 class="mb-1 fw-semibold text-dark">{{ user.name }}</h6>
+            <small class="text-muted d-block">User ID: {{ user.userId }}</small>
+          </div>
+        </div>
+
+        <div class="text-end">
+          <span class="badge bg-gradient bg-primary text-white mb-1">Top User</span><br />
+          <small class="text-muted">Emails Sent: <strong>{{ user.emailCount }}</strong></small>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>

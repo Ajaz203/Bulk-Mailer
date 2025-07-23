@@ -6,13 +6,16 @@ import { UserService } from '../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardTrafficChartComponent } from './dashboard-traffic-chart/dashboard-traffic-chart.component';
+import { DashboardBookingHistoryComponent } from './dashboard-booking-history/dashboard-booking-history.component';
+
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
     imports: [TopCommonDataComponent, DashboardVisitorChartComponent, 
-      DashboardEarningChartComponent,CommonModule,NgbDatepicker,DashboardTrafficChartComponent]
+      DashboardEarningChartComponent,CommonModule,
+      NgbDatepicker,DashboardTrafficChartComponent,DashboardBookingHistoryComponent]
 })
 export class DashboardComponent {
 
