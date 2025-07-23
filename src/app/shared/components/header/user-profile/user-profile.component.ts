@@ -5,19 +5,19 @@ import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.comp
 import { UserService } from '../../../services/user.service';
 
 @Component({
-    selector: 'app-user-profile',
-    templateUrl: './user-profile.component.html',
-    styleUrl: './user-profile.component.scss',
-    imports: [FeatherIconsComponent]
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.component.html',
+  styleUrl: './user-profile.component.scss',
+  imports: [FeatherIconsComponent]
 })
 export class UserProfileComponent {
   userName: any;
   userEmail: any;
 
-  constructor(private modal: NgbModal,private userService: UserService){}
+  constructor(private modal: NgbModal, private userService: UserService) { }
 
   public isActive: boolean = false;
- ngOnInit(): void {
+  ngOnInit(): void {
     this.userService.getUser().subscribe(user => {
       if (user) {
         this.userName = user.name;
@@ -25,11 +25,13 @@ export class UserProfileComponent {
       }
     });
   }
-  toggle(){
-    this.isActive =! this.isActive;
+  toggle() {
+    this.isActive = !this.isActive;
   }
 
-  logout(){
-    this.modal.open(LogoutModalComponent, { centered: true,})
+  logout() {
+    this.modal.open(LogoutModalComponent, { centered: true, }),
+      localStorage.removeItem('user');
+    localStorage.removeItem('token');
   }
 }

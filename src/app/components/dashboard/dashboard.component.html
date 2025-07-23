@@ -1,8 +1,8 @@
 <div class="row">
   @for(data of topCommonData; track data){
-    <div class="col-sm-6 col-xxl-3 col-lg-6">
-      <app-top-common-data [data]="data"></app-top-common-data>
-    </div>
+  <div class="col-sm-6 col-xxl-3 col-lg-6">
+    <app-top-common-data [data]="data"></app-top-common-data>
+  </div>
   }
   <div class="col-xl-4">
     <app-dashboard-visitor-chart></app-dashboard-visitor-chart>
@@ -10,5 +10,19 @@
   <div class="col-xl-8">
     <app-dashboard-earning-chart></app-dashboard-earning-chart>
   </div>
- 
+
+  <div class="col-lg-6 col-xxl-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="datepicker-dashboard">
+          <div class="datepicker-here" data-language="en">
+            <ngb-datepicker />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-lg-6">
+    <app-dashboard-traffic-chart></app-dashboard-traffic-chart>
+  </div>
 </div>

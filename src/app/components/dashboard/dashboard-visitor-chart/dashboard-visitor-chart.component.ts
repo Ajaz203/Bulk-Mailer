@@ -1,68 +1,117 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../shared/services/user.service';
-import { ChartConfiguration, ChartType } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts'; 
+import {
+  ApexNonAxisChartSeries,
+  ApexChart,
+  ApexResponsive,
+  ApexLegend,
+  ApexPlotOptions,
+  ApexDataLabels
+} from 'ng-apexcharts';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-visitor-chart',
   standalone: true,
+  imports: [NgApexchartsModule, CommonModule],
   templateUrl: './dashboard-visitor-chart.component.html',
-  styleUrl: './dashboard-visitor-chart.component.scss',
-  imports: [
- 
-    NgChartsModule 
-  ]
+  styleUrls: ['./dashboard-visitor-chart.component.scss']
 })
 export class DashboardVisitorChartComponent implements OnInit {
 
-  public pieChartType: ChartType = 'pie';
+  public chartSeries: ApexNonAxisChartSeries = [0, 0, 0];
+  public chartLabels: string[] = ['Vendor Mails', 'Candidate Mails', 'Failed Mails'];
 
-  public pieChartData: ChartConfiguration<'pie'>['data'] = {
-    labels: ['Today', 'This Week', 'This Month'],
-    datasets: [
-      {
-        data: [0, 0, 0],
-        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-        borderWidth: 1
-      }
-    ]
+  public chartOptions: {
+    series: ApexNonAxisChartSeries;
+    chart: ApexChart;
+    labels: string[];
+    colors: string[];
+    plotOptions: ApexPlotOptions;
+    dataLabels: ApexDataLabels;
+    legend: ApexLegend;
+    responsive: ApexResponsive[];
   };
 
-  public pieChartOptions: ChartConfiguration<'pie'>['options'] = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          color: '#6c757d'
-        }
-      }
-    }
-  };
-
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadChartData();
   }
 
-  loadChartData(): void {
-    this.userService.getAllStat().subscribe({
-      next: (res: any) => {
-        const stats = res?.emailStats || {};
-        const today = stats.today || 0;
-        const thisWeek = stats.thisWeek || 0;
-        const thisMonth = stats.thisMonth || 0;
-
-        // Update chart data directly
-        this.pieChartData.datasets[0].data = [today, thisWeek, thisMonth];
-
-        // Optional: trigger chart update
-        this.pieChartData = { ...this.pieChartData };
+  setChartOptions(): void {
+    this.chartOptions = {
+      series: this.chartSeries,
+      labels: this.chartLabels,
+      chart: {
+        type: 'donut',
+        width: "100%",
+        height: 500
       },
-      error: (error) => console.error('Error loading statistics:', error)
-    });
+      colors: ['#4aa4d9', '#9e65c2', '#6670bd', '#FF9800','#ef3f3e'],
+      plotOptions: {
+        pie: {
+          startAngle: -90,
+          endAngle: 270
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        position: 'bottom',
+        formatter: (val, opts) => val + ' - ' + opts.w.globals.series[opts.seriesIndex],
+        offsetY: 10
+      },
+      responsive: [
+        {
+          breakpoint: 1388,
+          options: { chart: { height: 330 }, legend: { position: 'bottom' } }
+        },
+        {
+          breakpoint: 1158,
+          options: { chart: { height: 280 }, legend: { fontSize: '10px', position: 'bottom' } }
+        },
+        {
+          breakpoint: 598,
+          options: {
+            chart: { height: 280 },
+            legend: {
+              fontSize: '12px',
+              position: 'bottom',
+              offsetX: 5,
+              offsetY: -5,
+              markers: { width: 10, height: 10 },
+              itemMargin: { vertical: 1 }
+            }
+          }
+        }
+      ]
+    };
   }
+
+loadChartData(): void {
+  const data = {};
+  this.userService.dashboadCharts(data).subscribe({
+    next: (res: any) => {
+      const donutData = res?.donutChart;
+
+      if (donutData) {
+        this.chartLabels = ['Drafts', 'Scheduled', 'Sent'];
+
+        this.chartSeries = [
+          Number(donutData.drafts) || 0,
+          Number(donutData.scheduled) || 0,
+          Number(donutData.sent) || 0
+        ];
+
+        this.setChartOptions();
+      }
+    },
+    error: (err) => console.error('Error fetching data:', err)
+  });
+}
+
+
 }

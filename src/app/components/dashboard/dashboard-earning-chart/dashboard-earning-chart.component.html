@@ -1,24 +1,27 @@
 <div class="card border-0 shadow rounded-4">
-  <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3 px-4">
-    <h5 class="mb-0 text-primary fw-semibold">📈 Email Trend</h5>
+  <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center px-4">
+    <h5 class="card-header-title"> Email Trend</h5>
     <span class="text-muted small">Last Updated: {{ lastUpdated | date: 'short' }}</span>
   </div>
 
-  <div class="card-body p-4">
-    <div class="chart-container">
-      <apx-chart
-        [series]="dashboardEarningChart.series"
-        [chart]="dashboardEarningChart.chart"
-        [xaxis]="dashboardEarningChart.xaxis"
-        [colors]="dashboardEarningChart.colors"
-        [dataLabels]="dashboardEarningChart.dataLabels"
-        [stroke]="dashboardEarningChart.stroke"
-        [yaxis]="dashboardEarningChart.yaxis"
-        [fill]="dashboardEarningChart.fill"
-        [plotOptions]="dashboardEarningChart.plotOptions"
-        [legend]="dashboardEarningChart.legend"
-        [responsive]="dashboardEarningChart.responsive">
-      </apx-chart>
+  <div class="card o-hidden ">
+    <div class="card-header">
+
+      <div class="card-header-title">
+        <!-- <h5>Earning </h5>  -->
+      </div>
+      <div class="card-body p-0">
+        <div id="bar-chart-earning">
+          <apx-chart [series]="dashboardEarningChart.series" [colors]="dashboardEarningChart.colors"
+            [chart]="dashboardEarningChart.chart" [plotOptions]="dashboardEarningChart.plotOptions"
+            [dataLabels]="dashboardEarningChart.dataLabels" [stroke]="dashboardEarningChart.stroke"
+            [xaxis]="dashboardEarningChart.xaxis" [yaxis]="dashboardEarningChart.yaxis"
+            [legend]="dashboardEarningChart.legend" [fill]="dashboardEarningChart.fill"
+            [responsive]="dashboardEarningChart.responsive">
+          </apx-chart>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>

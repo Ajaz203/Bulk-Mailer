@@ -1,59 +1,119 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { users } from '../interface/user';
 import { ToastrService } from 'ngx-toastr';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-    private userSubject = new BehaviorSubject<any>(null); 
-  apiUrl:any='https://77a40b8cdaf8.ngrok-free.app/'
-    header: any = {
-    "ngrok-skip-browser-warning": "true",
-  }
+  private userSubject = new BehaviorSubject<any>(null);
+  private apiUrl: string = 'https://98de752704b1.ngrok-free.app/';
+
   constructor(private http: HttpClient, private toastr: ToastrService) {
-     const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
       this.userSubject.next(JSON.parse(storedUser));
     }
   }
 
-  // User
-  user(): Observable<users>{
-    return this.http.get<users>('assets/json/user.json')
+
+  private getAuthHeaders(): any {
+    const token = localStorage.getItem('token');
+    return {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token || ''}`,
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      })
+    };
   }
- addUsers(data:any) {
-    return this.http.post(this.apiUrl + "addUser", data);
+
+  
+ private appendUserId(data: any = {}): any {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    console.warn(' userId is missing in localStorage at appendUserId');
   }
-  showToast(action: 'success' | 'error' | 'info' | 'warning', message: string) {
-    this.toastr[action](message, action + "!", { timeOut: 3000, progressBar: true, progressAnimation: 'decreasing', positionClass: 'toast-top-right' });
-  }
-   getUsers() {
-    return this.http.get(this.apiUrl + "getAllUser",{ headers: this.header });
-  }
-  isActiveToggles(data:any) {
-    return this.http.post(this.apiUrl + "isActiveToggle", data);
-  }
-  updateUser(data:any) {
-    return this.http.post(this.apiUrl + "updateUserById", data);
-  }
-  login(data:any) {
-    return this.http.post(this.apiUrl + "login", data);
-  }
+  return { ...data, userId: userId?.toString() || '' };
+}
+
+
+
   setUser(user: any): void {
     this.userSubject.next(user);
-     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   getUser(): Observable<any> {
     return this.userSubject.asObservable();
   }
+
   clearUser(): void {
     this.userSubject.next(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
   }
-    getAllStat() {
-    return this.http.get(this.apiUrl + "getAllStats",{ headers: this.header });
+
+
+  showToast(type: 'success' | 'error' | 'info' | 'warning', message: string) {
+    this.toastr[type](message, type.toUpperCase() + "!", {
+      timeOut: 3000,
+      progressBar: true,
+      progressAnimation: 'decreasing',
+      positionClass: 'toast-top-right'
+    });
   }
+
+  
+  user(): Observable<users> {
+    return this.http.get<users>('assets/json/user.json');
+  }
+
+
+login(data: any) {
+  return this.http.post(this.apiUrl + 'login', data).pipe(
+    tap((res: any) => {
+      if (res?.token && res?.user) {
+        const userId = res.user.userId; 
+        if (userId) {
+          localStorage.setItem('userId', userId.toString());
+        } else {
+          console.warn('userId missing in login response');
+        }
+
+        localStorage.setItem('token', res.token);
+        this.setUser(res.user); 
+      }
+    })
+  );
 }
 
+
+  addUsers(data: any) {
+    return this.http.post(this.apiUrl + 'addUser', this.appendUserId(data), this.getAuthHeaders());
+  }
+
+  getUsers() {
+    return this.http.get(this.apiUrl + 'getAllUser', this.getAuthHeaders());
+  }
+
+  isActiveToggles(data: any) {
+    return this.http.post(this.apiUrl + 'isActiveToggle', this.appendUserId(data), this.getAuthHeaders());
+  }
+
+  updateUser(data: any) {
+    return this.http.post(this.apiUrl + 'updateUserById', this.appendUserId(data), this.getAuthHeaders());
+  }
+
+  getAllStat() {
+    return this.http.get(this.apiUrl + 'getAllStats', this.getAuthHeaders());
+  }
+
+ 
+  dashboadCharts(data: any = {}) {
+    return this.http.post(this.apiUrl + 'admin/dashboard-charts', this.appendUserId(data), this.getAuthHeaders());
+  }
+}
