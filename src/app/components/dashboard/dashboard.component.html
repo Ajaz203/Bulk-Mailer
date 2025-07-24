@@ -13,22 +13,28 @@
   <div class="col-xxl-8">
     <app-dashboard-booking-history></app-dashboard-booking-history>
   </div>
-<div class="col-lg-6 col-xxl-4">
-  <div class="card">
-    <div class="card-body">
-      <div class="datepicker-dashboard">
-      <ngb-datepicker [(ngModel)]="selectedDate" (ngModelChange)="onDateSelect($event)"></ngb-datepicker>
+  <div class="col-lg-6 col-xxl-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="datepicker-dashboard">
+            <!-- <div class="datepicker-here" data-language="en">
+            <ngb-datepicker/> 
+          </div> -->
+          <ngb-datepicker [(ngModel)]="selectedDate" (ngModelChange)="onDateSelect($event)"></ngb-datepicker>
 
-
-
+          <ng-template #customDay let-date let-currentMonth="currentMonth" let-selected="selected">
+            <div class="custom-day" [class.today]="isToday(date)" [class.selected]="isSelected(date)">
+              {{ date.day }}
+            </div>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="col-lg-6">
-  <app-dashboard-traffic-chart [filter]="chartFilter"></app-dashboard-traffic-chart>
-</div>
+  <div class="col-lg-6">
+    <app-dashboard-traffic-chart [filter]="chartFilter"></app-dashboard-traffic-chart>
+  </div>
 
 
 </div>

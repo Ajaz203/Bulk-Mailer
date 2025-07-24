@@ -20,14 +20,17 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
       ,DashboardBookingHistoryComponent,FormsModule,NgbDatepickerModule]
 })
 export class DashboardComponent {
- selectedDate: NgbDateStruct;
-
+  selectedDate: NgbDateStruct;
+  today: NgbDateStruct;
+  chartFilter = { date: this.getCurrentMonthYear() };
  topCommonData:any = [];
   
   selectedMonth: { year: number, month: number };
 
-chartFilter = {};
-  constructor(private userService: UserService,private calendar: NgbCalendar) {}
+  constructor(private userService: UserService,private calendar: NgbCalendar) {
+     this.today = this.calendar.getToday(); 
+    this.selectedDate = this.today
+  }
 
   ngOnInit(){
    
@@ -89,11 +92,30 @@ getAll() {
  
   
 
-onDateSelect(date: { year: number; month: number; day: number }) {
-  console.log('Selected date object:', date);
-  this.chartFilter = {
-    date: `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
-  };
-}
+  
 
+  onDateSelect(date: NgbDateStruct) {
+    this.selectedDate = date;
+    const formatted = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+    this.chartFilter = { date: formatted };
+  }
+
+  isToday(date: NgbDateStruct): boolean {
+    return date.day === this.today.day &&
+           date.month === this.today.month &&
+           date.year === this.today.year;
+  }
+
+  isSelected(date: NgbDateStruct): boolean {
+    return date.day === this.selectedDate?.day &&
+           date.month === this.selectedDate?.month &&
+           date.year === this.selectedDate?.year;
+  }
+
+  
+
+  private getCurrentMonthYear(): string {
+    const today = new Date();
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+  }
 }

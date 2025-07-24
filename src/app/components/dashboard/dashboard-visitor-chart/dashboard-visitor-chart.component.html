@@ -12,7 +12,7 @@
     <div class="card-body ">
       <div class="pie-chart">
         <div id="pie-chart-visitors">
-          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+          <apx-chart *ngIf="chartOptions && chartOptions.series" [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
             [colors]="chartOptions.colors" [plotOptions]="chartOptions.plotOptions"
             [dataLabels]="chartOptions.dataLabels" [legend]="chartOptions.legend"
             [responsive]="chartOptions.responsive">

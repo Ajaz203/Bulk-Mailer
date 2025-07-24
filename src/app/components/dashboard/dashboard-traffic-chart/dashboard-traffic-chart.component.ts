@@ -1,20 +1,36 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { dashboardTrafficChart } from '../../../shared/data/chart/dashboard-chart';
 import { UserService } from '../../../shared/services/user.service';
 
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-dashboard-traffic-chart',
   standalone: true,
   templateUrl: './dashboard-traffic-chart.component.html',
   styleUrl: './dashboard-traffic-chart.component.scss',
-  imports: [NgApexchartsModule]
+  imports: [
+    CommonModule,
+    NgApexchartsModule,
+    FormsModule,
+   
+  ]
 })
 export class DashboardTrafficChartComponent implements OnChanges {
-  @Input() filter: any;
+  @Input() filter: { date: string };
   selectedRange: 'day' | 'week' | 'month' = 'month';
   chartOptions: any = { ...dashboardTrafficChart };
   trafficData: any = {};
+  selectedDate: NgbDateStruct;
+  // For calendar
+  calendarDate: Date = new Date();
 
   constructor(private userService: UserService) {}
 
@@ -24,8 +40,25 @@ export class DashboardTrafficChartComponent implements OnChanges {
     }
   }
 
+  onDateChange(event: any) {
+    const selected = event.value;
+    if (!selected) return;
+
+    const formattedDate = selected.toISOString().split('T')[0];
+    this.filter = { date: formattedDate };
+
+    this.loadChartData();
+  }
+
   loadChartData() {
-    const selectedDate = this.filter?.date;
+let selectedDate = this.filter?.date;
+
+if (!selectedDate) return;
+
+if (/^\d{4}-\d{2}$/.test(selectedDate)) {
+  selectedDate += '-01';
+}
+
 
     this.userService.trafficChart({ date: selectedDate }).subscribe((res: any) => {
       const data = res?.data || {};
@@ -45,7 +78,6 @@ export class DashboardTrafficChartComponent implements OnChanges {
         }
       };
 
-      // Default to month view
       this.updateChart(this.selectedRange);
     });
   }
@@ -61,10 +93,12 @@ export class DashboardTrafficChartComponent implements OnChanges {
 
     this.chartOptions = {
       ...dashboardTrafficChart,
-      series: [{
-        name: 'Referral Traffic',
-        data: values
-      }],
+      series: [
+        {
+          name: 'Referral Traffic',
+          data: values
+        }
+      ],
       xaxis: {
         categories: labels
       }

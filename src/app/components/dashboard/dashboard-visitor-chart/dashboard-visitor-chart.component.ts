@@ -10,7 +10,7 @@ import {
 } from 'ng-apexcharts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { CommonModule } from '@angular/common';
-
+import { dashboardTrafficChart } from '../../../shared/data/chart/dashboard-chart';
 @Component({
   selector: 'app-dashboard-visitor-chart',
   standalone: true,

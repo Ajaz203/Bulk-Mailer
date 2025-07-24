@@ -1,0 +1,36 @@
+.custom-day {
+  text-align: center;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.custom-day.today {
+  background-color:  var(--theme-deafult) !important;
+  color: #fff;
+  font-weight: bold;
+}
+
+.custom-day.selected {
+  border:  var(--theme-deafult) !important;
+}
+.custom-day {
+  text-align: center;
+  padding: 0.4rem;
+  border-radius: 0.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-day.today {
+  background-color:  var(--theme-deafult) !important;
+  color: #fff;
+  font-weight: bold;
+}
+
+.custom-day.selected {
+  border: 2px solid  var(--theme-deafult) !important;
+  font-weight: bold;
+}
