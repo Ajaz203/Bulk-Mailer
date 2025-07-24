@@ -30,8 +30,7 @@ export class UserProfileComponent {
   }
 
   logout() {
-    this.modal.open(LogoutModalComponent, { centered: true, }),
-      localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    this.modal.open(LogoutModalComponent, { centered: true, })
+  
   }
 }

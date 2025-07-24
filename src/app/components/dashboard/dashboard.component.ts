@@ -7,29 +7,32 @@ import { CommonModule } from '@angular/common';
 import { NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardTrafficChartComponent } from './dashboard-traffic-chart/dashboard-traffic-chart.component';
 import { DashboardBookingHistoryComponent } from './dashboard-booking-history/dashboard-booking-history.component';
-
-
+import { FormsModule } from '@angular/forms';
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
     imports: [TopCommonDataComponent, DashboardVisitorChartComponent, 
       DashboardEarningChartComponent,CommonModule,
-      NgbDatepicker,DashboardTrafficChartComponent,DashboardBookingHistoryComponent]
+      NgbDatepicker,DashboardTrafficChartComponent
+      ,DashboardBookingHistoryComponent,FormsModule,NgbDatepickerModule]
 })
 export class DashboardComponent {
+ selectedDate: NgbDateStruct;
 
  topCommonData:any = [];
+  
+  selectedMonth: { year: number, month: number };
 
-
-
-  constructor(private userService: UserService) {}
+chartFilter = {};
+  constructor(private userService: UserService,private calendar: NgbCalendar) {}
 
   ngOnInit(){
    
     this.getAll();
   }
-
 
 getAll() {
   const data = {}; 
@@ -83,7 +86,14 @@ getAll() {
     }
   });
 }
+ 
+  
 
-
+onDateSelect(date: { year: number; month: number; day: number }) {
+  console.log('Selected date object:', date);
+  this.chartFilter = {
+    date: `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
+  };
+}
 
 }

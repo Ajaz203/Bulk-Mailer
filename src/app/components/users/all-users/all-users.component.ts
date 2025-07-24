@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../shared/services/user.service';
-import { user } from '../../../shared/interface/user';
-import { PaginationComponent } from '../../../shared/components/ui/pagination/pagination.component';
-import { FeatherIconsComponent } from '../../../shared/components/ui/feather-icons/feather-icons.component';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserService {
   private userSubject = new BehaviorSubject<any>(null);
-  private apiUrl: string = 'https://98de752704b1.ngrok-free.app/';
+  private apiUrl: string = 'https://c3a8d8b931c2.ngrok-free.app/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -30,14 +30,14 @@ export class UserService {
     };
   }
 
-  
- private appendUserId(data: any = {}): any {
-  const userId = localStorage.getItem('userId');
-  if (!userId) {
-    console.warn(' userId is missing in localStorage at appendUserId');
+
+  private appendUserId(data: any = {}): any {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      console.warn(' userId is missing in localStorage at appendUserId');
+    }
+    return { ...data, userId: userId?.toString() || '' };
   }
-  return { ...data, userId: userId?.toString() || '' };
-}
 
 
 
@@ -67,53 +67,65 @@ export class UserService {
     });
   }
 
-  
+
   user(): Observable<users> {
     return this.http.get<users>('assets/json/user.json');
   }
 
 
-login(data: any) {
-  return this.http.post(this.apiUrl + 'login', data).pipe(
-    tap((res: any) => {
-      if (res?.token && res?.user) {
-        const userId = res.user.userId; 
-        if (userId) {
-          localStorage.setItem('userId', userId.toString());
-        } else {
-          console.warn('userId missing in login response');
+  login(data: any) {
+    return this.http.post(this.apiUrl + 'login', data).pipe(
+      tap((res: any) => {
+        if (res?.token && res?.user) {
+          const userId = res.user.userId;
+          if (userId) {
+            localStorage.setItem('userId', userId.toString());
+          } else {
+            console.warn('userId missing in login response');
+          }
+
+          localStorage.setItem('token', res.token);
+          this.setUser(res.user);
         }
-
-        localStorage.setItem('token', res.token);
-        this.setUser(res.user); 
-      }
-    })
-  );
-}
-
-
-  addUsers(data: any) {
-    return this.http.post(this.apiUrl + 'addUser', this.appendUserId(data), this.getAuthHeaders());
+      })
+    );
   }
 
   getUsers() {
-    return this.http.get(this.apiUrl + 'getAllUser', this.getAuthHeaders());
+    return this.http.get(this.apiUrl + "getAllUser", this.getAuthHeaders());
   }
-
   isActiveToggles(data: any) {
-    return this.http.post(this.apiUrl + 'isActiveToggle', this.appendUserId(data), this.getAuthHeaders());
+    return this.http.post(this.apiUrl + "isActiveToggle",  data, this.getAuthHeaders());
   }
-
   updateUser(data: any) {
-    return this.http.post(this.apiUrl + 'updateUserById', this.appendUserId(data), this.getAuthHeaders());
+    return this.http.post(this.apiUrl + "updateUserById", data, this.getAuthHeaders());
   }
+  addUsers(data: any) {
+    return this.http.post(this.apiUrl + 'admin/create-user', this.appendUserId(data), this.getAuthHeaders());
+  }
+  
+  // getUsers() {
+    //   return this.http.get(this.apiUrl + 'getAllUser', this.getAuthHeaders());
+    // }
+
+  // isActiveToggles(data: any) {
+  //   return this.http.post(this.apiUrl + 'isActiveToggle', this.appendUserId(data), this.getAuthHeaders());
+  // }
+
+  // updateUser(data: any) {
+  //   return this.http.post(this.apiUrl + 'updateUserById', this.appendUserId(data), this.getAuthHeaders());
+  // }
 
   getAllStat() {
     return this.http.get(this.apiUrl + 'getAllStats', this.getAuthHeaders());
   }
-
- 
+  
+  
   dashboadCharts(data: any = {}) {
     return this.http.post(this.apiUrl + 'admin/dashboard-charts', this.appendUserId(data), this.getAuthHeaders());
   }
+  trafficChart(data: any) {
+    return this.http.post(this.apiUrl + 'admin/mail-traffic-chart', this.appendUserId(data), this.getAuthHeaders());
+  }
+  
 }

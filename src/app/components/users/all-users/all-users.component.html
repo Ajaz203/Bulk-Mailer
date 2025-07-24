@@ -24,6 +24,7 @@
           <table class="user-table table table-striped">
             <thead>
               <tr>
+                <th>S No</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Active</th>
@@ -33,7 +34,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let details of paginatedUsers | search: searchText">
+              <tr *ngFor="let details of paginatedUsers | search: searchText; let i = index">
+                <td>{{ i + 1 }}</td>
                 <td>
                   <a href="javascript:void(0)">
                     <span class="d-block">{{ details.name }}</span>
@@ -99,8 +101,8 @@
               </div>
 
               <div class="modal-footer d-flex justify-content-end">
-                <button type="submit" class="btn btn-success">Update</button>
-                <button type="button" class="btn btn-secondary ms-2" (click)="isEditMode = false">Cancel</button>
+                <button type="button" class="btn btn-outline-primary ms-2" (click)="isEditMode = false">Cancel</button>
+                <button type="submit" class="btn  btn--yes btn-primary">Update</button>
               </div>
             </form>
           </div>

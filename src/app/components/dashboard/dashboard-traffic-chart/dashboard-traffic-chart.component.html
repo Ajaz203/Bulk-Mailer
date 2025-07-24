@@ -1,21 +1,41 @@
-<div class="card ">
-  <div class="d-flex align-items-center justify-content-between  card-header">
+<div class="card">
+  <div class="d-flex align-items-center justify-content-between card-header">
     <div class="card-header-title">
       <h5>Traffic</h5>
     </div>
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button class="btn btn-outline-light txt-dark " type="button" data-bs-original-title="" title="">Day</button>
-      <button class="btn btn-outline-light txt-dark" type="button" data-bs-original-title="" title="">Week</button>
-      <button class="btn btn-outline-light txt-dark active" type="button" data-bs-original-title="" title="">Month</button>
+    <div class="btn-group" role="group">
+      <button
+        class="btn btn-outline-light txt-dark"
+        [class.active]="selectedRange === 'day'"
+        (click)="updateFilter('day')"
+      >Day</button>
+      <button
+        class="btn btn-outline-light txt-dark"
+        [class.active]="selectedRange === 'week'"
+        (click)="updateFilter('week')"
+      >Week</button>
+      <button
+        class="btn btn-outline-light txt-dark"
+        [class.active]="selectedRange === 'month'"
+        (click)="updateFilter('month')"
+      >Month</button>
     </div>
   </div>
   <div class="card-body">
     <div id="traffic-chart">
-      <apx-chart [series]="trafficChart.series" [chart]="trafficChart.chart" [stroke]="trafficChart.stroke"
-                 [markers]="trafficChart.markers" [colors]="trafficChart.colors" [dataLabels]="trafficChart.dataLabels"
-                 [grid]="trafficChart.grid" [fill]="trafficChart.fill" [legend]="trafficChart.legend"
-                 [xaxis]="trafficChart.xaxis" [responsive]="trafficChart.responsive"> </apx-chart>
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [stroke]="chartOptions.stroke"
+        [markers]="chartOptions.markers"
+        [colors]="chartOptions.colors"
+        [dataLabels]="chartOptions.dataLabels"
+        [grid]="chartOptions.grid"
+        [fill]="chartOptions.fill"
+        [legend]="chartOptions.legend"
+        [xaxis]="chartOptions.xaxis"
+        [responsive]="chartOptions.responsive"
+      ></apx-chart>
     </div>
   </div>
-
 </div>

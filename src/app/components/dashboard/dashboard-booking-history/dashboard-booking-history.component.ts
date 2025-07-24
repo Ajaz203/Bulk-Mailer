@@ -37,10 +37,12 @@ trackByUser(index: number, user: any): any {
   return user.userId;
 }
 getInitials(name: string): string {
-  if (!name) return '';
-  const parts = name.trim().split(' ');
-  const initials = parts.map(p => p[0]).slice(0, 2).join('');
-  return initials.toUpperCase();
+  return name
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2); 
 }
 
 
