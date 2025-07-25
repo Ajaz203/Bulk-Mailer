@@ -50,7 +50,7 @@ getAll() {
           { name: 'Candidate', data: candidateSeries },
           { name: 'Failed', data: failedSeries }
         ],
-        colors: ["#4aa4d9", "#747dc6", "#ef3f3e"],
+        colors: [ "#747dc6","#4aa4d9","#ef3f3e"],
         chart: {
           type: 'bar',
           height: 420,
@@ -59,7 +59,7 @@ getAll() {
         plotOptions: {
           bar: {
             horizontal: false,
-            columnWidth: '55%',
+            columnWidth: '40%',
             endingShape: 'rounded'
           }
         },
@@ -73,7 +73,7 @@ getAll() {
           categories: months,
           labels: {
             rotate: -30,
-            style: { fontSize: '13px', colors: '#000' }
+            style: { fontSize: '12px', colors: '#000' }
           },
           axisTicks: { show: false },
           axisBorder: { show: false }
@@ -81,11 +81,11 @@ getAll() {
         yaxis: {
           title: {
             text: 'Emails Count',
-            style: { fontSize: '14px', color: '#333' }
+            style: { fontSize: '12px', color: '#333', fontWeight: '600' }
           },
           labels: {
             formatter: (val: number) => `${val.toLocaleString()}`,
-            style: { fontSize: '12px', color: '#333' }
+            style: { fontSize: '12px', color: '#333'  }
           },
           min: 0
         },
