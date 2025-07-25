@@ -78,36 +78,55 @@
           [disabled]="currentPage === totalPages">Next</button>
       </div>
 
-      <div class="modal fade show d-block" tabindex="-1" *ngIf="isEditMode" style="background-color: rgba(0,0,0,0.5);">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            <form (ngSubmit)="updateUser()" class="p-3">
-              <div class="modal-header">
-                <h5 class="modal-title">Edit User</h5>
-              </div>
+     <div class="modal fade show d-block" tabindex="-1" *ngIf="isEditMode" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <form (ngSubmit)="updateUser()" class="p-3">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit User</h5>
+        </div>
 
-              <div class="modal-body">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control" [(ngModel)]="selectedUser.name" name="name" required />
-                  </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" [(ngModel)]="selectedUser.name" name="name" required />
+            </div>
 
-                  <div class="col-md-6">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required />
-                  </div>
-                </div>
-              </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required />
+            </div>
 
-              <div class="modal-footer d-flex justify-content-end">
-                <button type="button" class="btn btn-outline-primary ms-2" (click)="isEditMode = false">Cancel</button>
-                <button type="submit" class="btn  btn--yes btn-primary">Update</button>
-              </div>
-            </form>
+            <!-- ✅ New Password Field -->
+           <div class="col-md-6 position-relative">
+  <label class="form-label">Update Password</label>
+  <input
+    [type]="showPassword ? 'text' : 'password'"
+    class="form-control pe-5"
+    [(ngModel)]="selectedUser.password"
+    name="password"
+  />
+  <i
+    class="bi"
+    [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+    (click)="togglePassword()"
+    style="position: absolute; top: 38px; right: 15px; cursor: pointer;"
+  ></i>
+</div>
+
           </div>
         </div>
-      </div>
+
+        <div class="modal-footer d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-primary ms-2" (click)="isEditMode = false">Cancel</button>
+          <button type="submit" class="btn btn--yes btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 
     </div>

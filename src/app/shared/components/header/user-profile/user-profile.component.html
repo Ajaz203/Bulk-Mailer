@@ -10,7 +10,7 @@
     <span>Account </span></a></li>
   <li><a href="javascript:void(0)"><app-feather-icons [icon]="'mail'"></app-feather-icons><span>Inbox</span></a></li>
   <li><a href="javascript:void(0)"><app-feather-icons [icon]="'file-text'"></app-feather-icons><span>Taskboard</span></a></li>
-  <li><a href="javascript:void(0)"><app-feather-icons [icon]="'settings'"></app-feather-icons><span>Settings</span></a></li>
+  <li><a href="javascript:void(0)" (click)="openSettings()"><app-feather-icons [icon]="'settings'"></app-feather-icons><span>Settings</span></a></li>
   <li><a href="javascript:void(0)" (click)="logout()"><app-feather-icons [icon]="'log-out'"></app-feather-icons><span>Log out</span></a></li>
 
 </ul>

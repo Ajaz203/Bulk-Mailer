@@ -16,35 +16,41 @@ export class TopCommonDataComponent {
   @Input() data: dashboardCommonData;
 
 getIcon(title: string): string {
-  switch (title) {
-    case 'Total Emails Sent':
+  switch (title.trim()) {
+    case 'Total Sent Emails':
       return 'bi-envelope-fill';
+
     // case 'Total Drafts':
     //   return 'bi-file-earmark-text';
-    case 'Total Vendors Emails':
-      return 'bi-calendar-check';
-    case 'Total Candidates Emails':
+
+    case 'Total Vendors':
+      return 'bi-people';
+
+    case 'Total Candidates':
       return 'bi-person-badge';
-    case 'Total Failed Emails':
+
+    case 'All Users':
       return 'bi-people-fill';
-    // case 'Total Users':
-    //   return 'bi-bar-chart';
+
+    case 'Total Users':
+      return 'bi-bar-chart';
+
     default:
-      return 'bi-question-circle';
+      return 'bi-question-circle'; 
   }
 }
 
 getBgStyle(title: string): { [klass: string]: any } {
   switch (title) {
-    case 'Total Candidates Emails':
+    case 'Total Candidates':
       return { 'background-color': '#28a745' }; 
-    case 'Total Failed Emails':
+    case 'All Users':
       return { 'background-color': 'red' };
     // case 'Total Drafts':
     //   return { 'background-color': '#ffc107' };
-    case 'Total Vendors Emails':
+    case 'Total Vendors':
       return { 'background-color': '#0dcaf0' }; 
-    case 'Total Emails Sent':
+    case 'Total Sent Emails':
       return { 'background-color': '#007bff' }; 
     // case 'Total Users':
     //   return { 'background-color': '#6c757d' }; 
@@ -58,15 +64,15 @@ getBgStyle(title: string): { [klass: string]: any } {
 
 getBorderClass(title: string): string {
   switch (title) {
-    case 'Total Emails Sent':
+    case 'Total Sent Emails':
       return 'border-start border-end border-4 border-primary';
     // case 'Total Drafts':
     //   return 'border-end border-start border-4 border-warning';
-    case 'Total Vendors Emails':
+    case 'Total Vendors':
       return 'border-start border-end border-4 border-info';
-    case 'Total Candidates Emails':
+    case 'Total Candidates':
       return 'border-end border-start border-4 border-success';
-    case 'Total Failed Emails':
+    case 'All Users':
       return 'border-start border-end border-4 border-danger';
     // case 'Total Users':
     //   return 'border-end border-start border-4 border-secondary';

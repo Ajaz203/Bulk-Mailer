@@ -8,27 +8,32 @@ import { SearchPipe } from '../../../pipes/search.pipe';
   standalone: true,
   templateUrl: './all-users.component.html',
   styleUrl: './all-users.component.scss',
-  imports: [ CommonModule,FormsModule,SearchPipe]
+  imports: [CommonModule, FormsModule, SearchPipe]
 })
 export class AllUsersComponent {
 
   users: any[] = [];
   paginatedUsers: any = [];
-  searchText:any = '';
-selectedUser: any = null;
+  searchText: any = '';
+  selectedUser: any = null;
   currentPage = 1;
   itemsPerPage = 5;
   totalPages = 1;
   isEditMode: boolean;
+  showPassword = false;
   constructor(private userService: UserService) {
 
   }
   ngOnInit(): void {
-   this.getData();
+    this.getData();
   }
 
-  getData(){
-     this.userService.getUsers().subscribe((res: any) => {
+
+togglePassword() {
+  this.showPassword = !this.showPassword;
+}
+  getData() {
+    this.userService.getUsers().subscribe((res: any) => {
       this.users = res?.user || [];
       this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
       this.updatePaginatedUsers();
@@ -80,26 +85,28 @@ selectedUser: any = null;
   }
 
 
-editUser(user: any) {
-  this.selectedUser = { ...user }; 
-  console.log("data1", this.selectedUser )
-  this.isEditMode = true;        
-}
+  editUser(user: any) {
+    this.selectedUser = { ...user };
+    console.log("data1", this.selectedUser)
+    this.isEditMode = true;
+  }
 
 
 
-openEditPopup(user: any) {
-  this.selectedUser = { ...user };
-  this.isEditMode = true;
-}
+  openEditPopup(user: any) {
+    this.selectedUser = { ...user };
+    this.isEditMode = true;
+  }
 
-updateUser() {
-  this.userService.updateUser(this.selectedUser).subscribe((res:any) => {
-    this.getData(); 
-    this.isEditMode = false;
-    this.userService.showToast('success', res.message);
+  updateUser() {
+      const adminId = localStorage.getItem('userId');
+  this.selectedUser.adminId = adminId || null
+    this.userService.updateUser(this.selectedUser).subscribe((res: any) => {
+      this.getData();
+      this.isEditMode = false;
+      this.userService.showToast('success', res.message);
 
-  });
-}
+    });
+  }
 
 }

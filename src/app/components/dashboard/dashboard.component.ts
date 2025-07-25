@@ -50,23 +50,23 @@ getAll() {
         this.topCommonData = [
           {
             id: 1,
-            title: 'Total Emails Sent',
-            count: tiles.totalSent,
+            title: 'All Users',
+            count: tiles.totalUsers,
           },
           {
             id: 2,
-            title: 'Total Failed Emails',
-            count: tiles.totalFailed,
+            title: 'Total Candidates',
+            count: tiles.totalCandidates,
           },
           {
             id: 3,
-            title: 'Total Vendors Emails',
+            title: 'Total Vendors',
             count: tiles.totalVendors,
           },
           {
             id: 4,
-            title: 'Total Candidates Emails',
-            count: tiles.totalCandidates,
+            title: 'Total Sent Emails',
+            count: tiles.totalSent,
           },
           // {
           //   id: 5,

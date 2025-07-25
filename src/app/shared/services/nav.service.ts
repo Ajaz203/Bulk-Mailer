@@ -113,13 +113,13 @@ export class NavService {
     //   level: 1,
     //   path: '/review'
     // },
-    {
-      title: 'Setting',
-      icon: 'settings',
-      type: 'link',
-      level: 1,
-      path: '/setting'
-    },
+    // {
+    //   title: 'Setting',
+    //   icon: 'settings',
+    //   type: 'link',
+    //   level: 1,
+    //   path: '/setting'
+    // },
     // {
     //   title: 'Log In',
     //   icon: 'log-in',
