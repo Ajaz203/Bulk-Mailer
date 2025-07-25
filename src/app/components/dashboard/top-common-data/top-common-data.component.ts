@@ -59,9 +59,6 @@ getBgStyle(title: string): { [klass: string]: any } {
   }
 }
 
-
-
-
 getBorderClass(title: string): string {
   switch (title) {
     case 'Total Sent Emails':
