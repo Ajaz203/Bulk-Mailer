@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 
 export interface Menu {
-  headTitle1? : string;
-  headTitle2? : string;
-  path? : string;
-  title? : string ;
-  type? : string;
+  headTitle1?: string;
+  headTitle2?: string;
+  path?: string;
+  title?: string;
+  type?: string;
   icon?: string;
   active?: boolean;
-  bookmark? : boolean;
-  items? : Menu[]
-  children? : Menu[];
+  bookmark?: boolean;
+  items?: Menu[]
+  children?: Menu[];
   level?: number;
   badge?: boolean,
-  badgeText? : string;
+  badgeText?: string;
+  rolesAllowed?: string[];
 }
 
 @Injectable({
@@ -32,7 +33,8 @@ export class NavService {
       type: 'link',
       active: true,
       level: 1,
-      path: '/dashboard'
+      path: '/dashboard',
+      rolesAllowed: ['admin', 'superadmin']
     },
     {
       title: 'Users',
@@ -40,10 +42,11 @@ export class NavService {
       type: 'sub',
       active: false,
       level: 1,
+      rolesAllowed: ['admin', 'superadmin'],
       children: [
-        { path: '/user/all-user', title: 'All users', type: 'link',level: 2 },
-        { path: '/user/add-new-user', title: 'Add new user', type: 'link',level: 2 },
-      ],
+        { path: '/user/all-user', title: 'All users', type: 'link', level: 2, rolesAllowed: ['admin', 'superadmin'] },
+        { path: '/user/add-new-user', title: 'Add new user', type: 'link', level: 2, rolesAllowed: ['superadmin'] }
+      ]
     },
     {
       title: 'Tour Packages',
@@ -51,12 +54,13 @@ export class NavService {
       type: 'sub',
       active: false,
       level: 1,
+      rolesAllowed: ['superadmin'],
       children: [
-        { path: '/tour/all-package', title: 'All Packages', type: 'link',level: 2 },
-        { path: '/tour/package-detail', title: "Package's Detail", type: 'link',level: 2 },
-        { path: '/tour/add-new-package', title: 'Add New Package', type: 'link',level: 2 },
-        { path: '/tour/all-package-categories', title: 'All Package Categories', type: 'link',level: 2 },
-        { path: '/tour/add-package-category', title: 'Add Package Category', type: 'link',level: 2 },
+        { path: '/tour/all-package', title: 'All Packages', type: 'link', level: 2 },
+        { path: '/tour/package-detail', title: "Package's Detail", type: 'link', level: 2 },
+        { path: '/tour/add-new-package', title: 'Add New Package', type: 'link', level: 2 },
+        { path: '/tour/all-package-categories', title: 'All Package Categories', type: 'link', level: 2 },
+        { path: '/tour/add-package-category', title: 'Add Package Category', type: 'link', level: 2 },
       ],
     },
     // {
@@ -135,4 +139,16 @@ export class NavService {
     //   path: '/register'
     // },
   ]
+   public getMenuForRole(role: string): Menu[] {
+    const filterMenu = (menus: Menu[]): Menu[] => {
+      return menus
+        .filter(menu => !menu.rolesAllowed || menu.rolesAllowed.includes(role))
+        .map(menu => ({
+          ...menu,
+          children: menu.children ? filterMenu(menu.children) : []
+        }));
+    };
+
+    return filterMenu(this.menuItem);
+  }
 }
