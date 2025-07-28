@@ -21,7 +21,8 @@ export class AllAdminsComponent {
   isEditMode: boolean;
   showPassword = false;
   selectedAdmin: any;
-  constructor(private userService: UserService , private router: Router) {
+  adminUsers: any[] = [];
+  constructor(private userService: UserService, private router: Router) {
 
   }
   ngOnInit(): void {
@@ -63,26 +64,30 @@ export class AllAdminsComponent {
     return item.userId || index;
   }
   toggleAdminStatus(user: any): void {
+
     const newStatus = !user.isActive;
 
-    this.userService.isActiveToggles({
-      userId: user.userId,
+    const payload = {
+      userId: user.adminId,
       isActive: newStatus
-    }).subscribe({
+    };
+
+    console.log('Final Payload:', payload);
+
+    this.userService.isActiveToggles(payload).subscribe({
       next: (res: any) => {
         user.isActive = newStatus;
 
-        if (newStatus) {
-          this.userService.showToast('success', res.message || 'Account activated');
-        } else {
-          this.userService.showToast('success', res.message || 'Account deactivated');
-        }
+        this.userService.showToast('success', res.message || (newStatus ? 'Account activated' : 'Account deactivated'));
       },
-      error: () => {
-        this.userService.showToast('error', 'Failed to update status');
+      error: (err) => {
+        console.error('Error:', err);
+        this.userService.showToast('error', err.error?.message || 'Failed to update status');
       }
     });
   }
+
+
 
 
   editUser(admins: any) {
@@ -90,10 +95,14 @@ export class AllAdminsComponent {
     console.log("data1", this.selectedUser)
     this.isEditMode = true;
   }
-
 goToAllUsers(adminId: number) {
-  this.router.navigate(['user/all-user'], { queryParams: { adminId } });
+  console.log('Navigating with adminId:', adminId);
+  this.router.navigate(['/user/all-user'], {
+    queryParams: { adminId },
+    queryParamsHandling: 'merge',
+  });
 }
+
 
   openEditPopup(admins: any) {
     this.selectedAdmin = { ...admins };

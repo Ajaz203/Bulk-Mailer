@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserService {
   private userSubject = new BehaviorSubject<any>(null);
-  private apiUrl: string = 'https://97ce0c1f73c3.ngrok-free.app/';
+  private apiUrl: string = 'https://1340a1892692.ngrok-free.app/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -97,11 +97,13 @@ export class UserService {
   getAdminWithUsers() {
     return this.http.get(this.apiUrl + "getAllAdminsWithUserCount", this.getAuthHeaders());
   }
-  getAdminUsers(data:any) {
-    return this.http.post(this.apiUrl + "admin/my-users", this.appendUserId(data), this.getAuthHeaders());
+  getAdminUsers(data: { adminId: number }): Observable<any> {
+    return this.http.post(this.apiUrl + "admin/my-users", data, this.getAuthHeaders());
   }
+
+
   isActiveToggles(data: any) {
-    return this.http.post(this.apiUrl + "isActiveToggle",  data, this.getAuthHeaders());
+    return this.http.post(this.apiUrl + "isActiveToggle", data, this.getAuthHeaders());
   }
   updateUser(data: any) {
     return this.http.post(this.apiUrl + "updateUserById", data, this.getAuthHeaders());
@@ -112,10 +114,10 @@ export class UserService {
   addAdmin(data: any) {
     return this.http.post(this.apiUrl + 'addAdmin', this.appendUserId(data), this.getAuthHeaders());
   }
-  
+
   // getUsers() {
-    //   return this.http.get(this.apiUrl + 'getAllUser', this.getAuthHeaders());
-    // }
+  //   return this.http.get(this.apiUrl + 'getAllUser', this.getAuthHeaders());
+  // }
 
   // isActiveToggles(data: any) {
   //   return this.http.post(this.apiUrl + 'isActiveToggle', this.appendUserId(data), this.getAuthHeaders());
@@ -128,13 +130,13 @@ export class UserService {
   getAllStat() {
     return this.http.get(this.apiUrl + 'getAllStats', this.getAuthHeaders());
   }
-  
-  
+
+
   dashboadCharts(data: any = {}) {
     return this.http.post(this.apiUrl + 'admin/dashboard-charts', this.appendUserId(data), this.getAuthHeaders());
   }
   trafficChart(data: any) {
     return this.http.post(this.apiUrl + 'admin/mail-traffic-chart', this.appendUserId(data), this.getAuthHeaders());
   }
-  
+
 }

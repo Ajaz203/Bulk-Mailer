@@ -3,6 +3,7 @@ import { UserService } from '../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-all-users',
   standalone: true,
@@ -21,24 +22,54 @@ export class AllUsersComponent {
   totalPages = 1;
   isEditMode: boolean;
   showPassword = false;
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private route: ActivatedRoute) {
 
   }
-  ngOnInit(): void {
-    this.getData();
-  }
+ngOnInit(): void {
+  this.route.queryParams.subscribe(params => {
+    const adminId = +params['adminId'];
+    // console.log('Received adminId from query:', adminId);
+
+    // fallback only if no adminId found
+    if (adminId) {
+      this.getData(adminId);
+    } else {
+      const fallbackAdminId = Number(localStorage.getItem('userId'));
+      console.log('Fallback to superAdminId:', fallbackAdminId);
+      this.getData(fallbackAdminId);
+    }
+  });
+}
+
+getAdminUsers(adminId: number) {
+  this.userService.getAdminUsers({ adminId }).subscribe(
+    (res: any) => {
+      this.users = res?.users || [];
+      this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+      this.updatePaginatedUsers();
+    },
+    (error) => {
+      console.error('Error fetching users', error);
+    }
+  );
+}
 
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
-  getData() {
-    this.userService.getAdminUsers({}).subscribe((res: any) => {
-      this.users = res?.users || [];
-      this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
-      this.updatePaginatedUsers();
-    });
-  }
+getData(adminId: number) {
+  // console.log('Calling API with adminId:', adminId);
+
+  this.userService.getAdminUsers({ adminId }).subscribe((res: any) => {
+    this.users = res?.users || [];
+    this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+    this.updatePaginatedUsers();
+  });
+}
+
+
+
   updatePaginatedUsers() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
@@ -102,7 +133,6 @@ export class AllUsersComponent {
     const adminId = localStorage.getItem('userId');
     this.selectedUser.adminId = adminId || null
     this.userService.updateUser(this.selectedUser).subscribe((res: any) => {
-      this.getData();
       this.isEditMode = false;
       this.userService.showToast('success', res.message);
 

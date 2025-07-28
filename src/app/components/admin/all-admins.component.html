@@ -13,7 +13,7 @@
 
       <div class="card-body">
         <div class="table-responsive table-desi">
-          <table class="user-table table table-striped">
+          <table class="user-table table table-striped table-hover">
             <thead>
               <tr>
                 <th>#</th>
@@ -29,28 +29,32 @@
             <tbody>
               <tr *ngFor="let admin of paginatedAdmins | search: searchText; let i = index"
                 (click)="goToAllUsers(admin.adminId)" style="cursor: pointer;">
+
                 <td>{{ i + 1 }}</td>
                 <td>{{ admin.name }}</td>
                 <td>{{ admin.email }}</td>
-                <td (click)="$event.stopPropagation()">{{ admin.role }}</td>
-                <td (click)="$event.stopPropagation()">
-                  <span class="status-circless"
-                    [ngClass]="admin.isActive ? 'active-circless' : 'inactive-circless'"></span>
+                <td>{{ admin.role }}</td>
+
+                <td>
+                  <span class="status-circless" [ngClass]="admin.isActive ? 'active-circless' : 'inactive-circless'">
+                  </span>
                 </td>
-                <td class="text-primary">{{ admin.userCount }}</td>
+
+                <td>{{ admin.userCount }}</td>
+
                 <td (click)="$event.stopPropagation()">
                   <label class="switch">
                     <input type="checkbox" [checked]="admin.isActive" (change)="toggleAdminStatus(admin)" />
                     <span class="slider round"></span>
                   </label>
                 </td>
+
                 <td (click)="$event.stopPropagation()">
                   <a href="javascript:void(0)" (click)="openEditPopup(admin)">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                   </a>
                 </td>
               </tr>
-
 
             </tbody>
           </table>
