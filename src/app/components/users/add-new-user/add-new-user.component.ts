@@ -32,7 +32,9 @@ export class AddNewUserComponent {
         [
           Validators.required,
           Validators.minLength(6),
-          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
+          // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
+          Validators.pattern(/^[a-zA-Z0-9]{6,}$/)
+
         ],
       ],
     });

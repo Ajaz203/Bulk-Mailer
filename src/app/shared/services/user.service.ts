@@ -94,6 +94,12 @@ export class UserService {
   getUsers() {
     return this.http.get(this.apiUrl + "getAllUser", this.getAuthHeaders());
   }
+  getAdminWithUsers() {
+    return this.http.get(this.apiUrl + "getAllAdminsWithUserCount", this.getAuthHeaders());
+  }
+  getAdminUsers(data:any) {
+    return this.http.post(this.apiUrl + "admin/my-users", this.appendUserId(data), this.getAuthHeaders());
+  }
   isActiveToggles(data: any) {
     return this.http.post(this.apiUrl + "isActiveToggle",  data, this.getAuthHeaders());
   }
@@ -102,6 +108,9 @@ export class UserService {
   }
   addUsers(data: any) {
     return this.http.post(this.apiUrl + 'admin/create-user', this.appendUserId(data), this.getAuthHeaders());
+  }
+  addAdmin(data: any) {
+    return this.http.post(this.apiUrl + 'addAdmin', this.appendUserId(data), this.getAuthHeaders());
   }
   
   // getUsers() {

@@ -36,5 +36,9 @@ export const content : Routes = [
   {
     path: 'setting',
     loadChildren: () => import('../../components/setting/setting.routes')
-  }
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('../../components/admin/admin.routes'),
+  },
 ]

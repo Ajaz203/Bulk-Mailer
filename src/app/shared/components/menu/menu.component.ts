@@ -5,50 +5,53 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { FeatherIconsComponent } from '../ui/feather-icons/feather-icons.component';
 
 @Component({
-    selector: 'app-menu',
-    templateUrl: './menu.component.html',
-    styleUrl: './menu.component.scss',
-    imports: [FeatherIconsComponent, NgTemplateOutlet, RouterLinkActive, NgClass, RouterLink]
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrl: './menu.component.scss',
+  imports: [FeatherIconsComponent, NgTemplateOutlet, RouterLinkActive, NgClass, RouterLink]
 })
 export class MenuComponent {
 
-  public menus = this.navService.menuItem;
+  // public menus = this.navService.menuItem;
   public width: number;
-
-	@HostListener('window:resize', ['$event'])
-	onResize(event: Event) {
-		this.width = (event.target as Window).innerWidth;
-    if(this.width < 992){
+  public menus: Menu[] = [];
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.width = (event.target as Window).innerWidth;
+    if (this.width < 992) {
       this.navService.closeSidebar = true;
-    }else{
+    } else {
       this.navService.closeSidebar = false;
     }
-	}
+  }
 
-  constructor(private navService: NavService,private router: Router) {
-    if(window.innerWidth < 992){
+  constructor(private navService: NavService, private router: Router) {
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    const role = userData?.role || 'user';
+    this.menus = this.navService.getMenuForRole(role);
+    if (window.innerWidth < 992) {
       this.navService.closeSidebar = true;
     }
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          this.menus.filter(items => {
-            if (items.path === event.url) {
-              this.setNavActive(items);
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.menus.filter(items => {
+          if (items.path === event.url) {
+            this.setNavActive(items);
+          }
+          items.children?.filter(subItems => {
+            if (subItems.path === event.url) {
+              this.setNavActive(subItems);
             }
-            items.children?.filter(subItems => {
-              if (subItems.path === event.url) {
-                this.setNavActive(subItems);
-              }
-            });
           });
-        }
-      });
+        });
+      }
+    });
 
 
   }
 
   // Active Nave state
-  setNavActive(item:Menu) {
+  setNavActive(item: Menu) {
     this.menus.filter(menuItem => {
       if (menuItem !== item) {
         menuItem.active = false;
@@ -67,20 +70,20 @@ export class MenuComponent {
     });
   }
 
-  toggleSidebar(){
+  toggleSidebar() {
     this.navService.closeSidebar = true;
   }
 
-  toggleMenu(item: Menu){
-    if(!item.active){
+  toggleMenu(item: Menu) {
+    if (!item.active) {
       this.menus.forEach((child) => {
-        if(this.menus.includes(item)){
+        if (this.menus.includes(item)) {
           child.active = false;
         }
 
-        if(child.children){
+        if (child.children) {
           child.children.forEach((subChild) => {
-            if(child.children?.includes(item)){
+            if (child.children?.includes(item)) {
               subChild.active = false
             }
           })
@@ -88,6 +91,6 @@ export class MenuComponent {
         }
       })
     }
-    item.active =! item.active;
+    item.active = !item.active;
   }
 }

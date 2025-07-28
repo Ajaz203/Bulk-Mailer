@@ -4,11 +4,13 @@ import { TourAddPackageComponent } from './tour-add-package/tour-add-package.com
 import { TourPackageCategoriesComponent } from './tour-package-categories/tour-package-categories.component';
 import { TourPackageDetailsComponent } from './tour-package-details/tour-package-details.component';
 import { TourPackageComponent } from './tour-package/tour-package.component';
+import { NewAdminComponent } from '../admin/new-admin.component';
+import { AllAdminsComponent } from '../admin/all-admins.component';
 
 export default [
   {
-    path: 'all-package',
-    component: TourPackageComponent
+    path: 'all-admin',
+    component: AllAdminsComponent
   },
   {
     path: 'package-detail',
@@ -19,8 +21,8 @@ export default [
     component: TourAddPackageComponent
   },
   {
-    path: 'all-package-categories',
-    component: TourPackageCategoriesComponent
+    path: 'add-new-admin',
+    component: NewAdminComponent
   },
   {
     path: 'add-package-category',

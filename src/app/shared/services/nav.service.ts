@@ -45,22 +45,22 @@ export class NavService {
       rolesAllowed: ['admin', 'superadmin'],
       children: [
         { path: '/user/all-user', title: 'All users', type: 'link', level: 2, rolesAllowed: ['admin', 'superadmin'] },
-        { path: '/user/add-new-user', title: 'Add new user', type: 'link', level: 2, rolesAllowed: ['superadmin'] }
+        { path: '/user/add-new-user', title: 'Add new user', type: 'link', level: 2, rolesAllowed: ['admin','superadmin'] }
       ]
     },
     {
-      title: 'Tour Packages',
+      title: 'Admins',
       icon: 'map',
       type: 'sub',
       active: false,
       level: 1,
       rolesAllowed: ['superadmin'],
       children: [
-        { path: '/tour/all-package', title: 'All Packages', type: 'link', level: 2 },
-        { path: '/tour/package-detail', title: "Package's Detail", type: 'link', level: 2 },
-        { path: '/tour/add-new-package', title: 'Add New Package', type: 'link', level: 2 },
-        { path: '/tour/all-package-categories', title: 'All Package Categories', type: 'link', level: 2 },
-        { path: '/tour/add-package-category', title: 'Add Package Category', type: 'link', level: 2 },
+        { path: 'admin/all-admin', title: 'All Admins', type: 'link', level: 2 },
+        { path: 'admin/add-new-admin', title: "Add New Admin", type: 'link', level: 2 },
+        // { path: '/tour/add-new-package', title: 'Add New Package', type: 'link', level: 2 },
+        // { path: '/tour/add-new-admin', title: 'All Package Categories', type: 'link', level: 2 },
+        // { path: '/tour/add-package-category', title: 'Add Package Category', type: 'link', level: 2 },
       ],
     },
     // {

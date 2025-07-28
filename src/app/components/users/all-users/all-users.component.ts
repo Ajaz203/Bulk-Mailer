@@ -29,12 +29,12 @@ export class AllUsersComponent {
   }
 
 
-togglePassword() {
-  this.showPassword = !this.showPassword;
-}
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
   getData() {
-    this.userService.getUsers().subscribe((res: any) => {
-      this.users = res?.user || [];
+    this.userService.getAdminUsers({}).subscribe((res: any) => {
+      this.users = res?.users || [];
       this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
       this.updatePaginatedUsers();
     });
@@ -99,8 +99,8 @@ togglePassword() {
   }
 
   updateUser() {
-      const adminId = localStorage.getItem('userId');
-  this.selectedUser.adminId = adminId || null
+    const adminId = localStorage.getItem('userId');
+    this.selectedUser.adminId = adminId || null
     this.userService.updateUser(this.selectedUser).subscribe((res: any) => {
       this.getData();
       this.isEditMode = false;

@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header all-user-card card-header--2">
+        <div>
+          <h5>All Admins</h5>
+        </div>
+        <div class="custom-search-wrapper mt-2">
+          <i class="feather icon-search"></i>
+          <input type="text" class="custom-search-input" placeholder="Search Admins..." [(ngModel)]="searchText" />
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="table-responsive table-desi">
+          <table class="user-table table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Active</th>
+                <th> Users</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let admin of paginatedAdmins | search: searchText; let i = index"
+                (click)="goToAllUsers(admin.adminId)" style="cursor: pointer;">
+                <td>{{ i + 1 }}</td>
+                <td>{{ admin.name }}</td>
+                <td>{{ admin.email }}</td>
+                <td (click)="$event.stopPropagation()">{{ admin.role }}</td>
+                <td (click)="$event.stopPropagation()">
+                  <span class="status-circless"
+                    [ngClass]="admin.isActive ? 'active-circless' : 'inactive-circless'"></span>
+                </td>
+                <td class="text-primary">{{ admin.userCount }}</td>
+                <td (click)="$event.stopPropagation()">
+                  <label class="switch">
+                    <input type="checkbox" [checked]="admin.isActive" (change)="toggleAdminStatus(admin)" />
+                    <span class="slider round"></span>
+                  </label>
+                </td>
+                <td (click)="$event.stopPropagation()">
+                  <a href="javascript:void(0)" (click)="openEditPopup(admin)">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="pagination-box d-flex justify-content-center mt-3">
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="prevPage()"
+          [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button class="btn btn-sm btn-outline-primary ms-2" (click)="nextPage()"
+          [disabled]="currentPage === totalPages">Next</button>
+      </div>
+
+      <!-- Edit Modal -->
+      <div class="modal fade show d-block" tabindex="-1" *ngIf="isEditMode" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <form (ngSubmit)="updateAdmin()" class="p-3">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Admin</h5>
+              </div>
+
+              <div class="modal-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="selectedAdmin.name" name="name" required />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" [(ngModel)]="selectedAdmin.email" name="email" required />
+                  </div>
+
+                  <div class="col-md-6 position-relative">
+                    <label class="form-label">Update Password</label>
+                    <input [type]="showPassword ? 'text' : 'password'" class="form-control pe-5"
+                      [(ngModel)]="selectedAdmin.password" name="password" />
+                    <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'" (click)="togglePassword()"
+                      style="position: absolute; top: 38px; right: 15px; cursor: pointer;"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-primary ms-2" (click)="isEditMode = false">Cancel</button>
+                <button type="submit" class="btn btn--yes btn-primary">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
