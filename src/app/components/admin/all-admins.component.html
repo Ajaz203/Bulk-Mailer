@@ -16,7 +16,8 @@
           <table class="user-table table table-striped table-hover">
             <thead>
               <tr>
-                <th>#</th>
+                <!-- <th>#</th> -->
+                <th>User</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -30,18 +31,26 @@
               <tr *ngFor="let admin of paginatedAdmins | search: searchText; let i = index"
                 (click)="goToAllUsers(admin.adminId)" style="cursor: pointer;">
 
-                <td>{{ i + 1 }}</td>
-                <td>{{ admin.name }}</td>
+                <!-- <td>{{ i + 1 }}</td> -->
+
+                <td class="d-flex align-items-center gap-2">
+                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+              style="width: 48px; height: 48px">{{ getInitials(admin.name) }}</div>
+                </td>
+                <td>
+                <div>{{ admin.name }}</div></td>
+
                 <td>{{ admin.email }}</td>
                 <td>{{ admin.role }}</td>
 
                 <td>
-                  <span class="status-circless" [ngClass]="admin.isActive ? 'active-circless' : 'inactive-circless'">
-                  </span>
+                  <span class="status-circless"
+                    [ngClass]="admin.isActive ? 'active-circless' : 'inactive-circless'"></span>
                 </td>
 
                 <td>{{ admin.userCount }}</td>
 
+                <!-- ✅ Toggle: Stop propagation -->
                 <td (click)="$event.stopPropagation()">
                   <label class="switch">
                     <input type="checkbox" [checked]="admin.isActive" (change)="toggleAdminStatus(admin)" />
@@ -49,12 +58,16 @@
                   </label>
                 </td>
 
+                <!-- ✅ Edit Icon: Stop propagation -->
                 <td (click)="$event.stopPropagation()">
                   <a href="javascript:void(0)" (click)="openEditPopup(admin)">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                   </a>
                 </td>
+
               </tr>
+
+
 
             </tbody>
           </table>

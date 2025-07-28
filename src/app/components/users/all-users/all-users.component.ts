@@ -28,9 +28,6 @@ export class AllUsersComponent {
 ngOnInit(): void {
   this.route.queryParams.subscribe(params => {
     const adminId = +params['adminId'];
-    // console.log('Received adminId from query:', adminId);
-
-    // fallback only if no adminId found
     if (adminId) {
       this.getData(adminId);
     } else {
@@ -40,7 +37,14 @@ ngOnInit(): void {
     }
   });
 }
-
+getInitials(name: string): string {
+  if (!name) return '';
+  const words = name.trim().split(' ');
+  if (words.length === 1) {
+    return words[0].charAt(0).toUpperCase();
+  }
+  return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
+}
 getAdminUsers(adminId: number) {
   this.userService.getAdminUsers({ adminId }).subscribe(
     (res: any) => {

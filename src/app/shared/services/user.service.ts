@@ -97,6 +97,9 @@ export class UserService {
   getAdminWithUsers() {
     return this.http.get(this.apiUrl + "getAllAdminsWithUserCount", this.getAuthHeaders());
   }
+  // superAdminAllUsers() {
+  //   return this.http.get(this.apiUrl + "superadmin/all-users", this.getAuthHeaders());
+  // }
   getAdminUsers(data: { adminId: number }): Observable<any> {
     return this.http.post(this.apiUrl + "admin/my-users", data, this.getAuthHeaders());
   }
