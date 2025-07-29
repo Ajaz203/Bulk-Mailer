@@ -13,17 +13,17 @@
   </div>
 </div> -->
 
-<div class=" border-5 border-0 card o-hidden" [ngClass]="getBorderClass(data.title)">
+<div class="border-5 border-0 card o-hidden" [ngClass]="getBorderClass(data.title)">
   <div class="b-r-4 card-body">
     <div class="media align-items-center static-top-widget">
-      <div class="media-body p-0"><span class="m-0">{{ data.title }}</span>
-        <h4 class="mb-0 counter">{{ data.count }}
-        </h4>
+      <div class="media-body p-0">
+        <span class="m-0">{{ data.title }}</span>
+        <h4 class="mb-0 counter">{{ data.count }}</h4>
       </div>
-     <div class="admin-card-icon rounded-circle d-flex align-items-center justify-content-center"
-      [ngStyle]="getBgStyle(data.title)" style="width: 50px; height: 50px;">
-      <i class="fs-4 text-white" [class]="'bi ' + getIcon(data.title)"></i>
-    </div>
+      <div class="admin-card-icon rounded-circle d-flex align-items-center justify-content-center"
+           [ngStyle]="getBgStyle(data.title)" style="width: 50px; height: 50px;">
+        <i class="fs-4 text-white" [class]="'bi ' + getIcon(data.title)"></i>
+      </div>
     </div>
   </div>
 </div>

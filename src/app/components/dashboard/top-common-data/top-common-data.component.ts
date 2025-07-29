@@ -49,15 +49,15 @@ getBgStyle(title: string): { [klass: string]: any } {
     case 'Email Failures':
       return { 'background-color': 'red' };
     case 'All Admins':
-      return { 'background-color': '#ffc107' };
+      return { 'background-color': '#747dc6' };
     case 'Total Vendors':
-      return { 'background-color': '#0dcaf0' }; 
+      return { 'background-color': '#4aa4d9' }; 
     case 'Total Sent Emails':
       return { 'background-color': ' #28a745' }; 
     case 'All Users ':
-      return { 'background-color': '#6c757d' }; 
+      return { 'background-color': '#9e65c2' }; 
     default:
-      return { 'background-color': '#343a40' }; 
+      return { 'background-color': '#9e65c2' }; 
   }
 }
 
@@ -65,23 +65,24 @@ getBorderClass(title: string): string {
   const lowerTitle = title.toLowerCase();
 
   if (lowerTitle.includes('sent')) {
-    return 'border-start border-end border-4 border-success';
+    return 'border-success-custom';
   } else if (lowerTitle.includes('admin')) {
-    return 'border-start border-end border-4 border-warning';
+    return 'border-warning-custom';
   } else if (lowerTitle.includes('vendor')) {
-    return 'border-start border-end border-4 border-info';
+    return 'border-vendor-custom';
   } else if (lowerTitle.includes('candidate')) {
-    return 'border-start border-end border-4 border-primary';
+    return 'border-primary-custom';
   } else if (lowerTitle.includes('user')) {
-    return 'border-start border-end border-4 border-secondary';
+    return 'border-secondary-custom';
   } else if (lowerTitle.includes('failure')) {
-    return 'border-start border-end border-4 border-danger';
+    return 'border-danger-custom';
   } else if (lowerTitle.includes('draft')) {
-    return 'border-start border-end border-4 border-dark';
+    return 'border-dark-custom';
   } else {
-    return 'border-start border-end border-4 border-secondary';
+    return 'border-secondary-custom';
   }
 }
+
 
 
 }
