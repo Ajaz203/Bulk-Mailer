@@ -14,7 +14,7 @@ export class EmailService {
   ) { }
 
   url: string = 'http://142.93.212.196:3000/';
-  // url: string = 'https://5286bb0f5884.ngrok-free.app/';
+  // url: string = 'https://f794f7610cc1.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
@@ -224,6 +224,11 @@ postWithUserId(endpoint: string, data: any) {
       params: params
     });
   }
+deleteSelectedVendors(data:any){
+    return this.postWithUserId('deleteSelectedVendors', data);
+  }
+
+
 
 
 }

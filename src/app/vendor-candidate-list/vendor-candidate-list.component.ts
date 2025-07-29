@@ -6,8 +6,11 @@ import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, map } from 'rxjs';
-import {  Toolbar } from 'ngx-editor';
-import { NgxEditorModule ,Editor} from 'ngx-editor';
+import { Toolbar } from 'ngx-editor';
+import { NgxEditorModule, Editor } from 'ngx-editor';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { InfiniteScrollCustomEvent, IonicModule } from '@ionic/angular';
+
 
 declare var bootstrap: any;
 
@@ -19,7 +22,7 @@ interface UserVendor {
 
 @Component({
   selector: 'app-vendor-candidate-list',
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgxEditorModule],
+  imports: [NgbPaginationModule, CommonModule, FormsModule, NgxEditorModule, InfiniteScrollDirective,IonicModule ],
   templateUrl: './vendor-candidate-list.component.html',
   styleUrl: './vendor-candidate-list.component.css'
 })
@@ -49,8 +52,14 @@ export class VendorCandidateListComponent {
   searchTermUser: string = '';
   searchTermVendor: string = '';
   htmlContent: string = '';
- editor!: Editor;
-
+  editor!: Editor;
+  showDeleteCandidate: boolean = false;
+  emailList: any[] = [];
+  loading = false;
+  displayedVendors: any[] = [];
+  displayLimit = 50;
+  isLoadingMore = false;
+  selectedVendorIds: number[] = [];
   constructor(private service: EmailService, private cd: ChangeDetectorRef,) { };
 
   private _candidates = signal<any[]>([]);
@@ -82,6 +91,21 @@ export class VendorCandidateListComponent {
       this.editor.destroy();
     }
   }
+
+  onScroll(): void {
+    if (this.isLoadingMore || this.displayLimit >= this.vendorList.length)
+      return;
+
+    this.isLoadingMore = true;
+    setTimeout(() => {
+      this.displayLimit = Math.min(
+        this.displayLimit + 50,
+        this.vendorList.length
+      );
+      this.isLoadingMore = false;
+    }, 1000);
+  }
+
   fetchUsersWithVendors(): void {
     this.service.getUsersWithVendors({}).subscribe({
       next: (res) => {
@@ -137,6 +161,80 @@ export class VendorCandidateListComponent {
     return this.filteredUserList.slice(start, start + this.pageSize);
   }
 
+  handleDeleteCandidate() {
+    const selectedIds = Array.from(this.selectedCandidates).map(vendor => vendor.id);
+    this.showDeleteCandidate = selectedIds.length > 0;
+
+  }
+
+  clickAllDelete() {
+    const visibleVendors = this.filteredVendorList.slice(0, this.displayLimit);
+    const selectedIds = visibleVendors
+      .filter(vendor => this.selectedCandidates.has(vendor))
+      .map(vendor => vendor.id);
+
+    this.deleteSelectedVendors(selectedIds);
+  }
+
+  deleteSelectedVendors(selectedIds: number[]) {
+
+    const payload = { ids: selectedIds };
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to delete ${selectedIds.length} vendors. This action cannot be recover`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete them!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+
+        this.service.deleteSelectedVendors(payload).subscribe({
+          next: () => {
+            Swal.fire('Deleted!', 'Selected candidates have been deleted.', 'success');
+            this.isLoading = false;
+            this.selectedCandidates.clear();
+            this.showDeleteCandidate = false;
+
+            this.vendorList = this.vendorList.filter(
+              (c: { id: number }) => !selectedIds.includes(c.id)
+            );
+            this.dataArr = this.dataArr?.filter(
+              (c: { id: number }) => !selectedIds.includes(c.id)
+            );
+            const user = this.userVendorList.find(u => u.userId === this.selectedUser?.userId);
+            if (user && user.vendors) {
+              user.vendors = user.vendors.filter((v: { id: any }) => !selectedIds.includes(v.id));
+            }
+
+            this.selectedCandidates.clear();
+            this.showDeleteCandidate = false;
+
+            this.isLoading = false;
+          },
+          error: (err) => {
+            this.selectedCandidates.clear();
+            this.showDeleteCandidate = false;
+            this.isLoading = false;
+            console.error(err);
+            Swal.fire(
+              'Error!',
+              err.error?.error || 'Failed to delete selected candidates.',
+              'error'
+            );
+          },
+        });
+      }
+      else {
+        this.selectedCandidates.clear();
+        this.showDeleteCandidate = false;
+
+      }
+    });
+  }
 
   handleSelectCandidateSend() {
     const selected = Array.from(this.selectedCandidates).filter(c => this.vendorList.includes(c));
@@ -171,12 +269,21 @@ export class VendorCandidateListComponent {
   }
 
 
-  toggleSelectAll(event: any) {
+toggleSelectAll(event: any) {
     if (event.target.checked) {
-      this.vendorList.forEach((vendor: any) => this.selectedCandidates.add(vendor));
-    } else {
+      this.filteredVendorList.forEach((vendor: any) =>
+        this.selectedCandidates.add(vendor)
+      );
+    }
+    // else if(event.target.checked){
+    //   this.filteredVendorList.forEach((vendor:any)=>
+    //     this.selectedCandidates.add(vendor)
+    //   );
+    // }
+    else {
       this.selectedCandidates.clear();
     }
+    this.handleDeleteCandidate();   
   }
 
   toggleSelection(vendor: any) {
@@ -242,9 +349,9 @@ export class VendorCandidateListComponent {
   //     }
   //   });
   // }
-getData() {
-  this.isLoading = false;
-}
+  getData() {
+    this.isLoading = false;
+  }
   isPageFullySelected(): boolean {
     const start = (this.page() - 1) * this.pageSize;
     const end = Math.min(start + this.pageSize, this.candidates.length);
@@ -360,63 +467,70 @@ getData() {
     return vendor.id;
   }
 
-fetchUsersWithVendorMapping(): void {
-  this.isLoading = true; 
+  fetchUsersWithVendorMapping(): void {
+    this.isLoading = true;
 
-  this.service.getUsersWithVendors({}).subscribe({
-    next: (users) => {
-      const userList = Array.isArray(users) ? users : [];
+    this.service.getUsersWithVendors({}).subscribe({
+      next: (users) => {
+        const userList = Array.isArray(users) ? users : [];
 
-      const userVendorObservables = userList.map(user =>
-        this.service.getVendorsByUser(user.userId).pipe(
-          map(vendors => ({ ...user, vendors }))
-        )
-      );
+        const userVendorObservables = userList.map(user =>
+          this.service.getVendorsByUser(user.userId).pipe(
+            map(vendors => ({ ...user, vendors }))
+          )
+        );
 
-      forkJoin(userVendorObservables).subscribe({
-        next: (combinedUsersWithVendors) => {
-          this.userVendorList = combinedUsersWithVendors;
-          this.isLoading = false; 
-        },
-        error: (err) => {
-          console.error('Failed to load vendors per user:', err);
-          this.isLoading = false; 
-        }
-      });
-    },
-    error: (err) => {
-      console.error('Failed to fetch users:', err);
-      this.isLoading = false; 
-    }
-  });
-}
-
-
+        forkJoin(userVendorObservables).subscribe({
+          next: (combinedUsersWithVendors) => {
+            this.userVendorList = combinedUsersWithVendors;
+            this.isLoading = false;
+          },
+          error: (err) => {
+            console.error('Failed to load vendors per user:', err);
+            this.isLoading = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Failed to fetch users:', err);
+        this.isLoading = false;
+      }
+    });
+  }
 
 
-  openUserVendors(user: any): void {
+
+
+ openUserVendors(user: any): void {
     this.selectedUser = user;
+    this.vendorList = [];
+    this.displayLimit = 50;
+    this.isLoadingMore = false;
+
 
     this.service.getVendorsByUser(user.userId).subscribe({
       next: (res) => {
         this.vendorList = Array.isArray(res) ? res : [];
-
-        document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
+        document
+          .querySelectorAll('.modal-backdrop')
+          .forEach((bd) => bd.remove());
         document.body.classList.remove('modal-open');
         document.body.style.removeProperty('padding-right');
 
         const modalElement = document.getElementById('vendorModal');
         if (modalElement) {
-          const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          const modalInstance =
+            bootstrap.Modal.getInstance(modalElement) ||
+            new bootstrap.Modal(modalElement);
           modalInstance.show();
         }
       },
       error: (err) => {
         console.error('Failed to load vendors:', err);
-      }
+      },
     });
   }
-  deleteCandidate(id: any) {
+ deleteCandidate(id: any) {
     if (!id) {
       Swal.fire('Error', 'ID is missing!', 'error');
       return;
@@ -431,7 +545,7 @@ fetchUsersWithVendorMapping(): void {
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
         this.isLoading = true;
@@ -439,20 +553,32 @@ fetchUsersWithVendorMapping(): void {
         this.service.vendorDelete(payload).subscribe({
           next: () => {
             Swal.fire('Deleted!', 'Candidate has been deleted.', 'success');
-            this.vendorList = this.vendorList.filter((c: { id: any }) => c.id !== id);
-            this.dataArr = this.dataArr?.filter((c: { id: any }) => c.id !== id);
+            this.vendorList = this.vendorList.filter(
+              (c: { id: any }) => c.id !== id
+            );
+            this.dataArr = this.dataArr?.filter(
+              (c: { id: any }) => c.id !== id
+            );
+
+            const user = this.userVendorList.find(u => u.userId === this.selectedUser?.userId);
+            if (user && user.vendors) {
+              user.vendors = user.vendors.filter((v: { id: any }) => v.id !== id);
+            }
             this.isLoading = false;
           },
           error: (err) => {
             this.isLoading = false;
             console.error(err);
-            Swal.fire('Error!', err.error?.error || 'Failed to delete candidate.', 'error');
-          }
+            Swal.fire(
+              'Error!',
+              err.error?.error || 'Failed to delete candidate.',
+              'error'
+            );
+          },
         });
       }
     });
   }
-
 
   vendorSendMail() {
     const sourceList =

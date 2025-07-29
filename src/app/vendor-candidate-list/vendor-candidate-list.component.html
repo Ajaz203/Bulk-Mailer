@@ -67,12 +67,20 @@
           </div>
 
           <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-outline-secondary" (click)="handleSelectCandidateSend()">
-              <i class="bi bi-send"></i> Selected Candidates
+       <button
+              *ngIf="showDeleteCandidate"
+              class="btn btn-danger"
+              (click)="clickAllDelete()"
+            >
+              <i class="bi bi-trash3"></i> Delete Candidates
             </button>
-            <button class="btn btn-success" (click)="handleAllCandidateSend()">
-              <i class="bi bi-send"></i> All Candidates
-            </button>
+
+              <button class="btn btn-outline-secondary" (click)="handleSelectCandidateSend()">
+                <i class="bi bi-send"></i> Selected Candidates
+              </button>
+              <button class="btn btn-success" (click)="handleAllCandidateSend()">
+                <i class="bi bi-send"></i> All Candidates
+              </button>
           </div>
         </div>
 
@@ -86,36 +94,51 @@
             <i class="bi bi-x-circle-fill text-muted"></i>
           </button>
         </div>
-        <table class="table table-bordered table-striped">
-          <thead class="table-primary">
-            <tr>
-              <th>
-                <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
-              </th>
-              <th>S.No</th>
-              <th>Email</th>
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let vendor of filteredVendorList; let i = index; trackBy: trackByVendorId">
-              <td>
-                <input type="checkbox" [checked]="selectedCandidates.has(vendor)" (change)="toggleSelection(vendor)" />
-              </td>
-              <td>{{ i + 1 }}</td>
-              <td>{{ vendor.email }}</td>
-              <td class="text-center">
-                <i class="bi bi-pencil-square text-dark fs-5 me-2" (click)="editCandidate(vendor)" title="Edit"></i>
-                <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(vendor.id)" title="Delete"></i>
-              </td>
-            </tr>
-            <tr *ngIf="vendorList.length === 0">
-              <td colspan="4" class="text-center text-muted py-3">
-                <i class="bi bi-x-circle me-2"></i> No vendors found.
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-container" infinite-scroll [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="300"
+          [scrollWindow]="false" (scrolled)="onScroll()">
+          <table class="table table-bordered table-striped">
+            <thead class="table-primary sticky-top">
+              <tr>
+                <th>
+                  <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
+                </th>
+                <th>S.No</th>
+                <th>Email</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let vendor of filteredVendorList | slice : 0 : displayLimit;
+                  let i = index;
+                  trackBy: trackByVendorId
+                ">
+                <td>
+                  <input type="checkbox" [checked]="selectedCandidates.has(vendor)"
+                    (change)="toggleSelection(vendor)" />
+                </td>
+                <td>{{ i + 1 }}</td>
+                <td>{{ vendor.email }}</td>
+                <td class="text-center">
+                  <i class="bi bi-pencil-square text-dark fs-5 me-2" (click)="editCandidate(vendor)" title="Edit"></i>
+                  <i class="bi bi-trash3 text-danger fs-5" (click)="deleteCandidate(vendor.id)" title="Delete"></i>
+                </td>
+              </tr>
+
+              <!-- No Data -->
+              <tr *ngIf="vendorList.length === 0">
+                <td colspan="4" class="text-center text-muted py-3">
+                  <i class="bi bi-x-circle me-2"></i> No vendors found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="isLoadingMore" class="custom-loader text-center my-3">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p>Loading more vendors...</p>
+          </div>
+        </div>
 
 
       </div>

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BulkEmailService } from './bulk-email.service';
+import {BulkEmailService} from './bulk-email.service';
 
 describe('BulkEmailService', () => {
   let service: BulkEmailService;
