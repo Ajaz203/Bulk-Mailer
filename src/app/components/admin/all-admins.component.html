@@ -41,7 +41,12 @@
                 <div>{{ admin.name }}</div></td>
 
                 <td>{{ admin.email }}</td>
-                <td>{{ admin.role }}</td>
+              <td>
+                 <span class="badge bg-primary px-2 py-1">
+                 {{ admin.role | titlecase }}
+                </span>
+                </td>
+
 
                 <td>
                   <span class="status-circless"

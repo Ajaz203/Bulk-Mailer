@@ -52,7 +52,15 @@
 
 
 
-                <td>{{ details.role }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                   'bg-primary': details.role === 'admin',
+                   'bg-success': details.role === 'user'
+                    }">
+                    {{ details.role | titlecase  }}
+                  </span>
+                </td>
+
                 <td>
                   <label class="switch">
                     <input type="checkbox" [checked]="details.isActive" (change)="toggleActive(details)">
