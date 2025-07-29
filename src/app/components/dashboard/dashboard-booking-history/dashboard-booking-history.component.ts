@@ -21,7 +21,13 @@ export class DashboardBookingHistoryComponent implements OnInit {
   }
 
 loadDashboardCharts(): void {
-  this.userService.dashboadCharts().subscribe((res) => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const data = {
+    userId: user.userId,
+    role: user.role
+  };
+  this.userService.dashboadCharts(data).subscribe((res) => {
     let result: any;
     if (res instanceof ArrayBuffer) {
       const decoder = new TextDecoder('utf-8');

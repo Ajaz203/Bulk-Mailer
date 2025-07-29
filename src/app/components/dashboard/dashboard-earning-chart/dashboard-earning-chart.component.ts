@@ -22,7 +22,13 @@ export class DashboardEarningChartComponent {
   }
 
 getAll() {
-  this.userService.dashboadCharts().subscribe({
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const data = {
+    userId: user.userId,
+    role: user.role
+  };
+  this.userService.dashboadCharts(data).subscribe({
     next: (res: any) => {
       const barData = res?.barChart || {};
       const vendorMails = barData.monthlyVendorMails || [];

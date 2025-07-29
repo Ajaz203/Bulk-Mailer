@@ -141,7 +141,13 @@ export class DashboardVisitorChartComponent implements OnInit {
 }
 
 loadChartData(): void {
-  const data = {};
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const data = {
+    userId: user.userId,
+    role: user.role
+  };
+
   this.userService.dashboadCharts(data).subscribe({
     next: (res: any) => {
       const donutData = res?.donutChart;
@@ -161,6 +167,8 @@ loadChartData(): void {
     error: (err) => console.error('Error fetching data:', err)
   });
 }
+
+
 
 
 }
