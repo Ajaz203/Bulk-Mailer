@@ -11,88 +11,81 @@ import { FormsModule } from '@angular/forms';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrl: './dashboard.component.scss',
-    imports: [TopCommonDataComponent, DashboardVisitorChartComponent, 
-      DashboardEarningChartComponent,CommonModule,
-      NgbDatepicker,DashboardTrafficChartComponent
-      ,DashboardBookingHistoryComponent,FormsModule,NgbDatepickerModule]
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss',
+  imports: [TopCommonDataComponent, DashboardVisitorChartComponent,
+    DashboardEarningChartComponent, CommonModule,
+    NgbDatepicker, DashboardTrafficChartComponent
+    , DashboardBookingHistoryComponent, FormsModule, NgbDatepickerModule]
 })
 export class DashboardComponent {
   selectedDate: NgbDateStruct;
   today: NgbDateStruct;
   chartFilter = { date: this.getCurrentMonthYear() };
- topCommonData:any = [];
-  
+  topCommonData: any = [];
+  role: string = '';
   selectedMonth: { year: number, month: number };
 
-  constructor(private userService: UserService,private calendar: NgbCalendar) {
-     this.today = this.calendar.getToday(); 
+  constructor(private userService: UserService, private calendar: NgbCalendar) {
+    this.today = this.calendar.getToday();
     this.selectedDate = this.today
   }
 
-  ngOnInit(){
-   
+  ngOnInit() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.role = user.role || '';
     this.getAll();
   }
 
 getAll() {
-  const data = {}; 
+  const data: any = {};
+
+  if (this.role === 'superadmin') {
+    data.role = 'superadmin';
+  }
+
   this.userService.dashboadCharts(data).subscribe({
     next: (res: any) => {
-      const tiles = res?.tiles;
-      const totalUsers = res?.totalUsers;
-
       this.topCommonData = [];
 
-      if (tiles) {
+      if (this.role === 'superadmin') {
+        const tiles = res?.superadminTiles;
+        if (!tiles) return;
+
         this.topCommonData = [
-          {
-            id: 1,
-            title: 'All Users',
-            count: tiles.totalUsers,
-          },
-          {
-            id: 2,
-            title: 'Total Candidates',
-            count: tiles.totalCandidates,
-          },
-          {
-            id: 3,
-            title: 'Total Vendors',
-            count: tiles.totalVendors,
-          },
-          {
-            id: 4,
-            title: 'Total Sent Emails',
-            count: tiles.totalSent,
-          },
-          // {
-          //   id: 5,
-          //   title: 'Total Vendors',
-          //   count: overview.totalVendors,
-          // },
+          { id: 1, title: 'All Admins', count: tiles.allAdmins || 0 },
+          { id: 2, title: 'All Users', count: tiles.allUsers || 0 },
+          { id: 3, title: 'Total Candidates', count: tiles.totalCandidates || 0 },
+          { id: 4, title: 'Total Vendors', count: tiles.totalVendors || 0 },
+          { id: 5, title: 'Total Sent Emails', count: tiles.totalSentEmails || 0 },
+          { id: 6, title: 'Email Failures', count: tiles.emailFailures || 0 }
+        ];
+      } else {
+        const tiles = res?.tiles;
+        if (!tiles) return;
+
+        this.topCommonData = [
+          { id: 1, title: 'All Users', count: tiles.totalUsers || 0 },
+          { id: 2, title: 'Total Candidates', count: tiles.totalCandidates || 0 },
+          { id: 3, title: 'Total Vendors', count: tiles.totalVendors || 0 },
+          { id: 4, title: 'Total Sent Emails', count: tiles.totalSent || 0 }
         ];
       }
-
-      // if (totalUsers !== undefined) {
-      //   this.topCommonData.push({
-      //     id: 6,
-      //     title: 'Total Users',
-      //     count: totalUsers,
-      //   });
-      // }
     },
     error: (err) => {
       console.error('Error fetching dashboard stats', err);
     }
   });
 }
- 
-  
 
-  
+
+
+
+
+
+
+
 
   onDateSelect(date: NgbDateStruct) {
     this.selectedDate = date;
@@ -102,17 +95,17 @@ getAll() {
 
   isToday(date: NgbDateStruct): boolean {
     return date.day === this.today.day &&
-           date.month === this.today.month &&
-           date.year === this.today.year;
+      date.month === this.today.month &&
+      date.year === this.today.year;
   }
 
   isSelected(date: NgbDateStruct): boolean {
     return date.day === this.selectedDate?.day &&
-           date.month === this.selectedDate?.month &&
-           date.year === this.selectedDate?.year;
+      date.month === this.selectedDate?.month &&
+      date.year === this.selectedDate?.year;
   }
 
-  
+
 
   private getCurrentMonthYear(): string {
     const today = new Date();

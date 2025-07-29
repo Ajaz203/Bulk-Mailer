@@ -33,9 +33,10 @@
               <tr *ngFor="let details of paginatedUsers | search: searchText; let i = index">
                 <!-- <td>{{ i + 1 }}</td> -->
                 <td class="d-flex align-items-center gap-2">
-                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-              style="width: 48px; height: 48px">{{ getInitials(details.name) }}</div>
-                </td> 
+                  <div
+                    class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+                    style="width: 48px; height: 48px">{{ getInitials(details.name) }}</div>
+                </td>
                 <td>
                   <a href="javascript:void(0)">
                     <span class="d-block">{{ details.name }}</span>

@@ -37,18 +37,6 @@ export class NavService {
       rolesAllowed: ['admin', 'superadmin']
     },
     {
-      title: 'Users',
-      icon: 'users',
-      type: 'sub',
-      active: false,
-      level: 1,
-      rolesAllowed: ['admin', 'superadmin'],
-      children: [
-        { path: '/user/all-user', title: 'All users', type: 'link', level: 2, rolesAllowed: ['admin', 'superadmin'] },
-        { path: '/user/add-new-user', title: 'Add new user', type: 'link', level: 2, rolesAllowed: ['admin','superadmin'] }
-      ]
-    },
-    {
       title: 'Admins',
       icon: 'map',
       type: 'sub',
@@ -62,6 +50,18 @@ export class NavService {
         // { path: '/tour/add-new-admin', title: 'All Package Categories', type: 'link', level: 2 },
         // { path: '/tour/add-package-category', title: 'Add Package Category', type: 'link', level: 2 },
       ],
+    },
+    {
+      title: 'Users',
+      icon: 'users',
+      type: 'sub',
+      active: false,
+      level: 1,
+      rolesAllowed: ['admin', 'superadmin'],
+      children: [
+        { path: '/user/all-user', title: 'All users', type: 'link', level: 2, rolesAllowed: ['admin', 'superadmin'] },
+        { path: '/user/add-new-user', title: 'Add new user', type: 'link', level: 2, rolesAllowed: ['admin','superadmin'] }
+      ]
     },
     // {
     //   title: 'hotel',
