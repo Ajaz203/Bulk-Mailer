@@ -29,7 +29,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let admin of paginatedAdmins | search: searchText; let i = index"
-                (click)="goToAllUsers(admin.adminId)" style="cursor: pointer;">
+                (click)="goToAllUsers(admin)" style="cursor: pointer;">
 
                 <!-- <td>{{ i + 1 }}</td> -->
 
@@ -49,16 +49,12 @@
                 </td>
 
                 <td>{{ admin.userCount }}</td>
-
-                <!-- ✅ Toggle: Stop propagation -->
                 <td (click)="$event.stopPropagation()">
                   <label class="switch">
                     <input type="checkbox" [checked]="admin.isActive" (change)="toggleAdminStatus(admin)" />
                     <span class="slider round"></span>
                   </label>
                 </td>
-
-                <!-- ✅ Edit Icon: Stop propagation -->
                 <td (click)="$event.stopPropagation()">
                   <a href="javascript:void(0)" (click)="openEditPopup(admin)">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

@@ -18,7 +18,7 @@ export class AllUsersComponent {
   searchText: any = '';
   selectedUser: any = null;
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 10;
   totalPages = 1;
   isEditMode: boolean;
   showPassword = false;
@@ -32,45 +32,53 @@ ngOnInit(): void {
       this.getData(adminId);
     } else {
       const fallbackAdminId = Number(localStorage.getItem('userId'));
-      console.log('Fallback to superAdminId:', fallbackAdminId);
       this.getData(fallbackAdminId);
     }
   });
 }
-getInitials(name: string): string {
-  if (!name) return '';
-  const words = name.trim().split(' ');
-  if (words.length === 1) {
-    return words[0].charAt(0).toUpperCase();
+
+
+  getInitials(name: string): string {
+    if (!name) return '';
+    const words = name.trim().split(' ');
+    if (words.length === 1) {
+      return words[0].charAt(0).toUpperCase();
+    }
+    return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
   }
-  return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
-}
-getAdminUsers(adminId: number) {
+
+
+  
+  getAdminUsers(adminId: number) {
+    this.userService.getAdminUsers({ adminId }).subscribe(
+      (res: any) => {
+        this.users = res?.users || [];
+        this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+        this.updatePaginatedUsers();
+      },
+      (error) => {
+        console.error('Error fetching users', error);
+      }
+    );
+  }
+
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+ getData(adminId: number) {
   this.userService.getAdminUsers({ adminId }).subscribe(
     (res: any) => {
       this.users = res?.users || [];
       this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
       this.updatePaginatedUsers();
     },
-    (error) => {
+    error => {
       console.error('Error fetching users', error);
     }
   );
 }
 
-
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
-getData(adminId: number) {
-  // console.log('Calling API with adminId:', adminId);
-
-  this.userService.getAdminUsers({ adminId }).subscribe((res: any) => {
-    this.users = res?.users || [];
-    this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
-    this.updatePaginatedUsers();
-  });
-}
 
 
 

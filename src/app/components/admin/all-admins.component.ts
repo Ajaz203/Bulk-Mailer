@@ -95,13 +95,19 @@ export class AllAdminsComponent {
     console.log("data1", this.selectedUser)
     this.isEditMode = true;
   }
-goToAllUsers(adminId: number) {
-  console.log('Navigating with adminId:', adminId);
+goToAllUsers(admin: any) {
+  console.log('Navigating with admin:', admin);
+
+  const adminId = admin.userId; 
+
   this.router.navigate(['/user/all-user'], {
-    queryParams: { adminId },
+    queryParams: { adminId }, 
     queryParamsHandling: 'merge',
   });
 }
+
+
+
 
 getInitials(name: string): string {
   if (!name) return '';
