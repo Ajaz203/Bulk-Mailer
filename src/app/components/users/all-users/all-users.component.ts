@@ -25,18 +25,50 @@ export class AllUsersComponent {
   constructor(private userService: UserService, private route: ActivatedRoute) {
 
   }
+  // ngOnInit(): void {
+  //   this.route.queryParams.subscribe(params => {
+  //     const adminId = +params['adminId'];
+  //     if (adminId) {
+  //       this.getData(adminId);
+  //     } else {
+  //       const fallbackAdminId = Number(localStorage.getItem('userId'));
+  //       this.getData(fallbackAdminId);
+  //     }
+  //   });
+  // }
+
 ngOnInit(): void {
   this.route.queryParams.subscribe(params => {
-    const adminId = +params['adminId'];
-    if (adminId) {
+    const loggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
+    const role = loggedInUser.role;
+    const adminId = +params['adminId']; 
+
+    if (role === 'superadmin' && adminId) {
       this.getData(adminId);
+    } else if (role === 'superadmin') {
+    
+      this.getSuperAdminUsers();
     } else {
-      const fallbackAdminId = Number(localStorage.getItem('userId'));
+      const fallbackAdminId = adminId || +(localStorage.getItem('userId') ?? 0);
       this.getData(fallbackAdminId);
     }
   });
 }
 
+
+
+  getSuperAdminUsers() {
+    this.userService.superAdminAllUsers({}).subscribe(
+      (res: any) => {
+        this.users = res?.users || [];
+        this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+        this.updatePaginatedUsers();
+      },
+      error => {
+        console.error('Error fetching superadmin users', error);
+      }
+    );
+  }
 
   getInitials(name: string): string {
     if (!name) return '';
@@ -48,7 +80,7 @@ ngOnInit(): void {
   }
 
 
-  
+
   getAdminUsers(adminId: number) {
     this.userService.getAdminUsers({ adminId }).subscribe(
       (res: any) => {
@@ -66,18 +98,18 @@ ngOnInit(): void {
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
- getData(adminId: number) {
-  this.userService.getAdminUsers({ adminId }).subscribe(
-    (res: any) => {
-      this.users = res?.users || [];
-      this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
-      this.updatePaginatedUsers();
-    },
-    error => {
-      console.error('Error fetching users', error);
-    }
-  );
-}
+  getData(adminId: number) {
+    this.userService.getAdminUsers({ adminId }).subscribe(
+      (res: any) => {
+        this.users = res?.users || [];
+        this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+        this.updatePaginatedUsers();
+      },
+      error => {
+        console.error('Error fetching users', error);
+      }
+    );
+  }
 
 
 
