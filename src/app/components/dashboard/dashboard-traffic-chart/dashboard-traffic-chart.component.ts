@@ -20,7 +20,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     NgApexchartsModule,
     FormsModule,
-   
+
   ]
 })
 export class DashboardTrafficChartComponent implements OnChanges {
@@ -32,7 +32,7 @@ export class DashboardTrafficChartComponent implements OnChanges {
   // For calendar
   calendarDate: Date = new Date();
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filter']) {
@@ -50,37 +50,46 @@ export class DashboardTrafficChartComponent implements OnChanges {
     this.loadChartData();
   }
 
-  loadChartData() {
-let selectedDate = this.filter?.date;
+ loadChartData() {
+  let selectedDate = this.filter?.date;
+  if (!selectedDate) return;
 
-if (!selectedDate) return;
 
-if (/^\d{4}-\d{2}$/.test(selectedDate)) {
-  selectedDate += '-01';
+  if (/^\d{4}-\d{2}$/.test(selectedDate)) {
+    selectedDate += '-01';
+  }
+
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const payload = {
+    date: selectedDate,
+    role: user?.role,        
+    userId: user?.userId      
+  };
+
+  this.userService.trafficChart(payload).subscribe((res: any) => {
+    const data = res?.data || {};
+
+    this.trafficData = {
+      day: {
+        labels: data?.day?.labels || [],
+        values: data?.day?.values || []
+      },
+      week: {
+        labels: data?.week?.labels || [],
+        values: data?.week?.values || []
+      },
+      month: {
+        labels: data?.month?.labels || [],
+        values: data?.month?.values || []
+      }
+    };
+
+    this.updateChart(this.selectedRange);
+  });
 }
 
-
-    this.userService.trafficChart({ date: selectedDate }).subscribe((res: any) => {
-      const data = res?.data || {};
-
-      this.trafficData = {
-        day: {
-          labels: data?.day?.labels || [],
-          values: data?.day?.values || []
-        },
-        week: {
-          labels: data?.week?.labels || [],
-          values: data?.week?.values || []
-        },
-        month: {
-          labels: data?.month?.labels || [],
-          values: data?.month?.values || []
-        }
-      };
-
-      this.updateChart(this.selectedRange);
-    });
-  }
 
   updateFilter(range: 'day' | 'week' | 'month') {
     this.selectedRange = range;
