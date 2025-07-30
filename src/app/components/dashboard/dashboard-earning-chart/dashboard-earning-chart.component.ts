@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { UserService } from '../../../shared/services/user.service';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-earning-chart',
   templateUrl: './dashboard-earning-chart.component.html',
   styleUrls: ['./dashboard-earning-chart.component.scss'],
   standalone: true,
-  imports: [NgApexchartsModule, DatePipe]
+  imports: [NgApexchartsModule, DatePipe,CommonModule]
 })
 export class DashboardEarningChartComponent {
   dashboardEarningChart: any;
   lastUpdated: Date = new Date();
+  noDataAvailable: boolean = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.getAll();
@@ -34,12 +35,13 @@ export class DashboardEarningChartComponent {
         const vendorMails = barData.monthlyVendorMails || [];
         const candidateMails = barData.monthlyCandidateMails || [];
         const failedMails = barData.monthlyFailedMails || [];
+
         const months: string[] = [];
-        const date = new Date(); 
+        const date = new Date();
 
         for (let i = 6; i >= 0; i--) {
           const d = new Date(date.getFullYear(), date.getMonth() - i, 1);
-          const label = d.toLocaleString('default', { month: 'short' }); 
+          const label = d.toLocaleString('default', { month: 'short' });
           months.push(label);
         }
 
@@ -51,6 +53,11 @@ export class DashboardEarningChartComponent {
         const vendorSeries = months.map(month => getCountByMonth(vendorMails, month));
         const candidateSeries = months.map(month => getCountByMonth(candidateMails, month));
         const failedSeries = months.map(month => getCountByMonth(failedMails, month));
+
+        const totalCount = [...vendorSeries, ...candidateSeries, ...failedSeries].reduce((sum, val) => sum + val, 0);
+
+       this.noDataAvailable = totalCount === 0;
+
 
         this.dashboardEarningChart = {
           series: [
@@ -131,8 +138,8 @@ export class DashboardEarningChartComponent {
       },
       error: (err) => {
         console.error('Error fetching stats', err);
+        this.noDataAvailable = true;
       }
     });
   }
-
 }

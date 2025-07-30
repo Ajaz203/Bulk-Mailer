@@ -110,13 +110,14 @@ export class NavService {
     //   level: 1,
     //   path: '/booking'
     // },
-    // {
-    //   title: 'Reviews',
-    //   icon: 'message-square',
-    //   type: 'link',
-    //   level: 1,
-    //   path: '/review'
-    // },
+    {
+      title: 'Reviews',
+      icon: 'message-square',
+      type: 'link',
+      level: 1,
+      path: '/review',
+      rolesAllowed: ['superadmin'],
+    },
     // {
     //   title: 'Setting',
     //   icon: 'settings',
