@@ -173,14 +173,19 @@ ngOnInit(): void {
     this.isEditMode = true;
   }
 
-  updateUser() {
-    const adminId = localStorage.getItem('userId');
-    this.selectedUser.adminId = adminId || null
-    this.userService.updateUser(this.selectedUser).subscribe((res: any) => {
+ updateUser() {
+  const adminId = Number(localStorage.getItem('userId'));
+  this.selectedUser.adminId = adminId || null;
+
+  this.userService.updateUser(this.selectedUser).subscribe({
+    next: (res: any) => {
       this.isEditMode = false;
       this.userService.showToast('success', res.message);
+      this.userService.broadcastUser(res.user);
+    },
+    error: () => this.userService.showToast('error', 'Update failed')
+  });
+}
 
-    });
-  }
 
 }

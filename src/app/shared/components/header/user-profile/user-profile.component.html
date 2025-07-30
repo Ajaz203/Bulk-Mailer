@@ -1,11 +1,13 @@
 <div class="media profile-media" (click)="toggle()">
   <ng-container *ngIf="user$ | async as user">
-<img 
-  [src]="getImageUrl(user.profilePicture)" 
-  (error)="onImageError($event)" 
-  alt="Profile" 
-  class="avatar-img rounded-circle" height="40" width="40"  />
-
+    <img
+      [src]="getImageUrl(user.profileImage)"
+      (error)="onImageError($event)"
+      alt="Profile"
+      class="avatar-img rounded-circle"
+      height="40"
+      width="40"
+    />
 
     <div class="user-name-hide media-body">
       <span>{{ user.name }}</span>

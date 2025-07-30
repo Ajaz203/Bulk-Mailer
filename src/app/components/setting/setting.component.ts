@@ -7,7 +7,7 @@ import { UserPersonalDetailsComponent } from './user-personal-details/user-perso
     selector: 'app-setting',
     templateUrl: './setting.component.html',
     styleUrl: './setting.component.scss',
-    imports: [UserPersonalDetailsComponent, ChangeEmailComponent, ChangePasswordComponent]
+    imports: [UserPersonalDetailsComponent]
 })
 export class SettingComponent {
 

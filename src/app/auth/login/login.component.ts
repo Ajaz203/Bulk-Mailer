@@ -55,16 +55,33 @@ login(button: HTMLButtonElement): void {
 
   this.userService.login({ email, password }).subscribe({
     next: (res: any) => {
-      this.userService.showToast('success', res.message);
-      this.loginForm.reset();
+      const { userId, name, email, role } = res.user;
+      this.userService.getUserProfileUpdate(userId).subscribe({
+        next: (profile: any) => {
+          const profileImage = (profile.profilePicture || '').replace(/\\/g, '/');
 
-      this.userService.setUser(res.user);
-        localStorage.setItem("user", JSON.stringify(res.user));
+          const user = {
+            userId,
+            name,
+            email,
+            role,
+            profileImage
+          };
 
-      this.router.navigate(['/dashboard']);
-
-      button.innerHTML = originalText;
-      button.disabled = false;
+          localStorage.setItem('user', JSON.stringify(user));
+          this.userService.setUser(user);
+          this.userService.broadcastUser(user);
+          this.userService.showToast('success', res.message);
+          this.router.navigate(['/dashboard']);
+        },
+        error: () => {
+          this.userService.showToast('error', 'Failed to load user profile');
+        },
+        complete: () => {
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      });
     },
     error: () => {
       this.userService.showToast('error', 'Invalid login credentials');
@@ -73,7 +90,5 @@ login(button: HTMLButtonElement): void {
     }
   });
 }
-
-
 
 }

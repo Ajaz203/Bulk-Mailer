@@ -22,7 +22,14 @@ export class UserService {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }
-
+broadcastUser(user: any) {
+  localStorage.setItem('user', JSON.stringify(user));
+  this.userSubject.next(user);        
+}
+clearUser() {
+  localStorage.removeItem('user');
+  this.userSubject.next(null);
+}
 
   private getAuthHeaders(): any {
     const token = localStorage.getItem('token');
@@ -47,8 +54,10 @@ export class UserService {
 
 
  setUser(user: any) {
-    localStorage.setItem('user', JSON.stringify(user));     // ✅ updates localStorage
-    this.userSubject.next(user);                            // ✅ updates UI bindings
+    localStorage.setItem('user', JSON.stringify(user));     
+    this.userSubject.next(user);     
+    
+                       
   }
 getUser(): Observable<any> {
   if (!this.userSubject.value) {
@@ -59,14 +68,6 @@ getUser(): Observable<any> {
   }
   return this.userSubject.asObservable();
 }
-
-
-  clearUser(): void {
-    this.userSubject.next(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-  }
 
 
   showToast(type: 'success' | 'error' | 'info' | 'warning', message: string) {
@@ -144,17 +145,6 @@ getUser(): Observable<any> {
     return this.http.post(this.apiUrl + 'addAdmin', this.appendUserId(data), this.getAuthHeaders());
   }
 
-  // getUsers() {
-  //   return this.http.get(this.apiUrl + 'getAllUser', this.getAuthHeaders());
-  // }
-
-  // isActiveToggles(data: any) {
-  //   return this.http.post(this.apiUrl + 'isActiveToggle', this.appendUserId(data), this.getAuthHeaders());
-  // }
-
-  // updateUser(data: any) {
-  //   return this.http.post(this.apiUrl + 'updateUserById', this.appendUserId(data), this.getAuthHeaders());
-  // }
 
   getAllStat() {
     return this.http.get(this.apiUrl + 'getAllStats', this.getAuthHeaders());

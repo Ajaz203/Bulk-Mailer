@@ -27,7 +27,7 @@ export class UserPersonalDetailsComponent {
 
     ngOnInit(): void {
         this.profileForm = this.fb.group({
-            userName: ['', Validators.required]
+            userName: ['']
         });
 
         this.loadUserProfile();
@@ -70,37 +70,40 @@ export class UserPersonalDetailsComponent {
     }
 
 submitForm() {
-    if (!this.profileForm.valid) return;
+  if (!this.profileForm.valid) return;
 
-    const formData = new FormData();
-    formData.append('userName', this.profileForm.get('userName')?.value);
-    formData.append('userId', this.userId.toString());
+  const formData = new FormData();
+  formData.append('userName', this.profileForm.get('userName')?.value);
+  formData.append('userId', this.userId.toString());
 
-    if (this.selectedImage) {
-        formData.append('profilePicture', this.selectedImage);
+  if (this.selectedImage) {
+    formData.append('profilePicture', this.selectedImage);
+  }
+
+  this.userService.uploadProfileWithImage(formData).subscribe({
+    next: (res: any) => {
+      const updatedUser = res.user;
+      const userToStore = {
+        userId: updatedUser.userId,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        profileImage: updatedUser.profilePicture 
+      };
+
+      this.userService.setUser(userToStore);
+      this.userService.broadcastUser(userToStore);
+
+      this.userService.showToast('success', 'Profile updated successfully!');
+      this.loadUserProfile();
+    },
+    error: (err) => {
+      console.error(err);
+      this.userService.showToast('error', 'Update failed.');
     }
-
-    this.userService.uploadProfileWithImage(formData).subscribe({
-        next: (res: any) => {
-            const updatedUser = res.user;
-            const userToStore = {
-                userId: updatedUser.userId,
-                name: updatedUser.name,
-                email: updatedUser.email,
-                role: updatedUser.role,
-                profileImage: updatedUser.profilePicture  
-            };
-
-            this.userService.setUser(userToStore);
-            this.userService.showToast('success', 'Profile updated successfully!');
-            this.loadUserProfile();  
-        },
-        error: (err) => {
-            console.error(err);
-            this.userService.showToast('error', 'Update failed.');
-        }
-    });
+  });
 }
+
 
 
 
