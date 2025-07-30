@@ -8,14 +8,19 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class UserService {
-  private userSubject = new BehaviorSubject<any>(null);
-  private apiUrl: string = 'https://f794f7610cc1.ngrok-free.app/';
+   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
+  user$ = this.userSubject.asObservable();
+  private apiUrl: string = 'https://79971fdf955d.ngrok-free.app/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       this.userSubject.next(JSON.parse(storedUser));
     }
+  }
+  getUserFromStorage() {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
 
 
@@ -41,14 +46,20 @@ export class UserService {
 
 
 
-  setUser(user: any): void {
-    this.userSubject.next(user);
-    localStorage.setItem('user', JSON.stringify(user));
+ setUser(user: any) {
+    localStorage.setItem('user', JSON.stringify(user));     // ✅ updates localStorage
+    this.userSubject.next(user);                            // ✅ updates UI bindings
   }
+getUser(): Observable<any> {
+  if (!this.userSubject.value) {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      this.userSubject.next(JSON.parse(savedUser));
+    }
+  }
+  return this.userSubject.asObservable();
+}
 
-  getUser(): Observable<any> {
-    return this.userSubject.asObservable();
-  }
 
   clearUser(): void {
     this.userSubject.next(null);
@@ -97,13 +108,28 @@ export class UserService {
   getAdminWithUsers() {
     return this.http.get(this.apiUrl + "getAllAdminsWithUserCount", this.getAuthHeaders());
   }
-  superAdminAllUsers(data:any) {
+
+  superAdminAllUsers(data: any) {
     return this.http.post(this.apiUrl + "superadmin/all-users", this.appendUserId(data), this.getAuthHeaders());
   }
   getAdminUsers(data: { adminId: number }): Observable<any> {
     return this.http.post(this.apiUrl + "admin/my-users", data, this.getAuthHeaders());
   }
+  uploadProfileWithImage(data: FormData) {
+    return this.http.post(this.apiUrl + 'updateProfile', data, {
+      headers: new HttpHeaders({
+        'ngrok-skip-browser-warning': 'true'
+      })
+    });
+  }
 
+  getUserProfileUpdate(userId: number) {
+    return this.http.post(
+      this.apiUrl + 'getUserProfile',
+      { userId },
+      this.getAuthHeaders()
+    );
+  }
 
   isActiveToggles(data: any) {
     return this.http.post(this.apiUrl + "isActiveToggle", data, this.getAuthHeaders());
