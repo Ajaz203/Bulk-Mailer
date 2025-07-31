@@ -31,7 +31,7 @@ export const content : Routes = [
   },
   {
     path: 'Subscriptions',
-    loadChildren: () => import('../../components/review/review.routes')
+    loadChildren: () => import('../../components/subscription/subscription.routes')
   },
   {
     path: 'setting',

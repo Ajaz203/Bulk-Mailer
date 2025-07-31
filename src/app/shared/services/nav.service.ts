@@ -68,11 +68,11 @@ export class NavService {
       icon: 'credit-card',
       type: 'link',
       level: 1,
-      path: '/Subscriptions',
+      // path: '/Subscriptions',
       rolesAllowed: ['superadmin'],
       children: [
-        { path: '/Subscriptions/add-new-package', title: 'Add New Package', type: 'link', level: 2 },
-        { path: '/Subscriptions/all-package', title: "Package's Detail", type: 'link', level: 2 },
+        { path: '/Subscriptions/add-subscription', title: 'Add Subscription', type: 'link', level: 2 },
+        { path: '/Subscriptions/all-subscription', title: "All Subscription", type: 'link', level: 2 },
       ],
     },
     // {

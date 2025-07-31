@@ -7,8 +7,8 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-review',
-    templateUrl: './review.component.html',
-    styleUrl: './review.component.scss',
+    templateUrl: './subscription.component.html',
+    styleUrl: './subscription.component.scss',
     imports: [FormsModule]
 })
 export class ReviewComponent {
