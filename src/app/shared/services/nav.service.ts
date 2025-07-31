@@ -71,8 +71,8 @@ export class NavService {
       // path: '/Subscriptions',
       rolesAllowed: ['superadmin'],
       children: [
-        { path: '/Subscriptions/add-subscription', title: 'Add Subscription', type: 'link', level: 2 },
         { path: '/Subscriptions/all-subscription', title: "All Subscription", type: 'link', level: 2 },
+        { path: '/Subscriptions/add-subscription', title: 'Add Subscription', type: 'link', level: 2 },
       ],
     },
     // {
