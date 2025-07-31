@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UserService {
    private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  private apiUrl: string = 'https://50945bf04c8f.ngrok-free.app/';
+  private apiUrl: string = 'https://2201145c5d7e.ngrok-free.app/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -161,9 +161,18 @@ getUser(): Observable<any> {
   trafficChart(data: any) {
     return this.http.post(this.apiUrl + 'admin/mail-traffic-chart', this.appendUserId(data), this.getAuthHeaders());
   }
-  plans(data: any) {
-    return this.http.post(this.apiUrl + 'plans', this.appendUserId(data), this.getAuthHeaders());
-  }
+plans(data: any) {
+  return this.http.post<{ message: string }>(
+    this.apiUrl + 'plans',
+    this.appendUserId(data),
+    {
+      ...this.getAuthHeaders(), 
+      responseType: 'json' as const
+    }
+  );
+}
+
+
 deletePlan(planId: string) {
   return this.http.post(this.apiUrl + 'delete-plans', this.appendUserId({ id: planId }), this.getAuthHeaders());
 }

@@ -42,17 +42,22 @@
               <!-- Max Users -->
               <div class="mb-3">
                 <label class="form-label-title">Max Users Allowed</label>
-                <input class="form-control" type="number" placeholder="Leave blank for unlimited" formControlName="maxUsers" />
+                <input class="form-control" type="number" placeholder="Leave blank for unlimited"
+                  formControlName="maxUsers" />
               </div>
 
               <!-- Is Custom Toggle -->
               <div class="mb-3">
                 <label class="form-label-title">Custom Plan?</label>
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" formControlName="isCustom" />
-                  <label class="form-check-label">Enable if this is a custom plan</label>
+                  <input class="form-check-input" type="checkbox" formControlName="isCustom"
+                    [ngClass]="{ 'bg-danger border-success': !subscriptionForm.get('isCustom')?.value }" />
+                  <label class="form-check-label">
+                    Enable if this is a custom plan
+                  </label>
                 </div>
               </div>
+
             </form>
           </div>
 

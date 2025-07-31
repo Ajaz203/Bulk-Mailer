@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../shared/services/user.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-subscription',
   imports: [CommonModule,ReactiveFormsModule,FormsModule],
@@ -12,7 +12,7 @@ import { UserService } from '../../../shared/services/user.service';
 export class AddSubscriptionComponent {
       subscriptionForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {}
+  constructor(private fb: FormBuilder, private userService: UserService, private toastr: ToastrService ) {}
 
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
@@ -28,19 +28,23 @@ export class AddSubscriptionComponent {
 onSubmit(): void {
   if (this.subscriptionForm.valid) {
     const payload = this.subscriptionForm.value;
-    console.log('Submitting subscription plan:', payload);
-
     this.userService.plans(payload).subscribe({
-      next: (res) => {
-        console.log('Plan created successfully', res);
+      next: (res: any) => {
+        const message = res?.message || 'Plan created successfully';
+        this.toastr.success(message, 'SUCCESS'); 
+        this.subscriptionForm.reset();
       },
       error: (err) => {
-        console.error('Failed to create plan', err);
-
+        const errorMessage = err.error?.message || 'Failed to create plan';
+        this.toastr.error(errorMessage, 'ERROR'); 
       }
     });
+  } else {
+    this.toastr.warning('Please fill out all required fields', 'WARNING'); 
   }
 }
+
+
 
 
   onCancel(): void {
