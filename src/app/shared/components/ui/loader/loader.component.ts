@@ -9,9 +9,9 @@ export class LoaderComponent {
 
   public isHide: boolean = false;
 
-  // constructor(){
-  //   setTimeout(() => {
-  //     this.isHide = true;
-  //   }, 5000);
-  // }
+  constructor(){
+    setTimeout(() => {
+      this.isHide = true;
+    }, 5000);
+  }
 }

@@ -9,14 +9,10 @@
 
   <div class="card-body p-0">
     <div id="bar-chart-earning">
-      <!-- Message -->
-      <div class="position-relative" style="min-height: 300px;">
-        <!-- No data message -->
+      <div class="position-relative">
         <div *ngIf="noDataAvailable" class="position-absolute top-50 start-50 translate-middle text-muted text-center">
           <strong>No data available for the last 7 months.</strong>
         </div>
-
-        <!-- Chart -->
         <div *ngIf="dashboardEarningChart">
           <apx-chart [series]="dashboardEarningChart.series" [chart]="dashboardEarningChart.chart"
             [xaxis]="dashboardEarningChart.xaxis" [yaxis]="dashboardEarningChart.yaxis"
@@ -27,7 +23,6 @@
           </apx-chart>
         </div>
       </div>
-
     </div>
   </div>
 </div>

@@ -16,7 +16,7 @@ import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.comp
 export class UserProfileComponent implements OnInit {
   isActive = false;
   defaultImage = 'assets/images/users/5.jpg';
-  baseUrl = 'https://79971fdf955d.ngrok-free.app/';
+  baseUrl = 'https://db1043f1637e.ngrok-free.app/';
   user$ = this.userService.getUser();
 
   constructor(

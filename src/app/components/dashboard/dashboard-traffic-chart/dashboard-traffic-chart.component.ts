@@ -29,7 +29,6 @@ export class DashboardTrafficChartComponent implements OnChanges {
   chartOptions: any = { ...dashboardTrafficChart };
   trafficData: any = {};
   selectedDate: NgbDateStruct;
-  // For calendar
   calendarDate: Date = new Date();
 
   constructor(private userService: UserService) { }
@@ -89,7 +88,11 @@ export class DashboardTrafficChartComponent implements OnChanges {
     this.updateChart(this.selectedRange);
   });
 }
-
+hasChartData(): boolean {
+  const currentData = this.trafficData[this.selectedRange];
+  if (!currentData?.values?.length) return false;
+  return currentData.values.some((val: number) => val > 0);
+}
 
   updateFilter(range: 'day' | 'week' | 'month') {
     this.selectedRange = range;
