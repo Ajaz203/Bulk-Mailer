@@ -1,28 +1,42 @@
-import { Component } from '@angular/core';
-import { TagInputModule } from 'ngx-chips';
-import { DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-tour-add-package',
     templateUrl: './tour-add-package.component.html',
     styleUrl: './tour-add-package.component.scss',
-    imports: [TagInputModule, DropzoneModule]
+    imports: [CommonModule,FormsModule,ReactiveFormsModule]
 })
 
-export class TourAddPackageComponent {
+export class TourAddPackageComponent implements OnInit {
 
-    public config: DropzoneConfigInterface = {
-        // Change this to your upload POST address:
-        url: 'https://httpbin.org/post',
-        maxFilesize: 50,
-        addRemoveLinks:true,
-        acceptedFiles: 'image/*'
-    };
+     subscriptionForm!: FormGroup;
 
-    public text = '<i class="icon-cloud-up"></i><h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>';
+  constructor(private fb: FormBuilder) {}
 
-    onUploadError(args: any): void {}
+  ngOnInit(): void {
+    this.subscriptionForm = this.fb.group({
+      planName: ['', Validators.required],
+      description: ['', Validators.required],
+      emailLimit: [null, [Validators.required, Validators.min(1)]],
+      userLimit: [null, [Validators.required, Validators.min(1)]],
+      price: [null, [Validators.required, Validators.min(0)]],
+      duration: ['', Validators.required],
+    
+    });
+  }
 
-    onUploadSuccess(args: any): void {}
+  onSubmit(): void {
+    if (this.subscriptionForm.valid) {
+      const formData = this.subscriptionForm.value;
+      console.log('Submitting Subscription Plan:', formData);
+      // TODO: call your API with formData
+    }
+  }
+
+  onCancel(): void {
+    this.subscriptionForm.reset();
+  }
 
 }

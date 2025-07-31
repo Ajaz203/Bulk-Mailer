@@ -10,7 +10,7 @@ export const content : Routes = [
     loadChildren: () => import('../../components/users/users.routes')
   },
   {
-    path: 'tour',
+    path: 'Subscriptions',
     loadChildren: () => import('../../components/tour/tour.routes')
   },
   {

@@ -60,8 +60,20 @@ export class NavService {
       rolesAllowed: ['admin', 'superadmin'],
       children: [
         { path: '/user/all-user', title: 'All users', type: 'link', level: 2, rolesAllowed: ['admin', 'superadmin'] },
-        { path: '/user/add-new-user', title: 'Add new user', type: 'link', level: 2, rolesAllowed: ['admin','superadmin'] }
+        { path: '/user/add-new-user', title: 'Add new user', type: 'link', level: 2, rolesAllowed: ['admin', 'superadmin'] }
       ]
+    },
+    {
+      title: 'Subscription',
+      icon: 'credit-card',
+      type: 'link',
+      level: 1,
+      path: '/Subscriptions',
+      rolesAllowed: ['superadmin'],
+      children: [
+        { path: '/Subscriptions/add-new-package', title: 'Add New Package', type: 'link', level: 2 },
+        { path: '/Subscriptions/all-package', title: "Package's Detail", type: 'link', level: 2 },
+      ],
     },
     // {
     //   title: 'hotel',
@@ -110,14 +122,6 @@ export class NavService {
     //   level: 1,
     //   path: '/booking'
     // },
-    {
-      title: 'Subscription',
-      icon: 'credit-card',
-      type: 'link',
-      level: 1,
-      path: '/Subscriptions',
-      rolesAllowed: ['superadmin'],
-    },
     // {
     //   title: 'Setting',
     //   icon: 'settings',
@@ -140,7 +144,7 @@ export class NavService {
     //   path: '/register'
     // },
   ]
-   public getMenuForRole(role: string): Menu[] {
+  public getMenuForRole(role: string): Menu[] {
     const filterMenu = (menus: Menu[]): Menu[] => {
       return menus
         .filter(menu => !menu.rolesAllowed || menu.rolesAllowed.includes(role))
