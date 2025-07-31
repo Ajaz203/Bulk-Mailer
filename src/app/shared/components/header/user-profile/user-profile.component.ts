@@ -16,7 +16,6 @@ import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.comp
 export class UserProfileComponent implements OnInit {
   isActive = false;
   defaultImage = 'assets/images/users/5.jpg';
-  baseUrl = 'https://db1043f1637e.ngrok-free.app/';
   user$ = this.userService.getUser();
 
   constructor(
@@ -27,13 +26,12 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getImageUrl(imagePath: string | undefined): string {
-    if (!imagePath) return this.defaultImage;
+ getImageUrl(imagePath: string | undefined): string {
+  if (!imagePath) return this.defaultImage;
+  if (imagePath.includes('assets')) return imagePath;
+  return this.userService.getBaseUrl() + imagePath.replace(/\\/g, '/');
+}
 
-    if (imagePath.includes('assets')) return imagePath;
-
-    return this.baseUrl + imagePath.replace(/\\/g, '/');
-  }
 
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;

@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UserService {
    private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  private apiUrl: string = 'https://db1043f1637e.ngrok-free.app/';
+  private apiUrl: string = 'https://b7f99e06870c.ngrok-free.app/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -18,6 +18,10 @@ export class UserService {
       this.userSubject.next(JSON.parse(storedUser));
     }
   }
+  getBaseUrl(): string {
+  return this.apiUrl;
+}
+
   getUserFromStorage() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;

@@ -30,7 +30,7 @@ export const content : Routes = [
     loadChildren: () => import('../../components/booking/booking.routes')
   },
   {
-    path: 'review',
+    path: 'Subscriptions',
     loadChildren: () => import('../../components/review/review.routes')
   },
   {

@@ -38,7 +38,7 @@ export class NavService {
     },
     {
       title: 'Admins',
-      icon: 'map',
+      icon: 'shield',
       type: 'sub',
       active: false,
       level: 1,
@@ -111,11 +111,11 @@ export class NavService {
     //   path: '/booking'
     // },
     {
-      title: 'Reviews',
-      icon: 'message-square',
+      title: 'Subscription',
+      icon: 'credit-card',
       type: 'link',
       level: 1,
-      path: '/review',
+      path: '/Subscriptions',
       rolesAllowed: ['superadmin'],
     },
     // {
