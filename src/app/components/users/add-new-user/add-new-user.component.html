@@ -64,13 +64,13 @@
 
            
               <div class="card-footer text-end">
-                <button class="btn btn-primary" type="submit">
+                <button type="button" class="btn btn-outline-primary " (click)="cancel()">Reset</button>
+                <button class="btn btn-primary ms-2" type="submit">
                   <span *ngIf="!isLoading">Submit</span>
                   <span *ngIf="isLoading">
                     <i class="spinner-border spinner-border-sm me-1"></i> Submitting...
                   </span>
                 </button>
-                <button type="button" class="btn btn-outline-primary ms-2" (click)="cancel()">Reset</button>
               </div>
             </form>
 
