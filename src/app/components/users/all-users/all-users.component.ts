@@ -174,6 +174,8 @@ ngOnInit(): void {
   }
 
 updateUser() {
+  const loggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
+  const isSuperAdmin = loggedInUser.role === 'superadmin';
   const adminId = Number(localStorage.getItem('userId'));
   this.selectedUser.adminId = adminId || null;
 
@@ -182,19 +184,20 @@ updateUser() {
       this.isEditMode = false;
       this.userService.showToast('success', res.message);
 
-      // Only broadcast if the updated user is the currently logged-in user
-      const loggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
+      // Only broadcast if updating the logged-in user
       if (res.user?.userId === loggedInUser.userId) {
         this.userService.broadcastUser(res.user);
       }
 
-      // Optionally: refresh the list
-      this.getData(adminId);
+      // Refresh correct user list
+      if (isSuperAdmin) {
+        this.getSuperAdminUsers();
+      } else {
+        this.getData(adminId);
+      }
     },
     error: () => this.userService.showToast('error', 'Update failed')
   });
 }
-
-
 
 }
