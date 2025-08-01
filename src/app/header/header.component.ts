@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
@@ -14,7 +14,7 @@ declare var bootstrap: any;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements OnInit {
   @ViewChild('imageRef', { static: false }) imageRef!: ElementRef;
   imageUrl: string | null = null;
   croppedImage: string | null = null;
@@ -32,63 +32,65 @@ export class HeaderComponent implements AfterViewInit {
 
   constructor(private router: Router, private service: EmailService
     , @Inject(PLATFORM_ID) private platformId: Object) { }
-  ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+  // ngAfterViewInit(): void {
+  //   if (!isPlatformBrowser(this.platformId)) return;
 
-    const isLoggedIn = localStorage.getItem('token');
-    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
+  //   const isLoggedIn = localStorage.getItem('token');
+  //   const hasSeenIntro = localStorage.getItem('hasSeenIntro');
 
-    if (isLoggedIn && !hasSeenIntro) {
-      setTimeout(async () => {
-        const introJs = (await import('intro.js')).default;
+  //   if (isLoggedIn && !hasSeenIntro) {
+  //     setTimeout(async () => {
+  //       const introJs = (await import('intro.js')).default;
 
-        Swal.fire({
-          icon: 'success',
-          title: `Welcome back!`,
-          text: 'Let us show you around the app.',
-          timer: 2000,
-          showConfirmButton: false
-        });
 
-        introJs()
-          .setOptions({
-            steps: [
-              {
-                intro: '👋 <b>Welcome to MailCept!</b><br>Let’s take a quick tour of your workspace.'
-              },
-              {
-                element: document.querySelector('.nav-link[routerLink="/dashboard"]')!,
-                intro: '📊 <b>Dashboard</b><br>Get an overview of email stats and activity.'
-              },
-              {
-                element: document.querySelector('.nav-link[routerLink="/candidate-upload"]')!,
-                intro: '👤 <b>Candidates</b><br>Upload and manage candidate profiles here.'
-              },
-              {
-                element: document.querySelector('.nav-link[role="button"]')!,
-                intro: '🤝 <b>Vendors</b><br>Manage vendor contacts and communication.'
-              },
-              {
-                element: document.querySelector('.nav-item.dropdown > a.nav-link.dropdown-toggle[href="javascript:void(0)"]')!,
-                intro: '✉️ <b>Mail</b><br>Access all your sent mails, drafts, and more.'
-              }
+  //       introJs()
+  //         .setOptions({
+  //           steps: [
+  //             {
+  //               intro: '👋 <b>Welcome to MailCept!</b><br>Let’s take a quick tour of your workspace.'
+  //             },
+  //             {
+  //               element: document.querySelector('.nav-link[routerLink="/dashboard"]')!,
+  //               intro: '📊 <b>Dashboard</b><br>Get an overview of email stats and activity.'
+  //             },
+  //             {
+  //               element: document.querySelector('.nav-link[routerLink="/candidate-upload"]')!,
+  //               intro: '👤 <b>Candidates</b><br>Upload and manage candidate profiles here.'
+  //             },
+  //             {
+  //               element: document.querySelector('.nav-link[role="button"]')!,
+  //               intro: '🤝 <b>Vendors</b><br>Manage vendor contacts and communication.'
+  //             },
+  //             {
+  //               element: document.querySelector('.nav-item.dropdown > a.nav-link.dropdown-toggle[href="javascript:void(0)"]')!,
+  //               intro: `
+  //                 <div style="display: flex; align-items: center; gap: 10px;">
+  //                   <i class="bi bi-send-fill text-success" style="font-size: 20px; color: black;"></i>
+  //                   <div>
+  //                     <b>Mail</b><br>
+  //                     Access all your sent mails, drafts, and more.
+  //                   </div>
+  //                 </div>
+  //               `
 
-            ],
-            tooltipClass: 'customIntroTooltip',
-            showProgress: true,
-            showBullets: true,
-            exitOnEsc: true,
-            nextLabel: 'Next →',
-            prevLabel: '← Back',
-            doneLabel: '🚀 Got it!'
-          })
-          .oncomplete(() => localStorage.setItem('hasSeenIntro', 'true'))
-          .onexit(() => localStorage.setItem('hasSeenIntro', 'true'))
-          .start();
+  //             }
 
-      }, 1500);
-    }
-  }
+  //           ],
+  //           tooltipClass: 'customIntroTooltip',
+  //           showProgress: true,
+  //           showBullets: true,
+  //           exitOnEsc: true,
+  //           nextLabel: 'Next →',
+  //           prevLabel: '← Back',
+  //           doneLabel: '🚀 Got it!'
+  //         })
+  //         .oncomplete(() => localStorage.setItem('hasSeenIntro', 'true'))
+  //         .onexit(() => localStorage.setItem('hasSeenIntro', 'true'))
+  //         .start();
+
+  //     }, 1500);
+  //   }
+  // }
   ngOnInit(): void {
     if (this.isBrowser()) {
       this.userId = localStorage.getItem('userId') || '0';
@@ -211,7 +213,7 @@ export class HeaderComponent implements AfterViewInit {
       next: (res: any) => {
         const user = res;
         this.userName = user.name?.trim() || 'User';
-
+        localStorage.setItem('suggestion', user.suggestion ? '1' : '0');
         let profilePath = user.profilePicture || '';
         profilePath = profilePath.replace(/\\/g, '/');
         const encodedPath = encodeURI(profilePath);

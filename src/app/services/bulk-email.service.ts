@@ -224,10 +224,13 @@ postWithUserId(endpoint: string, data: any) {
       params: params
     });
   }
-deleteSelectedVendors(data:any){
-    return this.postWithUserId('deleteSelectedVendors', data);
-  }
-
+  
+  deleteSelectedVendors(data:any){
+      return this.postWithUserId('deleteSelectedVendors', data);
+    }
+  disableIntro(data:any){
+      return this.postWithUserId('disable-suggestion', data);
+    }
 
 
 
