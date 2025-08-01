@@ -124,3 +124,37 @@
 
 
 
+
+
+
+::ng-deep .customIntroTooltip {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #f9fbfe;
+  color: #333;
+}
+
+::ng-deep .introjs-tooltip-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+::ng-deep .introjs-tooltiptext {
+  font-size: 14px;
+}
+
+::ng-deep .introjs-button {
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+::ng-deep .introjs-progress {
+  background-color: #ddd !important;
+}
+
+::ng-deep .introjs-progress .introjs-progressbar {
+  background-color: #5ab745 !important;
+}

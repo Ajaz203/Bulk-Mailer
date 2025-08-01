@@ -1,10 +1,11 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { EmailService } from '../services/bulk-email.service';
 import { FormsModule } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
 import Swal from 'sweetalert2';
-
+// import introJs from 'intro.js';
 declare var bootstrap: any;
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ declare var bootstrap: any;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements AfterViewInit {
   @ViewChild('imageRef', { static: false }) imageRef!: ElementRef;
   imageUrl: string | null = null;
   croppedImage: string | null = null;
@@ -29,32 +30,89 @@ export class HeaderComponent implements OnInit {
   profileImage: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
 
-  constructor(private router: Router, private service: EmailService) { }
+  constructor(private router: Router, private service: EmailService
+    , @Inject(PLATFORM_ID) private platformId: Object) { }
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
 
-ngOnInit(): void {
-  if (this.isBrowser()) {
-    this.userId = localStorage.getItem('userId') || '0';
-    this.userName = localStorage.getItem('name') || 'User';
-    this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
-    this.profileImage = localStorage.getItem('profileImage') || '';
-  }
+    const isLoggedIn = localStorage.getItem('token');
+    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
 
+    if (isLoggedIn && !hasSeenIntro) {
+      setTimeout(async () => {
+        const introJs = (await import('intro.js')).default;
 
-  if (this.userId && this.userId !== '0') {
-    this.loadUserProfile();
-  } else {
-    console.warn('User not logged in yet. Skipping loadUserProfile.');
-  }
+        Swal.fire({
+          icon: 'success',
+          title: `Welcome back!`,
+          text: 'Let us show you around the app.',
+          timer: 2000,
+          showConfirmButton: false
+        });
 
-  const currentUrl = this.router.url;
-  this.setSegmentFromUrl(currentUrl);
+        introJs()
+          .setOptions({
+            steps: [
+              {
+                intro: '👋 <b>Welcome to MailCept!</b><br>Let’s take a quick tour of your workspace.'
+              },
+              {
+                element: document.querySelector('.nav-link[routerLink="/dashboard"]')!,
+                intro: '📊 <b>Dashboard</b><br>Get an overview of email stats and activity.'
+              },
+              {
+                element: document.querySelector('.nav-link[routerLink="/candidate-upload"]')!,
+                intro: '👤 <b>Candidates</b><br>Upload and manage candidate profiles here.'
+              },
+              {
+                element: document.querySelector('.nav-link[role="button"]')!,
+                intro: '🤝 <b>Vendors</b><br>Manage vendor contacts and communication.'
+              },
+              {
+                element: document.querySelector('.nav-item.dropdown > a.nav-link.dropdown-toggle[href="javascript:void(0)"]')!,
+                intro: '✉️ <b>Mail</b><br>Access all your sent mails, drafts, and more.'
+              }
 
-  this.router.events.subscribe(event => {
-    if (event instanceof NavigationEnd) {
-      this.setSegmentFromUrl(event.urlAfterRedirects);
+            ],
+            tooltipClass: 'customIntroTooltip',
+            showProgress: true,
+            showBullets: true,
+            exitOnEsc: true,
+            nextLabel: 'Next →',
+            prevLabel: '← Back',
+            doneLabel: '🚀 Got it!'
+          })
+          .oncomplete(() => localStorage.setItem('hasSeenIntro', 'true'))
+          .onexit(() => localStorage.setItem('hasSeenIntro', 'true'))
+          .start();
+
+      }, 1500);
     }
-  });
-}
+  }
+  ngOnInit(): void {
+    if (this.isBrowser()) {
+      this.userId = localStorage.getItem('userId') || '0';
+      this.userName = localStorage.getItem('name') || 'User';
+      this.userEmail = localStorage.getItem('email') || 'unknown@example.com';
+      this.profileImage = localStorage.getItem('profileImage') || '';
+    }
+
+
+    if (this.userId && this.userId !== '0') {
+      this.loadUserProfile();
+    } else {
+      console.warn('User not logged in yet. Skipping loadUserProfile.');
+    }
+
+    const currentUrl = this.router.url;
+    this.setSegmentFromUrl(currentUrl);
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.setSegmentFromUrl(event.urlAfterRedirects);
+      }
+    });
+  }
 
 
   setSegmentFromUrl(url: string): void {
@@ -141,36 +199,36 @@ ngOnInit(): void {
     });
   }
   loadUserProfile(): void {
-  const userIdStr = localStorage.getItem('userId');
-  const userId = Number(userIdStr);
+    const userIdStr = localStorage.getItem('userId');
+    const userId = Number(userIdStr);
 
-  if (!userId || isNaN(userId)) {
-    console.warn('Invalid userId', userIdStr);
-    return;
-  }
-
-  this.service.getUserProfileUpdate(userId).subscribe({
-    next: (res: any) => {
-      const user = res;
-      this.userName = user.name?.trim() || 'User';
-
-      let profilePath = user.profilePicture || '';
-      profilePath = profilePath.replace(/\\/g, '/');
-      const encodedPath = encodeURI(profilePath);
-
-      this.profileImage = encodedPath
-        ? `${this.service.url}${encodedPath}`
-        : '';
-
-      localStorage.setItem('name', this.userName);
-      localStorage.setItem('profileImage', this.profileImage);
-    },
-    error: (err) => {
-      console.error('Error loading profile:', err);
-      this.profileImage = '';
+    if (!userId || isNaN(userId)) {
+      console.warn('Invalid userId', userIdStr);
+      return;
     }
-  });
-}
+
+    this.service.getUserProfileUpdate(userId).subscribe({
+      next: (res: any) => {
+        const user = res;
+        this.userName = user.name?.trim() || 'User';
+
+        let profilePath = user.profilePicture || '';
+        profilePath = profilePath.replace(/\\/g, '/');
+        const encodedPath = encodeURI(profilePath);
+
+        this.profileImage = encodedPath
+          ? `${this.service.url}${encodedPath}`
+          : '';
+
+        localStorage.setItem('name', this.userName);
+        localStorage.setItem('profileImage', this.profileImage);
+      },
+      error: (err) => {
+        console.error('Error loading profile:', err);
+        this.profileImage = '';
+      }
+    });
+  }
 
 
 
@@ -202,24 +260,24 @@ ngOnInit(): void {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
 
- logout() {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'Do you want to logout?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Yes, Logout'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      if (this.isBrowser()) {
-        localStorage.clear();
+  logout() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Logout'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (this.isBrowser()) {
+          localStorage.clear();
+        }
+        this.router.navigate(['/login']);
       }
-      this.router.navigate(['/login']);
-    }
-  });
-}
+    });
+  }
 
 
 

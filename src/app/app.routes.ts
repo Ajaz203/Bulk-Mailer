@@ -1,4 +1,6 @@
 import { Routes, CanActivateFn } from '@angular/router';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -14,14 +16,18 @@ import { AllMailsComponent } from './all-mails/all-mails.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const authGuard: CanActivateFn = () => {
+  const platformId = inject(PLATFORM_ID);
   const router = inject(Router);
-  const userId = localStorage.getItem('userId');
-  if (userId) {
-    return true;
-  } else {
-    router.navigate(['/login']);
-    return false;
+
+  if (isPlatformBrowser(platformId)) {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      return true;
+    }
   }
+
+  router.navigate(['/login']);
+  return false;
 };
 
 export const routes: Routes = [
