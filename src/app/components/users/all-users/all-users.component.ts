@@ -173,7 +173,7 @@ ngOnInit(): void {
     this.isEditMode = true;
   }
 
- updateUser() {
+updateUser() {
   const adminId = Number(localStorage.getItem('userId'));
   this.selectedUser.adminId = adminId || null;
 
@@ -181,11 +181,20 @@ ngOnInit(): void {
     next: (res: any) => {
       this.isEditMode = false;
       this.userService.showToast('success', res.message);
-      this.userService.broadcastUser(res.user);
+
+      // Only broadcast if the updated user is the currently logged-in user
+      const loggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
+      if (res.user?.userId === loggedInUser.userId) {
+        this.userService.broadcastUser(res.user);
+      }
+
+      // Optionally: refresh the list
+      this.getData(adminId);
     },
     error: () => this.userService.showToast('error', 'Update failed')
   });
 }
+
 
 
 }
