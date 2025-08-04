@@ -1,4 +1,4 @@
-import { Component, OnInit,AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { EmailService } from '../services/bulk-email.service';
 import { ChartOptions, ChartConfiguration } from 'chart.js';
@@ -21,73 +21,80 @@ export class DashboardComponent implements AfterViewInit {
   emailTypeData: any = { labels: [], datasets: [] };
   userRoles: any[] = [];
   isBrowser: boolean = false;
-ngAfterViewInit(): void {
-  if (!isPlatformBrowser(this.platformId)) return;
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
 
-  const isLoggedIn = localStorage.getItem('token');
-  if (!isLoggedIn) return;
+    const isLoggedIn = localStorage.getItem('token');
+    if (!isLoggedIn) return;
 
-  const userId = localStorage.getItem('userId');
-  if (!userId) return;
+    const userId = localStorage.getItem('userId');
+    if (!userId) return;
+    this.service.getUserProfileUpdate(+userId).subscribe({
+      next: async (res: any) => {
+        if (res?.suggestion) return;
 
-  // ✅ Fetch user profile to check 'suggestion' flag
-  this.service.getUserProfileUpdate(+userId).subscribe({
-    next: async (res: any) => {
-      if (res?.suggestion) return; // If suggestion is true, user has already seen intro
-
-      // Run intro
-      const introJs = (await import('intro.js')).default;
-      introJs()
-        .setOptions({
-          steps: [
-            { intro: '👋 <b>Welcome to MailCept!</b><br>Let’s take a quick tour of your workspace.' },
-            {
-              element: document.querySelector('.nav-link[routerLink="/dashboard"]')!,
-              intro: '📊 <b>Dashboard</b><br>Get an overview of email stats and activity.'
-            },
-            {
-              element: document.querySelector('.nav-link[routerLink="/candidate-upload"]')!,
-              intro: '👤 <b>Candidates</b><br>Upload and manage candidate profiles here.'
-            },
-            {
-              element: document.querySelector('.nav-link[role="button"]')!,
-              intro: '🤝 <b>Vendors</b><br>Manage vendor contacts and communication.'
-            },
-            {
-              element: document.querySelector('.nav-item.dropdown > a.nav-link.dropdown-toggle[href="javascript:void(0)"]')!,
-              intro: `<div style="display: flex; align-items: center; gap: 10px;">
+        // Run intro
+        const introJs = (await import('intro.js')).default;
+        introJs()
+          .setOptions({
+            steps: [
+              { intro: '👋 <b>Welcome to MailCept!</b><br>Let’s take a quick tour of your workspace.' },
+              {
+                element: document.querySelector('.nav-link[routerLink="/dashboard"]')!,
+                intro: '📊 <b>Dashboard</b><br>Get an overview of email stats and activity.'
+              },
+              {
+                element: document.querySelector('.nav-link[routerLink="/candidate-upload"]')!,
+                intro: '👤 <b>Candidates</b><br>Upload and manage candidate profiles here.'
+              },
+              {
+                element: document.querySelector('.nav-link[role="button"]')!,
+                intro: '🤝 <b>Vendors</b><br>Manage vendor contacts and communication.'
+              },
+              {
+                element: document.querySelector('.nav-item.dropdown > a.nav-link.dropdown-toggle[href="javascript:void(0)"]')!,
+                intro: `<div style="display: flex; align-items: center; gap: 10px;">
                         <i class="bi bi-send-fill text-success" style="font-size: 20px;"></i>
                         <div><b>Mail</b><br>Access all your sent mails, drafts, and more.</div>
                       </div>`
-            }
-          ],
-          tooltipClass: 'customIntroTooltip',
-          showProgress: true,
-          showBullets: true,
-          exitOnEsc: true,
-          nextLabel: 'Next →',
-          prevLabel: '← Back',
-          doneLabel: '🚀 Got it!'
-        })
-        .oncomplete(() => {
-          this.disableIntroApi(userId); // ✅ Update backend
-        })
-        .onbeforeexit(() => {
-          this.disableIntroApi(userId); // ✅ Update backend
-          return true;
-        })
-        .start();
-    },
-    error: (err) => console.error('Intro check failed', err)
-  });
-}
+              },
+              // {
+              //   element: document.querySelector('.dropdown .dropdown-toggle')!,
+              //   intro: `
+              //         <div class="tour-step">
+              //           <div class="tour-header">Your Profile</div>
+              //           <div class="tour-body">Click here to edit your profile info or log out of your account.</div>
+              //         </div>
+              //       `
+              // }
+            ],
+            tooltipClass: 'customIntroTooltip',
+            showProgress: true,
+            showBullets: true,
+            exitOnEsc: true,
+            nextLabel: 'Next →',
+            prevLabel: '← Back',
+            doneLabel: '🚀 Got it!'
+          })
+          .oncomplete(() => {
+            this.disableIntroApi(userId);
+          })
+          .onbeforeexit(() => {
+            this.disableIntroApi(userId);
+            return true;
+          })
+          .start();
+      },
+      error: (err) => console.error('Intro check failed', err)
+    });
+  }
 
-disableIntroApi(userId: string) {
-  this.service.disableIntro({ userId }).subscribe({
-    next: (res) => console.log('Intro disabled via API', res),
-    error: (err) => console.error('Intro disable API error', err)
-  });
-}
+  disableIntroApi(userId: string) {
+    this.service.disableIntro({ userId }).subscribe({
+      next: (res) => console.log('Intro disabled via API', res),
+      error: (err) => console.error('Intro disable API error', err)
+    });
+  }
 
 
   lineChartOptions: ChartConfiguration<'line'>['options'] = {
@@ -174,7 +181,7 @@ disableIntroApi(userId: string) {
     // Fetch latest stats and chart data
     // Example: this.loadDashboardData();
   }
-    navigateTo(link: string) {
+  navigateTo(link: string) {
     console.log('Navigate to:', link);
     // this.router.navigateByUrl(link);
   }

@@ -71,10 +71,11 @@
                 </div>
               </td>
               <td>
-                <div class="text-truncate" style="max-width: 300px;" [title]="draft.mailBody">
-                  {{ draft.mailBody || 'No Body Content' }}
+                <div class="text-truncate" style="max-width: 300px;" [title]="stripHtmlTags(draft.mailBody)">
+                  {{ stripHtmlTags(draft.mailBody) || 'No Body Content' }}
                 </div>
               </td>
+
               <td>
                 <button class="btn btn-sm" (click)="editDraft(draft)">
                   <i class="bi bi-pencil-square"></i>

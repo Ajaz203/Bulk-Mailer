@@ -12,7 +12,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-drafts',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, NgxPaginationModule, NgxEditorModule],
+  imports: [CommonModule, RouterModule, FormsModule, NgxPaginationModule, NgxEditorModule,],
   templateUrl: './drafts.component.html',
   styleUrls: ['./drafts.component.css']
 })
@@ -33,7 +33,7 @@ export class DraftsComponent implements OnInit {
   searchTerm = '';
   filteredDraftList: any[] = [];
   currentPage = 1;
-  itemsPerPage = 4;
+  itemsPerPage = 10;
   isVendor = false;
   editor!: Editor;
   allDrafts: any[] = [];
@@ -48,6 +48,9 @@ export class DraftsComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.editor?.destroy();
+  }
+  stripHtmlTags(html: string): string {
+    return html ? html.replace(/<[^>]+>/g, '') : '';
   }
 
 
@@ -111,7 +114,9 @@ export class DraftsComponent implements OnInit {
       type: 'draft',
       targetType: this.targetType
     };
-
+    if (this.editingDraftId) {
+      payload.id = this.editingDraftId;
+    }
     if (isScheduled) {
       const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
       payload.date = this.scheduleDate;
