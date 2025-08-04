@@ -78,5 +78,7 @@ input:checked + .slider:before {
   color: #333;
 }
 
-
+::ng-deep .dark-only .modal-title {
+  color: #ffffff99 !important;
+}
 

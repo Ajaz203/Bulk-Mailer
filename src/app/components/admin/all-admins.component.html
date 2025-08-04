@@ -89,7 +89,7 @@
           <div class="modal-content">
             <form (ngSubmit)="updateAdmin()" class="p-3">
               <div class="modal-header">
-                <h5 class="modal-title">Edit Admin</h5>
+                <h5 class="modal-title"  [ngClass]="{ 'text-white': isDarkMode }">Edit Admin</h5>
               </div>
 
               <div class="modal-body">

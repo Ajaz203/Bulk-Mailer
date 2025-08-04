@@ -31,7 +31,7 @@ export class AllSubscriptionComponent implements OnInit {
   editingPlanId!: string;
 
   constructor(private router: Router, private userService: UserService, private fb: FormBuilder) { }
-
+  isDarkMode = document.body.classList.contains('dark-only'); 
   ngOnInit(): void {
     this.loadPlans();
     this.editPlanForm = this.fb.group({

@@ -22,9 +22,8 @@ export class AllAdminsComponent {
   showPassword = false;
   selectedAdmin: any;
   adminUsers: any[] = [];
-  constructor(private userService: UserService, private router: Router) {
-
-  }
+  constructor(private userService: UserService, private router: Router) { }
+  isDarkMode = document.body.classList.contains('dark-only'); 
   ngOnInit(): void {
     this.getData();
   }
@@ -68,7 +67,7 @@ export class AllAdminsComponent {
     const newStatus = !user.isActive;
 
     const payload = {
-      userId: user.adminId,
+      userId: user.userId,
       isActive: newStatus
     };
 

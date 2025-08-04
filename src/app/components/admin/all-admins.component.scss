@@ -90,4 +90,6 @@ input:checked + .slider:before {
 //   font-size: 14px;
 //   text-transform: uppercase;
 // }
-
+::ng-deep .dark-only .modal-title {
+  color: #ffffff99 !important;
+}

@@ -3,7 +3,7 @@
 ==========================**/
 
 body {
-	&.dark-only {
+	&.dark-only  {
 		color: $dark-all-font-color;
 		background-color: $dark-body-background;
 		.apexcharts-tooltip.light {

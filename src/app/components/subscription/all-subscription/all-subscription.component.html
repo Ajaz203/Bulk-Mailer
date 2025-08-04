@@ -79,7 +79,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content p-3">
       <div class="modal-header">
-        <h5>Edit Plan</h5>
+        <h5 class="modal-title" [ngClass]="{ 'text-white': isDarkMode }">Edit Plan</h5>
         <button type="button" class="btn-close" (click)="closeEditModal()"></button>
       </div>
       <form [formGroup]="editPlanForm" class="theme-form mega-form">

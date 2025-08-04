@@ -22,9 +22,9 @@ export class AllUsersComponent {
   totalPages = 1;
   isEditMode: boolean;
   showPassword = false;
-  constructor(private userService: UserService, private route: ActivatedRoute) {
+  constructor(private userService: UserService, private route: ActivatedRoute) {}
 
-  }
+    isDarkMode = document.body.classList.contains('dark-only'); 
   // ngOnInit(): void {
   //   this.route.queryParams.subscribe(params => {
   //     const adminId = +params['adminId'];
@@ -183,13 +183,9 @@ updateUser() {
     next: (res: any) => {
       this.isEditMode = false;
       this.userService.showToast('success', res.message);
-
-      // Only broadcast if updating the logged-in user
       if (res.user?.userId === loggedInUser.userId) {
         this.userService.broadcastUser(res.user);
       }
-
-      // Refresh correct user list
       if (isSuperAdmin) {
         this.getSuperAdminUsers();
       } else {
