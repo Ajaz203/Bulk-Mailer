@@ -36,20 +36,20 @@ export class EmailService {
   //   }
   // }
 
-postWithUserId(endpoint: string, data: any) {
-  const userId = localStorage.getItem('userId');
-  const userEmail = localStorage.getItem('email');
-  const userName = localStorage.getItem('name');
+  postWithUserId(endpoint: string, data: any) {
+    const userId = localStorage.getItem('userId');
+    const userEmail = localStorage.getItem('email');
+    const userName = localStorage.getItem('name');
 
-  const payload = {
-    ...data,
-    userId: userId ? +userId : null,
-    userEmail: userEmail || '',
-    userName: userName || ''
-  };
+    const payload = {
+      ...data,
+      userId: userId ? +userId : null,
+      userEmail: userEmail || '',
+      userName: userName || ''
+    };
 
-  return this.http.post(this.url + endpoint, payload, { headers: this.header });
-}
+    return this.http.post(this.url + endpoint, payload, { headers: this.header });
+  }
 
 
 
@@ -224,18 +224,18 @@ postWithUserId(endpoint: string, data: any) {
       params: params
     });
   }
-  
-  deleteSelectedVendors(data:any){
-      return this.postWithUserId('deleteSelectedVendors', data);
-    }
-  disableIntro(data:any){
-      return this.postWithUserId('disable-suggestion', data);
-    }
-  contactUs(data:any){
-      return this.postWithUserId('create-contact', data);
-    }
- getPlans(data:any){ 
-  return this.getWithUserId('plans', data);  
-}
- 
+
+  deleteSelectedVendors(data: any) {
+    return this.postWithUserId('deleteSelectedVendors', data);
+  }
+  disableIntro(data: any) {
+    return this.postWithUserId('disable-suggestion', data);
+  }
+  contactUs(data: any) {
+    return this.postWithUserId('create-contact', data);
+  }
+  getPlans(data: any) {
+    return this.getWithUserId('plans', data);
+  }
+
 }

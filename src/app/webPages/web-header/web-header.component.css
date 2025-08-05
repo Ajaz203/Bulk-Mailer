@@ -3,6 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+* {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 .navbar {
   background-color: #fff;
   border-bottom: 1px solid #ddd;

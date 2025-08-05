@@ -60,11 +60,11 @@ countryCodes = [
       termsCheckbox: new FormControl(false, [Validators.requiredTrue])
     });
 
- this.titleService.setTitle('Contact Us');
-      this.meta.addTags([
-        { name: 'keywords', content: 'Customer Support, Contact Us, Business Inquiry, Contact IntelligentMDG, Data Governance Consultation, iMDG Support Contact, Reach Out for Data Solutions, Contact Data Management Experts' },
-        { name: 'description', content: 'Contact Us,' }
-      ]);
+//  this.titleService.setTitle('Contact Us');
+//       this.meta.addTags([
+//         { name: 'keywords', content: 'Customer Support, Contact Us, Business Inquiry, Contact IntelligentMDG, Data Governance Consultation, iMDG Support Contact, Reach Out for Data Solutions, Contact Data Management Experts' },
+//         { name: 'description', content: 'Contact Us,' }
+//       ]);
 
 }
 onSubmit() {
@@ -104,6 +104,7 @@ onSubmit() {
     );
   } else {
     this.toastr.warning('Please fill all required fields', 'Validation Error');
+    this.contactForm.markAllAsTouched();
   }
 }
 

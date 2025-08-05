@@ -276,7 +276,7 @@ export class HeaderComponent implements OnInit {
         if (this.isBrowser()) {
           localStorage.clear();
         }
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
       }
     });
   }
