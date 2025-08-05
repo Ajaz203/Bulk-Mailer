@@ -14,6 +14,11 @@ import { VendorBulkUploadComponent } from './vendor-bulk-upload/vendor-bulk-uplo
 import { DraftsComponent } from './drafts/drafts.component';
 import { AllMailsComponent } from './all-mails/all-mails.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { WebHeaderComponent } from './webPages/web-header/web-header.component';
+import { HomeComponent } from './webPages/home/home.component';
+import { AboutUsComponent } from './webPages/about-us/about-us.component';
+import { ContactUsComponent } from './webPages/contact-us/contact-us.component';
+import { PackegesComponent } from './webPages/packeges/packeges.component';
 
 const authGuard: CanActivateFn = () => {
   const platformId = inject(PLATFORM_ID);
@@ -31,7 +36,7 @@ const authGuard: CanActivateFn = () => {
 };
 
 export const routes: Routes = [
-  // { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: CreateUserComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -43,6 +48,14 @@ export const routes: Routes = [
   { path: 'drafts', component: DraftsComponent, canActivate: [authGuard] },
   { path: 'all-mails', component: AllMailsComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+  {path:'web-header',component:WebHeaderComponent,canActivate:[authGuard]},
+  {path:'about-us',component:AboutUsComponent},
+  {path:'contact-us',component:ContactUsComponent},
+  {path:'packages',component:PackegesComponent},
 
-  { path: '**', redirectTo: 'login' }
+  {path:'home',component:HomeComponent},
+
+
+  
+  { path: '**', redirectTo: 'home' }
 ];

@@ -231,7 +231,11 @@ postWithUserId(endpoint: string, data: any) {
   disableIntro(data:any){
       return this.postWithUserId('disable-suggestion', data);
     }
-
-
-
+  contactUs(data:any){
+      return this.postWithUserId('create-contact', data);
+    }
+ getPlans(data:any){ 
+  return this.getWithUserId('plans', data);  
+}
+ 
 }

@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { ToastrModule } from 'ngx-toastr';
 import { EmailService } from './services/bulk-email.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -16,25 +17,29 @@ export class AppComponent {
   title = 'bulkEmailAppFrontend';
   hideHeader: boolean = false;
   isBrowser: boolean;
-  publicRoutes: any;
-  currentUrl:any
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object, private bulkEmailService: EmailService) {
-    // this.bulkEmailService.checkloginStatus()
+ currentUrl: string | undefined;
+
+  publicRoutes: string[] = ['/login', '/sign-up', '/forgot-password', '/home', '/about-us', '/contact-us', '/packages'];
+
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private bulkEmailService: EmailService
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-         this.publicRoutes = ['/login', '/sign-up', '/forgot-password'];
-         this.currentUrl = event.url;
+        const cleanedUrl = event.urlAfterRedirects.split('?')[0].split('#')[0].replace(/\/$/, '');
+        this.currentUrl = cleanedUrl;
+
+        this.hideHeader = this.publicRoutes.includes(cleanedUrl);
 
         if (this.isBrowser) {
           const isLoggedIn = !!localStorage.getItem('token');
-          this.hideHeader = this.publicRoutes.includes(this.currentUrl);
-          if (!isLoggedIn && !this.publicRoutes.includes(this.currentUrl)) {
+          if (!isLoggedIn && !this.publicRoutes.includes(cleanedUrl)) {
             this.router.navigate(['/login']);
           }
-        } else {
-          this.hideHeader = this.publicRoutes.includes(this.currentUrl);
         }
       }
     });

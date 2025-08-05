@@ -28,3 +28,52 @@ h2 {
   border-radius: 4px;
   outline: none;
 }
+
+p {
+  color: #666666;
+  font-size: var(--fontSize);
+  margin-bottom: 15px;
+  line-height: 1.8;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.h1, .h2, .h3, .h4, .h5, .h6,
+h1, h2, h3, h4, h5, h6 {
+  color: var(--titleColor);
+  font-family: var(--fontFamily);
+  font-weight: 700;
+}
+
+
+.section-title {
+  text-align: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+}
+
+.section-title .sub-title {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.section-title h2 {
+  font-size: 40px;
+  margin-bottom: 0;
+}
+
+
+
+
+
+

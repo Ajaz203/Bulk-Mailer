@@ -1,0 +1,285 @@
+.team-card {
+    margin-bottom: 25px;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+.team-card img {
+    transition: var(--transition);
+}
+.team-card .team-card-content {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 30px;
+    position: absolute;
+}
+.team-card .team-card-content h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: var(--whiteColor);
+}
+.team-card .team-card-content h4 a {
+    color: var(--whiteColor);
+}
+.team-card .team-card-content span {
+    opacity: 0.9;
+    display: block;
+    margin-bottom: 15px;
+    color: var(--whiteColor);
+}
+.team-card .team-card-content .social-list {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+}
+.team-card .team-card-content .social-list li {
+    display: inline-block;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.team-card .team-card-content .social-list li a {
+    width: 35px;
+    height: 35px;
+    display: block;
+    line-height: 37px;
+    border-radius: 50%;
+    color: var(--whiteColor);
+    background-color: var(--primaryColor);
+}
+.team-card .team-card-content .social-list li.facebook-bg a {
+    background-color: #4267b2;
+}
+.team-card .team-card-content .social-list li.twitter-bg a {
+    background-color: #1da1f2;
+}
+.team-card .team-card-content .social-list li.linkedin-bg a {
+    background-color: #2867b2;
+}
+.team-card .team-card-content .social-list li.instagram-bg a {
+    background: linear-gradient(90deg, #5b4fd8 13%, #ac3694 39%, #f91d2a 57%, #f67138 73%);
+}
+.team-card::before {
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* background-image: url(../../../../assets/images/shape/team-card-shadow.png); */
+    background-image: url(../../../../public/images/shape/team-card-shadow.png);
+    background-position: bottom -140px center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.team-card:hover img {
+    transform: scale(1.08);
+}
+
+.team-card-two {
+    margin-bottom: 25px;
+    text-align: center;
+}
+.team-card-two .team-card-content {
+    padding: 30px;
+    position: relative;
+    background-color: var(--whiteColor);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: -30px;
+}
+.team-card-two .team-card-content h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+.team-card-two .team-card-content span {
+    display: block;
+    margin-bottom: 15px;
+    color: var(--paragraphColor);
+}
+.team-card-two .team-card-content .social-list {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+}
+.team-card-two .team-card-content .social-list li {
+    display: inline-block;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.team-card-two .team-card-content .social-list li a {
+    width: 35px;
+    height: 35px;
+    display: block;
+    line-height: 37px;
+    border-radius: 50%;
+    color: var(--whiteColor);
+    background-color: var(--primaryColor);
+}
+.team-card-two .team-card-content .social-list li a:hover {
+    transform: translateY(-5px);
+}
+.team-card-two .team-card-content .social-list li.facebook-bg a {
+    background-color: #4267b2;
+}
+.team-card-two .team-card-content .social-list li.twitter-bg a {
+    background-color: #1da1f2;
+}
+.team-card-two .team-card-content .social-list li.linkedin-bg a {
+    background-color: #2867b2;
+}
+.team-card-two .team-card-content .social-list li.instagram-bg a {
+    background: linear-gradient(90deg, #5b4fd8 13%, #ac3694 39%, #f91d2a 57%, #f67138 73%);
+}
+
+/* ---- Other sections omitted for brevity ---- */
+
+.d-none.d-block {
+    display: block !important;
+}
+
+/* Media Queries - Only shown one as example */
+@media only screen and (max-width: 767px) {
+    .team-card .team-card-content {
+        padding: 20px;
+    }
+    .team-card .team-card-content h4 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    .team-card .team-card-content span {
+        margin-bottom: 12px;
+    }
+
+    .team-card-two .team-card-content {
+        padding: 20px;
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-top: -30px;
+    }
+    .team-card-two .team-card-content h4 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    .team-card-two .team-card-content span {
+        margin-bottom: 12px;
+    }
+}
+
+/* Repeat for all remaining sections & breakpoints */
+
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}
+.team-card-content {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.team-card-content .badge-tag {
+  display: inline-block;
+  background-color: #0d6efd;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 12px;
+  margin-bottom: 5px;
+}
+
+.team-card-content span {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+.custom-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.card-image-wrapper img {
+  width: 100%;
+  display: block;
+}
+
+.badge-tag {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2d3e50;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 25px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.card-body {
+  padding: 20px 15px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2d3e50;
+}
+
+.card-desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.card-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3e50;
+  text-decoration: none;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.card-btn span {
+  margin-left: 6px;
+  transition: margin-left 0.3s ease;
+}
+
+.card-btn:hover span {
+  margin-left: 10px;
+}
+.custom-card .card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 240px; /* fixed height for consistency */
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.custom-card .card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* keeps image aspect ratio nicely */
+  display: block;
+}

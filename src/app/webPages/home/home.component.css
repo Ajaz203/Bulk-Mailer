@@ -1,0 +1,116 @@
+.main-banner-slides-item {
+  position: relative;
+  z-index: 1;
+  height: 500px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 80px;
+  padding-bottom: 120px;
+}
+
+.main-banner-slides-item .container-fluid {
+  padding-left: 40px;
+  /* padding-right: 40px; */
+}
+
+.main-banner-slides-item .lines-line .line {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.main-banner-content {
+  position: relative;
+  max-width: 700px;
+  z-index: 1;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.main-banner-content::before {
+  top: 0;
+  left: 0;
+  content: "";
+  z-index: -1;
+  width: 210px;
+  height: 100%;
+  position: absolute;
+  /* background: var(--mainGradientColor); */
+}
+
+.main-banner-content h1 {
+  font-size: 60px;
+  margin-bottom: 15px;
+  color: var(--whiteColor);
+}
+
+.main-banner-content p {
+  color: #f5f5f5;
+  font-size: 18px;
+}
+
+.main-banner-content .default-btn {
+  background-color: var(--primaryColor);
+  color: #333;
+  padding: 10px 20px;
+  text-decoration: none;
+  margin: 5px;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.main-banner-content .default-btn:hover {
+  background-color: var(--primaryColor);
+}
+
+.main-banner-content .image {
+  margin-top: -8%;
+}
+
+.main-banner-content .imageintro {
+  padding: 100px;
+}
+
+.main-banner-content .imgg {
+  padding-left: 10%;
+}
+
+.main-banner-content .image img {
+  width: 600px;
+  margin-left: -10%;
+}
+
+.main-banner-content .button {
+  margin-left: -2%;
+}
+
+.main-banner-content .partner {
+  margin-left: 10px;
+}
+
+.main-banner-content .explore:hover {
+  background-color: var(--primaryColor);
+}
+
+.main-banner-content .partner:hover {
+  background-color: var(--primaryColor);
+}
+.gradient-btn {
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  color: #fff;
+  border: none;
+  transition: all 0.3s ease-in-out;
+  font-weight: 600;
+  border-radius: 50px;
+}
+
+.gradient-btn:hover {
+  background: linear-gradient(to right, #feb47b, #ff7e5f);
+  color: #fff;
+}
+
+.lines-line .line {
+  width: 100%;
+  height: 2px;
+  background: #ffffff33;
+  margin: 6px 0;
+}
