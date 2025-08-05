@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 
-export const content : Routes = [
+export const content: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('../../components/dashboard/dashboard.routes')
@@ -41,4 +41,9 @@ export const content : Routes = [
     path: 'admin',
     loadChildren: () => import('../../components/admin/admin.routes'),
   },
+{
+  path:'contacts',
+  loadChildren:() => import('../../components/contacts/contacts.routes') 
+}
+
 ]

@@ -185,5 +185,8 @@ updatePlan(planId: string, updatedData: any) {
   getPlans() {
     return this.http.get(this.apiUrl + 'Plans', this.getAuthHeaders());
   }
+  allcontacts() {
+    return this.http.get(this.apiUrl + 'get-all-contacts', this.getAuthHeaders());
+  }
 
 }

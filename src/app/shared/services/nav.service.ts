@@ -75,6 +75,20 @@ export class NavService {
         { path: '/Subscriptions/add-subscription', title: 'Add Subscription', type: 'link', level: 2 },
       ],
     },
+    {
+      title: 'Enquiries',
+      icon: 'users',
+      type: 'link',
+      level: 1,
+      path: '/contacts',
+      rolesAllowed: ['superadmin'],
+     
+    }
+
+
+
+
+
     // {
     //   title: 'hotel',
     //   icon: 'briefcase',

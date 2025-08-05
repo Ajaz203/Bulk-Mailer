@@ -118,31 +118,34 @@ export class DashboardVisitorChartComponent implements OnInit {
     };
   }
 
-  loadChartData(): void {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const data = { userId: user.userId, role: user.role };
+loadChartData(): void {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const data = { userId: user.userId, role: user.role };
 
-    this.userService.dashboadCharts(data).subscribe({
-      next: (res: any) => {
-        const donutData = res?.donutChart;
+  this.userService.dashboadCharts(data).subscribe({
+    next: (res: any) => {
+      const donutData = res?.donutChart;
 
-        const drafts = Number(donutData?.drafts || 0);
-        const scheduled = Number(donutData?.scheduled || 0);
-        const sent = Number(donutData?.sent || 0);
+      const drafts = Number(donutData?.drafts || 0);
+      const scheduled = Number(donutData?.scheduled || 0);
+      const sent = Number(donutData?.sent || 0);
 
-        if (drafts === 0 && scheduled === 0 && sent === 0) {
-          this.showNoDataChart = true;
-          this.chartSeries = [100];
-          this.chartLabels = ['N/A'];
-        } else {
-          this.showNoDataChart = false;
-          this.chartSeries = [drafts, scheduled, sent];
-          this.chartLabels = ['Drafts', 'Scheduled', 'Sent'];
-        }
-
+      if (drafts === 0 && scheduled === 0 && sent === 0) {
+        this.showNoDataChart = true;
+        this.chartOptions = undefined as any; // Avoid rendering chart with old data
+      } else {
+        this.showNoDataChart = false;
+        this.chartSeries = [drafts, scheduled, sent];
+        this.chartLabels = ['Drafts', 'Scheduled', 'Sent'];
         this.setChartOptions();
-      },
-      error: (err) => console.error('Error fetching data:', err)
-    });
-  }
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching chart data:', err);
+      this.showNoDataChart = true;
+      this.chartOptions = undefined as any;
+    }
+  });
+}
+
 }
