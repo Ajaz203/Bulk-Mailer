@@ -62,31 +62,51 @@
     </div>
   </div>
 </section>
-
+<app-webfooter></app-webfooter>
 
 <!-- User Details Modal -->
 <div class="modal fade show d-block custom-modal" tabindex="-1" *ngIf="showUserModal">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-4 rounded-4">
-      <h5 class="modal-title mb-3 fw-bold text-success">Enter Your Details</h5>
-      <form [formGroup]="userForm" (ngSubmit)="onUserSubmit()">
-        <div class="mb-3">
-          <label class="form-label text-dark fw-semibold">Name</label>
-          <input type="text" class="form-control custom-input" formControlName="name" />
+    <div class="modal-content custom-modal-content">
+      
+      <!-- Top Accent Bar -->
+      <div class="modal-accent-bar"></div>
+
+      <!-- Modal Body -->
+      <div class="modal-body p-4">
+        <div class="text-center mb-4">
+          <h4 class="fw-bold text-success mb-1">Get Started</h4>
+          <p class="text-muted small mb-0">Just a few details before we launch the payment</p>
         </div>
-        <div class="mb-3">
-          <label class="form-label text-dark fw-semibold">Email</label>
-          <input type="email" class="form-control custom-input" formControlName="email" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label text-dark fw-semibold">Password</label>
-          <input type="password" class="form-control custom-input" formControlName="password" />
-        </div>
-        <div class="d-flex justify-content-end gap-2">
-          <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" (click)="showUserModal = false">Cancel</button>
-          <button type="submit" class="btn btn-success px-4 rounded-pill">Next</button>
-        </div>
-      </form>
+
+        <form [formGroup]="userForm" (ngSubmit)="onUserSubmit()">
+          <div class="mb-3">
+            <label class="form-label text-dark fw-semibold">Full Name</label>
+            <input type="text" class="form-control custom-input" formControlName="name" placeholder="John Doe" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-dark fw-semibold">Email Address</label>
+            <input type="email" class="form-control custom-input" formControlName="email" placeholder="example@mail.com" />
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-dark fw-semibold">Create Password</label>
+            <input type="password" class="form-control custom-input" formControlName="password" placeholder="Minimum 6 characters" />
+          </div>
+
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" (click)="showUserModal = false">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-success px-4 rounded-pill">
+              Continue
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
+
+
+
+

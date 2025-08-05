@@ -368,36 +368,86 @@
 }
 
 
-/* modal csss */
 /* === Modal Theme Customization === */
 .custom-modal {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
   z-index: 1055;
 }
 
-.custom-modal .modal-content {
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(90, 183, 69, 0.15);
-  border: 1px solid rgba(90, 183, 69, 0.25);
+.custom-modal .modal-dialog {
   max-width: 500px;
-  margin: auto;
+  margin: 0 auto;
 }
 
-/* === Input Fields === */
+.custom-modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px rgba(90, 183, 69, 0.2);
+  overflow: hidden;
+  position: relative;
+  animation: fadeInUp 0.4s ease-in-out;
+  border: none;
+}
+
+/* Accent bar */
+.modal-accent-bar {
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(to right, #5ab745, #469b38);
+}
+
+/* Input Fields */
 .custom-input {
-  border-radius: 10px;
-  border: 1px solid #ced4da;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  padding: 12px 14px;
+  font-size: 14.5px;
+  transition: all 0.3s ease-in-out;
+  background-color: #f8f9fa;
 }
 
 .custom-input:focus {
   border-color: #5ab745;
-  box-shadow: 0 0 0 0.2rem rgba(90, 183, 69, 0.25);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 0.25rem rgba(90, 183, 69, 0.15);
 }
-.text-success{
+
+/* Title and buttons */
+.text-success {
   color: #5ab745 !important;
 }
-.btn-success{
+
+.btn-success {
   background-color: #5ab745 !important;
+  border-color: #5ab745 !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #469b38 !important;
+  border-color: #469b38 !important;
+}
+
+.btn-outline-secondary {
+  font-weight: 500;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 576px) {
+  .custom-modal .modal-dialog {
+    margin: 20px;
+  }
 }

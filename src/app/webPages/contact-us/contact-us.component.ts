@@ -5,9 +5,10 @@ import { EmailService } from '../../services/bulk-email.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { WebHeaderComponent } from '../web-header/web-header.component';
+import { WebfooterComponent } from '../webfooter/webfooter.component';
 @Component({
   selector: 'app-contact-us',
-  imports: [FormsModule,ReactiveFormsModule,CommonModule,WebHeaderComponent],
+  imports: [FormsModule,ReactiveFormsModule,CommonModule,WebHeaderComponent,WebfooterComponent],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.css'
 })
