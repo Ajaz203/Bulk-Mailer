@@ -139,3 +139,9 @@ li {
   background-color: #218838;
   color: white;
 }
+.nav-list a.active,
+.login-btn.active {
+  color: #5ab745 !important;
+  font-weight: bold;
+  /* border-bottom: 2px solid #5ab745; */
+}

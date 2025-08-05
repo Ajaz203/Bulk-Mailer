@@ -40,7 +40,7 @@
 .main-banner-content h1 {
   font-size: 60px;
   margin-bottom: 15px;
-  color: var(--whiteColor);
+
 }
 
 .main-banner-content p {
@@ -49,7 +49,6 @@
 }
 
 .main-banner-content .default-btn {
-  background-color: var(--primaryColor);
   color: #333;
   padding: 10px 20px;
   text-decoration: none;
@@ -58,9 +57,6 @@
   transition: background-color 0.3s ease;
 }
 
-.main-banner-content .default-btn:hover {
-  background-color: var(--primaryColor);
-}
 
 .main-banner-content .image {
   margin-top: -8%;
@@ -87,26 +83,62 @@
   margin-left: 10px;
 }
 
-.main-banner-content .explore:hover {
-  background-color: var(--primaryColor);
-}
 
-.main-banner-content .partner:hover {
-  background-color: var(--primaryColor);
-}
 .gradient-btn {
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  background: linear-gradient(270deg, #5ab745, #7fcf60, #8dd876);
+  background-size: 600% 600%;
+  animation:
+    gradientMove 6s ease infinite,
+    floatPulse 3s ease-in-out infinite;
+
   color: #fff;
   border: none;
-  transition: all 0.3s ease-in-out;
-  font-weight: 600;
   border-radius: 50px;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 4px 15px rgba(90, 183, 69, 0.4);
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
 }
 
 .gradient-btn:hover {
+  box-shadow: 0 6px 20px rgba(90, 183, 69, 0.6);
+  transform: scale(1.05);
+}
+
+.gradient-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(90, 183, 69, 0.5);
+}
+
+/* Gradient animation */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating pulse effect */
+@keyframes floatPulse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+
+/* .gradient-btn:hover {
   background: linear-gradient(to right, #feb47b, #ff7e5f);
   color: #fff;
-}
+} */
 
 .lines-line .line {
   width: 100%;
