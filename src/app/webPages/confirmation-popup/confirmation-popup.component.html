@@ -1,0 +1,7 @@
+<div class="popup-overlay" *ngIf="show">
+  <div class="popup-content" [ngClass]="type">
+    <p>{{ message }}</p>
+    <p *ngIf="type === 'success'">Redirecting to login in {{ countdown }} seconds...</p>
+    <button class="close-btn" (click)="onClose()">Close Now</button>
+  </div>
+</div>

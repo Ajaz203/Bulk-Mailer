@@ -237,10 +237,13 @@ export class EmailService {
   getPlans(data: any) {
     return this.getWithUserId('plans', data);
   }
+  verifySubscription(data: any) {
+    return this.postWithUserId('verify-subscription', data);
+  }
  createSubscriptionOrder(data: any) {
     return this.postWithUserId('subscribe', data);
   }
-  verifySubscription(data: any) {
-    return this.postWithUserId('verify-subscription', data);
+  registerAdmin(data: any) {
+    return this.postWithUserId('register-admin', data);
   }
 }
