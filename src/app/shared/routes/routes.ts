@@ -44,6 +44,22 @@ export const content: Routes = [
 {
   path:'contacts',
   loadChildren:() => import('../../components/contacts/contacts.routes') 
-}
+},
+{
+   path:'vendors',
+  loadChildren:() => import('../../components/vendors/vendors.routes') 
+},
+{
+   path:'candidates',
+  loadChildren:() => import('../../components/candidate/candidate.routes') 
+},
+{
+   path:'mails',
+  loadChildren:() => import('../../components/mail/mail.routes') 
+},
+{
+   path:'technology',
+  loadChildren:() => import('../../components/technology/technology.routes') 
+},
 
 ]

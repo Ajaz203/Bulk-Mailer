@@ -34,10 +34,10 @@ export class NavService {
       active: true,
       level: 1,
       path: '/dashboard',
-      rolesAllowed: ['admin', 'superadmin']
+      rolesAllowed: ['user','admin', 'superadmin']
     },
     {
-      title: 'Admins',
+      title: 'Admin',
       icon: 'shield',
       type: 'sub',
       active: false,
@@ -46,9 +46,7 @@ export class NavService {
       children: [
         { path: 'admin/all-admin', title: 'All Admins', type: 'link', level: 2 },
         { path: 'admin/add-new-admin', title: "Add New Admin", type: 'link', level: 2 },
-        // { path: '/tour/add-new-package', title: 'Add New Package', type: 'link', level: 2 },
-        // { path: '/tour/add-new-admin', title: 'All Package Categories', type: 'link', level: 2 },
-        // { path: '/tour/add-package-category', title: 'Add Package Category', type: 'link', level: 2 },
+      
       ],
     },
     {
@@ -68,7 +66,6 @@ export class NavService {
       icon: 'credit-card',
       type: 'link',
       level: 1,
-      // path: '/Subscriptions',
       rolesAllowed: ['superadmin'],
       children: [
         { path: '/Subscriptions/all-subscription', title: "All Subscription", type: 'link', level: 2 },
@@ -77,86 +74,58 @@ export class NavService {
     },
     {
       title: 'Enquiries',
-      icon: 'users',
+      icon: 'user-check',
       type: 'link',
       level: 1,
       path: '/contacts',
       rolesAllowed: ['superadmin'],
      
-    }
+    },
+      {
+      title: 'Vendors',
+      icon: 'briefcase',
+      type: 'link',
+      level: 1,
+      rolesAllowed: [ 'user'],
+      children: [
+        { path: '/vendors/upload', title: 'Upload Vendors', type: 'link', level: 2 },
+        { path: '/vendors/by-user', title: 'Vendors By User', type: 'link', level: 2 },
+        { path: '/vendors/list', title: "Vendors List", type: 'link', level: 2 },
+      ],
+    },
+      {
+      title: 'Candidates',
+      icon: 'user-plus',
+      type: 'link',
+      level: 1,
+      rolesAllowed: [ 'user'],
+      children: [
+        { path: '/candidates/upload', title: "Upload Candidate", type: 'link', level: 2 },
+        { path: '/candidates/list', title: 'candidates list', type: 'link', level: 2 },
+      ],
+    },
+    {
+      title: 'Technology',
+      icon: 'cpu',
+      type: 'link',
+      level: 1,
+      path: '/technology',
+      rolesAllowed: ['user'],
+     
+    },
+      {
+      title: 'Mails',
+      icon: 'mail',
+      type: 'link',
+      level: 1,
+      rolesAllowed: [ 'user'],
+      children: [
+        { path: '/mails/all-mails', title: 'All Mails', type: 'link', level: 2 },
+        { path: '/mails/drafts', title: "All Drafts", type: 'link', level: 2 },
+      ],
+    },
 
 
-
-
-
-    // {
-    //   title: 'hotel',
-    //   icon: 'briefcase',
-    //   type: 'sub',
-    //   active: false,
-    //   level: 1,
-    //   children: [
-    //     { path: '/hotel/all-hotels', title: 'All Hotels', type: 'link',level: 2 },
-    //     { path: '/hotel/hotel-detail', title: "Hotel's Detail", type: 'link',level: 2 },
-    //     { path: '/hotel/add-new-hotel', title: 'Add New Hotel', type: 'link',level: 2 },
-    //   ],
-    // },
-    // {
-    //   title: 'Restaurant',
-    //   icon: 'coffee',
-    //   type: 'sub',
-    //   active: false,
-    //   level: 1,
-    //   children: [
-    //     { path: '/restaurant/all-restaurant', title: 'All Restaurant', type: 'link',level: 2 },
-    //     { path: '/restaurant/restaurant-detail', title: "Restaurant's Detail", type: 'link',level: 2 },
-    //     { path: '/restaurant/add-new-restaurant', title: 'Add New Restaurant', type: 'link',level: 2 },
-    //     { path: '/restaurant/menu-item', title: "Menu Items", type: 'link',level: 2 },
-    //     { path: '/restaurant/add-menu-item', title: 'Add Menu item', type: 'link',level: 2 },
-    //   ],
-    // },
-    // {
-    //   title: 'Cab',
-    //   icon: 'navigation',
-    //   type: 'sub',
-    //   active: false,
-    //   level: 1,
-    //   children: [
-    //     { path: '/cab/all-car', title: 'All Cars', type: 'link',level: 2 },
-    //     { path: '/cab/car-detail', title: "Cars's Detail", type: 'link',level: 2 },
-    //     { path: '/cab/add-new-car', title: 'Add New Cars', type: 'link',level: 2 },
-    //     { path: '/cab/all-driver', title: "All Drivers", type: 'link',level: 2 },
-    //     { path: '/cab/add-driver', title: 'Add Drivers', type: 'link',level: 2 },
-    //   ],
-    // },
-    // {
-    //   title: 'Booking',
-    //   icon: 'bookmark',
-    //   type: 'link',
-    //   level: 1,
-    //   path: '/booking'
-    // },
-    // {
-    //   title: 'Setting',
-    //   icon: 'settings',
-    //   type: 'link',
-    //   level: 1,
-    //   path: '/setting'
-    // },
-    // {
-    //   title: 'Log In',
-    //   icon: 'log-in',
-    //   type: 'link',
-    //   level: 1,
-    //   path: '/log-in'
-    // },
-    // {
-    //   title: 'Register',
-    //   icon: 'plus-circle',
-    //   type: 'link',
-    //   level: 1,
-    //   path: '/register'
-    // },
   ]
   public getMenuForRole(role: string): Menu[] {
     const filterMenu = (menus: Menu[]): Menu[] => {
