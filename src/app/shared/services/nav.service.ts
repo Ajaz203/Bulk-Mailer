@@ -91,6 +91,7 @@ export class NavService {
         { path: '/vendors/upload', title: 'Upload Vendors', type: 'link', level: 2 },
         { path: '/vendors/by-user', title: 'Vendors By User', type: 'link', level: 2 },
         { path: '/vendors/list', title: "Vendors List", type: 'link', level: 2 },
+       
       ],
     },
       {

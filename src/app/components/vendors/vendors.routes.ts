@@ -9,6 +9,10 @@ const routes: Routes = [
     component: VendorsListComponent,
   },
   {
+    path: 'list/:userId',
+    component: VendorsListComponent,
+  },
+  {
     path: 'by-user',
     component:VendorsByUserComponent
   },
