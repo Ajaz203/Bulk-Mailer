@@ -17,7 +17,7 @@
 }
 
 .container {
-  max-width: 1140px;
+  max-width: 1300px;
   margin: auto;
   padding: 0 15px;
   display: flex;
@@ -31,6 +31,7 @@
   font-weight: bold;
   color: #000;
 }
+
 
 .menu {
   display: flex;

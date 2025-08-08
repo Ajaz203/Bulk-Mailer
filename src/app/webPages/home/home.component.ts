@@ -5,7 +5,7 @@ import { WebfooterComponent } from '../webfooter/webfooter.component';
 
 @Component({
   selector: 'app-home',
-  imports: [WebHeaderComponent,HomeTilesComponent,WebfooterComponent],
+  imports: [WebHeaderComponent,WebfooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
