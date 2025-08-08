@@ -39,6 +39,7 @@
     </div>
     <div class="table-container" style="max-height: 400px; overflow-y: auto;" infinite-scroll
         [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="300" [scrollWindow]="false" (scrolled)="onScroll()">
+        <div class="table-responsive table-desi">
         <table class="user-table table table-striped">
             <thead class="sticky-top">
                 <tr>
@@ -72,103 +73,75 @@
 
 
         </table>
-
+</div>
         <div *ngIf="isLoadingMore" class="custom-loader text-center my-3">
             <div class="spinner-border text-primary" role="status"></div>
             <p>Loading more vendors...</p>
         </div>
     </div>
 
-    <!-- Mail Modal (same structure as before) -->
-    <div class="modal fade" id="mailModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Send Mail</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
-                        <label class="fw-medium mb-0">Schedule:</label>
-                        <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
-                            style="max-width:160px" />
-                        <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
-                            style="max-width:120px" />
-                    </div>
+ 
+<!-- Modal Wrapper with backdrop -->
+<div class="modal-backdrop-custom" *ngIf="showMailModal">
+  <div class="modal-body-custom">
+    <h5 class="modal-title">Send Mail</h5>
+    <button type="button" class="btn-close" (click)="closeMailModal()" style="position: absolute; top: 1rem; right: 1rem;"></button>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-medium">Subject</label>
-                        <input type="text" class="form-control" [(ngModel)]="mailSubject"
-                            placeholder="Enter subject..." />
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label fw-medium mb-2">Description</label>
-                        <ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
-                        <ngx-editor [editor]="editor" [(ngModel)]="mailBody"
-                            placeholder="Type your email..."></ngx-editor>
-                    </div>
-
-                    <!-- Draft list -->
-                    <div *ngIf="draftList?.length">
-                        <label class="fw-semibold">Drafts</label>
-                        <ul class="list-group mb-3">
-                            <li class="list-group-item d-flex justify-content-between align-items-center"
-                                *ngFor="let d of draftList">
-                                <div>
-                                    <div class="fw-semibold">{{ d.mailSubject || 'No subject' }}</div>
-                                    <small class="text-muted">{{ d.date || '' }}</small>
-                                </div>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-primary me-2"
-                                        (click)="openDraftInMail(d)">Open</button>
-                                    <button class="btn btn-sm btn-secondary" (click)="loadDraft(d)">Load</button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" (click)="saveAsDraft()" [disabled]="isLoading">Save as
-                        Draft</button>
-                    <button class="btn btn-success d-flex align-items-center gap-2" (click)="vendorSendMail()"
-                        [disabled]="isLoading">
-                        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span>
-                        <span *ngIf="!isLoading">Send</span>
-                        <span *ngIf="isLoading">Sending...</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+    <!-- Your existing modal content here -->
+    <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
+      <label class="fw-medium mb-0">Schedule:</label>
+      <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate" style="max-width:160px" />
+      <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime" style="max-width:120px" />
     </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-medium">Subject</label>
+      <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-medium mb-2">Description</label>
+      <ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
+      <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
+    </div>
+
+    <!-- Drafts etc... -->
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="saveAsDraft()" [disabled]="isLoading">Save as Draft</button>
+      <button class="btn btn-success d-flex align-items-center gap-2" (click)="vendorSendMail()" [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span *ngIf="!isLoading">Send</span>
+        <span *ngIf="isLoading">Sending...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
 
     <!-- Edit Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Vendor</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Email:</label>
-                        <input [(ngModel)]="selectedCandidate.email" class="form-control" />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success" (click)="updateCandidate()">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="modal-body" id="editModal" *ngIf="showEditModal">
+  <h5 class="modal-title">Edit Vendor</h5>
+  <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Email:</label>
+    <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+    <button class="btn btn-success" (click)="updateCandidate()">Save Changes</button>
+  </div>
+</div>
+
 
     <!-- Loading -->
     <div *ngIf="isLoading" class="text-center py-5">
         <div class="spinner-border text-primary" role="status"></div>
         <p class="mt-2 text-muted">Loading...</p>
     </div>
+    
 </div>
+

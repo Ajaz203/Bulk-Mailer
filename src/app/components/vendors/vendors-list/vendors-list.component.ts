@@ -85,9 +85,7 @@ loadVendors(): void {
   this.isLoading = true;
   this.service.getVendorsByUser(this.userId).subscribe({
     next: (res: any) => {
-  console.log('Raw vendors:', res);
   this.vendorList = Array.isArray(res) ? res : [];
-  // log if any null or undefined
   const nullItems = this.vendorList.filter(v => v == null);
   if (nullItems.length > 0) {
     console.warn('Null or undefined vendors in list:', nullItems);
@@ -96,6 +94,7 @@ loadVendors(): void {
 }
 
   });
+
 }
 
 
@@ -240,6 +239,7 @@ get filteredVendorList() {
       this.editModalInstance = new bootstrap.Modal(modalElement);
       this.editModalInstance.show();
     }
+     this.openEditModal();
   }
 
   updateCandidate() {
@@ -274,12 +274,14 @@ get filteredVendorList() {
     this.selectionMode = 'selected';
     const modalElement = document.getElementById('mailModal');
     if (modalElement) new bootstrap.Modal(modalElement).show();
+      this.openMailModal();
   }
 
   handleAllCandidateSend() {
     this.selectionMode = 'all';
     const modalElement = document.getElementById('mailModal');
     if (modalElement) new bootstrap.Modal(modalElement).show();
+      this.openMailModal();
   }
 
   vendorSendMail() {
@@ -430,4 +432,24 @@ get filteredVendorList() {
   backToUsers() {
     this.router.navigate(['/vendors/by-user']);
   }
+
+showMailModal = false;
+showEditModal = false;
+
+openMailModal() {
+  this.showMailModal = true;
+}
+
+closeMailModal() {
+  this.showMailModal = false;
+}
+
+openEditModal() {
+  this.showEditModal = true;
+}
+
+closeEditModal() {
+  this.showEditModal = false;
+}
+  
 }

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rica-admin": {
+    "mailCept-admin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
                 "silenceDeprecations": ["color-functions", "global-builtin", "import", "mixed-decls"]
               }
             },
-            "outputPath": "dist/rica-admin",
+            "outputPath": "dist/mailCept-admin",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "rica-admin:build:production"
+              "buildTarget": "mailCept-admin:build:production"
             },
             "development": {
-              "buildTarget": "rica-admin:build:development"
+              "buildTarget": "mailCept-admin:build:development"
             }
           },
           "defaultConfiguration": "development"
