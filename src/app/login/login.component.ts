@@ -82,17 +82,17 @@ export class LoginComponent {
 
           const token = response.token;
           const role = response.user.role; // Make sure you have role info
-        if (role === 'admin' || role === 'superadmin') {
-  const url = `http://localhost:53575/dashboard` +
-    `?token=${encodeURIComponent(response.token)}` +
-    `&role=${encodeURIComponent(role)}` +
-    `&name=${encodeURIComponent(response.user.name)}` +
-    `&email=${encodeURIComponent(response.user.email)}` +
-    `&userId=${encodeURIComponent(response.user.userId)}` +
-    `&profileImage=${encodeURIComponent(response.user.profilePicture || '')}`;
+          if (role === 'admin' || role === 'superadmin') {
+            const url = `http://142.93.212.196/app2/dashboard` +
+              `?token=${encodeURIComponent(response.token)}` +
+              `&role=${encodeURIComponent(role)}` +
+              `&name=${encodeURIComponent(response.user.name)}` +
+              `&email=${encodeURIComponent(response.user.email)}` +
+              `&userId=${encodeURIComponent(response.user.userId)}` +
+              `&profileImage=${encodeURIComponent(response.user.profilePicture || '')}`;
 
-  window.location.href = url;
-}
+            window.location.href = url;
+          }
 
 
           else {
