@@ -18,11 +18,16 @@ isDarkMode = document.body.classList.contains('dark-only');
     this.modal.close();
   }
 
-  logout(){
-    localStorage.clear();
-    this.modal.close();
-    setTimeout(() => {
-      this.router.navigate(['/auth/login']);
-    }, 300);
-  }
+logout() {
+  localStorage.clear();
+  this.modal.close();
+
+  // Change to your first app's base URL
+  const firstAppUrl = 'http://142.93.212.196:3000/'; 
+
+  setTimeout(() => {
+    window.location.href = firstAppUrl;
+  }, 300);
+}
+
 }

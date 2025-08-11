@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
+  private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
   private apiUrl: string = 'http://142.93.212.196/app2/';
   // private apiUrl: string = 'https://69e1e31cb2a4.ngrok-free.app/';
@@ -21,21 +21,26 @@ export class UserService {
     }
   }
   getBaseUrl(): string {
-  return this.apiUrl;
+    return this.apiUrl;
+  }
+
+  // getUserFromStorage() {
+  //   const user = localStorage.getItem('user');
+  //   return user ? JSON.parse(user) : null;
+  // }
+  getUserFromStorage() {
+  const user = localStorage.getItem('user') || localStorage.getItem('loggedInUser');
+  return user ? JSON.parse(user) : null;
 }
 
-  getUserFromStorage() {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+  broadcastUser(user: any) {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.userSubject.next(user);
   }
-broadcastUser(user: any) {
-  localStorage.setItem('user', JSON.stringify(user));
-  this.userSubject.next(user);        
-}
-clearUser() {
-  localStorage.removeItem('user');
-  this.userSubject.next(null);
-}
+  clearUser() {
+    localStorage.removeItem('user');
+    this.userSubject.next(null);
+  }
 
   private getAuthHeaders(): any {
     const token = localStorage.getItem('token');
@@ -59,21 +64,21 @@ clearUser() {
 
 
 
- setUser(user: any) {
-    localStorage.setItem('user', JSON.stringify(user));     
-    this.userSubject.next(user);     
-    
-                       
+  setUser(user: any) {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.userSubject.next(user);
+
+
   }
-getUser(): Observable<any> {
-  if (!this.userSubject.value) {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      this.userSubject.next(JSON.parse(savedUser));
+  getUser(): Observable<any> {
+    if (!this.userSubject.value) {
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        this.userSubject.next(JSON.parse(savedUser));
+      }
     }
+    return this.userSubject.asObservable();
   }
-  return this.userSubject.asObservable();
-}
 
 
   showToast(type: 'success' | 'error' | 'info' | 'warning', message: string) {
@@ -163,25 +168,25 @@ getUser(): Observable<any> {
   trafficChart(data: any) {
     return this.http.post(this.apiUrl + 'admin/mail-traffic-chart', this.appendUserId(data), this.getAuthHeaders());
   }
-plans(data: any) {
-  return this.http.post<{ message: string }>(
-    this.apiUrl + 'plans',
-    this.appendUserId(data),
-    {
-      ...this.getAuthHeaders(), 
-      responseType: 'json' as const
-    }
-  );
-}
+  plans(data: any) {
+    return this.http.post<{ message: string }>(
+      this.apiUrl + 'plans',
+      this.appendUserId(data),
+      {
+        ...this.getAuthHeaders(),
+        responseType: 'json' as const
+      }
+    );
+  }
 
 
-deletePlan(planId: string) {
-  return this.http.post(this.apiUrl + 'delete-plans', this.appendUserId({ id: planId }), this.getAuthHeaders());
-}
-updatePlan(planId: string, updatedData: any) {
-  const payload = this.appendUserId({ ...updatedData, id: planId });
-  return this.http.post(this.apiUrl + 'update-plan', payload, this.getAuthHeaders());
-}
+  deletePlan(planId: string) {
+    return this.http.post(this.apiUrl + 'delete-plans', this.appendUserId({ id: planId }), this.getAuthHeaders());
+  }
+  updatePlan(planId: string, updatedData: any) {
+    const payload = this.appendUserId({ ...updatedData, id: planId });
+    return this.http.post(this.apiUrl + 'update-plan', payload, this.getAuthHeaders());
+  }
 
 
   getPlans() {
@@ -191,7 +196,7 @@ updatePlan(planId: string, updatedData: any) {
     return this.http.get(this.apiUrl + 'get-all-contacts', this.getAuthHeaders());
   }
 
-/////////////////////////////////////////bulkemailer apis////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////bulkemailer apis////////////////////////////////////////////////////////////////////
 
 
   private refreshTableSubject = new Subject<void>();
@@ -426,11 +431,25 @@ updatePlan(planId: string, updatedData: any) {
   verifySubscription(data: any) {
     return this.postWithUserId('verify-subscription', data);
   }
- createSubscriptionOrder(data: any) {
+  createSubscriptionOrder(data: any) {
     return this.postWithUserId('subscribe', data);
   }
   registerAdmin(data: any) {
     return this.postWithUserId('register-admin', data);
+  }
+  // user.service.ts in second app
+  getProfile() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    return this.http.get('http://localhost:3000/api/me', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe((user: any) => {
+      localStorage.setItem('userId', user.userId.toString());
+      localStorage.setItem('name', user.name);
+      localStorage.setItem('email', user.email);
+      localStorage.setItem('role', user.role);
+    });
   }
 
 }
