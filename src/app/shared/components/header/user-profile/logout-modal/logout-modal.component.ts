@@ -21,9 +21,7 @@ isDarkMode = document.body.classList.contains('dark-only');
 logout() {
   localStorage.clear();
   this.modal.close();
-
-  // Change to your first app's base URL
-  const firstAppUrl = 'http://142.93.212.196:3000/'; 
+  const firstAppUrl = 'http://142.93.212.196/home/'; 
 
   setTimeout(() => {
     window.location.href = firstAppUrl;
