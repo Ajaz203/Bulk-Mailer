@@ -24,7 +24,7 @@ export class LoginComponent {
     private router: Router,
     private service: EmailService,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -64,22 +64,41 @@ export class LoginComponent {
       .subscribe({
         next: (response: any) => {
           this.triggerToast('success', response.message || 'Login successful!');
-          const user = {
-          userId: response.user.userId,
-          name: response.user.name,
-          email: response.user.email
-        };
 
-  
-        localStorage.setItem('loggedInUser', JSON.stringify(user));
+          const user = {
+            userId: response.user.userId,
+            name: response.user.name,
+            email: response.user.email,
+            role: response.user.role  // assuming backend returns role here
+          };
+
+          // Save user info in localStorage
+          localStorage.setItem('loggedInUser', JSON.stringify(user));
           localStorage.setItem('userId', response.user.userId.toString());
           localStorage.setItem('token', response.token);
           localStorage.setItem('name', response.user.name);
           localStorage.setItem('email', response.user.email);
+          localStorage.setItem('role', response.user.role);
 
-          setTimeout(() => {
+          const token = response.token;
+          const role = response.user.role; // Make sure you have role info
+        if (role === 'admin' || role === 'superadmin') {
+  const url = `http://localhost:53575/dashboard` +
+    `?token=${encodeURIComponent(response.token)}` +
+    `&role=${encodeURIComponent(role)}` +
+    `&name=${encodeURIComponent(response.user.name)}` +
+    `&email=${encodeURIComponent(response.user.email)}` +
+    `&userId=${encodeURIComponent(response.user.userId)}` +
+    `&profileImage=${encodeURIComponent(response.user.profilePicture || '')}`;
+
+  window.location.href = url;
+}
+
+
+          else {
             this.router.navigate(['/dashboard']);
-          }, 1000);
+          }
+
         },
         error: (error) => {
           this.triggerToast(
@@ -89,4 +108,5 @@ export class LoginComponent {
         }
       });
   }
+
 }
