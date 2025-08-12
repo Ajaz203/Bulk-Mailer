@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { EmailService } from '../services/bulk-email.service';
 import { finalize } from 'rxjs/operators';
-
+import { environment } from '../../environments/environment.prod';
 
 @Component({
   selector: 'app-login',
@@ -81,9 +81,10 @@ export class LoginComponent {
           localStorage.setItem('role', response.user.role);
 
           const token = response.token;
-          const role = response.user.role; // Make sure you have role info
+          const role = response.user.role;
           if (role === 'admin' || role === 'superadmin') {
-            const url = `http://142.93.212.196/app2/dashboard` +
+            const base = environment.ADMIN_APP_URL.replace(/\/+$/, '');
+            const url = `${base}/dashboard` +
               `?token=${encodeURIComponent(response.token)}` +
               `&role=${encodeURIComponent(role)}` +
               `&name=${encodeURIComponent(response.user.name)}` +
