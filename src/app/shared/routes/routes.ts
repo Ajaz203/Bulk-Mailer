@@ -9,22 +9,7 @@ export const content: Routes = [
     path: 'user',
     loadChildren: () => import('../../components/users/users.routes')
   },
-  {
-    path: 'Subscriptions',
-    loadChildren: () => import('../../components/tour/tour.routes')
-  },
-  {
-    path: 'hotel',
-    loadChildren: () => import('../../components/hotel/hotel.routes')
-  },
-  {
-    path: 'restaurant',
-    loadChildren: () => import('../../components/restaurant/restaurant.routes')
-  },
-  {
-    path: 'cab',
-    loadChildren: () => import('../../components/cab/cab.routes')
-  },
+ 
   {
     path: 'booking',
     loadChildren: () => import('../../components/booking/booking.routes')

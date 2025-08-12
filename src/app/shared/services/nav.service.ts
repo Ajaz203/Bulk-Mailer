@@ -86,7 +86,7 @@ export class NavService {
       icon: 'briefcase',
       type: 'link',
       level: 1,
-      rolesAllowed: [ 'user'],
+      rolesAllowed: [ 'user', 'superadmin'],
       children: [
         { path: '/vendors/upload', title: 'Upload Vendors', type: 'link', level: 2 },
         { path: '/vendors/by-user', title: 'Vendors By User', type: 'link', level: 2 },
@@ -99,7 +99,7 @@ export class NavService {
       icon: 'user-plus',
       type: 'link',
       level: 1,
-      rolesAllowed: [ 'user'],
+      rolesAllowed: [ 'user', 'superadmin'],
       children: [
         { path: '/candidates/upload', title: "Upload Candidate", type: 'link', level: 2 },
         { path: '/candidates/list', title: 'candidates list', type: 'link', level: 2 },
@@ -111,7 +111,7 @@ export class NavService {
       type: 'link',
       level: 1,
       path: '/technology',
-      rolesAllowed: ['user'],
+      rolesAllowed: ['user', 'superadmin'],
      
     },
       {
@@ -119,7 +119,7 @@ export class NavService {
       icon: 'mail',
       type: 'link',
       level: 1,
-      rolesAllowed: [ 'user'],
+      rolesAllowed: [ 'user','superadmin'],
       children: [
         { path: '/mails/all-mails', title: 'All Mails', type: 'link', level: 2 },
         { path: '/mails/drafts', title: "All Drafts", type: 'link', level: 2 },

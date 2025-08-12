@@ -20,7 +20,12 @@
           "options": {
             "stylePreprocessorOptions": {
               "sass": {
-                "silenceDeprecations": ["color-functions", "global-builtin", "import", "mixed-decls"]
+                "silenceDeprecations": [
+                  "color-functions",
+                  "global-builtin",
+                  "import",
+                  "mixed-decls"
+                ]
               }
             },
             "outputPath": "dist/mailCept-admin",
@@ -39,7 +44,6 @@
               }
             ],
             "styles": [
-            
               "src/styles.scss"
             ],
             "scripts": []
@@ -64,6 +68,24 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "app2": {
+              "baseHref": "/app2/",
+              "deployUrl": "/app2/",
+              "outputPath": "dist/mailCept-admin-app2",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "5MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
+                }
+              ],
+              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"
@@ -99,7 +121,6 @@
               }
             ],
             "styles": [
-          
               "src/styles.scss"
             ],
             "scripts": []
