@@ -11,8 +11,8 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  private apiUrl: string = 'https://ec686f82651f.ngrok-free.app/';
-  // private apiUrl: string = 'http://142.93.212.196:3000/';
+  // private apiUrl: string = 'https://ec686f82651f.ngrok-free.app/';
+  private apiUrl: string = 'https://admin.mailcept.net/app2';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');

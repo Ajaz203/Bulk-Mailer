@@ -1,1 +1,214 @@
-<p>candidate-list works!</p>
+<div class="row">
+    <div class="card">
+        <div class="card-header  card-header--2">
+            <div>
+                <h5>Candidate Bulk List - ({{ dataArr.length }})</h5>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 mt-3 gap-2">
+
+            <div>
+                <button class="btn btn-outline-secondary me-2" (click)="backToUsers()">← Back</button>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+
+
+                <button class="btn btn-outline-secondary" (click)="handleSelectCandidateSend()">
+                    <i class="bi bi-send"></i> Selected Candidates
+                </button>
+                <button class="btn btn-success" (click)="handleAllCandidateSend()">
+                    <i class="bi bi-send"></i> All Candidates
+                </button>
+            </div>
+        </div>
+
+
+        <div class="position-relative search-wrapper mb-2">
+            <input type="text" class="form-control form-control-sm ps-4 pe-5 rounded-pill"
+                placeholder="Search candidates..." [(ngModel)]="searchQuery" style="height: 40px;" />
+
+            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+            <button *ngIf="searchQuery" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
+                (click)="searchQuery = ''" style="background: transparent;">
+                <i class="bi bi-x-circle-fill text-muted"></i>
+            </button>
+        </div>
+        <div class="table-container" style="max-height: 400px;max-width: 1200px; overflow-y: auto;">
+            <div class="card-body ">
+                <div class="table-responsive table-desi">
+                    <table class="user-table table table-striped">
+                        <thead class="sticky-top">
+                            <tr>
+                                <th><input type="checkbox" (change)="toggleSelectAll($event)"
+                                        [checked]="isAllSelected()" />
+                                </th>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact No.</th>
+                                <th>Work Status</th>
+                                <th>Location</th>
+                                <th>Technology</th>
+                                <th>Experience</th>
+                                <th>Skills</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let c of filteredCandidates; let i = index">
+                                <td>
+                                    <input type="checkbox" [checked]="selectedCandidates.has(c)"
+                                        (change)="toggleSelection(c)" />
+                                </td>
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ c.name }}</td>
+                                <td>{{ c.email}}</td>
+                                <td>{{ c.contact_no || 'NA' }}</td>
+                                <td>{{ c.visa || 'NA' }}</td>
+                                <td>{{ c.location || 'NA' }}</td>
+                                <td>{{ c.technology || 'NA' }}</td>
+                                <td>{{ c.experience || 'NA' }}</td>
+                                <td>
+                                    <span *ngIf="c.skills?.length > 0; else noSkill">
+                                        {{ c.skills.join(', ') }}
+                                    </span>
+                                    <ng-template #noSkill>NA</ng-template>
+                                </td>
+                                <td>{{ c.createdAt | date: 'yyyy-MM-dd' }}</td>
+
+                                <td>
+                                    <a href="javascript:void(0)" (click)="editCandidate(c)" class=" me-3">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" (click)="deleteCandidate(c.id)">
+                                        <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="filteredCandidates.length === 0">
+                                <td colspan="12" class="text-center text-muted py-4">
+                                    <i class="bi bi-person-x fs-4 me-2"></i> No Candidates Found
+                                </td>
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- Modal Wrapper with backdrop -->
+<div class="modal-backdrop-custom" *ngIf="showMailModal">
+    <div class="modal-body-custom">
+        <h5 class="modal-title mb-3">Send Mail</h5>
+        <button type="button" class="btn-close" (click)="closeMailModal()"
+            style="position: absolute; top: 1rem; right: 1rem;"></button>
+
+        <!-- Your existing modal content here -->
+        <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
+            <label class="form-label-title">Schedule:</label>
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
+                style="max-width:160px" />
+            <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
+                style="max-width:120px" />
+        </div>
+
+        <label class="form-label-title">Subject</label>
+        <div class="mb-3">
+            <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
+        </div>
+
+        <label class="form-label-title">Description</label>
+        <div class="NgxEditor__Wrapper mb-4">
+
+            <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+            <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary me-3" (click)="saveAsDraft()" [disabled]="isLoading">Save as
+                Draft</button>
+            <button class="btn btn-success d-flex align-items-center" (click)="sendMail()" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                <span *ngIf="!isLoading">Send</span>
+                <span *ngIf="isLoading">Sending...</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Edit Modal -->
+<div class="modal-backdrop-custom" *ngIf="showEditModal">
+    <div class="modal-body-custom">
+        <h5 class="modal-title">Edit Candidate</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"
+            style="position: absolute; top: 1rem; right: 1rem;"></button>
+
+
+        <div class="mb-3">
+            <label>Name:</label>
+            <input [(ngModel)]="selectedCandidate.name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Email:</label>
+            <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Contact No:</label>
+            <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Experience:</label>
+            <input [(ngModel)]="selectedCandidate.experience" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Work Status:</label>
+            <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Location:</label>
+            <input [(ngModel)]="selectedCandidate.location" class="form-control" />
+        </div>
+        <!-- <div class="col-md-6">
+            <label class="fw-bold">Alternate Contact No:</label>
+            <input [(ngModel)]="selectedCandidate.alt_contact_no" class="form-control" />
+          </div> -->
+
+        <div class="col-md-6">
+            <label>Technology:</label>
+            <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
+        </div>
+
+        <div class="col-md-6">
+            <label>Skills:</label>
+            <input [(ngModel)]="selectedCandidate.skillsString" class="form-control"
+                placeholder="e.g. Angular, Node, Java" />
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+            <button class="btn btn-success" (click)="updateCandidate()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Loading -->
+<div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-muted">Loading...</p>
+</div>
