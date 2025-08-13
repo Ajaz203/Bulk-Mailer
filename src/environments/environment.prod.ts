@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  MAIN_APP_URL: 'http://142.93.212.196',
-  ADMIN_APP_URL: 'http://142.93.212.196/app2'
+  MAIN_APP_URL: 'https://api.mailcept.net',
+  ADMIN_APP_URL: 'https://admin.mailcept.net/app2'
 };

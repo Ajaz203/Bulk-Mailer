@@ -13,8 +13,8 @@ export class EmailService {
     private router: Router
   ) { }
 
-  url: string = 'http://142.93.212.196:3000/';
-  // url: string = 'https://69e1e31cb2a4.ngrok-free.app/';
+  url: string = 'https://api.mailcept.net';
+  // url: string = 'https://ec686f82651f.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'

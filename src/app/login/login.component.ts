@@ -69,10 +69,8 @@ export class LoginComponent {
             userId: response.user.userId,
             name: response.user.name,
             email: response.user.email,
-            role: response.user.role  // assuming backend returns role here
+            role: response.user.role 
           };
-
-          // Save user info in localStorage
           localStorage.setItem('loggedInUser', JSON.stringify(user));
           localStorage.setItem('userId', response.user.userId.toString());
           localStorage.setItem('token', response.token);
