@@ -90,7 +90,7 @@ export class NavService {
       children: [
         { path: '/vendors/upload', title: 'Upload Vendors', type: 'link', level: 2 },
         { path: '/vendors/by-user', title: 'Vendors By User', type: 'link', level: 2 },
-        { path: '/vendors/list', title: "Vendors List", type: 'link', level: 2 },
+        // { path: '/vendors/list', title: "Vendors List", type: 'link', level: 2 },
        
       ],
     },
@@ -119,7 +119,7 @@ export class NavService {
       icon: 'mail',
       type: 'link',
       level: 1,
-      rolesAllowed: [ 'user','superadmin'],
+      rolesAllowed: [ 'user', 'superadmin'],
       children: [
         { path: '/mails/all-mails', title: 'All Mails', type: 'link', level: 2 },
         { path: '/mails/drafts', title: "All Drafts", type: 'link', level: 2 },

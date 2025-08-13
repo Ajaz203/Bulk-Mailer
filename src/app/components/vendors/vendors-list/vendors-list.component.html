@@ -1,19 +1,18 @@
 <div class="container" style="max-width: 1200px;">
+
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
             <h5 class="fw-semibold">Vendor List - {{ selectedUser?.name || ('User #' + userId) }}</h5>
-            <small class="text-muted">{{ selectedUser?.email || '' }}</small>
+            <small class="fw-semibold">{{ selectedUser?.email || '' }}</small>
         </div>
-        <div>
-            <button class="btn btn-outline-secondary me-2" (click)="backToUsers()">← Back</button>
-        </div>
+
     </div>
 
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    
         <div>
-            <strong>All Vendors - ({{ filteredVendorList.length }})</strong>
+            <button class="btn btn-outline-secondary me-2" (click)="backToUsers()">← Back</button>
         </div>
-
         <div class="d-flex flex-wrap gap-2">
             <button *ngIf="showDeleteCandidate" class="btn btn-danger" (click)="clickAllDelete()">
                 <i class="bi bi-trash3"></i> Delete Candidates
@@ -28,6 +27,9 @@
         </div>
     </div>
 
+    <div class="mb-3">
+    <strong>All Vendors - ({{ filteredVendorList.length }})</strong>
+</div>
     <div class="d-flex align-items-center gap-2 position-relative mb-2">
         <input type="text" class="form-control ps-4 pe-5 rounded-pill" placeholder="Search vendor by email..."
             [(ngModel)]="searchTermVendor" />
@@ -39,123 +41,124 @@
     </div>
     <div class="table-container" style="max-height: 400px; overflow-y: auto;" infinite-scroll
         [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="300" [scrollWindow]="false" (scrolled)="onScroll()">
-        <div class="table-responsive table-desi">
-            <table class="user-table table table-striped">
-                <thead class="sticky-top">
-                    <tr>
-                        <th><input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
-                        </th>
-                        <th>S.No</th>
-                        <th>Email</th>
-                        <th >Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        *ngFor="let vendor of filteredVendorList.slice(0, displayLimit); let i = index; trackBy: trackByVendorId">
-                        <td>
-                            <input type="checkbox" [checked]="selectedCandidates.has(vendor)"
-                                (change)="toggleSelection(vendor)" />
-                        </td>
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ vendor?.email || 'No Email' }}</td>
+        <div class="card-body">
+            <div class="table-responsive table-desi">
+                <table class="user-table table table-striped">
+                    <thead class="sticky-top">
+                        <tr>
+                            <th><input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
+                            </th>
+                            <th>S.No</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let vendor of filteredVendorList.slice(0, displayLimit); let i = index; trackBy: trackByVendorId">
+                            <td>
+                                <input type="checkbox" [checked]="selectedCandidates.has(vendor)"
+                                    (change)="toggleSelection(vendor)" />
+                            </td>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ vendor?.email || 'No Email' }}</td>
 
-                        <td>
-                            <a href="javascript:void(0)" (click)="editCandidate(vendor)" class=" me-3">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </a>
-                            <a href="javascript:void(0)" (click)="deleteCandidate(vendor.id)">
-                                <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                    </tr>
+                            <td>
+                                <a href="javascript:void(0)" (click)="editCandidate(vendor)" class=" me-3">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" (click)="deleteCandidate(vendor.id)">
+                                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
 
-                    <tr *ngIf="!filteredVendorList.length">
-                        <td colspan="4" class="text-center text-muted py-3">
-                            <i class="bi bi-x-circle me-2"></i> No vendors found.
-                        </td>
-                    </tr>
-                </tbody>
+                        <tr *ngIf="!filteredVendorList.length">
+                            <td colspan="4" class="text-center text-muted py-3">
+                                <i class="bi bi-x-circle me-2"></i> No vendors found.
+                            </td>
+                        </tr>
+                    </tbody>
 
 
-            </table>
+                </table>
+            </div>
         </div>
         <div *ngIf="isLoadingMore" class="custom-loader text-center my-3">
             <div class="spinner-border text-primary" role="status"></div>
             <p>Loading more vendors...</p>
         </div>
     </div>
+</div>
 
 
-    <!-- Modal Wrapper with backdrop -->
-    <div class="modal-backdrop-custom" *ngIf="showMailModal">
-        <div class="modal-body-custom">
-            <h5 class="modal-title">Send Mail</h5>
-            <button type="button" class="btn-close" (click)="closeMailModal()"
-                style="position: absolute; top: 1rem; right: 1rem;"></button>
+<!-- Modal Wrapper with backdrop -->
+<div class="modal-backdrop-custom" *ngIf="showMailModal">
+    <div class="modal-body-custom">
+        <h5 class="modal-title mb-3">Send Mail</h5>
+        <button type="button" class="btn-close" (click)="closeMailModal()"
+            style="position: absolute; top: 1rem; right: 1rem;"></button>
 
-            <!-- Your existing modal content here -->
-            <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
-                <label class="fw-medium mb-0">Schedule:</label>
-                <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
-                    style="max-width:160px" />
-                <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
-                    style="max-width:120px" />
-            </div>
+        <!-- Your existing modal content here -->
+        <div class="d-flex align-items-center gap-3 flex-nowrap mb-3">
+            <label class="form-label-title">Schedule:</label>
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="scheduleDate"
+                style="max-width:160px" />
+            <input type="time" class="form-control form-control-sm" [(ngModel)]="scheduleTime"
+                style="max-width:120px" />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label fw-medium">Subject</label>
-                <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
-            </div>
+        <label class="form-label-title">Subject</label>
+        <div class="mb-3">
+            <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
+        </div>
+
+        <label class="form-label-title">Description</label>
+        <div class="NgxEditor__Wrapper mb-4">
+
+            <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+            <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
+        </div>
 
 
-            <div class="mb-4">
-                <label class="form-label fw-medium mb-2">Description</label>
-                <ngx-editor-menu [editor]="editor" class="bg-light p-2 border text-dark rounded"></ngx-editor-menu>
-                <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
-            </div>
-
-
-            <div class="modal-footer">
-                <button class="btn btn-secondary me-3" (click)="saveAsDraft()" [disabled]="isLoading">Save as Draft</button>
-                <button class="btn btn-success d-flex align-items-center" (click)="vendorSendMail()"
-                    [disabled]="isLoading">
-                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
-                        aria-hidden="true"></span>
-                    <span *ngIf="!isLoading">Send</span>
-                    <span *ngIf="isLoading">Sending...</span>
-                </button>
-            </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary me-3" (click)="saveAsDraft()" [disabled]="isLoading">Save as
+                Draft</button>
+            <button class="btn btn-success d-flex align-items-center" (click)="vendorSendMail()" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                <span *ngIf="!isLoading">Send</span>
+                <span *ngIf="isLoading">Sending...</span>
+            </button>
         </div>
     </div>
+</div>
 
 
 
-    <!-- Edit Modal -->
-    <div class="modal-backdrop-custom" *ngIf="showEditModal">
-        <div class="modal-body-custom">
-            <h5 class="modal-title">Edit Vendor</h5>
-            <button type="button" class="btn-close" (click)="closeEditModal()"
-                style="position: absolute; top: 1rem; right: 1rem;"></button>
+<!-- Edit Modal -->
+<div class="modal-backdrop-custom" *ngIf="showEditModal">
+    <div class="modal-body-custom">
+        <h5 class="modal-title">Edit Vendor</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"
+            style="position: absolute; top: 1rem; right: 1rem;"></button>
 
 
-            <div class="mb-3">
-                <label class="form-label fw-bold">Email:</label>
-                <input [(ngModel)]="selectedCandidate.email" class="form-control" />
-            </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Email:</label>
+            <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+        </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
-                <button class="btn btn-success" (click)="updateCandidate()">Save Changes</button>
-            </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+            <button class="btn btn-success" (click)="updateCandidate()">Save Changes</button>
         </div>
     </div>
+</div>
 
 
-    <!-- Loading -->
-    <div *ngIf="isLoading" class="text-center py-5">
-        <div class="spinner-border text-primary" role="status"></div>
-        <p class="mt-2 text-muted">Loading...</p>
-    </div>
-
+<!-- Loading -->
+<div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-muted">Loading...</p>
 </div>

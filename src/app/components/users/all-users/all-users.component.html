@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="card">
-      <div class="card-header  card-header--2">
+      <div class="card-header  all-user-card card-header--2">
         <div>
           <h5>Users by Admin</h5>
         </div>
@@ -15,65 +15,67 @@
 
 
       <div class="card-body">
-        <div class="table-responsive table-desi">
-          <table class="user-table table table-striped">
-            <thead>
-              <tr>
-                <!-- <th>S No</th> -->
-                <th>Users</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Active</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let details of paginatedUsers | search: searchText; let i = index">
-                <!-- <td>{{ i + 1 }}</td> -->
-                <td class="d-flex align-items-center gap-2">
-                  <div
-                    class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-                    style="width: 48px; height: 48px">{{ getInitials(details.name) }}</div>
-                </td>
-                <td>
-                  <a href="javascript:void(0)">
-                    <span class="d-block">{{ details.name }}</span>
-                    <span>{{ details.subTitle }}</span>
-                  </a>
-                </td>
-                <td>{{ details.email }}</td>
-                <td>
-                  <span class="status-circless" [ngClass]="details.isActive ? 'active-circless' : 'inactive-circless'"
-                    title="{{ details.isActive ? 'Active' : 'Inactive' }}">
-                  </span>
-                </td>
+        <div>
+          <div class="table-responsive table-desi">
+            <table class="user-table table table-striped">
+              <thead>
+                <tr>
+                  <!-- <th>S No</th> -->
+                  <th>Users</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Active</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let details of paginatedUsers | search: searchText; let i = index">
+                  <!-- <td>{{ i + 1 }}</td> -->
+                  <td class="d-flex align-items-center gap-2">
+                    <div
+                      class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+                      style="width: 48px; height: 48px">{{ getInitials(details.name) }}</div>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)">
+                      <span class="d-block">{{ details.name }}</span>
+                      <span>{{ details.subTitle }}</span>
+                    </a>
+                  </td>
+                  <td>{{ details.email }}</td>
+                  <td>
+                    <span class="status-circless" [ngClass]="details.isActive ? 'active-circless' : 'inactive-circless'"
+                      title="{{ details.isActive ? 'Active' : 'Inactive' }}">
+                    </span>
+                  </td>
 
 
 
-                <td>
-                  <span class="badge" [ngClass]="{
+                  <td>
+                    <span class="badge" [ngClass]="{
                    'bg-primary': details.role === 'admin',
                    'bg-success': details.role === 'user'
                     }">
-                    {{ details.role | titlecase  }}
-                  </span>
-                </td>
+                      {{ details.role | titlecase }}
+                    </span>
+                  </td>
 
-                <td>
-                  <label class="switch">
-                    <input type="checkbox" [checked]="details.isActive" (change)="toggleActive(details)">
-                    <span class="slider round"></span>
-                  </label>
-                </td>
-                <td>
-                  <a href="javascript:void(0)" (click)="openEditPopup(details)"><i class="fa fa-pencil-square-o"
-                      aria-hidden="true"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td>
+                    <label class="switch">
+                      <input type="checkbox" [checked]="details.isActive" (change)="toggleActive(details)">
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)" (click)="openEditPopup(details)"><i class="fa fa-pencil-square-o"
+                        aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

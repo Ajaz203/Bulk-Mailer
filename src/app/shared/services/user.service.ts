@@ -11,8 +11,8 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  private apiUrl: string = 'http://142.93.212.196/app2/';
-  // private apiUrl: string = 'https://69e1e31cb2a4.ngrok-free.app/';
+  private apiUrl: string = 'https://ec686f82651f.ngrok-free.app/';
+  // private apiUrl: string = 'http://142.93.212.196:3000/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -205,7 +205,7 @@ export class UserService {
 
 
   // url: string = 'http://142.93.212.196:3000/';
-  url: string = 'https://69e1e31cb2a4.ngrok-free.app/';
+  // url: string = 'https://69e1e31cb2a4.ngrok-free.app/';
 
   header: any = {
     'ngrok-skip-browser-warning': 'true'
@@ -239,14 +239,14 @@ export class UserService {
       userName: userName || ''
     };
 
-    return this.http.post(this.url + endpoint, payload, { headers: this.header });
+    return this.http.post(this.apiUrl + endpoint, payload, { headers: this.header });
   }
 
 
 
   getWithUserId(endpoint: string, params: any = {}) {
     const updatedParams = { ...params, userId: this.getUserId() };
-    return this.http.get<any[]>(this.url + endpoint, {
+    return this.http.get<any[]>(this.apiUrl + endpoint, {
       headers: this.header,
       params: updatedParams
     });
@@ -258,7 +258,7 @@ export class UserService {
 
 
   getCategory() {
-    return this.http.get(this.url + 'category', { headers: this.header });
+    return this.http.get(this.apiUrl + 'category', { headers: this.header });
   }
 
   addCategory(data: any) {
@@ -286,7 +286,7 @@ export class UserService {
   //   return this.postWithUserId('candidateMassUpload', data);
   // }
   bulkUpload(payload: any[]) {
-    return this.http.post(this.url + 'candidateMassUpload', payload, {
+    return this.http.post(this.apiUrl + 'candidateMassUpload', payload, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'true'
@@ -311,7 +311,7 @@ export class UserService {
 
 
   venorUpload(payload: any[]) {
-    return this.http.post(this.url + 'vendorMassUpload', payload, {
+    return this.http.post(this.apiUrl + 'vendorMassUpload', payload, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'true'
@@ -324,7 +324,7 @@ export class UserService {
 
   getVendors(userId: string) {
     const payload = { userId };
-    return this.http.post(this.url + 'getVendors', payload, { headers: this.header });
+    return this.http.post(this.apiUrl + 'getVendors', payload, { headers: this.header });
   }
 
   vendorUpdate(id: string, data: any) {
@@ -344,11 +344,11 @@ export class UserService {
   }
 
   loginUser(data: any) {
-    return this.http.post(this.url + 'login', data, { headers: this.header });
+    return this.http.post(this.apiUrl + 'login', data, { headers: this.header });
   }
 
   forgotPassword(data: any) {
-    return this.http.post(this.url + 'forgot-password', data, { headers: this.header });
+    return this.http.post(this.apiUrl + 'forgot-password', data, { headers: this.header });
   }
 
 
@@ -372,10 +372,10 @@ export class UserService {
   getDrafts(targetType: string) {
     const userId = this.getUserId();
     const payload = { targetType, userId };
-    return this.http.post<any[]>(this.url + 'getDrafts', payload, { headers: this.header });
+    return this.http.post<any[]>(this.apiUrl + 'getDrafts', payload, { headers: this.header });
   }
   uploadProfileImage(data: FormData) {
-    return this.http.post(this.url + 'updateProfile', data, {
+    return this.http.post(this.apiUrl + 'updateProfile', data, {
       headers: new HttpHeaders({
         'ngrok-skip-browser-warning': 'true'
 
@@ -394,7 +394,7 @@ export class UserService {
 
 
   getDashboardStats(userId: string) {
-    return this.http.post(this.url + 'dashboard-summary', { userId }, {
+    return this.http.post(this.apiUrl + 'dashboard-summary', { userId }, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'true'
@@ -402,7 +402,7 @@ export class UserService {
     });
   }
   getVendorsByUser(userId: number) {
-    return this.http.post(this.url + 'getVendorsByUser', { userId }, {
+    return this.http.post(this.apiUrl + 'getVendorsByUser', { userId }, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'true'
@@ -410,7 +410,7 @@ export class UserService {
     });
   }
   getUsersWithVendors(params: any) {
-    return this.http.get<any[]>(this.url + 'getUsersWithVendors', {
+    return this.http.get<any[]>(this.apiUrl + 'getUsersWithVendors', {
       headers: this.header,
       params: params
     });
