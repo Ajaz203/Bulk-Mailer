@@ -13,7 +13,7 @@ export class EmailService {
     private router: Router
   ) { }
 
-  url: string = 'https://api.mailcept.net';
+  url: string = 'https://api.mailcept.net/';
   // url: string = 'https://ec686f82651f.ngrok-free.app/';
 
   header: any = {
