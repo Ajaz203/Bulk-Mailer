@@ -1,5 +1,6 @@
-.table-responsive {
-  overflow-x: auto;
+.card .card-body {
+     padding: 0px 0px; 
+    background-color: transparent;
 }
 
 .custom-switch {
@@ -51,26 +52,8 @@
   left: 50px;
 }
 
-/* Container */
-.mail-container {
-  padding: 10px;
-  max-width: 1200px;
-  margin: auto;
-}
 
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
 
-.header h2 {
-  color: Black;
-
-}
 
 /* Search Bar */
 .search-bar input {
@@ -93,32 +76,11 @@
 .card {
   background-color: #fff;
   border-radius: 12px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Table */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
 
-.table th,
-.table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #eaeaea;
-}
-
-.table th {
-  background-color: #f6f9fc;
-  color: #333;
-  font-weight: 600;
-}
-
-.table tbody tr:hover {
-  background-color: #f9f9f9;
-  cursor: pointer;
-}
 
 /* Badge */
 .badge {
@@ -129,38 +91,8 @@
   font-weight: 500;
 }
 
-.badge-success {
-  background-color: #28a745;
-}
 
-.text-center {
-  text-align: center;
-  padding: 12px;
-  color: #888;
-}
 
-input.form-control:focus {
-  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.3);
-}
-
-.bi-search {
-  pointer-events: none;
-  font-size: 0.9rem;
-}
-
-button .bi-x-circle-fill {
-  font-size: 1rem;
-}
-
-button:hover .bi-x-circle-fill {
-  color: #000;
-  cursor: pointer;
-}
-
-.table th {
-  font-weight: 500;
-  font-size: 1rem;
-}
 
 
 

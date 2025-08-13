@@ -1,131 +1,134 @@
-<div class="container px-2" style="max-width: 1200px;">
-  <div class="mail-container container-fluid px-0">
-    <!-- Header Row -->
-    <div class="row g-3 align-items-center">
-      <div class="col-12 col-md-4">
-        <h5 class="mb-0">
-          <i class="bi bi-send-fill text-success me-2"></i> Sent Mails
-        </h5>
-      </div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="mail-container container-fluid px-0">
+        <!-- Header Row -->
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-4">
+            
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>All Mails</h5>
+               
+            </div>
+          </div>
 
-      <div class="col-12 col-md-5">
-        <div class="position-relative">
-          <input type="text" class="form-control ps-4 pe-5 rounded-pill w-100"
-            placeholder="Search by subject or email..." [(ngModel)]="searchText" />
-          <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
-          <button *ngIf="searchText" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
-            (click)="searchText = ''" style="background: transparent;" aria-label="Clear search">
-            <i class="bi bi-x-circle-fill text-muted"></i>
-          </button>
+          <div class="col-12 col-md-5">
+            <div class="position-relative">
+              <input type="text" class="form-control ps-4 pe-5 rounded-pill w-100"
+                placeholder="Search by subject or email..." [(ngModel)]="searchText" />
+              <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+              <button *ngIf="searchText" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
+                (click)="searchText = ''" style="background: transparent;" aria-label="Clear search">
+                <i class="bi bi-x-circle-fill text-muted"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3 d-flex justify-content-md-end justify-content-start align-items-center gap-2">
+            <span class="label small">Candidate</span>
+            <div class="switch-container">
+              <input type="checkbox" id="switch" [checked]="targetType === 'vendor'"
+                (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
+              <label for="switch">
+                <span class="circle"></span>
+              </label>
+            </div>
+            <span class="label small">Vendor</span>
+
+          </div>
         </div>
       </div>
+      <div class="table-responsive table-desi" style="max-height: 400px; overflow-y: auto;">
+        <div class="card shadow-sm">
+          <div class="d-flex justify-content-end gap-2 mb-3">
+            <button class="btn btn-outline-success btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'success' }"
+              (click)="filterByStatus('success')">
+              Success Mails
+            </button>
 
-      <div class="col-12 col-md-3 d-flex justify-content-md-end justify-content-start align-items-center gap-2">
-        <span class="label small">Candidate</span>
-        <div class="switch-container">
-          <input type="checkbox" id="switch" [checked]="targetType === 'vendor'"
-            (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
-          <label for="switch">
-            <span class="circle"></span>
-          </label>
-        </div>
-        <span class="label small">Vendor</span>
+            <button class="btn btn-outline-secondary btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'failed' }"
+              (click)="filterByStatus('failed')">
+              Failed Mails
+            </button>
 
-      </div>
-    </div>
-  </div>
-  <div class="table-container" style="max-height: 400px; overflow-y: auto;">
-    <div class="card shadow-sm mt-4">
-      <div class="d-flex justify-content-end mb-3 gap-2">
-        <button class="btn btn-outline-success btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'success' }"
-          (click)="filterByStatus('success')">
-          Success Mails
-        </button>
-
-        <button class="btn btn-outline-danger btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'failed' }"
-          (click)="filterByStatus('failed')">
-          Failed Mails
-        </button>
-
-        <button class="btn btn-outline-secondary btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'all' }"
-          (click)="resetFilter()">
-          All Mails
-        </button>
-      </div>
+            <button class="btn btn-outline-danger btn-sm" [ngClass]="{ 'active': currentStatusFilter === 'all' }"
+              (click)="resetFilter()">
+              All Mails
+            </button>
+          </div>
 
 
 
-      <div class="card-body">
-        <div *ngIf="!isLoading">
-          <div class="table-responsive table-desi">
-            <table class="user-table table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">S.No</th>
-                  <th scope="col">Recipient</th>
-                  <th scope="col">Subject</th>
-                  <th scope="col">Sent Date</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let mail of getFilteredPaginatedMails(); let i = index">
-
-
-
-                  <td>{{ (page - 1) * pageSize + i + 1 }}</td>
-                  <td>{{ mail.email }}</td>
-                  <td>{{ mail.mailSubject }}</td>
-                  <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
-                  <td>
-                    <span class="badge" [ngClass]="{
+          <div class="card-body">
+            <div *ngIf="!isLoading">
+              <div class="table-responsive table-desi">
+                <table class="user-table table table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Recipient</th>
+                      <th>Subject</th>
+                      <th>Sent Date</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let mail of getFilteredPaginatedMails(); let i = index">
+                      <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+                      <td>{{ mail.email }}</td>
+                      <td>{{ mail.mailSubject }}</td>
+                      <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
+                      <td>
+                        <span class="badge" [ngClass]="{
               'bg-primary': mail.targetType === 'candidate',
-              'bg-secondary': mail.targetType === 'vendor'
+              'bg-info': mail.targetType === 'vendor'
             }">
-                      {{ mail.targetType }}
-                    </span>
-                  </td>
-                  <td>
-                    <span class="badge" [ngClass]="{
+                          {{ mail.targetType }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge" [ngClass]="{
               'bg-success': mail.status === 'success',
               'bg-warning': mail.status === 'pending',
-              'bg-danger': mail.status === 'failed'
+              'bg-secondary': mail.status === 'failed'
             }">
-                      {{ mail.status }}
-                    </span>
-                  </td>
-                </tr>
-                <tr *ngIf="sentMails.length === 0">
-                  <td colspan="6" class="text-center text-muted py-4">
-                    <i class="bi bi-send-fill text-success"></i> No Sent Mails Found
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                          {{ mail.status }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr *ngIf="sentMails.length === 0">
+                      <td colspan="6" class="text-center text-muted py-4">
+                        <i class="bi bi-send-fill text-success"></i> No Sent Mails Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
-            <!-- Pagination -->
-            <nav class="mt-3 d-flex justify-content-center" *ngIf="totalRecords > pageSize">
-              <ngb-pagination [collectionSize]="filteredMailCount" [(page)]="page" [pageSize]="pageSize"
-                (pageChange)="page = $event" [boundaryLinks]="true" [maxSize]="5" size="sm" class="mb-0">
-              </ngb-pagination>
+                <!-- Pagination -->
+                <nav class="mt-3 d-flex justify-content-center" *ngIf="totalRecords > pageSize">
+                  <ngb-pagination [collectionSize]="filteredMailCount" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="page = $event" [boundaryLinks]="true" [maxSize]="5" size="sm" class="mb-0">
+                  </ngb-pagination>
 
-            </nav>
+                </nav>
 
+
+              </div>
+            </div>
 
           </div>
         </div>
 
+
       </div>
+
     </div>
-
-
   </div>
-
-
-  <div *ngIf="isLoading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2 text-muted">Loading sent mails...</p>
+</div>
+<div *ngIf="isLoading" class="text-center py-5">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
+  <p class="mt-2 text-muted">Loading sent mails...</p>
+</div>

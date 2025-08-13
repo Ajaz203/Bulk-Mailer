@@ -10,8 +10,12 @@
     <div class="card">
       <div class="drafts-container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5>📑 Saved Drafts</h5>
 
+          <div class="card-header  card-header--2">
+            <div>
+              <h5>Saved Drafts</h5>
+            </div>
+          </div>
           <div class="custom-switch">
             <span class="label">Candidate</span>
 
@@ -76,15 +80,15 @@
                       {{ stripHtmlTags(draft.mailBody) || 'No Body Content' }}
                     </div>
                   </td>
-
-                  <td>
-                    <button class="btn btn-sm" (click)="editDraft(draft)">
-                      <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button class="btn btn-sm" (click)="deleteDraft(draft)">
-                      <i class="bi bi-trash3 text-danger"></i>
-                    </button>
-                  </td>
+  <td>
+                                <a href="javascript:void(0)" (click)="editDraft(draft)" class=" me-3">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" (click)="deleteDraft(draft)">
+                                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                </a>
+                            </td>
+              
                   <td>
                     <span class="badge" [ngClass]="{
                     'bg-primary': draft.targetType === 'candidate',
@@ -161,6 +165,5 @@
         </div>
       </div>
     </div>
-    </div>
-    </div>
-    
+  </div>
+</div>
