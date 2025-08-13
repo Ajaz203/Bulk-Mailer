@@ -21,7 +21,7 @@ isDarkMode = document.body.classList.contains('dark-only');
 logout() {
   localStorage.clear();
   this.modal.close();
-  const firstAppUrl = 'http://142.93.212.196/home/'; 
+  const firstAppUrl = 'https://mailcept.net/home'; 
 
   setTimeout(() => {
     window.location.href = firstAppUrl;

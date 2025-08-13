@@ -12,77 +12,49 @@
   <!-- Single Upload Form -->
   <div *ngIf="activeTab === 'single'" class="card p-4">
     <h2>Single Candidate Upload</h2>
-  <form #manualForm="ngForm" class="single-upload-card" (ngSubmit)="save(manualForm)">
+    <form #manualForm="ngForm" class="single-upload-card" (ngSubmit)="save(manualForm)">
 
-  <!-- Name -->
-  <div class="form-row">
-    <label>Name</label>
-    <input
-      type="text"
-      [(ngModel)]="candidate.name"
-      name="name"
-      #name="ngModel"
-      placeholder="Name"
-      [ngClass]="{ 'invalid-input': name.invalid && name.touched, 'valid-input': name.valid && name.touched }"
-    />
-  </div>
+      <!-- Name -->
+      <div class="form-row">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="candidate.name" name="name" #name="ngModel" placeholder="Name"
+          [ngClass]="{ 'invalid-input': name.invalid && name.touched, 'valid-input': name.valid && name.touched }" />
+      </div>
 
-  <!-- Email -->
-  <div class="form-row">
-    <label>Email <span style="color: red;"> *</span></label>
-    <input
-      type="email"
-      [(ngModel)]="candidate.email"
-      name="email"
-      #email="ngModel"
-      required
-      email
-      placeholder="Email"
-      [ngClass]="{ 'invalid-input': email.invalid && email.touched, 'valid-input': email.valid && email.touched }"
-    />
-  </div>
+      <!-- Email -->
+      <div class="form-row">
+        <label>Email <span style="color: red;"> *</span></label>
+        <input type="email" [(ngModel)]="candidate.email" name="email" #email="ngModel" required email
+          placeholder="Email"
+          [ngClass]="{ 'invalid-input': email.invalid && email.touched, 'valid-input': email.valid && email.touched }" />
+      </div>
 
-  <!-- Contact No -->
-<div class="form-row">
-  <label>Contact No </label>
-  <input
-    type="text"
-    [(ngModel)]="candidate.contact_no"
-    name="contactNo"
-    #contactNo="ngModel"
-    maxlength="15"
-    placeholder="Contact No"
-    (keypress)="allowOnlyNumbers($event)"
-    (paste)="handlePaste($event)"
-    [ngClass]="{
+      <!-- Contact No -->
+      <div class="form-row">
+        <label>Contact No </label>
+        <input type="text" [(ngModel)]="candidate.contact_no" name="contactNo" #contactNo="ngModel" maxlength="15"
+          placeholder="Contact No" (keypress)="allowOnlyNumbers($event)" (paste)="handlePaste($event)" [ngClass]="{
       'invalid-input': contactNo.invalid && contactNo.touched,
       'valid-input': contactNo.valid && contactNo.touched
-    }"
-  />
-</div>
+    }" />
+      </div>
 
-<!-- visa type -->
-<div class="form-row">
-  <label>Work Status</label>
+      <!-- visa type -->
+      <div class="form-row">
+        <label>Work Status</label>
 
-  <select
-    [(ngModel)]="candidate.visa"
-    name="visa"
-    #visa="ngModel"
-    [ngClass]="{
+        <select [(ngModel)]="candidate.visa" name="visa" #visa="ngModel" [ngClass]="{
       'invalid-input': visa.invalid && visa.touched,
       'valid-input': visa.valid && visa.touched,
       'placeholder-selected': candidate.visa === ''
-    }"
-    class="form-select"
-  >
-    <option value="" disabled selected hidden>Select work status</option>
-    <option *ngFor="let visa of visaOptions" [value]="visa">{{ visa }}</option>
-  </select>
-</div>
+    }" class="form-select">
+          <option value="" disabled selected hidden>Select work status</option>
+          <option *ngFor="let visa of visaOptions" [value]="visa">{{ visa }}</option>
+        </select>
+      </div>
 
-  <!-- Alternate Contact No -->
-  <!-- <div class="form-row">
+      <!-- Alternate Contact No -->
+      <!-- <div class="form-row">
   <label>Alternate Contact No.</label>
   <input
     type="text"
@@ -92,151 +64,125 @@
   />
 </div> -->
 
-<!-- location -->
-  <div class="form-row">
-  <label>Location</label>
-  <input
-    type="text"
-    [(ngModel)]="candidate.location"
-    name="alternateContactNo"
-    placeholder="Location"
-  />
-</div>
+      <!-- location -->
+      <div class="form-row">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="candidate.location" name="alternateContactNo" placeholder="Location" />
+      </div>
 
 
-  <!-- Category -->
-<div class="form-row">
-  <label>Technology</label>
+      <!-- Category -->
+      <div class="form-row">
+        <label>Technology</label>
 
-  <select
-    [(ngModel)]="candidate.technology"
-    name="technology"
-    #category="ngModel"
-    [ngClass]="{
+        <select [(ngModel)]="candidate.technology" name="technology" #category="ngModel" [ngClass]="{
       'invalid-input': category.invalid && category.touched,
       'valid-input': category.valid && category.touched,
       'placeholder-selected': candidate.technology === ''
-    }"
-    class="form-select"
-  >
-    <option value="" disabled selected hidden>Select a technology</option>
-    <option value="NA">NA</option>
-    <option *ngFor="let item of dropDownArr" [value]="item.name">
-      {{ item.name }}
-    </option>
-  </select>
-</div>
-<div class="form-row">
-  <label>Experience (in years)</label>
-  <input
-    type="number"
-    [(ngModel)]="candidate.experience"
-    name="experience"
-    #experience="ngModel"
-    min="0"
-    max="50"
-    placeholder="Years of Experience"
-    [ngClass]="{
+    }" class="form-select">
+          <option value="" disabled selected hidden>Select a technology</option>
+          <option value="NA">NA</option>
+          <option *ngFor="let item of dropDownArr" [value]="item.name">
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Experience (in years)</label>
+        <input type="number" [(ngModel)]="candidate.experience" name="experience" #experience="ngModel" min="0" max="50"
+          placeholder="Years of Experience" [ngClass]="{
       'invalid-input': experience.invalid && experience.touched,
       'valid-input': experience.valid && experience.touched
-    }"
-  />
-</div>
-  <!-- Skills -->
-  <div class="mb-3">
-    <div class="input-fields">
-      <label class="form-label mt-3">Add Skills</label>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          id="skillInput"
-          class="form-control"
-          placeholder="Add Skills"
-          [(ngModel)]="skill"
-          (keyup.enter)="addSkill()"
-          name="skillInput"
-        />
-        <button class="btn btn-outline-success" type="button" (click)="addSkill()">+</button>
+    }" />
       </div>
-    </div>
+      <!-- Skills -->
+      <div class="mb-3">
+        <div class="input-fields">
+          <label class="form-label mt-3">Add Skills</label>
+          <div class="input-group mb-3">
+            <input type="text" id="skillInput" class="form-control" placeholder="Add Skills" [(ngModel)]="skill"
+              (keyup.enter)="addSkill()" name="skillInput" />
+            <button class="btn btn-outline-success" type="button" (click)="addSkill()">+</button>
+          </div>
+        </div>
 
-    <div class="input-fields">
-      <div id="skillTags" class="tag-container d-flex flex-wrap">
-        <div
-          *ngFor="let sk of skills; let i = index"
-          class="badge bg-light m-1 px-3 py-2 rounded-pill d-flex align-items-center"
-        >
-          {{ sk }}
-          <span class="ms-2 text-success" style="cursor: pointer" (click)="removeSkill(i)">x</span>
+        <div class="input-fields">
+          <div id="skillTags" class="tag-container d-flex flex-wrap">
+            <div *ngFor="let sk of skills; let i = index"
+              class="badge bg-light m-1 px-3 py-2 rounded-pill d-flex align-items-center">
+              {{ sk }}
+              <span class="ms-2 text-success" style="cursor: pointer" (click)="removeSkill(i)">x</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Actions -->
-  <div class="form-actions">
-    <button class="btn btn-outline-secondary" type="button" (click)="reset(manualForm)">Reset</button>
-    <button class="btn btn-success" type="submit" [disabled]="manualForm.invalid">Save</button>
-  </div>
-</form>
+      <!-- Actions -->
+      <div class="form-actions">
+        <button class="btn btn-outline-secondary" type="button" (click)="reset(manualForm)">Reset</button>
+        <button class="btn btn-success" type="submit" [disabled]="manualForm.invalid">Save</button>
+      </div>
+    </form>
   </div>
 
   <!-- Bulk Upload -->
   <div *ngIf="activeTab === 'bulk'" class="card p-4">
-   <div class="bulk-upload-card">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">candidate Bulk Data Upload</h2>
-    <button class="btn btn-success" (click)="downloadMassTemplate()">
-      <i class="bi bi-download"></i>
-    </button>
+    <div class="bulk-upload-card">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">candidate Bulk Data Upload</h2>
+        <button class="btn btn-success" (click)="downloadMassTemplate()">
+          <i class="bi bi-download"></i>
+        </button>
 
-  </div>
+      </div>
 
 
-  <div class="upload-box" (click)="fileInput.click()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
-    <div class="upload-box-content">
+      <div class="upload-box" (click)="fileInput.click()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+        <div class="upload-box-content">
 
-      <i class="bi bi-cloud-upload"></i><br />
-      <p>
-        <strong>Drag & drop files or
-          <span class="browse-text" (click)="triggerFileUpload($event)">Browse</span>
-        </strong>
-      </p>
-      <!-- <p><strong>Drag & drop files or <span class="browse-text">Browse</span></strong></p> -->
-      <p class="format-text">Supported formats: Excel</p>
-      <input type="file" #fileInput (change)="onFileChange($event)" accept=".xlsx, .xls" hidden />
+          <i class="bi bi-cloud-upload"></i><br />
+          <p>
+            <strong>Drag & drop files or
+              <span class="browse-text" (click)="triggerFileUpload($event)">Browse</span>
+            </strong>
+          </p>
+          <!-- <p><strong>Drag & drop files or <span class="browse-text">Browse</span></strong></p> -->
+          <p class="format-text">Supported formats: Excel</p>
+          <input type="file" #fileInput (change)="onFileChange($event)" accept=".xlsx, .xls" hidden />
+        </div>
+
+      </div>
+
+      @if(fileName){
+      <div class="input-group mb-3 file-preview">
+        <span class="form-control">{{ fileName }}</span>
+
+        <span class="input-group-text text-success">
+          &#10003;
+        </span>
+
+        <button class="btn btn-outline-secondary" type="button" (click)="removeFile()">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+
+      }
+      @else{
+      <div class="file-preview">
+        <span>File details here.</span>
+      </div>
+      }
+
+
+      <div class="action-buttons">
+        <button class="btn btn-outline-secondary" (click)="removeFile()">Reset</button>
+        <button class="btn btn-success" (click)="uploadFile()" [disabled]="!fileName || isUploading">
+          <span *ngIf="isUploading" class="spinner-border spinner-border-sm me-2"></span>
+          {{ isUploading ? 'Uploading...' : 'Upload File' }}
+        </button>
+
+      </div>
+
     </div>
-
-  </div>
-
-  @if(fileName){
-  <div class="input-group mb-3 file-preview">
-    <span class="form-control">{{ fileName }}</span>
-
-    <span class="input-group-text text-success">
-      &#10003;
-    </span>
-
-    <button class="btn btn-outline-secondary" type="button" (click)="removeFile()">
-      <i class="bi bi-trash"></i>
-    </button>
-  </div>
-
-  }
-  @else{
-  <div class="file-preview">
-    <span>File details here.</span>
-  </div>
-  }
-
-
-  <div class="action-buttons">
-    <button class="btn btn-outline-secondary" (click)="removeFile()">Reset</button>
-  <button class="btn btn-success" (click)="uploadFile()" [disabled]="!fileName || isUploading">
-  <span *ngIf="isUploading" class="spinner-border spinner-border-sm me-2"></span>
-  {{ isUploading ? 'Uploading...' : 'Upload File' }}
-</button>
-
-
   </div>
 </div>
