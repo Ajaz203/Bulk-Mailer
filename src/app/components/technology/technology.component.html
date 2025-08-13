@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+
+
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>Technology List</h5>
+                <button class="btn btn-success" (click)="showForm = true">
+                    <i class="bi bi-plus-circle"></i> Add Technology
+                </button>
+            </div>
+
+
+            <div class="card-body">
+                <div class="table-responsive table-desi">
+                    <table class="user-table table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">S.No</th>
+                                <th scope="col">Technology Name</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Updated At</th>
+                                <th scope="col">Updated By</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of getDataArr; let i = index">
+                                <th scope="row">{{ i + 1 }}</th>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.createdAt | date: 'yyyy-MM-dd' }}</td>
+                                <td>{{ item.updatedAt | date: 'yyyy-MM-dd' }}</td>
+
+                                <td>{{ item.updated_by_name }}</td>
+
+    
+
+                                  <td>
+                                <a href="javascript:void(0)" (click)="editCategory(item)" class=" me-3">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                <a href="javascript:void(0)" (click)="deleteCategory(item)">
+                                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            </tr>
+
+                            <!-- No Data Found -->
+                            <tr *ngIf="getDataArr.length === 0">
+                                <td colspan="6" class="text-center text-muted">No Technology available.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="popup-form" *ngIf="showForm">
+                <div class="popup-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>Add Technology</h4>
+                        <button class="btn-close" (click)="showForm = false"></button>
+                    </div>
+                    <form (ngSubmit)="submitForm()" #categoryForm="ngForm">
+                        <div class="mb-3">
+                            <label class="form-label">Technology Name</label>
+                            <input type="text" class="form-control" name="name" [(ngModel)]="newCategory.name" required
+                                placeholder="Enter category name" />
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary me-2" (click)="showForm = false">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success" [disabled]="categoryForm.invalid">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="popup-form" *ngIf="showEditForm">
+                <div class="popup-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>Edit Category</h4>
+                        <button class="btn-close" (click)="closeEditForm()"></button>
+                    </div>
+                    <form (ngSubmit)="updateCategory()" #editForm="ngForm">
+                        <div class="mb-3">
+                            <label class="form-label">Technology Name</label>
+                            <input type="text" class="form-control" name="name" [(ngModel)]="selectedCategory.name"
+                                required placeholder="Enter category name" />
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary me-2" (click)="closeEditForm()">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success" [disabled]="editForm.invalid">
+                                Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,11 +1,316 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { UserService } from '../../../shared/services/user.service';
+import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+// import { NgxPaginationModule } from 'ngx-pagination';
+import { Toolbar } from 'ngx-editor';
+import { NgxEditorModule, Editor } from 'ngx-editor';
+declare var bootstrap: any;
+
 
 @Component({
   selector: 'app-drafts',
-  imports: [],
+  imports: [CommonModule, RouterModule, FormsModule, NgxEditorModule,],
   templateUrl: './drafts.component.html',
   styleUrl: './drafts.component.scss'
 })
 export class DraftsComponent {
+
+  draftList: any[] = [];
+  isLoading = false;
+  dataArr: any = [];
+  mailSubject = '';
+  mailBody = '';
+  scheduleDate = '';
+  scheduleTime = '';
+  schedulePeriod = '';
+  editingDraftId: string = '';
+  selectedCandidates = new Set<string>();
+  selectionMode = 'selected';
+  targetType: 'candidate' | 'vendor' = 'candidate';
+  searchTerm = '';
+  filteredDraftList: any[] = [];
+  currentPage = 1;
+  itemsPerPage = 10;
+  isVendor = false;
+  editor!: Editor;
+  allDrafts: any[] = [];
+
+
+
+  constructor(private service: UserService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.editor = new Editor();
+    this.getDraftData();
+  }
+  ngOnDestroy(): void {
+    this.editor?.destroy();
+  }
+  stripHtmlTags(html: string): string {
+    return html ? html.replace(/<[^>]+>/g, '') : '';
+  }
+
+
+  toggleTargetType() {
+    this.targetType = this.isVendor ? 'vendor' : 'candidate';
+    this.getDraftData();
+  }
+
+  getDraftData() {
+    this.isLoading = true;
+    this.service.getDrafts(this.targetType).subscribe({
+      next: (res) => {
+        this.allDrafts = (res as any[]) || [];
+        this.switchTargetType(this.targetType);
+      },
+      error: (err) => {
+        console.error('Error fetching drafts:', err);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+
+  editDraft(draft: any) {
+    this.targetType = draft.targetType || this.targetType || 'candidate';
+
+    this.editingDraftId = draft.id || draft._id;
+    this.mailSubject = draft.mailSubject || '';
+    this.mailBody = draft.mailBody || '';
+    this.scheduleDate = draft.date || '';
+    this.schedulePeriod = draft.period || 'AM';
+
+    if (draft.time && draft.period) {
+      this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
+    } else {
+      this.scheduleTime = '';
+      this.schedulePeriod = '';
+    }
+
+    this.selectedCandidates = new Set(draft.emails || []);
+    this.selectionMode = 'selected';
+
+    const modalElement = document.getElementById('mailModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+
+  saveAsDraft() {
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((c: { email: any }) => c.email)
+      : Array.from(this.selectedCandidates);
+
+    const isScheduled = this.scheduleDate && this.scheduleTime;
+
+    const payload: any = {
+      mailSubject: this.mailSubject,
+      emails: selectedEmails,
+      mailBody: this.mailBody,
+      type: 'draft',
+      targetType: this.targetType
+    };
+    if (this.editingDraftId) {
+      payload.id = this.editingDraftId;
+    }
+    if (isScheduled) {
+      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
+    }
+
+    console.log('Save Draft Payload:', payload);
+
+    this.isLoading = true;
+
+    const apiCall = this.targetType === 'vendor'
+      ? this.service.vendorSendMail(payload)
+      : this.service.sendMail(payload);
+
+    apiCall.subscribe({
+      next: () => {
+        Swal.fire('Saved!', 'Draft saved successfully!', 'success');
+        this.closeModal();
+        this.getDraftData();
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to save draft.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  sendMail() {
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((c: { email: any }) => c.email)
+      : Array.from(this.selectedCandidates);
+
+    if (selectedEmails.length === 0) {
+      Swal.fire('Error', 'No recipients selected.', 'error');
+      return;
+    }
+
+    if (!this.mailSubject || !this.mailBody) {
+      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+      return;
+    }
+
+    const isScheduled = this.scheduleDate && this.scheduleTime;
+
+    const payload: any = {
+      id: this.editingDraftId,
+      mailSubject: this.mailSubject,
+      emails: selectedEmails,
+      mailBody: this.mailBody,
+      type: isScheduled ? 'scheduled' : 'immediate',
+      targetType: this.targetType
+    };
+
+    if (isScheduled) {
+      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
+    }
+
+    console.log('Send Mail Payload:', payload);
+
+    this.isLoading = true;
+
+    const apiCall = this.targetType === 'vendor'
+      ? this.service.vendorSendMail(payload)
+      : this.service.sendMail(payload);
+
+    apiCall.subscribe({
+      next: () => {
+        Swal.fire('Success', 'Mail sent successfully!', 'success');
+
+        if (this.editingDraftId) {
+          this.draftList = this.draftList.filter(
+            (d) => d.id !== this.editingDraftId && d._id !== this.editingDraftId
+          );
+          this.getDraftData();
+        }
+
+        this.editingDraftId = '';
+        this.closeModal();
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to send mail.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+
+  deleteDraft(draft: any) {
+    const draftId = draft.id || draft._id;
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this draft?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const payload = {
+          id: draftId,
+          targetType: draft.targetType || this.targetType
+        };
+
+        this.isLoading = true;
+
+        this.service.deleteDraft(payload).subscribe({
+          next: () => {
+            Swal.fire('Deleted!', 'Draft has been deleted.', 'success');
+            this.draftList = this.draftList.filter(
+              (d) => d.id !== draftId && d._id !== draftId
+            );
+          },
+          error: (err) => {
+            console.error(err);
+            Swal.fire('Error', 'Failed to delete draft.', 'error');
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
+        });
+      }
+    });
+  }
+
+
+  convertTo24Hour(time12: string, period: string): string {
+    let [hours, minutes] = time12.split(':').map(Number);
+    if (period === 'PM' && hours < 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  }
+
+  convertTo12HourWithPeriod(time24: string): { time: string, period: string } {
+    const [hourStr, minute] = time24.split(':');
+    let hours = parseInt(hourStr, 10);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
+    return {
+      time: `${hours}:${minute.padStart(2, '0')}`,
+      period
+    };
+  }
+
+  closeModal() {
+    const modalElement = document.getElementById('mailModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    if (modal) modal.hide();
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) backdrop.remove();
+  }
+
+  refreshDrafts() {
+    this.isLoading = true;
+    this.getDraftData();
+  }
+  switchTargetType(type: 'candidate' | 'vendor') {
+    this.targetType = type;
+    this.currentPage = 1;
+    this.filterDrafts();
+  }
+
+
+  filterDrafts() {
+    this.draftList = this.allDrafts.filter(
+      (draft) => (draft.targetType || 'candidate') === this.targetType
+    );
+  }
+
+
+
+  get filteredDrafts() {
+    if (!this.searchTerm) {
+      return this.draftList;
+    }
+    const term = this.searchTerm.toLowerCase();
+    return this.draftList.filter(
+      (item) =>
+        (item.mailSubject || '').toLowerCase().includes(term) ||
+        (item.mailBody || '').toLowerCase().includes(term) ||
+        (item.emails?.join(', ') || '').toLowerCase().includes(term)
+    );
+  }
 
 }

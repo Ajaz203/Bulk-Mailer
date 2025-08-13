@@ -1,0 +1,166 @@
+.table-responsive {
+  overflow-x: auto;
+}
+
+.custom-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-switch .label {
+  font-weight: 700;
+  font-size: 16px;
+  color: #3c3c3c;
+}
+
+.switch-container {
+  position: relative;
+
+}
+
+.switch-container input {
+  display: none;
+}
+
+.switch-container label {
+  display: block;
+  width: 70px;
+  height: 12px;
+  background-color: #e6e6e6;
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.switch-container .circle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: #43a047;
+  /* Green */
+  border-radius: 50%;
+  transition: left 0.3s;
+}
+
+.switch-container input:checked+label .circle {
+  left: 50px;
+}
+
+/* Container */
+.mail-container {
+  padding: 10px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.header h2 {
+  color: Black;
+
+}
+
+/* Search Bar */
+.search-bar input {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 280px;
+  transition: 0.3s;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #00457c;
+  box-shadow: 0 0 4px rgba(0, 69, 124, 0.4);
+}
+
+
+
+/* Card */
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.table th {
+  background-color: #f6f9fc;
+  color: #333;
+  font-weight: 600;
+}
+
+.table tbody tr:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+/* Badge */
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.badge-success {
+  background-color: #28a745;
+}
+
+.text-center {
+  text-align: center;
+  padding: 12px;
+  color: #888;
+}
+
+input.form-control:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.3);
+}
+
+.bi-search {
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+button .bi-x-circle-fill {
+  font-size: 1rem;
+}
+
+button:hover .bi-x-circle-fill {
+  color: #000;
+  cursor: pointer;
+}
+
+.table th {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+
+

@@ -343,9 +343,9 @@ export class UserService {
     return this.postWithUserId('register', data);
   }
 
-  loginUser(data: any) {
-    return this.http.post(this.apiUrl + 'login', data, { headers: this.header });
-  }
+  // loginUser(data: any) {
+  //   return this.http.post(this.apiUrl + 'login', data, { headers: this.header });
+  // }
 
   forgotPassword(data: any) {
     return this.http.post(this.apiUrl + 'forgot-password', data, { headers: this.header });
