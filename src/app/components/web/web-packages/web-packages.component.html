@@ -1,0 +1,133 @@
+<app-web-header></app-web-header>
+
+<div class="page-title-area"
+  style="background-image: url('https://www.domino-printing.com/image-library/industries/DP-Industries/Industries-DP-banner-publications-printer.x6d8def1e.jpg?f=webp');">
+  <div class="container stylish-title">
+    <div class="page-title-content text-center">
+      <span class="sub-title">Stay Connected</span>
+      <h1 class="mt-3 mb-2">E-mail <span class="highlight">Subscriptions</span></h1>
+      <div class="underline"></div>
+      <p class="subtitle-text">Subscribe to receive updates, offers, and insights directly to your inbox.</p>
+    </div>
+  </div>
+</div>
+
+
+<section style="background-color: #f5f9ff; padding: 60px 0;">
+  <div class="container text-center">
+    <div class="row pricing-row">
+
+      <div class="col-lg-3 col-md-6 d-flex align-items-stretch" *ngFor="let plan of plans">
+        <div class="pricing-card w-100 d-flex flex-column justify-content-between"
+          [ngClass]="{ 'recommended-card': plan.name === 'Pro' }">
+
+          <div>
+            <div class="recommended-ribbon" *ngIf="plan.name === 'Pro'">★ Recommended</div>
+
+            <div class="plan-badge-wrapper">
+              <div class="plan-badge" [ngClass]="{
+                'pro-badge': plan.name === 'Pro',
+                'standard-badge': plan.name === 'Standard',
+                'basic-badge': plan.name === 'Basic'
+              }">
+                <i class="bi bi-star-fill me-1" *ngIf="plan.name === 'Pro'"></i>
+                {{ plan.name }}
+              </div>
+            </div>
+
+            <h2 class="price">₹{{ plan.price }}</h2>
+
+            <p class="text-muted">Billed once — Valid for {{ plan.validity }} days</p>
+
+            <ul class="features">
+              <li><strong>Users:</strong> Up to {{ plan.maxUsers }}</li>
+              <li><strong>Daily Emails:</strong> {{ plan.dailyMailLimit }}</li>
+              <li><strong>Type:</strong> {{ plan.isCustom ? 'Customizable Plan' : 'Standard Package' }}</li>
+              <li *ngIf="plan.name === 'Basic'">Ideal for individuals or small teams</li>
+              <li *ngIf="plan.name === 'Standard'">Great for growing teams & startups</li>
+              <li *ngIf="plan.name === 'Pro'">Perfect for enterprises & high-volume senders</li>
+              <li><strong>Priority Support:</strong> {{ plan.name === 'Pro' ? '24/7' : 'Email Only' }}</li>
+            </ul>
+          </div>
+          <button class="btn-plan mt-auto" (click)="selectPlan(plan)">Get this plan</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<app-web-footer></app-web-footer>
+
+
+<div class="modal fade show d-block custom-modal" tabindex="-1" *ngIf="showUserModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal-content">
+
+      <div class="modal-accent-bar"></div>
+      <div class="modal-body p-4">
+        <div class="text-center mb-4">
+          <h4 class="fw-bold text-success mb-1">Get Started</h4>
+          <p class="text-muted small mb-0">Just a few details before we launch the payment</p>
+        </div>
+
+        <form [formGroup]="userForm" (ngSubmit)="onUserSubmit()">
+          <div class="mb-3">
+            <label class="form-label text-dark fw-semibold">Full Name</label>
+            <input type="text" class="form-control custom-input" formControlName="name" placeholder="John Doe" />
+            <small *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid" class="text-danger">
+              Name is required.
+            </small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-dark fw-semibold">Email Address</label>
+            <input type="email" class="form-control custom-input" formControlName="email"
+              placeholder="example@mail.com" />
+            <small *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']"
+              class="text-danger">
+              Email is required.
+            </small>
+            <small *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['email']"
+              class="text-danger">
+              Enter a valid email.
+            </small>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label text-dark fw-semibold">Create Password</label>
+            <input type="password" class="form-control custom-input" formControlName="password"
+              placeholder="Minimum 6 characters" />
+            <small *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['required']"
+              class="text-danger">
+              Password is required.
+            </small>
+            <small *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['minlength']"
+              class="text-danger">
+              Password must be at least 6 characters.
+            </small>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" (click)="showUserModal = false">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-success px-4 rounded-pill">
+              Continue
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<app-confirmation-popup   [show]="showPopup"
+  [message]="popupMessage"
+  [type]="popupType"
+  (closed)="onPopupClose()"></app-confirmation-popup>

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from "./shared/components/ui/loader/loader.component";
 import { UserService } from './shared/services/user.service';
-import { Router } from '@angular/router';
+import { Router,NavigationEnd  } from '@angular/router';
+import { filter } from 'rxjs/operators';
 @Component({
     selector: 'app-root',
     imports: [RouterOutlet, LoaderComponent],
@@ -35,6 +36,13 @@ ngOnInit() {
     // Navigate to dashboard
     this.router.navigate(['/dashboard']);
   }
+ this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      });
+  
+  
 }
 
 }

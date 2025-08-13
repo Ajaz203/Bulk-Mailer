@@ -1,0 +1,25 @@
+<div class="popup-overlay" *ngIf="show">
+  <div class="popup-content" [ngClass]="type">
+    <div class="popup-icon">
+      <ng-container [ngSwitch]="type">
+        <span *ngSwitchCase="'success'">✅</span>
+        <span *ngSwitchCase="'error'">❌</span>
+        <span *ngSwitchCase="'info'">ℹ️</span>
+      </ng-container>
+    </div>
+    <h2 class="popup-title">
+      <ng-container [ngSwitch]="type">
+        <span *ngSwitchCase="'success'">Success!</span>
+        <span *ngSwitchCase="'error'">Oops! Something went wrong.</span>
+        <span *ngSwitchCase="'info'">Heads Up!</span>
+      </ng-container>
+    </h2>
+    <p class="popup-message">{{ message }}</p>
+
+    <p *ngIf="type === 'success'">
+      You’ll be redirected to login in <strong>{{ countdown }}</strong> seconds...
+    </p>
+
+    <button class="close-btn" (click)="onClose()">Close Now</button>
+  </div>
+</div>

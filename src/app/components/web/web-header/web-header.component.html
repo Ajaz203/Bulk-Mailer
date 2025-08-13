@@ -1,0 +1,36 @@
+<header class="navbar">
+  <div class="container">
+    <div class="logo" routerLink="/dashboard">
+        <img src="assets/images/Asset 6.png" alt="Logo" class="idmx-logo"  width="120">
+      </div>
+    <!-- Logo -->
+    <!-- <div class="logo">
+      <a routerLink="/">Mailcept</a>
+    </div> -->
+    <!-- Toggle Button (visible on mobile) -->
+    <div class="menu-toggle" (click)="toggleMobileMenu()">
+      &#9776;
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="menu" [ngClass]="{ 'active': isMobileMenuActive }">
+      <ul class="nav-list">
+        <li>
+          <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </li>
+        <li>
+          <a routerLink="/about-us" routerLinkActive="active">About Us</a>
+        </li>
+        <li>
+          <a routerLink="/packages" routerLinkActive="active">Package</a>
+        </li>
+        <li>
+          <a routerLink="/contact-us" routerLinkActive="active">Contact Us</a>
+        </li>
+        <li>
+          <button class="btn btn-success login-btn" routerLink="/auth/login" routerLinkActive="active">Login</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

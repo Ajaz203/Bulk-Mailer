@@ -1,0 +1,141 @@
+
+.navbar {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+}
+
+.container {
+  max-width: 1300px;
+  margin: auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+
+.menu {
+  display: flex;
+  gap: 20px;
+}
+
+.menu ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.menu ul li a:hover {
+  color: #5ab745;
+}
+
+/* Toggle Button for Mobile */
+.menu-toggle {
+  font-size: 26px;
+  cursor: pointer;
+  display: none;
+}
+
+/* Mobile Styles */
+@media (max-width: 992px) {
+  .menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+
+  .menu.active {
+    display: flex;
+  }
+
+  .menu ul {
+    flex-direction: column;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+
+/* Reset list style */
+ul, .nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* List items inline with spacing */
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+/* Navigation list as flex */
+.nav-list {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Navigation links */
+.nav-list li a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-list li a:hover {
+  color: #5ab745;
+}
+
+
+.login-btn {
+  padding: 8px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 4px;
+  color: white;
+  background-color:  #5ab745;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #218838;
+  color: white;
+}
+.nav-list a.active,
+.login-btn.active {
+  color: #5ab745 !important;
+  font-weight: bold;
+  /* border-bottom: 2px solid #5ab745; */
+}
