@@ -147,8 +147,8 @@ button:hover .bi-x-circle-fill {
 
 /* Modal box styling */
 .modal-body-custom {
-  // background: #262932;
   background: white;
+  // background: #262932;
   border-radius: 6px;
   max-width: 800px;
   width: 90%;
@@ -158,4 +158,11 @@ button:hover .bi-x-circle-fill {
   box-shadow: 0 0 20px rgba(0,0,0,0.3);
   position: relative;
   z-index: 1060;
+}
+.switch-container {
+  position: relative;
+}
+
+.switch-container input {
+  display: none;
 }
