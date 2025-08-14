@@ -9,9 +9,9 @@
   <div class="col-sm-12">
     <div class="card">
       <div class="drafts-container">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="card-header">
 
-          <div class="card-header  card-header--2">
             <div>
               <h5>Saved Drafts</h5>
             </div>
@@ -80,15 +80,15 @@
                       {{ stripHtmlTags(draft.mailBody) || 'No Body Content' }}
                     </div>
                   </td>
-  <td>
-                                <a href="javascript:void(0)" (click)="editDraft(draft)" class=" me-3">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                                <a href="javascript:void(0)" (click)="deleteDraft(draft)">
-                                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                                </a>
-                            </td>
-              
+                  <td>
+                    <a href="javascript:void(0)" (click)="editDraft(draft)" class=" me-3">
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a href="javascript:void(0)" (click)="deleteDraft(draft)">
+                      <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                    </a>
+                  </td>
+
                   <td>
                     <span class="badge" [ngClass]="{
                     'bg-primary': draft.targetType === 'candidate',
@@ -118,16 +118,17 @@
 
       </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="mailModal" tabindex="-1">
-      <div class="modal-dialog modal-lg">
+
+    <div class="modal-backdrop-custom" *ngIf="showMailModal">
+        <div class="modal-body-custom">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">
               {{ editingDraftId ? 'Edit Draft' : 'Send Mail' }} - {{ targetType | titlecase }}
             </h5>
 
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+           <button type="button" class="btn-close" (click)="closeMailModal()"
+            style="position: absolute; top: 0rem; right: 1rem;"></button>
           </div>
           <div class="modal-body">
 
@@ -147,18 +148,20 @@
             <div class="mb-4">
               <label class="form-label fw-medium mb-2">Description</label>
 
-              <ngx-editor-menu [editor]="editor" class="bg-light p-2 border"></ngx-editor-menu>
-              <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email...">
-              </ngx-editor>
+                <div class="NgxEditor__Wrapper mb-4">
+
+            <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+            <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
+        </div>
 
             </div>
 
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" (click)="saveAsDraft()">
+            <button class="btn btn-danger me-3" (click)="saveAsDraft()">
               <i class="bi bi-save"></i> Save as Draft
             </button>
-            <button class="btn btn-success" (click)="sendMail()">
+            <button class="btn btn-primary" (click)="sendMail()">
               <i class="bi bi-send"></i> Send
             </button>
           </div>

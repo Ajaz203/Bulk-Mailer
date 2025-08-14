@@ -34,7 +34,11 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
+.custom-switch .label {
+  font-weight: 700;
+  font-size: 16px;
+  color: #666565;
+}
 .switch-container .circle {
   position: absolute;
   top: 50%;

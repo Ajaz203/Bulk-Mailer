@@ -139,7 +139,7 @@ navigate(): void {
     this.fileName = '';
   }
   async downloadMassTemplate() {
-    window.location.assign('../asset/bulkEmailerTemplate.xlsx');
+    window.location.assign('assets/images/bulkEmailerTemplate.xlsx');
   }
   removeFile() {
     this.fileName = '';

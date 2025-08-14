@@ -6,7 +6,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { WebHeaderComponent } from '../web-header/web-header.component';
 import { WebFooterComponent } from '../web-footer/web-footer.component';
-
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-contact-us',
@@ -15,6 +15,7 @@ import { WebFooterComponent } from '../web-footer/web-footer.component';
   styleUrl: './contact-us.component.scss'
 })
 export class ContactUsComponent {
+  isDarkMode = document.body.classList.contains('dark-only'); 
   contactForm!: FormGroup;
 countryCodes = [
   { key: 'IN', name: 'India', dialCode: '+91' },
@@ -129,6 +130,27 @@ get messages() {
 get termsCheckbox() {
   return this.contactForm.get('termsCheckbox');
 }
+
+showTermsModal = false;
+showPrivacyModal = false;
+
+openTermsModal() {
+  this.showTermsModal = true;
+}
+closeTermsModal() {
+  this.showTermsModal = false;
+}
+
+openPrivacyModal() {
+  this.showPrivacyModal = true;
+}
+closePrivacyModal() {
+  this.showPrivacyModal = false;
+}
+
+
+
+
 }
 
 

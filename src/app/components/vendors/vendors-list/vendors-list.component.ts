@@ -331,45 +331,57 @@ get filteredVendorList() {
     });
   }
 
-  saveAsDraft() {
-    const selectedEmails = this.selectionMode === 'all'
-      ? this.vendorList.map((v: any) => v.email)
-      : Array.from(this.selectedCandidates).map((v: any) => v.email);
-
-    const payload: any = {
-      mailSubject: this.mailSubject || '',
-      emails: selectedEmails || [],
-      mailBody: this.mailBody || '',
-      type: 'draft'
-    };
-
-    const isScheduled = this.scheduleDate && this.scheduleTime;
-    if (isScheduled) {
-      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
-      payload.date = this.scheduleDate;
-      payload.time = time;
-      payload.period = period;
-    }
-
-    this.isLoading = true;
-    this.service.vendorSendMail(payload).subscribe({
-      next: () => {
-        Swal.fire('Saved!', 'Draft saved successfully!', 'success');
-        this.resetMailModal();
-        const modalEl = document.getElementById('mailModal');
-        if (modalEl) {
-          const m = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-          m.hide();
-        }
-        this.getDraftData();
-      },
-      error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'Failed to save draft.', 'error');
-      },
-      complete: () => this.isLoading = false
-    });
+saveAsDraft() {
+  const storedUser = localStorage.getItem('user');
+  if (!storedUser) {
+    Swal.fire('Error', 'User information not found. Please log in again.', 'error');
+    return;
   }
+
+  const currentUser = JSON.parse(storedUser);
+
+  const selectedEmails = this.selectionMode === 'all'
+    ? this.vendorList.map((v: any) => v.email)
+    : Array.from(this.selectedCandidates).map((v: any) => v.email);
+
+  const payload: any = {
+    mailSubject: this.mailSubject || '',
+    emails: selectedEmails || [],
+    mailBody: this.mailBody || '',
+    type: 'draft',
+    userEmail: currentUser.email,
+    userName: currentUser.name,
+    userId: currentUser.userId
+  };
+
+  const isScheduled = this.scheduleDate && this.scheduleTime;
+  if (isScheduled) {
+    const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+    payload.date = this.scheduleDate;
+    payload.time = time;
+    payload.period = period;
+  }
+
+  this.isLoading = true;
+  this.service.vendorSendMail(payload).subscribe({
+    next: () => {
+      Swal.fire('Saved!', 'Draft saved successfully!', 'success');
+      this.resetMailModal();
+      const modalEl = document.getElementById('mailModal');
+      if (modalEl) {
+        const m = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        m.hide();
+      }
+      this.getDraftData();
+    },
+    error: (err) => {
+      console.error(err);
+      Swal.fire('Error', 'Failed to save draft.', 'error');
+    },
+    complete: () => this.isLoading = false
+  });
+}
+
 
   resetMailModal() {
     this.mailSubject = '';

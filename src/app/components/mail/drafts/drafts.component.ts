@@ -95,11 +95,27 @@ export class DraftsComponent {
     this.selectedCandidates = new Set(draft.emails || []);
     this.selectionMode = 'selected';
 
-    const modalElement = document.getElementById('mailModal');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+     const modalElement = document.getElementById('mailModal');
+    if (modalElement) new bootstrap.Modal(modalElement).show();
+      this.openMailModal();
   }
+  showMailModal = false;
+showEditModal = false;
+openMailModal() {
+  this.showMailModal = true;
+}
 
+closeMailModal() {
+  this.showMailModal = false;
+}
+
+openEditModal() {
+  this.showEditModal = true;
+}
+
+closeEditModal() {
+  this.showEditModal = false;
+}
   saveAsDraft() {
     const selectedEmails = this.selectionMode === 'all'
       ? this.dataArr.map((c: { email: any }) => c.email)

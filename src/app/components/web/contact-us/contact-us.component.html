@@ -89,23 +89,21 @@
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" formControlName="termsCheckbox"
-                                        id="termsCheckbox" />
-                                    <label class="form-check-label d-inline" for="termsCheckbox">
-                                        I accept the
-                                    </label>
-                                    <span class="ms-1">
-                                        <a href="#"  data-bs-toggle="modal"
-                                            data-bs-target="#termsModal">
-                                            Terms of Service
-                                        </a>
-                                        and
-                                        <a href="#"  data-bs-toggle="modal"
-                                            data-bs-target="#privacyModal">
-                                            Privacy Policy
-                                        </a>
-                                    </span>
-                                </div>
+    <input type="checkbox" class="form-check-input" formControlName="termsCheckbox" id="termsCheckbox" />
+    <label class="form-check-label d-inline" for="termsCheckbox">
+      I accept the
+    </label>
+    <span class="ms-1">
+      <a href="javascript:void(0)" (click)="openTermsModal()">
+        Terms of Service
+      </a>
+      and
+      <a href="javascript:void(0)" (click)="openPrivacyModal()">
+        Privacy Policy
+      </a>
+    </span>
+  </div>
+
 
                                 <span *ngIf="termsCheckbox?.invalid && termsCheckbox?.touched" style="color: red;">
                                     You must agree to the terms and conditions
@@ -132,43 +130,45 @@
 
 <app-web-footer></app-web-footer>
 
-<!-- Terms of Service Modal -->
-<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="termsModalLabel">Terms of Service</h5>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-            </div>
-            <div class="modal-body">
-                <p>
-                    These Terms of Service govern your use of our platform. By accessing or using our service, you agree
-                    to be bound by these terms.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
+<div class="modal-backdrop-custom" *ngIf="showTermsModal">
+  <div class="modal-body-custom">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Terms of Service</h5>
+        <button type="button" class="btn-close" (click)="closeTermsModal()"
+          style="position: absolute; top: 0rem; right: 1rem;"></button>
+      </div>
+      <div class="modal-body" [ngClass]="{ 'text-white': isDarkMode }">
+        <p>
+          These Terms of Service govern your use of our platform. By accessing or using our service,
+          you agree to be bound by these terms.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="closeTermsModal()">Close</button>
+      </div>
     </div>
+  </div>
 </div>
-<!-- Privacy Policy Modal -->
-<div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="privacyModalLabel">Privacy Policy</h5>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-            </div>
-            <div class="modal-body">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat, massa vel tincidunt luctus,
-                    lorem nisi lacinia magna, in placerat eros ligula nec enim.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
+
+<!-- ===== Privacy Policy Modal ===== -->
+<div class="modal-backdrop-custom" *ngIf="showPrivacyModal">
+  <div class="modal-body-custom">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Privacy Policy</h5>
+        <button type="button" class="btn-close" (click)="closePrivacyModal()"
+          style="position: absolute; top: 0rem; right: 1rem;"></button>
+      </div>
+      <div class="modal-body" [ngClass]="{ 'text-white': isDarkMode }">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat, massa vel tincidunt luctus,
+          lorem nisi lacinia magna, in placerat eros ligula nec enim.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="closePrivacyModal()">Close</button>
+      </div>
     </div>
+  </div>
 </div>

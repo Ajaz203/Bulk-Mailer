@@ -1,10 +1,4 @@
-/* Container Styling */
-.btn-success {
-  background: #5ab745 !important;
-}
 
-
-/* Container Styling */
 .drafts-container {
   // background-color: #fefefe;
   padding: 24px;
@@ -12,95 +6,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
-/* Table Styling */
-.custom-table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow: hidden;
-  border-radius: 12px;
-}
 
-.custom-table th {
-  background-color: #e9f1f7;
-  color: black;
-  text-align: center;
-  padding: 14px;
-  font-weight: 500;
-  font-size: 15px;
-  border-bottom: 2px solid #d0d7de;
-}
-
-.custom-table td {
-  text-align: center;
-  vertical-align: middle;
-  padding: 12px;
-  background-color: #ffffff;
-  color: #333;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-/* Header Rounded Corners */
-.custom-table thead tr:first-child th:first-child {
-  border-top-left-radius: 12px;
-}
-
-.custom-table thead tr:first-child th:last-child {
-  border-top-right-radius: 12px;
-}
-
-/* Row Hover */
-.custom-table tbody tr:hover {
-  background-color: #f5f9fc;
-  transition: background-color 0.3s ease;
-}
-
-/* Action Icons */
-td i {
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s;
-}
-
-td i:hover {
-  transform: scale(1.2);
-}
-
-td i.text-danger:hover {
-  color: #e63946;
-}
-
-td i.text-success:hover {
-  color: #198754;
-}
-
-/* Text Ellipsis */
-.text-truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Empty Row Styling */
-.table tbody tr td[colspan="5"] {
-  background-color: #fafafa;
-  border: none;
-  font-size: 16px;
-  color: #999;
-}
-
-/* Responsive Fix */
-@media (max-width: 768px) {
-
-  .custom-table th,
-  .custom-table td {
-    font-size: 13px;
-    padding: 8px;
-  }
-
-  .drafts-container {
-    padding: 16px;
-  }
-}
 
 .loader-overlay {
   position: fixed;
@@ -126,7 +32,7 @@ td i.text-success:hover {
 .custom-switch .label {
   font-weight: 700;
   font-size: 16px;
-  color: #3c3c3c;
+  color: #666565;
 }
 
 .switch-container {
@@ -224,4 +130,37 @@ button:hover .bi-x-circle-fill {
 .table th {
   font-weight: 500;
   font-size: 1rem;
+}
+
+.card .card-body {
+    padding: 0;
+    background-color: transparent;
+}
+
+/* Fullscreen backdrop overlay */
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal box styling */
+.modal-body-custom {
+  background: #262932;
+  border-radius: 6px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 1060;
 }

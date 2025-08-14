@@ -130,7 +130,7 @@ confirmFile(): void {
 
 
   async downloadMassTemplate() {
-    window.location.assign('../asset/VendorEmailerTemplate.xlsx');
+    window.location.assign('assets/images/VendorEmailerTemplate.xlsx');
   }
   navigate(): void {
     this.router.navigate(['/vendors/by-user']);

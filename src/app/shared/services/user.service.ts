@@ -228,19 +228,19 @@ export class UserService {
   // }
 
   postWithUserId(endpoint: string, data: any) {
-    const userId = localStorage.getItem('userId');
-    const userEmail = localStorage.getItem('email');
-    const userName = localStorage.getItem('name');
+  const storedUser = localStorage.getItem('user');
+  const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
-    const payload = {
-      ...data,
-      userId: userId ? +userId : null,
-      userEmail: userEmail || '',
-      userName: userName || ''
-    };
+  const payload = {
+    ...data,
+    userId: currentUser?.userId || null,
+    userEmail: currentUser?.email || '',
+    userName: currentUser?.name || ''
+  };
 
-    return this.http.post(this.apiUrl + endpoint, payload, { headers: this.header });
-  }
+  return this.http.post(this.apiUrl + endpoint, payload, { headers: this.header });
+}
+
 
 
 
