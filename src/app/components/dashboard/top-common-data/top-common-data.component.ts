@@ -21,29 +21,25 @@ getIcon(title: string): string {
       return 'bi-envelope-fill';
     case 'Email Failures':
       return 'bi-exclamation-triangle-fill';
-
     case 'All Admins':
       return 'bi-person-gear';
-
     case 'Total Vendors':
       return 'bi-building';
-
     case 'Total Candidates':
       return 'bi-person-badge';
-
     case 'All Users':
       return 'bi-people-fill';
-
     case 'Total Users':
       return 'bi-bar-chart';
-
+    case 'Draft Mails':
+      return 'bi-file-earmark-text';
     default:
-      return 'bi-question-circle'; 
+      return 'bi-question-circle';
   }
 }
 
 getBgStyle(title: string): { [klass: string]: any } {
-  switch (title) {
+  switch (title.trim()) {
     case 'Total Candidates':
       return { 'background-color': '#007bff' }; 
     case 'Email Failures':
@@ -53,36 +49,36 @@ getBgStyle(title: string): { [klass: string]: any } {
     case 'Total Vendors':
       return { 'background-color': '#4aa4d9' }; 
     case 'Total Sent Emails':
-      return { 'background-color': ' #28a745' }; 
-    case 'All Users ':
+      return { 'background-color': '#28a745' }; 
+    case 'All Users':
       return { 'background-color': '#9e65c2' }; 
+    case 'Draft Mails':
+      return { 'background-color': '#9C27B0' }; 
     default:
       return { 'background-color': '#9e65c2' }; 
   }
 }
 
 getBorderClass(title: string): string {
-  const lowerTitle = title.toLowerCase();
-
-  if (lowerTitle.includes('sent')) {
-    return 'border-success-custom';
-  } else if (lowerTitle.includes('admin')) {
-    return 'border-warning-custom';
-  } else if (lowerTitle.includes('vendor')) {
-    return 'border-vendor-custom';
-  } else if (lowerTitle.includes('candidate')) {
-    return 'border-primary-custom';
-  } else if (lowerTitle.includes('user')) {
-    return 'border-secondary-custom';
-  } else if (lowerTitle.includes('failure')) {
-    return 'border-danger-custom';
-  } else if (lowerTitle.includes('draft')) {
-    return 'border-dark-custom';
-  } else {
-    return 'border-secondary-custom';
+  switch (title.trim()) {
+    case 'Total Sent Emails':
+      return 'border-success-custom';
+    case 'All Admins':
+      return 'border-warning-custom';
+    case 'Total Vendors':
+      return 'border-vendor-custom';
+    case 'Total Candidates':
+      return 'border-primary-custom';
+    case 'All Users':
+    case 'Total Users':
+      return 'border-secondary-custom';
+    case 'Email Failures':
+      return 'border-danger-custom';
+    case 'Draft Mails':
+      return 'border-draft-custom';
+    default:
+      return 'border-secondary-custom';
   }
 }
-
-
 
 }

@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment.prod';
 })
 export class LoginComponent {
 
-  public show: boolean = true;
+ public show: boolean = true;
   public loginForm: FormGroup;
 
   constructor(private fb: FormBuilder, public router: Router, public userService: UserService) {

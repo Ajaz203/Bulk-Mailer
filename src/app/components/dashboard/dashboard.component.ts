@@ -38,20 +38,82 @@ export class DashboardComponent {
     this.getAll();
   }
 
-  getAll() {
-    const data: any = {};
+  // getAll() {
+  //   const data: any = {};
 
-    if (this.role === 'superadmin') {
-      data.role = 'superadmin';
-    }
+  //   if (this.role === 'superadmin') {
+  //     data.role = 'superadmin';
+  //   }
+
+  //   this.userService.dashboadCharts(data).subscribe({
+  //     next: (res: any) => {
+  //       this.topCommonData = [];
+
+  //       if (this.role === 'superadmin') {
+  //         const tiles = res?.superadminTiles?.[0]; 
+
+  //         if (!tiles) return;
+
+  //         this.topCommonData = [
+  //           { id: 1, title: 'All Admins', count: tiles.allAdmins || 0 },
+  //           { id: 2, title: 'All Users', count: tiles.allUsers || 0 },
+  //           { id: 3, title: 'Total Candidates', count: tiles.totalCandidates || 0 },
+  //           { id: 4, title: 'Total Vendors', count: tiles.totalVendors || 0 },
+  //           { id: 5, title: 'Total Sent Emails', count: tiles.totalSentEmails || 0 },
+  //           { id: 6, title: 'Email Failures', count: tiles.emailFailures || 0 }
+  //         ];
+  //       }
+  //       else {
+  //         const tiles = res?.tiles;
+  //         if (!tiles) return;
+
+  //         this.topCommonData = [
+  //           { id: 1, title: 'All Users', count: tiles.totalUsers || 0 },
+  //           { id: 2, title: 'Total Candidates', count: tiles.totalCandidates || 0 },
+  //           { id: 3, title: 'Total Vendors', count: tiles.totalVendors || 0 },
+  //           { id: 4, title: 'Total Sent Emails', count: tiles.totalSent || 0 }
+  //         ];
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching dashboard stats', err);
+  //     }
+  //   });
+  // }
+
+getAll() {
+  if (this.role === 'user') {
+    // Get from separate API for user role
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user?.userId) return;
+
+    this.userService.getDashboardStats(user.userId).subscribe({
+      next: (res: any) => {
+        const tiles = res?.overview;
+        if (!tiles) return;
+
+        this.topCommonData = [
+          { id: 1, title: 'Total Sent Emails', count: tiles.totalEmailsSent || 0 },
+          { id: 2, title: 'Total Candidates', count: tiles.totalCandidates || 0 },
+          { id: 3, title: 'Total Vendors', count: tiles.totalVendors || 0 },
+          { id: 4, title: 'Draft Mails', count: tiles.totalDrafts || 0 }
+        ];
+      },
+      error: (err) => {
+        console.error('Error fetching user dashboard stats', err);
+      }
+    });
+  } 
+  else {
+    // Use existing dashboardCharts API for admin & superadmin
+    const data: any = { role: this.role };
 
     this.userService.dashboadCharts(data).subscribe({
       next: (res: any) => {
         this.topCommonData = [];
 
         if (this.role === 'superadmin') {
-          const tiles = res?.superadminTiles?.[0]; // Access the first object in the array
-
+          const tiles = res?.superadminTiles?.[0];
           if (!tiles) return;
 
           this.topCommonData = [
@@ -62,8 +124,8 @@ export class DashboardComponent {
             { id: 5, title: 'Total Sent Emails', count: tiles.totalSentEmails || 0 },
             { id: 6, title: 'Email Failures', count: tiles.emailFailures || 0 }
           ];
-        }
-        else {
+        } 
+        else if (this.role === 'admin') {
           const tiles = res?.tiles;
           if (!tiles) return;
 
@@ -80,9 +142,7 @@ export class DashboardComponent {
       }
     });
   }
-
-
-
+}
 
 
 

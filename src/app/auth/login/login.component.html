@@ -1,57 +1,56 @@
-<div class="container-fluid p-0">
-  <div class="row m-0">
-    <div class="col-12 p-0">
-      <div class="login-card">
-        <div>
-          <div><a class="logo" href="javascript:void(0)">
-              <img class="img-fluid for-light" src="assets/images/Asset 6.png"  alt="looginpage" height="150px" width="150px" >
-              <img class="img-fluid for-dark" src="assets/images/Asset 6.png" alt="looginpage" height="150px" width="150px" >
-            </a>
-          </div>
-          <div class="login-main">
-            <form class="theme-form" [formGroup]="loginForm">
-              <h4 style="font-weight: 400;">Sign in to account</h4>
-              <p>Enter your email & password to login</p>
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+  <div class="container-fluid p-0">
+    <div class="row m-0">
+      <div class="col-12 p-0">
+        <div class="login-card">
+          <div>
+           
+            <div class="login-main">
+               <div>
+              <a class="logo" href="javascript:void(0)">
+                <img class="img-fluid for-light" src="assets/images/Asset 6.png" alt="loginpage" height="150" width="150">
+                <img class="img-fluid for-dark" src="assets/images/Asset 6.png" alt="loginpage" height="150" width="150">
+              </a>
+            </div>
+              <form class="theme-form" [formGroup]="loginForm">
+                <h4 style="font-weight: 400;">Sign in to account</h4>
+                <p>Enter your email & password to login</p>
 
-              <div class="form-group">
-                <label class="col-form-label form-label-title">Email Address</label>
-                <input class="form-control" type="email" placeholder="Test@gmail.com" formControlName="email" />
-                <div *ngIf="email.touched && email.errors" class="text text-danger mt-1">
-                  <div *ngIf="email.errors['required']">Email is required</div>
-                  <div *ngIf="email.errors['email']">Invalid Email</div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-form-label form-label-title">Password</label>
-                <div class="form-input position-relative">
-                  <input class="form-control" [type]="show ? 'text' : 'password'"
-                    formControlName="password" placeholder="*********"/>
-                  <div class="show-hide" (click)="showPassword()">
-                    <span [class.show]="show"> </span>
+                <div class="form-group">
+                  <label class="col-form-label form-label-title">Email Address</label>
+                  <input class="form-control" type="email" placeholder="Test@gmail.com" formControlName="email" />
+                  <div *ngIf="email.touched && email.errors" class="text text-danger mt-1">
+                    <div *ngIf="email.errors['required']">Email is required</div>
+                    <div *ngIf="email.errors['email']">Invalid Email</div>
                   </div>
                 </div>
-                <div *ngIf="password.touched && password.errors" class="text text-danger mt-1">
-                  <div *ngIf="password.errors['required']">Password is required</div>
+
+                <div class="form-group">
+                  <label class="col-form-label form-label-title">Password</label>
+                  <div class="form-input position-relative">
+                    <input class="form-control" [type]="show ? 'password' : 'text'" placeholder="*********" formControlName="password">
+                    <div class="show-hide" (click)="showPassword()"><span [class.show]="show"> </span></div>
+                    @if(loginForm.controls['password'].touched && loginForm.controls['password'].errors?.['required']){
+                    <div class="text text-danger mt-1">
+                      Password is required
+                    </div>
+                    }
+                  </div>
                 </div>
-              </div>
 
-              <div class="form-group mb-0">
-                <div class="text-end mt-3">
-                  <button #loginBtn class="btn btn-primary btn-block w-100" type="button" [disabled]="loginForm.invalid"
-                    (click)="login(loginBtn)">
-                    Sign in
-                  </button>
-
+                <div class="form-group mb-0">
+                  <div class="text-end mt-3">
+                    <button #loginBtn class="btn btn-primary btn-block w-100" type="button" [disabled]="loginForm.invalid" (click)="login(loginBtn)">
+                      Sign in
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-            </form>
-
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>

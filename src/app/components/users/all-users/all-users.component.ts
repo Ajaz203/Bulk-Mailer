@@ -176,8 +176,12 @@ ngOnInit(): void {
 updateUser() {
   const loggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
   const isSuperAdmin = loggedInUser.role === 'superadmin';
-  const adminId = Number(localStorage.getItem('userId'));
-  this.selectedUser.adminId = adminId || null;
+
+  // Preserve existing adminId unless superadmin changes it manually
+  if (!isSuperAdmin) {
+    const adminId = Number(localStorage.getItem('userId'));
+    this.selectedUser.adminId = adminId || null;
+  }
 
   this.userService.updateUser(this.selectedUser).subscribe({
     next: (res: any) => {
@@ -189,11 +193,13 @@ updateUser() {
       if (isSuperAdmin) {
         this.getSuperAdminUsers();
       } else {
+        const adminId = Number(localStorage.getItem('userId'));
         this.getData(adminId);
       }
     },
     error: () => this.userService.showToast('error', 'Update failed')
   });
 }
+
 
 }
