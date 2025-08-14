@@ -35,13 +35,7 @@
   color: #666565;
 }
 
-.switch-container {
-  position: relative;
-}
 
-.switch-container input {
-  display: none;
-}
 
 .switch-container label {
   display: block;
@@ -153,7 +147,8 @@ button:hover .bi-x-circle-fill {
 
 /* Modal box styling */
 .modal-body-custom {
-  background: #262932;
+  // background: #262932;
+  background: white;
   border-radius: 6px;
   max-width: 800px;
   width: 90%;

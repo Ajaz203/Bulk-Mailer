@@ -132,7 +132,7 @@ loadChartData(): void {
 
       if (drafts === 0 && scheduled === 0 && sent === 0) {
         this.showNoDataChart = true;
-        this.chartOptions = undefined as any; // Avoid rendering chart with old data
+        this.chartOptions = undefined as any; 
       } else {
         this.showNoDataChart = false;
         this.chartSeries = [drafts, scheduled, sent];
