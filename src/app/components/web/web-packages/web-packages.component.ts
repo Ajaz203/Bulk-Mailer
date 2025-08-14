@@ -61,29 +61,56 @@ onPopupClose() {
     this.userForm.reset();
     this.showUserModal = true;
   }
-  onUserSubmit() {
-    if (this.userForm.invalid) return;
-
-    const userData = this.userForm.value;
-
-    this.service.registerAdmin(userData).subscribe((res: any) => {
-      if (res.userId) {
-        localStorage.setItem('userId', res.userId.toString());
-        localStorage.setItem('userName', userData.name);
-        localStorage.setItem('userEmail', userData.email);
-
-        this.showUserModal = false;
-        this.userForm.reset();
-        const payload = {
-          userId: res.userId,
-          userName: userData.name,
-          userEmail: userData.email,
-          planId: this.selectedPlan.id
-        };
-        this.createRazorpayOrder(payload);
-      }
-    });
+onUserSubmit(): void {
+  if (this.userForm.invalid) {
+    return;
   }
+
+  const registrationData = {
+    name: this.userForm.value.name.trim(),
+    email: this.userForm.value.email.trim(),
+    password: this.userForm.value.password
+  };
+
+  this.service.registerAdmin(registrationData).subscribe({
+    next: (res: any) => {
+      if (!res?.userId) {
+        console.error('Registration API did not return userId', res);
+        this.showPopupMessage('❌ Registration failed: No user ID returned.', 'error');
+        return;
+      }
+
+      // Save locally
+      localStorage.setItem('userId', res.userId.toString());
+      localStorage.setItem('userName', registrationData.name);
+      localStorage.setItem('userEmail', registrationData.email);
+
+      this.showUserModal = false;
+      this.userForm.reset();
+
+      if (!this.selectedPlan?.id) {
+        console.error('No plan selected before payment.');
+        this.showPopupMessage('Please select a plan before proceeding.', 'error');
+        return;
+      }
+
+      const razorpayPayload = {
+        userId: res.userId,
+        userName: registrationData.name,
+        userEmail: registrationData.email,
+        planId: this.selectedPlan.id
+      };
+
+      this.createRazorpayOrder(razorpayPayload);
+    },
+    error: (err) => {
+      console.error('Error in registerAdmin:', err);
+      this.showPopupMessage('❌ Registration failed. Please try again.', 'error');
+    }
+  });
+}
+
+
 
 
   createRazorpayOrder(payload: {

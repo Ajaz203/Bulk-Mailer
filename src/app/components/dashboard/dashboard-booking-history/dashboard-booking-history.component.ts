@@ -14,15 +14,18 @@ export class DashboardBookingHistoryComponent implements OnInit {
   top5Users: any[] = [];
   shouldShowTopUsers = true;
   loggedInUserId!: number;
-
+userRole!: string;
   constructor(public userService: UserService) {}
 
-  ngOnInit(): void {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    this.loggedInUserId = user?.userId;
+ ngOnInit(): void {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  this.loggedInUserId = user?.userId;
+  this.userRole = user?.role;
 
+  if (this.userRole === 'admin' || this.userRole === 'superadmin') {
     this.loadDashboardCharts(user);
   }
+}
 
   loadDashboardCharts(user: any): void {
     const data = {
