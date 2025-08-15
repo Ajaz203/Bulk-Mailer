@@ -238,6 +238,60 @@
 }
 
 
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .main-banner-slides-item {
+    height: auto;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    text-align: center;
+  }
+
+  .main-banner-slides-item .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .main-banner-content {
+    max-width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .main-banner-content h1 {
+    font-size: 32px;
+    line-height: 1.3;
+  }
+
+  .main-banner-content p {
+    font-size: 16px;
+    padding: 0 10px;
+  }
+
+  .main-banner-content .image img {
+    width: 90%;
+    margin: 20px auto 0 auto;
+    display: block;
+  }
+
+  .main-banner-content .button {
+    margin-left: 0;
+  }
+
+  .main-banner-content .partner {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .gradient-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .email-growth-svg {
+    max-height: 200px;
+  }
+}
 
 
 
