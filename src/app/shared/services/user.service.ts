@@ -437,12 +437,18 @@ export class UserService {
   registerAdmin(data: any) {
     return this.postWithUserId('register-admin', data);
   }
+//   registerAdmin(data: any) {
+//   return this.http.post(this.apiUrl + 'register-admin', data, { headers: this.header });
+// }
+// createSubscriptionOrder(data: any) {
+//   return this.http.post(this.apiUrl + 'subscribe', data, { headers: this.header });
+// }
   // user.service.ts in second app
   getProfile() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    return this.http.get('http://localhost:3000/api/me', {
+    return this.http.get('https://api.mailcept.net', {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe((user: any) => {
       localStorage.setItem('userId', user.userId.toString());

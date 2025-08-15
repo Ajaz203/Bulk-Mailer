@@ -1,24 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { WebHeaderComponent } from "../web-header/web-header.component";
 import { UserService } from '../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { NgZone } from '@angular/core';
 
 import { WebFooterComponent } from '../web-footer/web-footer.component';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
+
 declare var Razorpay: any;
 
 @Component({
   selector: 'app-web-packages',
-    imports: [WebHeaderComponent, CommonModule, FormsModule, ReactiveFormsModule, WebFooterComponent,ConfirmationPopupComponent],
-
+  imports: [
+    WebHeaderComponent,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    WebFooterComponent,
+    ConfirmationPopupComponent
+  ],
   templateUrl: './web-packages.component.html',
   styleUrl: './web-packages.component.scss'
 })
-export class WebPackagesComponent  implements OnInit {
+export class WebPackagesComponent implements OnInit {
   plans: any[] = [];
   selectedPlan: any;
   showUserModal = false;
@@ -28,14 +34,21 @@ export class WebPackagesComponent  implements OnInit {
   popupMessage: string = '';
   popupType: 'success' | 'error' | 'info' = 'info';
   showPopup: boolean = false;
-  constructor(private service: UserService, private fb:
-    FormBuilder, private snackBar: MatSnackBar, private ngZone: NgZone, private router: Router) {
+
+  constructor(
+    private service: UserService,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private ngZone: NgZone,
+    private router: Router
+  ) {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
+
   showPopupMessage(message: string, type: 'success' | 'error' | 'info' = 'info') {
     this.popupMessage = message;
     this.popupType = type;
@@ -49,10 +62,12 @@ export class WebPackagesComponent  implements OnInit {
       }
     });
   }
-onPopupClose() {
-  this.showPopup = false;
-  this.router.navigate(['/login']); // redirect when popup closes
-}
+
+  onPopupClose() {
+    this.showPopup = false;
+    this.router.navigate(['/login']); // redirect when popup closes
+  }
+
   selectPlan(plan: any) {
     sessionStorage.removeItem('userId');
     sessionStorage.removeItem('userName');
@@ -61,57 +76,38 @@ onPopupClose() {
     this.userForm.reset();
     this.showUserModal = true;
   }
-onUserSubmit(): void {
-  if (this.userForm.invalid) {
-    return;
+
+  onUserSubmit() {
+    if (this.userForm.invalid) return;
+
+    const userData = this.userForm.value;
+
+    this.service.registerAdmin(userData).subscribe((res: any) => {
+      if (res.userId) {
+        // ✅ Store both individual keys and the full "user" object for postWithUserId()
+        localStorage.setItem('userId', res.userId.toString());
+        localStorage.setItem('userName', userData.name);
+        localStorage.setItem('userEmail', userData.email);
+        localStorage.setItem('user', JSON.stringify({
+          userId: res.userId,
+          name: userData.name,
+          email: userData.email
+        }));
+
+        this.showUserModal = false;
+        this.userForm.reset();
+
+        const payload = {
+          userId: res.userId,
+          userName: userData.name,
+          userEmail: userData.email,
+          planId: this.selectedPlan.id
+        };
+
+        this.createRazorpayOrder(payload);
+      }
+    });
   }
-
-  const registrationData = {
-    name: this.userForm.value.name.trim(),
-    email: this.userForm.value.email.trim(),
-    password: this.userForm.value.password
-  };
-
-  this.service.registerAdmin(registrationData).subscribe({
-    next: (res: any) => {
-      if (!res?.userId) {
-        console.error('Registration API did not return userId', res);
-        this.showPopupMessage('❌ Registration failed: No user ID returned.', 'error');
-        return;
-      }
-
-      // Save locally
-      localStorage.setItem('userId', res.userId.toString());
-      localStorage.setItem('userName', registrationData.name);
-      localStorage.setItem('userEmail', registrationData.email);
-
-      this.showUserModal = false;
-      this.userForm.reset();
-
-      if (!this.selectedPlan?.id) {
-        console.error('No plan selected before payment.');
-        this.showPopupMessage('Please select a plan before proceeding.', 'error');
-        return;
-      }
-
-      const razorpayPayload = {
-        userId: res.userId,
-        userName: registrationData.name,
-        userEmail: registrationData.email,
-        planId: this.selectedPlan.id
-      };
-
-      this.createRazorpayOrder(razorpayPayload);
-    },
-    error: (err) => {
-      console.error('Error in registerAdmin:', err);
-      this.showPopupMessage('❌ Registration failed. Please try again.', 'error');
-    }
-  });
-}
-
-
-
 
   createRazorpayOrder(payload: {
     userId: number;
@@ -121,7 +117,6 @@ onUserSubmit(): void {
   }) {
     this.service.createSubscriptionOrder(payload).subscribe(
       (res: any) => {
-
         if (!res) {
           this.showPopupMessage('❌ Order creation failed: Empty response.', 'error');
           return;
@@ -150,6 +145,7 @@ onUserSubmit(): void {
           name: this.selectedPlan?.name || 'Subscription Plan',
           price: res.amount / 100
         };
+
         const razorpayOrder = {
           id: res.orderId,
           amount: res.amount,
@@ -164,8 +160,6 @@ onUserSubmit(): void {
       }
     );
   }
-
-
 
   launchRazorpay(user: any, plan: any, order: any): void {
     const self = this;
@@ -198,7 +192,6 @@ onUserSubmit(): void {
         });
       },
 
-
       prefill: {
         name: user.userName || '',
         email: user.userEmail || '',
@@ -214,6 +207,7 @@ onUserSubmit(): void {
         color: '#00457C'
       }
     };
+
     const razorpay = new Razorpay(options);
 
     razorpay.on('payment.failed', (response: any) => {
@@ -223,12 +217,8 @@ onUserSubmit(): void {
       });
     });
 
-
     razorpay.open();
   }
-
-
-
 
   verifyPayment(response: any, plan: any) {
     const payload = {
@@ -255,8 +245,5 @@ onUserSubmit(): void {
         this.showPopupMessage('❌ Payment verification failed.', 'error');
       }
     );
-
   }
-
-
 }
