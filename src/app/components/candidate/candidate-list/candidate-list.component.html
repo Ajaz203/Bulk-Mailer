@@ -34,7 +34,6 @@
             </button>
         </div>
 
-
         <div class="table-container">
             <div class="card-body">
                 <div class="card">
@@ -52,7 +51,7 @@
                                     <th>Technology</th>
                                     <th>Experience</th>
                                     <th>Skills</th>
-                                    <th>Created At</th>
+                                    <th>CreatedAt</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -129,7 +128,7 @@
 
 
         <div class="modal-footer">
-            <button class="btn btn-secondary me-3" (click)="saveAsDraft()" [disabled]="isLoading">Save as
+            <button class="btn btn-primary me-3" (click)="saveAsDraft()" [disabled]="isLoading">Save as
                 Draft</button>
             <button class="btn btn-success d-flex align-items-center" (click)="sendMail()" [disabled]="isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
