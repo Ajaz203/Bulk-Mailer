@@ -39,7 +39,7 @@
 
 .switch-container label {
   display: block;
-  width: 70px;
+  width: 50px;
   height: 12px;
   background-color: #e6e6e6;
   border-radius: 6px;
@@ -62,7 +62,7 @@
 }
 
 .switch-container input:checked+label .circle {
-  left: 50px;
+  left: 30px;
 }
 
 .table th,
@@ -165,4 +165,62 @@ button:hover .bi-x-circle-fill {
 
 .switch-container input {
   display: none;
+}
+
+.email-cell {
+  cursor: pointer;
+  padding: 8px;
+  vertical-align: top;
+}
+.collapsed-view {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: #333;
+}
+.expanded-view {
+  /* background: #fff; */
+  /* border: 1px solid #ddd; */
+  /* border-radius: 6px; */
+  /* padding: 10px; */
+  /* margin-top: 4px; */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  animation: fadeIn 0.2s ease-in-out;
+  overflow: auto;
+  max-height: 150px;
+  /* background-color: #FEFEFE ; */
+}
+.email-header {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #444;
+}
+.email-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 4px 0; */
+  border-bottom: 1px solid #F1F1F1;
+}
+/* .email-item:last-child {
+  border-bottom: none;
+} */
+.remove-btn {
+  background: none;
+  border: none;
+  color: #D9534F;
+  font-size: 25px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.remove-btn:hover {
+  color: #B52B27;
+}
+.no-email {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  padding: 10px 0;
 }

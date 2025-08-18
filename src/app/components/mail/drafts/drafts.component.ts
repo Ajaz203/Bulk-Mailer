@@ -37,7 +37,7 @@ export class DraftsComponent {
   isVendor = false;
   editor!: Editor;
   allDrafts: any[] = [];
-
+openedDropdownIndex: number | null = null;
 
 
   constructor(private service: UserService, private router: Router) { }
@@ -327,6 +327,18 @@ closeEditModal() {
         (item.mailBody || '').toLowerCase().includes(term) ||
         (item.emails?.join(', ') || '').toLowerCase().includes(term)
     );
+  }
+toggleEmailDropdown(index: number) {
+    const emails = this.draftList[index]?.emails || [];
+    if (emails.length > 1) {
+      this.openedDropdownIndex =
+        this.openedDropdownIndex === index ? null : index;
+    }
+  }
+  removeEmail(draftIndex: number, email: string, event: Event) {
+    event.stopPropagation();
+    const draft = this.draftList[draftIndex];
+    draft.emails = draft.emails.filter((e: string) => e !== email);
   }
 
 }

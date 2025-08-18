@@ -65,7 +65,7 @@ export class WebPackagesComponent implements OnInit {
 
   onPopupClose() {
     this.showPopup = false;
-    this.router.navigate(['/login']); // redirect when popup closes
+    this.router.navigate(['/auth/login']);
   }
 
   selectPlan(plan: any) {
@@ -84,7 +84,6 @@ export class WebPackagesComponent implements OnInit {
 
     this.service.registerAdmin(userData).subscribe((res: any) => {
       if (res.userId) {
-        // ✅ Store both individual keys and the full "user" object for postWithUserId()
         localStorage.setItem('userId', res.userId.toString());
         localStorage.setItem('userName', userData.name);
         localStorage.setItem('userEmail', userData.email);
@@ -169,7 +168,7 @@ export class WebPackagesComponent implements OnInit {
       currency: order.currency || 'INR',
       name: 'Mailcept',
       description: plan.name,
-      image: 'https://yourdomain.com/logo.png',
+      image: 'assets/images/Asset 6.png',
       order_id: order.id,
 
       handler: function (data: any) {

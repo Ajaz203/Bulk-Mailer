@@ -26,7 +26,7 @@
 
 .switch-container label {
   display: block;
-  width: 70px;
+  width: 50px;
   height: 12px;
   background-color: #e6e6e6;
   border-radius: 6px;
@@ -53,7 +53,7 @@
 }
 
 .switch-container input:checked+label .circle {
-  left: 50px;
+  left: 30px;
 }
 
 

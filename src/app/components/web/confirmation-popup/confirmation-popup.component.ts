@@ -44,7 +44,7 @@ export class ConfirmationPopupComponent implements OnInit {
   onClose() {
     clearInterval(this.intervalId);
     this.closed.emit();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 }
 

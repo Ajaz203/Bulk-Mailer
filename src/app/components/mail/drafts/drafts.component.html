@@ -68,13 +68,46 @@
               </thead>
               <tbody>
                 <tr *ngFor="let draft of filteredDrafts  let i = index">
+                  
                   <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                   <td>{{ draft.mailSubject || 'No Subject' }}</td>
-                  <td>
-                    <div class="text-truncate" style="max-width: 250px;" [title]="draft.emails?.join(', ')">
+                  <!-- <td>
+                    <div class="text-truncate" style="max-width: 200px;" [title]="draft.emails?.join(', ')">
                       {{ draft.emails?.join(', ') }}
                     </div>
-                  </td>
+                  </td> -->
+                  <td (click)="toggleEmailDropdown(i)" class="email-cell">
+              
+                <div *ngIf="openedDropdownIndex !== i" class="collapsed-view">
+                  {{ draft.emails?.slice(0, 1).join(", ") || "No Emails" }}
+                  <span *ngIf="draft.emails?.length > 1" class="text-primary">
+                    +{{ draft.emails.length - 1 }} more...
+                  </span>
+                </div>
+
+                
+                <div *ngIf="openedDropdownIndex === i" class="expanded-view">
+                  <div class="email-header">Email List</div>
+                  <div *ngIf="draft.emails?.length; else noEmails">
+                    <div
+                      class="email-item"
+                      *ngFor="let email of draft.emails; let j = index"
+                    >
+                      <span>{{ email }}</span>
+                      
+                      <button
+                        class="remove-btn"
+                        (click)="removeEmail(i, email, $event)"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                  <ng-template #noEmails>
+                    <div class="no-email">No Emails</div>
+                  </ng-template>
+                </div>
+              </td>
                   <td>
                     <div class="text-truncate" style="max-width: 300px;" [title]="stripHtmlTags(draft.mailBody)">
                       {{ stripHtmlTags(draft.mailBody) || 'No Body Content' }}
