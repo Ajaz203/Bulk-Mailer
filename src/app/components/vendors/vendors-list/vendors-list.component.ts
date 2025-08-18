@@ -254,6 +254,7 @@ get filteredVendorList() {
         Swal.fire('Updated!', 'Candidate updated successfully.', 'success');
         if (this.editModalInstance) this.editModalInstance.hide();
         this.loadVendors();
+        this.closeEditModal();
         this.isLoading = false;
       },
       error: (err) => {

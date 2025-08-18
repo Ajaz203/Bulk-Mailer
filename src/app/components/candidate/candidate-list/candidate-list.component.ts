@@ -145,9 +145,9 @@ export class CandidateListComponent {
     this.selectedCandidate.skillsString = Array.isArray(candidate.skills)
       ? candidate.skills.join(', ')
       : (candidate.skills || '');
-
-    const modal = new bootstrap.Modal(document.getElementById('editModal')!);
-    modal.show();
+    const modalElement = document.getElementById('editModal');
+    if (modalElement) new bootstrap.Modal(modalElement).show();
+    this.openEditModal();
   }
 
   updateCandidate() {
@@ -160,6 +160,7 @@ export class CandidateListComponent {
         next: (res) => {
           Swal.fire('Updated!', 'Candidate updated successfully', 'success');
           this.getData();
+           this.closeEditModal();
 
           const modalElement = document.getElementById('editModal');
           const modal = bootstrap.Modal.getInstance(modalElement);
