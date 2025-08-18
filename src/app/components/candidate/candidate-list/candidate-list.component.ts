@@ -6,12 +6,13 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 import { Toolbar } from 'ngx-editor';
-import { NgxEditorModule,Editor } from 'ngx-editor';
+import { NgxEditorModule, Editor } from 'ngx-editor';
 import { Router } from '@angular/router';
+
 declare var bootstrap: any;
 @Component({
   selector: 'app-candidate-list',
-  imports: [CommonModule, NgbPaginationModule,FormsModule,NgxEditorModule],
+  imports: [CommonModule, NgbPaginationModule, FormsModule, NgxEditorModule],
   templateUrl: './candidate-list.component.html',
   styleUrl: './candidate-list.component.scss'
 })
@@ -34,19 +35,19 @@ export class CandidateListComponent {
   draftList: any[] = [];
   showFilterSection = false;
   originalData: any;
-    selectedUser: any = null; 
-   editor!: Editor;
+  selectedUser: any = null;
+  editor!: Editor;
   htmlContent: string = '';
-toolbar: Toolbar = [
-  ['bold', 'italic', 'underline'],
-  ['text_color', 'background_color'],
-  ['link'],
-  ['bullet_list', 'ordered_list'],
-  ['code', 'blockquote'],
-  ['align_left', 'align_center', 'align_right']
-];
-showMailModal = false;
-showEditModal = false;
+  toolbar: Toolbar = [
+    ['bold', 'italic', 'underline'],
+    ['text_color', 'background_color'],
+    ['link'],
+    ['bullet_list', 'ordered_list'],
+    ['code', 'blockquote'],
+    ['align_left', 'align_center', 'align_right']
+  ];
+  showMailModal = false;
+  showEditModal = false;
   constructor(private service: UserService, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
@@ -57,11 +58,11 @@ showEditModal = false;
       this.getData();
     });
     this.getDraftData();
-    
+
   }
-ngOnDestroy(): void {
-  this.editor?.destroy();
-}
+  ngOnDestroy(): void {
+    this.editor?.destroy();
+  }
   backToUsers() {
     this.router.navigate(['/candidates/upload']);
   }
@@ -213,16 +214,16 @@ ngOnDestroy(): void {
       return;
     }
     this.selectionMode = 'selected';
-   const modalElement = document.getElementById('mailModal');
+    const modalElement = document.getElementById('mailModal');
     if (modalElement) new bootstrap.Modal(modalElement).show();
-      this.openMailModal();
+    this.openMailModal();
   }
 
   handleAllCandidateSend() {
-       this.selectionMode = 'all';
+    this.selectionMode = 'all';
     const modalElement = document.getElementById('mailModal');
     if (modalElement) new bootstrap.Modal(modalElement).show();
-      this.openMailModal();
+    this.openMailModal();
   }
   sendSelected() {
     if (this.selectedCandidates.size === 0) {
@@ -248,69 +249,69 @@ ngOnDestroy(): void {
     };
   }
 
-sendMail() {
-  const selectedEmails = this.selectionMode === 'all'
-    ? this.dataArr.map((c: { email: any }) => c.email)
-    : Array.from(this.selectedCandidates).map(c => c.email);
+  sendMail() {
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.dataArr.map((c: { email: any }) => c.email)
+      : Array.from(this.selectedCandidates).map(c => c.email);
 
-  if (selectedEmails.length === 0) {
-    Swal.fire('Error', 'No candidates selected.', 'error');
-    return;
-  }
+    if (selectedEmails.length === 0) {
+      Swal.fire('Error', 'No candidates selected.', 'error');
+      return;
+    }
 
-  if (!this.mailSubject || !this.mailBody) {
-    Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-    return;
-  }
+    if (!this.mailSubject || !this.mailBody) {
+      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
+      return;
+    }
 
-  const isScheduled = this.scheduleDate && this.scheduleTime;
+    const isScheduled = this.scheduleDate && this.scheduleTime;
 
-const payload: any = {
-  mailSubject: this.mailSubject,
-  emails: selectedEmails,
-  mailBody: this.mailBody,
-  
-};
+    const payload: any = {
+      mailSubject: this.mailSubject,
+      emails: selectedEmails,
+      mailBody: this.mailBody,
+
+    };
     console.log('Mail sent:', this.mailSubject, this.mailBody);
 
-  if (isScheduled) {
-    const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
+    if (isScheduled) {
+      const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
 
-    payload.date = this.scheduleDate;
-    payload.time = time;
-    payload.period = period;
-    payload.type = 'scheduled';
-  } else {
-    payload.type = 'immediate';
-  }
-
-  this.isLoading = true;
-
-  this.service.sendMail(payload).subscribe({
-    next: () => {
-      Swal.fire('Success', 'Mail sent successfully!', 'success');
-      this.resetMailModal();
-
-      const modalElement = document.getElementById('mailModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-        modal.hide();
-      }
-
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      Swal.fire('Error', 'Failed to send mail.', 'error');
-    },
-    complete: () => {
-      this.isLoading = false;
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
+      payload.type = 'scheduled';
+    } else {
+      payload.type = 'immediate';
     }
-  });
-}
+
+    this.isLoading = true;
+
+    this.service.sendMail(payload).subscribe({
+      next: () => {
+        Swal.fire('Success', 'Mail sent successfully!', 'success');
+        this.resetMailModal();
+
+        const modalElement = document.getElementById('mailModal');
+        if (modalElement) {
+          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modal.hide();
+        }
+
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to send mail.', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
 
 
   resetMailModal() {
@@ -470,21 +471,21 @@ const payload: any = {
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
-openMailModal() {
-  this.showMailModal = true;
-}
+  openMailModal() {
+    this.showMailModal = true;
+  }
 
-closeMailModal() {
-  this.showMailModal = false;
-}
+  closeMailModal() {
+    this.showMailModal = false;
+  }
 
-openEditModal() {
-  this.showEditModal = true;
-}
+  openEditModal() {
+    this.showEditModal = true;
+  }
 
-closeEditModal() {
-  this.showEditModal = false;
-}
-  
+  closeEditModal() {
+    this.showEditModal = false;
+  }
+
 }
 

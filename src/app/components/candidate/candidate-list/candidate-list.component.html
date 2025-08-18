@@ -1,4 +1,4 @@
-<div class="row">
+<div class="container" style="max-width: 1200px;">
     <div class="card">
         <div class="card-header  card-header--2">
             <div>
@@ -33,73 +33,68 @@
                 <i class="bi bi-x-circle-fill text-muted"></i>
             </button>
         </div>
-        <div class="table-container" style="max-height: 400px;max-width: 1200px; overflow-y: auto;">
-            <div class="card-body ">
-                <div class="table-responsive table-desi">
-                    <table class="user-table table table-striped">
-                        <thead class="sticky-top">
-                            <tr>
-                                <th><input type="checkbox" (change)="toggleSelectAll($event)"
-                                        [checked]="isAllSelected()" />
-                                </th>
-                                <th>S.No</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Contact No.</th>
-                                <th>Work Status</th>
-                                <th>Location</th>
-                                <th>Technology</th>
-                                <th>Experience</th>
-                                <th>Skills</th>
-                                <th>Created At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let c of filteredCandidates; let i = index">
-                                <td>
-                                    <input type="checkbox" [checked]="selectedCandidates.has(c)"
-                                        (change)="toggleSelection(c)" />
-                                </td>
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ c.name }}</td>
-                                <td>{{ c.email}}</td>
-                                <td>{{ c.contact_no || 'NA' }}</td>
-                                <td>{{ c.visa || 'NA' }}</td>
-                                <td>{{ c.location || 'NA' }}</td>
-                                <td>{{ c.technology || 'NA' }}</td>
-                                <td>{{ c.experience || 'NA' }}</td>
-                                <td>
-                                    <span *ngIf="c.skills?.length > 0; else noSkill">
-                                        {{ c.skills.join(', ') }}
-                                    </span>
-                                    <ng-template #noSkill>NA</ng-template>
-                                </td>
-                                <td>{{ c.createdAt | date: 'yyyy-MM-dd' }}</td>
-
-                                <td>
-                                    <a href="javascript:void(0)" (click)="editCandidate(c)" class=" me-3">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" (click)="deleteCandidate(c.id)">
-                                        <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr *ngIf="filteredCandidates.length === 0">
-                                <td colspan="12" class="text-center text-muted py-4">
-                                    <i class="bi bi-person-x fs-4 me-2"></i> No Candidates Found
-                                </td>
-                            </tr>
-                        </tbody>
 
 
-                    </table>
+        <div class="table-container">
+            <div class="card-body">
+                <div class="card">
+                    <div class="table-wrapper">
+                        <table class="user-table table table-striped">
+                            <thead class="sticky-top">
+                                <tr>
+                                    <th><input type="checkbox" (change)="toggleSelectAll($event)"
+                                            [checked]="isAllSelected()" /></th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact No.</th>
+                                    <th>Work Status</th>
+                                    <th>Location</th>
+                                    <th>Technology</th>
+                                    <th>Experience</th>
+                                    <th>Skills</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of filteredCandidates; let i = index">
+                                    <td><input type="checkbox" [checked]="selectedCandidates.has(c)"
+                                            (change)="toggleSelection(c)" /></td>
+                                    <td>{{ c.name }}</td>
+                                    <td>{{ c.email}}</td>
+                                    <td>{{ c.contact_no || 'NA' }}</td>
+                                    <td>{{ c.visa || 'NA' }}</td>
+                                    <td>{{ c.location || 'NA' }}</td>
+                                    <td>{{ c.technology || 'NA' }}</td>
+                                    <td>{{ c.experience || 'NA' }}</td>
+                                    <td>
+                                        <span *ngIf="c.skills?.length > 0; else noSkill">
+                                            {{ c.skills.join(', ') }}
+                                        </span>
+                                        <ng-template #noSkill>NA</ng-template>
+                                    </td>
+                                    <td>{{ c.createdAt | date: 'yyyy-MM-dd' }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" (click)="editCandidate(c)" class="me-3">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" (click)="deleteCandidate(c.id)">
+                                            <i class="fa fa-trash-o text-danger"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="filteredCandidates.length === 0">
+                                    <td colspan="12" class="text-center text-muted py-4">
+                                        <i class="bi bi-person-x fs-4 me-2"></i> No Candidates Found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
         </div>
+
     </div>
 
 </div>

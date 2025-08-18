@@ -5,10 +5,10 @@
         <!-- Header Row -->
         <div class="row g-3 align-items-center">
           <div class="col-12 col-md-4">
-            
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <h5> Mails</h5>
-               
+
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5> Mails</h5>
+
             </div>
           </div>
 
@@ -35,18 +35,18 @@
             </div>
             <span class="label ">Vendor</span> -->
             <div class="custom-switch">
-            <span class="label">Candidate</span>
+              <span class="label">Candidate</span>
 
-            <div class="switch-container">
-              <input type="checkbox" id="switch" [checked]="targetType === 'vendor'"
-                (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
-              <label for="switch">
-                <span class="circle"></span>
-              </label>
+              <div class="switch-container">
+                <input type="checkbox" id="switch" [checked]="targetType === 'vendor'"
+                  (change)="switchTargetType(targetType === 'vendor' ? 'candidate' : 'vendor')" />
+                <label for="switch">
+                  <span class="circle"></span>
+                </label>
+              </div>
+
+              <span class="label">Vendor</span>
             </div>
-
-            <span class="label">Vendor</span>
-          </div>
 
           </div>
         </div>

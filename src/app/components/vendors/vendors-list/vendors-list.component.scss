@@ -25,3 +25,10 @@
   position: relative;
   z-index: 1060;
 }
+.table-container {
+  max-height: 400px;
+  overflow-y: auto;   
+  overflow-x: auto;  
+  position: relative;
+}
+

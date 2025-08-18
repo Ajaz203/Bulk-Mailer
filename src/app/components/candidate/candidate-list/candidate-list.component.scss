@@ -19,7 +19,7 @@
 
 /* Modal box styling */
 .modal-body-custom {
-  background: #262932;
+  background: #fff;
   border-radius: 6px;
   max-width: 800px;
   width: 90%;
@@ -29,4 +29,14 @@
   box-shadow: 0 0 20px rgba(0,0,0,0.3);
   position: relative;
   z-index: 1060;
+}
+.table-container {
+  max-height: 400px;
+  overflow-y: auto;   
+  overflow-x: auto;  
+  position: relative;
+}
+
+.table-wrapper {
+  min-width: 1000px; 
 }
