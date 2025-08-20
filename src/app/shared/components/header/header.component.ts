@@ -17,7 +17,7 @@ import { ClickOutsideDirective } from '../../directive/click-outside.directive';
     styleUrl: './header.component.scss',
     imports: [FeatherIconsComponent, ReactiveFormsModule, FormsModule,
          ThemeModeComponent,
-         FullScreenComponent, UserProfileComponent]
+         FullScreenComponent, UserProfileComponent,RouterLink]
 })
 
 export class HeaderComponent {

@@ -94,18 +94,18 @@
                       <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
                       <td>
                         <span class="badge" [ngClass]="{
-              'bg-primary': mail.targetType === 'candidate',
-              'bg-info': mail.targetType === 'vendor'
-            }">
+                        'bg-primary': mail.targetType === 'candidate',
+                        'bg-info': mail.targetType === 'vendor'
+                            }">
                           {{ mail.targetType }}
                         </span>
                       </td>
                       <td>
                         <span class="badge" [ngClass]="{
-              'bg-danger': mail.status === 'success',
-              'bg-warning': mail.status === 'pending',
-              'bg-secondary': mail.status === 'failed'
-            }">
+                        'bg-danger': mail.status === 'success',
+                        'bg-warning': mail.status === 'pending',
+                        'bg-secondary': mail.status === 'failed'
+                                }">
                           {{ mail.status }}
                         </span>
                       </td>
