@@ -44,7 +44,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/intro.js/minified/introjs.min.css"
             ],
             "scripts": []
           },

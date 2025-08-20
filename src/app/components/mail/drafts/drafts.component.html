@@ -76,9 +76,9 @@
                       {{ draft.emails?.join(', ') }}
                     </div>
                   </td> -->
-                  <td (click)="toggleEmailDropdown(i)" class="email-cell">
+                  <td (click)="toggleEmailDropdown(i)">
               
-                <div *ngIf="openedDropdownIndex !== i" class="collapsed-view">
+                <div *ngIf="openedDropdownIndex !== i">
                   {{ draft.emails?.slice(0, 1).join(", ") || "No Emails" }}
                   <span *ngIf="draft.emails?.length > 1" class="text-primary">
                     +{{ draft.emails.length - 1 }} more...
@@ -154,14 +154,14 @@
 
     <div class="modal-backdrop-custom" *ngIf="showMailModal">
         <div class="modal-body-custom">
-        <div class="modal-content">
-          <div class="modal-header">
+        <div class="modal-content p-4">
+          <div class="modal-header mb-3">
             <h5 class="modal-title">
               {{ editingDraftId ? 'Edit Draft' : 'Send Mail' }} - {{ targetType | titlecase }}
             </h5>
 
            <button type="button" class="btn-close" (click)="closeMailModal()"
-            style="position: absolute; top: 0rem; right: 1rem;"></button>
+            style="position: absolute; top: 1rem; right: 1rem;"></button>
           </div>
           <div class="modal-body">
 
@@ -192,10 +192,10 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-danger me-3" (click)="saveAsDraft()">
-              <i class="bi bi-save"></i> Save as Draft
+             Save as Draft
             </button>
             <button class="btn btn-primary" (click)="sendMail()">
-              <i class="bi bi-send"></i> Send
+            Send
             </button>
           </div>
         </div>
