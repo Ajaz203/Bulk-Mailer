@@ -10,31 +10,6 @@ import { AboutUsComponent } from './components/web/about-us/about-us.component';
 import { ContactUsComponent } from './components/web/contact-us/contact-us.component';
 import { WebPackagesComponent } from './components/web/web-packages/web-packages.component';
 
-// export const routes: Routes = [
-//     {
-//         path: '',
-//         redirectTo: '/dashboard',
-//         pathMatch: 'full'
-//     },
-//     {
-//         path: 'auth/login',
-//         component: LoginComponent
-//     },
-      
-//     {
-//         path: '',
-//         component: LayoutComponent,
-//         canActivate: [AdminGuard],
-//         children: content
-//     },
-//     {
-//         path: '',
-//         component: FullComponent,
-//         canActivate: [AdminGuard],
-//         children: full
-//     }
-// ];
-
 
 
 export const routes: Routes = [

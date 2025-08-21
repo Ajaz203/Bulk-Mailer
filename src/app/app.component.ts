@@ -1,50 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { LoaderComponent } from "./shared/components/ui/loader/loader.component";
 import { UserService } from './shared/services/user.service';
-import { Router,NavigationEnd  } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { StorageService } from './shared/services/storage.service';
+
 @Component({
-    selector: 'app-root',
-    imports: [RouterOutlet, LoaderComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+  selector: 'app-root',
+  standalone: true, 
+  imports: [RouterOutlet, LoaderComponent],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'] 
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'admin';
-  constructor(private userService: UserService, private router: Router) {}
 
-// ngOnInit() {
-//   const params = new URLSearchParams(window.location.search);
-//   const token = params.get('token');
-//   const role = params.get('role');
-//   const name = params.get('name');
-//   const email = params.get('email');
-//   const userId = params.get('userId');
+  constructor(
+    private storageService: StorageService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
-//   if (token) {
-//     localStorage.setItem('token', token);
-//     if (role) localStorage.setItem('role', role);
-//     if (name) localStorage.setItem('name', name);
-//     if (email) localStorage.setItem('email', email);
-//     if (userId) localStorage.setItem('userId', userId);
-//     const cleanUrl = window.location.origin + window.location.pathname;
-//     window.history.replaceState({}, document.title, cleanUrl);
-//     this.router.navigate(['/dashboard']);
-//   }
-//  this.router.events
-//       .pipe(filter(event => event instanceof NavigationEnd))
-//       .subscribe(() => {
-//         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-//       });
-// }
-
+  ngOnInit(): void {
+    const user = this.storageService.getLocal<any>('user');
+    if (user) {
+      this.userService.setUser(user);
+      this.userService.broadcastUser(user);
+      if (this.router.url === '/login') {
+        this.router.navigate(['/dashboard']);
+      }
+    }
+  }
+  
 }
-
-
-
-
-
-
-
-

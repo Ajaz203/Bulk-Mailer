@@ -12,12 +12,12 @@ import { FeatherIconsComponent } from '../ui/feather-icons/feather-icons.compone
 import { ClickOutsideDirective } from '../../directive/click-outside.directive';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrl: './header.component.scss',
-    imports: [FeatherIconsComponent, ReactiveFormsModule, FormsModule,
-         ThemeModeComponent,
-         FullScreenComponent, UserProfileComponent,RouterLink]
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
+  imports: [FeatherIconsComponent, ReactiveFormsModule, FormsModule,
+    ThemeModeComponent,
+    FullScreenComponent, UserProfileComponent]
 })
 
 export class HeaderComponent {
@@ -34,7 +34,7 @@ export class HeaderComponent {
     this.items = navService.menuItem;
   }
 
-  searchTerm(term: string){
+  searchTerm(term: string) {
     term ? this.addFix() : this.removeFix();
     if (!term) return this.menuItems = [];
     let items: Menu[] = [];
@@ -90,15 +90,15 @@ export class HeaderComponent {
     this.text = "";
   }
 
-  toggleSidebar(){
-    this.navService.closeSidebar =! this.navService.closeSidebar;
+  toggleSidebar() {
+    this.navService.closeSidebar = !this.navService.closeSidebar;
   }
 
-  openSearch(){
+  openSearch() {
     this.isSearch = true;
   }
 
-  closeSearch(){
+  closeSearch() {
     this.isSearch = false;
   }
 }
