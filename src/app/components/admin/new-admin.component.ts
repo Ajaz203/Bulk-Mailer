@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/user.service';
-import { StorageService } from '../../shared/services/storage.service';
 @Component({
   selector: 'app-new-admin',
   imports: [DropzoneModule, FormsModule, ReactiveFormsModule],
@@ -23,7 +22,7 @@ export class NewAdminComponent {
 
   public text = '<i class="icon-cloud-up"></i><h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>';
   isLoading: boolean = false;
-  constructor(public service: UserService, private fb: FormBuilder, private storageService: StorageService) {
+  constructor(public service: UserService, private fb: FormBuilder) {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -75,44 +74,38 @@ export class NewAdminComponent {
     }
   }
 
- onSubmit() {
-  if (this.userForm.invalid) {
-    this.markAllFieldsTouched();
-    this.showValidationErrors();
-    return;
-  }
-
-  const email = this.userForm.value.email.toLowerCase();
-  if (this.submittedEmails.has(email)) {
-    this.service.showToast('error', 'This email is already registered. Please use a different one.');
-    return;
-  }
-
-  this.isLoading = true;
-
-  // Get decrypted userId (superadmin id) from storage
-  const encryptedUserId = this.storageService.getLocal<number>('userId');
-  const payload = {
-    ...this.userForm.value,
-    userId: encryptedUserId // now it's an integer
-  };
-
-  this.service.addAdmin(payload).subscribe({
-    next: (res: any) => {
-      this.isLoading = false;
-      this.submittedEmails.add(email);
-      this.service.showToast('success', res.message);
-      this.userForm.reset();
-    },
-    error: (err: any) => {
-      this.isLoading = false;
-      const errorMsg = err?.error?.message?.toLowerCase().includes('email')
-        ? 'Email already registered'
-        : 'Something went wrong';
-      this.service.showToast('error', errorMsg);
+  onSubmit() {
+    if (this.userForm.invalid) {
+      this.markAllFieldsTouched();
+      this.showValidationErrors();
+      return;
     }
-  });
-}
+
+    const email = this.userForm.value.email.toLowerCase();
+
+    if (this.submittedEmails.has(email)) {
+      this.service.showToast('error', 'This email is already registered. Please use a different one.');
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.service.addAdmin(this.userForm.value).subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        this.submittedEmails.add(email);
+        this.service.showToast('success', res.message);
+        this.userForm.reset();
+      },
+      error: (err: any) => {
+        this.isLoading = false;
+        const errorMsg = err?.error?.message?.toLowerCase().includes('email')
+          ? 'Email already registered'
+          : 'Something went wrong';
+        this.service.showToast('error', errorMsg);
+      }
+    });
+  }
 
   cancel(): void {
     this.userForm.reset();

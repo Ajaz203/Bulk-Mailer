@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../pipes/search.pipe';
 import { Router } from '@angular/router';
-import { StorageService } from '../../shared/services/storage.service';
 @Component({
   selector: 'app-all-admins',
   imports: [CommonModule, FormsModule, SearchPipe],
@@ -23,7 +22,7 @@ export class AllAdminsComponent {
   showPassword = false;
   selectedAdmin: any;
   adminUsers: any[] = [];
-  constructor(private userService: UserService, private router: Router, private storageService: StorageService) { }
+  constructor(private userService: UserService, private router: Router) { }
   isDarkMode = document.body.classList.contains('dark-only'); 
   ngOnInit(): void {
     this.getData();
@@ -124,19 +123,16 @@ getInitials(name: string): string {
     this.isEditMode = true;
   }
 
-updateAdmin() {
-  // Use StorageService to get decrypted value
-  const adminId = this.storageService.getLocal<number>('userId');
+  updateAdmin() {
+    const adminId = localStorage.getItem('userId');
+    this.selectedAdmin.adminId = adminId || null
+    this.userService.updateUser(this.selectedAdmin).subscribe((res: any) => {
+      this.getData();
+      this.isEditMode = false;
+      this.userService.showToast('success', res.message);
 
-  this.selectedAdmin.adminId = adminId || null;
-
-  this.userService.updateUser(this.selectedAdmin).subscribe((res: any) => {
-    this.getData();
-    this.isEditMode = false;
-    this.userService.showToast('success', res.message);
-  });
-}
-
+    });
+  }
 
 }
 
