@@ -9,8 +9,8 @@
     </button>
   </div>
   <!-- Single Upload Form -->
-  <div *ngIf="activeTab === 'single'" class="card p-2">
-    <div class="card-header">
+  <div *ngIf="activeTab === 'single'" class="card p-4">
+    <div class="card-header card--header">
       <h5>Single Candidate Upload</h5>
     </div>
     <form class="theme-form mega-form" #manualForm="ngForm" (ngSubmit)="save(manualForm)">
