@@ -1,7 +1,11 @@
 <div class="bulk-upload-card">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    
-    <h2 class="mb-0">Vendor Bulk Data Upload</h2>
+    <div class="card-header">
+        <div>
+          <h5>Vendor Bulk Data Upload </h5>
+        </div>
+      </div>
+
     <button class="btn btn-success" (click)="downloadMassTemplate()">
       <i class="bi bi-download"></i>
     </button>
@@ -46,7 +50,7 @@
   }
 
 
-  <div class="action-buttons">
+  <div class="action-buttons mb-5">
     <button class="btn btn-danger" (click)="removeFile()">Reset</button>
   <button class="btn btn-success" (click)="uploadFile()" [disabled]="!fileName || isUploading">
   <span *ngIf="isUploading" class="spinner-border spinner-border-sm me-2"></span>

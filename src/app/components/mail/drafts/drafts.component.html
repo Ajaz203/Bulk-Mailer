@@ -68,7 +68,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let draft of filteredDrafts  let i = index">
-                  
+
                   <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                   <td>{{ draft.mailSubject || 'No Subject' }}</td>
                   <!-- <td>
@@ -77,37 +77,31 @@
                     </div>
                   </td> -->
                   <td (click)="toggleEmailDropdown(i)">
-              
-                <div *ngIf="openedDropdownIndex !== i">
-                  {{ draft.emails?.slice(0, 1).join(", ") || "No Emails" }}
-                  <span *ngIf="draft.emails?.length > 1" class="text-primary">
-                    +{{ draft.emails.length - 1 }} more...
-                  </span>
-                </div>
 
-                
-                <div *ngIf="openedDropdownIndex === i" class="expanded-view">
-                  <div class="email-header">Email List</div>
-                  <div *ngIf="draft.emails?.length; else noEmails">
-                    <div
-                      class="email-item"
-                      *ngFor="let email of draft.emails; let j = index"
-                    >
-                      <span>{{ email }}</span>
-                      
-                      <button
-                        class="remove-btn"
-                        (click)="removeEmail(i, email, $event)"
-                      >
-                        &times;
-                      </button>
+                    <div *ngIf="openedDropdownIndex !== i">
+                      {{ draft.emails?.slice(0, 1).join(", ") || "No Emails" }}
+                      <span *ngIf="draft.emails?.length > 1" class="text-primary">
+                        +{{ draft.emails.length - 1 }} more...
+                      </span>
                     </div>
-                  </div>
-                  <ng-template #noEmails>
-                    <div class="no-email">No Emails</div>
-                  </ng-template>
-                </div>
-              </td>
+
+
+                    <div *ngIf="openedDropdownIndex === i" class="expanded-view">
+                      <div class="email-header">Email List</div>
+                      <div *ngIf="draft.emails?.length; else noEmails">
+                        <div class="email-item" *ngFor="let email of draft.emails; let j = index">
+                          <span>{{ email }}</span>
+
+                          <button class="remove-btn" (click)="removeEmail(i, email, $event)">
+                            &times;
+                          </button>
+                        </div>
+                      </div>
+                      <ng-template #noEmails>
+                        <div class="no-email">No Emails</div>
+                      </ng-template>
+                    </div>
+                  </td>
                   <td>
                     <div class="text-truncate" style="max-width: 300px;" [title]="stripHtmlTags(draft.mailBody)">
                       {{ stripHtmlTags(draft.mailBody) || 'No Body Content' }}
@@ -153,15 +147,15 @@
     </div>
 
     <div class="modal-backdrop-custom" *ngIf="showMailModal">
-        <div class="modal-body-custom">
+      <div class="modal-body-custom">
         <div class="modal-content p-4">
           <div class="modal-header mb-3">
             <h5 class="modal-title">
               {{ editingDraftId ? 'Edit Draft' : 'Send Mail' }} - {{ targetType | titlecase }}
             </h5>
 
-           <button type="button" class="btn-close" (click)="closeMailModal()"
-            style="position: absolute; top: 1rem; right: 1rem;"></button>
+            <button type="button" class="btn-close" (click)="closeMailModal()"
+              style="position: absolute; top: 1rem; right: 1rem;"></button>
           </div>
           <div class="modal-body">
 
@@ -181,21 +175,21 @@
             <div class="mb-4">
               <label class="form-label fw-medium mb-2">Description</label>
 
-                <div class="NgxEditor__Wrapper mb-4">
+              <div class="NgxEditor__Wrapper mb-4">
 
-            <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
-            <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
-        </div>
+                <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+                <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
+              </div>
 
             </div>
 
           </div>
           <div class="modal-footer">
             <button class="btn btn-danger me-3" (click)="saveAsDraft()">
-             Save as Draft
+              Save as Draft
             </button>
             <button class="btn btn-primary" (click)="sendMail()">
-            Send
+              Send
             </button>
           </div>
         </div>
