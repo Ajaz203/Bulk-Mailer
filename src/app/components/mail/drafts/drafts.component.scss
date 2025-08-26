@@ -1,6 +1,5 @@
 
 .drafts-container {
-  // background-color: #fefefe;
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
@@ -16,7 +15,6 @@
   height: 100%;
   background: rgba(255, 255, 255, 0.7);
   z-index: 9999;
-  /* 🔥 Very high */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +54,6 @@
   width: 20px;
   height: 20px;
   background-color: #43a047;
-  /* Green */
   border-radius: 50%;
   transition: left 0.3s;
 }
@@ -90,7 +87,7 @@ input[type="text"]::placeholder {
   color: white;
 }
 
-/* Apply this in your global styles.css or component styles */
+
 input.form-control:focus {
   box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.3);
 }
@@ -180,16 +177,9 @@ button:hover .bi-x-circle-fill {
   color: #333;
 }
 .expanded-view {
-  /* background: #fff; */
-  /* border: 1px solid #ddd; */
-  /* border-radius: 6px; */
-  /* padding: 10px; */
-  /* margin-top: 4px; */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   animation: fadeIn 0.2s ease-in-out;
   overflow: auto;
   max-height: 150px;
-  /* background-color: #FEFEFE ; */
 }
 .email-header {
   font-size: 14px;
@@ -201,12 +191,9 @@ button:hover .bi-x-circle-fill {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 4px 0; */
   border-bottom: 1px solid #F1F1F1;
 }
-/* .email-item:last-child {
-  border-bottom: none;
-} */
+
 .remove-btn {
   background: none;
   border: none;
