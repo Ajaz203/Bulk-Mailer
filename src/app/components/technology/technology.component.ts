@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
   styleUrl: './technology.component.scss'
 })
 export class TechnologyComponent {
+isDarkMode = document.body.classList.contains('dark-only');
 constructor(private service: UserService, private dialog: MatDialog) { }
   name: string = '';
   getDataArr: any = [];

@@ -9,10 +9,10 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(private router: Router,private toastr: ToastrService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
@@ -24,9 +24,10 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(clonedReq).pipe(
+     return next.handle(clonedReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
+          this.toastr.error('Your session has expired. Please log in again.', 'Unauthorized');
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           this.router.navigate(['/auth/login']); 
