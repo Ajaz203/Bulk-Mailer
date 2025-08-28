@@ -27,10 +27,13 @@
               <div class="col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
                   <label>Your Name *</label>
-                  <input type="text" name="name" class="form-control" id="name" required formControlName="name">
-                  <span *ngIf="name?.invalid && name?.touched" style="color: red;">Name is
-                    required</span>
-
+                  <input type="text" class="form-control" formControlName="name">
+                  <span *ngIf="name?.errors?.['required'] && name?.touched" style="color:red;">
+                    Name is required
+                  </span>
+                  <span *ngIf="name?.errors?.['pattern'] && name?.touched" style="color:red;">
+                    Name cannot contain numbers or special characters
+                  </span>
                 </div>
               </div>
               <div class="col-sm-6 col-md-6 col-lg-6">
@@ -60,9 +63,16 @@
               <div class="col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
                   <label>Email Address *</label>
-                  <input type="email" name="email" class="form-control" id="email" required formControlName="emailId">
-                  <span *ngIf="emailId?.invalid && emailId?.touched" style="color: red;">Email is
-                    required</span>
+                  <input type="email" class="form-control" formControlName="emailId">
+                  <span *ngIf="emailId?.errors?.['required'] && emailId?.touched" style="color:red;">
+                    Email is required
+                  </span>
+                  <span *ngIf="emailId?.errors?.['email'] && emailId?.touched" style="color:red;">
+                    Invalid email format
+                  </span>
+                  <span *ngIf="emailId?.errors?.['pattern'] && emailId?.touched" style="color:red;">
+                    Email cannot start with a number
+                  </span>
                 </div>
 
               </div>
@@ -115,11 +125,12 @@
           </form>
         </div>
       </div>
-   <div class="col-12 col-lg-6">
-  <div class="contact-item-image text-center">
-    <img src="/assets/images/Leave_a_message.jpg" alt="Leave a message" class="img-fluid mx-auto d-block" style="max-width: 90%;">
-  </div>
-</div>
+      <div class="col-12 col-lg-6">
+        <div class="contact-item-image text-center">
+          <img src="/assets/images/Leave_a_message.jpg" alt="Leave a message" class="img-fluid mx-auto d-block"
+            style="max-width: 90%;">
+        </div>
+      </div>
 
     </div>
   </div>

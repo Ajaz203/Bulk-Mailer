@@ -55,9 +55,12 @@ countryCodes = [
   }
   ngOnInit(): void {
     this.contactForm = this.formBuilder.group({
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required,
+        Validators.pattern(/^[A-Za-z ]+$/)]),
       phoneNumber: new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]),
-      emailId: new FormControl('', [Validators.required, Validators.email]),
+      emailId: new FormControl('', [   Validators.required,
+        Validators.email,
+        Validators.pattern(/^[^\d][A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/) ]),
       subject: new FormControl('', [Validators.required]),
       messages: new FormControl(''),
         countryCode: new FormControl('+91', Validators.required),
