@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-candidate-upload',
   imports: [CommonModule,FormsModule],
@@ -18,7 +19,9 @@ export class CandidateUploadComponent {
   isUploading = false;
   file: File | null = null;
   fileName: string = '';
-  constructor(private service: UserService, public router: Router) { }
+  constructor(private service: UserService, public router: Router, private titleService: Title) { 
+    this.titleService.setTitle('MailCept-Upload Candidates');
+  }
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   triggerFileUpload(event: MouseEvent) {

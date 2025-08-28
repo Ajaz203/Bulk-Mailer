@@ -3,7 +3,7 @@ import { UserService } from '../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-
+import { Title } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,9 @@ import Swal from 'sweetalert2';
 })
 export class TechnologyComponent {
 isDarkMode = document.body.classList.contains('dark-only');
-constructor(private service: UserService, private dialog: MatDialog) { }
+constructor(private service: UserService, private dialog: MatDialog, private titleService: Title) { 
+  this.titleService.setTitle('MailCept-Technology');
+}
   name: string = '';
   getDataArr: any = [];
   categoryName = '';

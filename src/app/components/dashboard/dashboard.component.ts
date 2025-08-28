@@ -10,6 +10,7 @@ import { DashboardBookingHistoryComponent } from './dashboard-booking-history/da
 import { FormsModule } from '@angular/forms';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -27,9 +28,11 @@ export class DashboardComponent {
   role: string = '';
   selectedMonth: { year: number, month: number };
 
-  constructor(private userService: UserService, private calendar: NgbCalendar) {
+  constructor(private userService: UserService, private calendar: NgbCalendar, private titleService: Title) {
+    this.titleService.setTitle('MailCept-Dashboard');
     this.today = this.calendar.getToday();
     this.selectedDate = this.today
+
   }
 
   ngOnInit() {

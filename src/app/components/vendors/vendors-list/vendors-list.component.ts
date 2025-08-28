@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxEditorModule } from 'ngx-editor';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { Title } from '@angular/platform-browser';
 declare var bootstrap: any;
 @Component({
   selector: 'app-vendors-list',
@@ -40,8 +41,11 @@ export class VendorsListComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: UserService
-  ) { }
+    private service: UserService,
+    private titleService: Title
+  ) { 
+    this.titleService.setTitle('MailCept-Vendors');
+  }
 
   ngOnInit(): void {
     this.editor = new Editor();

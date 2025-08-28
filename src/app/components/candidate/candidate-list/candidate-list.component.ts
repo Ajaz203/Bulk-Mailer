@@ -8,7 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Toolbar } from 'ngx-editor';
 import { NgxEditorModule, Editor } from 'ngx-editor';
 import { Router } from '@angular/router';
-
+import { Title } from '@angular/platform-browser';
 declare var bootstrap: any;
 @Component({
   selector: 'app-candidate-list',
@@ -48,7 +48,10 @@ export class CandidateListComponent {
   ];
   showMailModal = false;
   showEditModal = false;
-  constructor(private service: UserService, private cdr: ChangeDetectorRef, private router: Router) { }
+  constructor(private service: UserService, private cdr: ChangeDetectorRef,
+    private titleService: Title, private router: Router) { 
+      this.titleService.setTitle('MailCept-Candidates');
+    }
 
   ngOnInit() {
     this.editor = new Editor();

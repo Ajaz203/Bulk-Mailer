@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../shared/services/user.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { Title } from '@angular/platform-browser';
 interface Mail {
   subject: string;
   email: string;
@@ -43,7 +43,9 @@ currentPage: number = 1;
 totalMails: number = 0;
 mails: any[] = [];
   activeTab: any;
-  constructor(private service: UserService, private cdr: ChangeDetectorRef) { }
+  constructor(private service: UserService, private cdr: ChangeDetectorRef, private titleService: Title) { 
+    this.titleService.setTitle('MailCept-Mails');
+  }
 
   ngOnInit(): void {
     this.viewMail();

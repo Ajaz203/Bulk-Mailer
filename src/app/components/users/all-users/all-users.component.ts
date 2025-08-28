@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
 import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-all-users',
   standalone: true,
@@ -22,7 +23,10 @@ export class AllUsersComponent {
   totalPages = 1;
   isEditMode: boolean;
   showPassword = false;
-  constructor(private userService: UserService, private route: ActivatedRoute) {}
+  constructor(private userService: UserService, private route: ActivatedRoute, private titleService: Title) {
+    this.titleService.setTitle('MailCept-Users');
+  }
+
 
     isDarkMode = document.body.classList.contains('dark-only'); 
   // ngOnInit(): void {

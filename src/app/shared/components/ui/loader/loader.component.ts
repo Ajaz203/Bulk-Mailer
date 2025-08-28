@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class LoaderComponent {
   loading$: Observable<boolean> = this.loaderService.loading$; 
-  message = 'Loading...';
+  message = 'Loading Inner Data...';
   isHide = false;
 
   constructor(private loaderService: LoaderService) {

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../shared/services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-add-subscription',
   imports: [CommonModule,ReactiveFormsModule,FormsModule],
@@ -12,7 +13,11 @@ import { ToastrService } from 'ngx-toastr';
 export class AddSubscriptionComponent {
       subscriptionForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private toastr: ToastrService ) {}
+  constructor(private fb: FormBuilder, private userService: UserService, private toastr: ToastrService 
+    ,private titleService: Title
+  ) {
+    this.titleService.setTitle('MailCept-Add Subscription');
+  }
 
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({

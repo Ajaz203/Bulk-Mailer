@@ -3,6 +3,7 @@ import { DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../shared/services/user.service';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 export function nameValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value?.trim();
@@ -42,7 +43,8 @@ export class AddNewUserComponent {
 
   public text = '<i class="icon-cloud-up"></i><h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>';
   isLoading: boolean = false;
-  constructor(public service: UserService, private fb: FormBuilder) {
+  constructor(public service: UserService, private fb: FormBuilder, private titleService: Title) {
+    this.titleService.setTitle('MailCept-Add New User');
     this.userForm = this.fb.group({
       name: ['', [Validators.required, nameValidator()]],
   email: ['', [Validators.required, Validators.email, emailValidator()]],

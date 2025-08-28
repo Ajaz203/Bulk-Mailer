@@ -3,6 +3,7 @@ import { UserService } from '../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 declare var bootstrap: any;
 
 
@@ -17,7 +18,9 @@ export class VendorsByUserComponent implements OnInit {
   searchTermUser = '';
   isLoading = false;
 
-  constructor(private service: UserService) {}
+  constructor(private service: UserService, private router: Router, private titleService: Title) {
+    this.titleService.setTitle('MailCept-Vendors By User');
+  }
 
   ngOnInit(): void {
     this.fetchUsersWithVendorMapping();

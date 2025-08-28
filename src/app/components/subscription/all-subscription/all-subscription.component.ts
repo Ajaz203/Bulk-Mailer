@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../shared/services/user.service';
 import { FormGroup, Validators, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { Title } from '@angular/platform-browser';
 interface SubscriptionPlan {
   id: number;
   name: string;
@@ -30,7 +30,10 @@ export class AllSubscriptionComponent implements OnInit {
   selectedPlan: any;
   editingPlanId!: string;
 
-  constructor(private router: Router, private userService: UserService, private fb: FormBuilder) { }
+  constructor(private router: Router, private userService: UserService, 
+    private titleService: Title,private fb: FormBuilder) { 
+      this.titleService.setTitle('MailCept-Subscription');
+    }
   isDarkMode = document.body.classList.contains('dark-only'); 
   ngOnInit(): void {
     this.loadPlans();

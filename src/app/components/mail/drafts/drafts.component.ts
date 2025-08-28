@@ -4,8 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../shared/services/user.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-// import { NgxPaginationModule } from 'ngx-pagination';
-import { Toolbar } from 'ngx-editor';
+import { Title } from '@angular/platform-browser';
 import { NgxEditorModule, Editor } from 'ngx-editor';
 declare var bootstrap: any;
 
@@ -40,7 +39,9 @@ export class DraftsComponent {
 openedDropdownIndex: number | null = null;
 
 
-  constructor(private service: UserService, private router: Router) { }
+  constructor(private service: UserService, private router: Router, private titleService: Title) {
+    this.titleService.setTitle('MailCept-Drafts');
+   }
 
   ngOnInit(): void {
     this.editor = new Editor();

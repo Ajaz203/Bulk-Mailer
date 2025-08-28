@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../shared/services/user.service';
-
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-contacts',
   imports: [CommonModule,FormsModule,ReactiveFormsModule],
@@ -13,7 +13,9 @@ export class ContactsComponent {
 
   contacts: any[] = [];
 
-  constructor(private service: UserService) { }
+  constructor(private service: UserService, private titleService: Title) { 
+    this.titleService.setTitle('MailCept-Enquiries');
+  }
 
 
     ngOnInit(): void {

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
+import { Title } from '@angular/platform-browser';
 import { WebFooterComponent } from '../web-footer/web-footer.component';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -57,13 +57,15 @@ export class WebPackagesComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private ngZone: NgZone,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
    this.userForm = this.fb.group({
   name: ['', [Validators.required, nameValidator()]],
   email: ['', [Validators.required, Validators.email, emailValidator()]],
   password: ['', [Validators.required, Validators.minLength(6)]]
 });
+ this.titleService.setTitle('MailCept-Packages');
   }
 
   showPopupMessage(message: string, type: 'success' | 'error' | 'info' = 'info') {

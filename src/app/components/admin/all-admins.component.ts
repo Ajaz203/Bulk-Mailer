@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../pipes/search.pipe';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-all-admins',
   imports: [CommonModule, FormsModule, SearchPipe],
@@ -22,7 +23,9 @@ export class AllAdminsComponent {
   showPassword = false;
   selectedAdmin: any;
   adminUsers: any[] = [];
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, private titleService: Title) {
+    this.titleService.setTitle('MailCept-Admins');
+   }
   isDarkMode = document.body.classList.contains('dark-only'); 
   ngOnInit(): void {
     this.getData();

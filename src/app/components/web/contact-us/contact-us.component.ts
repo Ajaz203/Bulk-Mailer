@@ -6,6 +6,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { WebHeaderComponent } from '../web-header/web-header.component';
 import { WebFooterComponent } from '../web-footer/web-footer.component';
+
 declare var bootstrap: any;
 
 @Component({
@@ -51,7 +52,7 @@ countryCodes = [
 ];
 
   constructor(private meta:  Meta, private titleService: Title,private formBuilder: FormBuilder,private toastr: ToastrService, private service: UserService) {
-
+ this.titleService.setTitle(' MailCept-Contact Us');
   }
   ngOnInit(): void {
     this.contactForm = this.formBuilder.group({

@@ -4,7 +4,7 @@ import { UserService } from '../../../shared/services/user.service';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-vendors-upload',
   imports: [CommonModule],
@@ -15,7 +15,9 @@ export class VendorsUploadComponent {
   isUploading = false;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private router: Router, private service: UserService) { }
+  constructor(private router: Router, private service: UserService, private titleService: Title) {
+    this.titleService.setTitle('MailCept-Vendors Upload');
+   }
   triggerFileUpload(event: MouseEvent) {
     event.stopPropagation(); // prevent it from bubbling to the div
     this.fileInput.nativeElement.click();
