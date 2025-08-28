@@ -168,263 +168,188 @@ export const dashboardVisitorChart: ChartOptions | any =
 }
 
 export const dashboardEarningChart: ChartOptions | any = {
-    series: [{
-        // color: ["#4aa4d9"],
-        name: 'Net Profit',
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-    }, {
-        name: 'Revenue',
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-    }, {
-        name: 'Free Cash Flow',
-        data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-    }],
-    colors: ["#4aa4d9", "#747dc6", "#ef3f3e"],
-    chart: {
-        type: 'bar',
-        height: 250
+     series: [
+    {
+      // color: ["#4aa4d9"],
+      name: "Net Profit",
+      data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
     },
-    plotOptions: {
-        bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-        },
+    {
+      name: "Revenue",
+      data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
     },
-    dataLabels: {
-        enabled: false
+    {
+      name: "Free Cash Flow",
+      data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
     },
-
-    stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent']
+  ],
+  colors: ["#4aa4d9", "#747dc6", "#ef3f3e"],
+  chart: {
+    type: "bar",
+    height: 250,
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: "55%",
     },
-    xaxis: {
-        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+  },
+  dataLabels: {
+    enabled: false,
+  },
+
+  stroke: {
+    show: true,
+    width: 2,
+    colors: ["transparent"],
+  },
+  xaxis: {
+    categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
+  },
+  yaxis: {
+    title: {
+      text: "$ (thousands)",
     },
-    yaxis: {
-        title: {
-            text: '$ (thousands)'
-        }
+  },
+  legend: { offsetY: -10 },
+  fill: {
+    opacity: 1,
+  },
+  tooltip: {
+    y: {
+      formatter: function (val: number): string {
+        return "$ " + val + " thousands";
+      },
     },
-    legend: { offsetY: -10, },
-    fill: {
-        opacity: 1
+  },
+
+  responsive: [
+    {
+      breakpoint: 1837,
+      options: {
+        chart: {
+          height: 323,
+        },
+        legend: {
+          position: "bottom",
+        },
+      },
     },
-    tooltip: {
-        y: {
-            formatter: function (val: string) {
-                return "$ " + val + " thousands"
-            }
-        }
+    {
+      breakpoint: 1572,
+      options: {
+        chart: {
+          height: 318,
+        },
+        legend: {
+          position: "bottom",
+        },
+      },
     },
-
-    responsive: [
-        {
-            breakpoint: 1837,
-            options: {
-                chart: {
-                    height: 323,
-
-                },
-                legend: {
-
-                    position: 'bottom',
-
-                },
-
-            },
+    {
+      breakpoint: 1525,
+      options: {
+        chart: {
+          height: 345,
         },
-        {
-            breakpoint: 1572,
-            options: {
-                chart: {
-                    height: 318,
-
-                },
-                legend: {
-
-                    position: 'bottom',
-
-                },
-
-            },
+        legend: {
+          position: "bottom",
         },
-        {
-
-            breakpoint: 1525,
-            options: {
-                chart: {
-                    height: 345,
-
-                },
-                legend: {
-
-                    position: 'bottom',
-
-                },
-
-            },
+      },
+    },
+    {
+      breakpoint: 1463,
+      options: {
+        chart: {
+          height: 368,
         },
-        {
-
-            breakpoint: 1463,
-            options: {
-                chart: {
-                    height: 368,
-
-                },
-                legend: {
-
-                    position: 'bottom',
-
-                },
-
-            },
+        legend: {
+          position: "bottom",
         },
-        {
-
-            breakpoint: 1387,
-            options: {
-                chart: {
-                    height: 343,
-
-                },
-                legend: {
-
-                    position: 'bottom',
-
-                },
-
-            },
+      },
+    },
+    {
+      breakpoint: 1387,
+      options: {
+        chart: {
+          height: 343,
         },
-        {
-
-            breakpoint: 1275,
-            options: {
-                chart: {
-                    height: 312,
-                },
-                legend: {
-
-                    position: 'bottom',
-
-                },
-
-            },
-
-
-
+        legend: {
+          position: "bottom",
         },
-        {
-
-            breakpoint: 650,
-            options: {
-                chart: {
-                    height: 250,
-
-                },
-
-
-
-
-            },
-
-
-
+      },
+    },
+    {
+      breakpoint: 1275,
+      options: {
+        chart: {
+          height: 312,
         },
-        {
-
-            breakpoint: 584,
-            options: {
-                chart: {
-                    height: 200,
-
-                    offsetX: -10,
-                },
-
-                legend: {
-                    fontSize: '12px',
-                    position: 'bottom',
-                    offsetX: 5,
-                    MarginBottom: "5px",
-                    horizontalAlign: 'center',
-                    markers: {
-                        width: 10,
-                        height: 10,
-
-
-                    },
-
-
-                },
-
-                yaxis: {
-                    tooltip: {
-                        enabled: false,
-                        offsetX: 0,
-                    },
-                }
-
-
-            },
-
-
-
+        legend: {
+          position: "bottom",
         },
-        {
-
-            breakpoint: 438,
-            options: {
-                chart: {
-                    height: 200,
-
-
-                },
-
-
-
-
-            },
-
-
-
+      },
+    },
+    {
+      breakpoint: 650,
+      options: {
+        chart: {
+          height: 250,
         },
-        {
+      },
+    },
+    {
+      breakpoint: 584,
+      options: {
+        chart: {
+          height: 200,
 
-            breakpoint: 371,
-            options: {
-                chart: {
-                    height: 200,
-                    width: "115%",
-                    offsetX: -25,
-                },
-
-                legend: {
-
-                    offsetY: -5,
-
-
-
-                },
-
-
-            },
-
-
-
+          offsetX: -10,
         },
 
+        legend: {
+          fontSize: "12px",
+          position: "bottom",
+          offsetX: 5,
+          MarginBottom: "5px",
+          horizontalAlign: "center",
+          markers: {
+            width: 10,
+            height: 10,
+          },
+        },
 
+        yaxis: {
+          tooltip: {
+            enabled: false,
+            offsetX: 0,
+          },
+        },
+      },
+    },
+    {
+      breakpoint: 438,
+      options: {
+        chart: {
+          height: 200,
+        },
+      },
+    },
+    {
+      breakpoint: 371,
+      options: {
+        chart: {
+          height: 200,
+          width: "115%",
+          offsetX: -25,
+        },
 
-
-
-    ],
-
-
-
-
+        legend: {
+          offsetY: -5,
+        },
+      },
+    },
+  ],
 };
 
 export const dashboardTrafficChart: ChartOptions | any ={

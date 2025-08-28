@@ -14,13 +14,19 @@
           <strong>No data available for the last 7 months.</strong>
         </div>
         <div *ngIf="dashboardEarningChart">
-          <apx-chart [series]="dashboardEarningChart.series" [chart]="dashboardEarningChart.chart"
-            [xaxis]="dashboardEarningChart.xaxis" [yaxis]="dashboardEarningChart.yaxis"
-            [plotOptions]="dashboardEarningChart.plotOptions" [stroke]="dashboardEarningChart.stroke"
-            [dataLabels]="dashboardEarningChart.dataLabels" [tooltip]="dashboardEarningChart.tooltip"
-            [legend]="dashboardEarningChart.legend" [colors]="dashboardEarningChart.colors"
-            [fill]="dashboardEarningChart.fill" [responsive]="dashboardEarningChart.responsive">
-          </apx-chart>
+        <apx-chart
+          [series]="dashboardEarningChart.series"
+          [colors]="dashboardEarningChart.colors"
+          [chart]="dashboardEarningChart.chart"
+          [plotOptions]="dashboardEarningChart.plotOptions"
+          [dataLabels]="dashboardEarningChart.dataLabels"
+          [stroke]="dashboardEarningChart.stroke"
+          [xaxis]="dashboardEarningChart.xaxis"
+          [yaxis]="dashboardEarningChart.yaxis"
+          [legend]="dashboardEarningChart.legend"
+          [fill]="dashboardEarningChart.fill"
+          [responsive]="dashboardEarningChart.responsive"
+        />
         </div>
       </div>
     </div>
