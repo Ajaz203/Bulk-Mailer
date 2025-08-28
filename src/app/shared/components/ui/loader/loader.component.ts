@@ -2,23 +2,23 @@ import { Component } from '@angular/core';
 import { LoaderService } from '../../../services/loader.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-loader',
-  templateUrl: './loader.component.html',
-  styleUrl: './loader.component.scss',
+  standalone: true,
   imports: [CommonModule],
+  templateUrl: './loader.component.html',
+  styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent {
-  loading$: Observable<boolean>;
- 
-  message = 'Loading Inner Data....';
-  public isHide: boolean = false;
+  loading$: Observable<boolean> = this.loaderService.loading$; 
+  message = 'Loading...';
+  isHide = false;
 
   constructor(private loaderService: LoaderService) {
+    // Hide animation after min time (2s)
     setTimeout(() => {
       this.isHide = true;
-    }, 3000);
-    this.loading$ = this.loaderService.loading$;
+    }, 2000);
   }
-
 }

@@ -20,24 +20,21 @@ export const routes: Routes = [
   },
   {
     path: 'auth/login',
-    component: LoginComponent
-  },
+    component: LoginComponent, data: { skipLoader: true } },
+  
   {
     path: 'home',
-    component: HomeComponent
-  },
+    component: HomeComponent,
+  data: { skipLoader: true } },
   {
     path: 'about-us',
-    component: AboutUsComponent
-  },
+    component: AboutUsComponent, data: { skipLoader: true } },
   {
     path: 'contact-us',
-    component: ContactUsComponent
-  },
+    component: ContactUsComponent, data: { skipLoader: true } },
   {
     path: 'packages',
-    component: WebPackagesComponent
-  },
+    component: WebPackagesComponent, data: { skipLoader: true } },
   {
     path: '',
     component: LayoutComponent,
