@@ -49,7 +49,7 @@ getBgStyle(title: string): { [klass: string]: any } {
     case 'Total Vendors':
       return { 'background-color': '#4aa4d9' }; 
     case 'Total Sent Emails':
-      return { 'background-color': '#28a745' }; 
+      return { 'background-color': '#198754' }; 
     case 'All Users':
       return { 'background-color': '#9e65c2' }; 
     case 'Draft Mails':
