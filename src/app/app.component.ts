@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from "./shared/components/ui/loader/loader.component";
-import { UserService } from './shared/services/user.service';
-import { Router,NavigationEnd  } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { LoaderService } from './shared/services/loader.service';
 import { filter } from 'rxjs/operators';
-import { LoadingService } from './shared/services/loading.service';
 @Component({
     selector: 'app-root',
     imports: [RouterOutlet, LoaderComponent],
@@ -13,13 +12,16 @@ import { LoadingService } from './shared/services/loading.service';
 })
 export class AppComponent {
   title = 'admin';
-  constructor(private userService: UserService, private router: Router,
-    private loadingService: LoadingService
-  ) {}
-  ngOnInit() {
-  this.loadingService.showLoading();
-  setTimeout(() => this.loadingService.hideLoading(), 3000); // simulate load
-}
+  constructor(private router: Router, private loader: LoaderService) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.loader.show();
+      }
+      if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        this.loader.hide();
+      }
+    });
+  }
 }
 
 

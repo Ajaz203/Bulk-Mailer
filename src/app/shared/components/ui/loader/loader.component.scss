@@ -1,3 +1,86 @@
 .loaderHide{
   display: none;
 }
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader-mailer {
+  text-align: center;
+  background: #fff;
+  padding: 40px 60px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.25);
+  color: #00457c;
+  min-width: 280px;
+}
+
+.envelope {
+  width: 80px;
+  height: 50px;
+  margin: 0 auto 20px;
+  position: relative;
+  border: 2px solid #00457c;
+  background: #e6f0fa;
+  border-radius: 4px;
+  overflow: hidden;
+  animation: float 2s infinite ease-in-out;
+}
+
+/* Top Flap */
+.flap {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 84px;
+  height: 30px;
+  background: #00457c;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  animation: flap-open 2s infinite ease-in-out;
+}
+
+/* Paper inside */
+.paper {
+  width: 60px;
+  height: 40px;
+  background: #fff;
+  border: 2px solid #00457c;
+  position: absolute;
+  top: -50px;
+  left: 9px;
+  animation: paper-move 2s infinite ease-in-out;
+}
+
+/* Floating animation for envelope */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Flap opens when paper comes */
+@keyframes flap-open {
+  0%, 100% { transform: rotateX(0deg); }
+  25%, 75% { transform: rotateX(180deg); }
+}
+
+/* Paper sliding */
+@keyframes paper-move {
+  0% { top: -50px; opacity: 0; }
+  30% { top: 5px; opacity: 1; }
+  60% { top: -50px; opacity: 0; }
+  100% { top: -50px; opacity: 0; }
+}
+
+p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #00457c;
+}
