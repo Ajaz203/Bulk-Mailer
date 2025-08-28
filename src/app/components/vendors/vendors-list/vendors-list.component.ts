@@ -100,9 +100,16 @@ loadVendors(): void {
 
 
 get filteredVendorList() {
-  return (this.vendorList || []).filter(v => v != null);
-}
+  if (!this.searchTermVendor) return this.vendorList;
 
+  const query = this.searchTermVendor.toLowerCase();
+
+  return this.vendorList.filter((vendor: any) =>
+    vendor?.email
+      ? vendor.email.toLowerCase().includes(query)
+      : false
+  );
+}
 
 
 

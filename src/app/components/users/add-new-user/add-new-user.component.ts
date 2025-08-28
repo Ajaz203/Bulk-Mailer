@@ -2,6 +2,25 @@ import { Component } from '@angular/core';
 import { DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../shared/services/user.service';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+export function nameValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value?.trim();
+    if (!value) return null;
+    const valid = /^[A-Za-z\s]+$/.test(value);
+    return valid ? null : { invalidName: true };
+  };
+}
+
+// ✅ Email should not start with a number
+export function emailValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    const valid = /^[A-Za-z][A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
+    return valid ? null : { invalidEmail: true };
+  };
+}
 @Component({
   selector: 'app-add-new-user',
   templateUrl: './add-new-user.component.html',
@@ -25,8 +44,8 @@ export class AddNewUserComponent {
   isLoading: boolean = false;
   constructor(public service: UserService, private fb: FormBuilder) {
     this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required, nameValidator()]],
+  email: ['', [Validators.required, Validators.email, emailValidator()]],
       password: [
         '',
         [

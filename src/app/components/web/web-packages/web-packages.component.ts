@@ -8,9 +8,26 @@ import { Router } from '@angular/router';
 
 import { WebFooterComponent } from '../web-footer/web-footer.component';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
-
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 declare var Razorpay: any;
+export function nameValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value?.trim();
+    if (!value) return null;
+    const valid = /^[A-Za-z\s]+$/.test(value);
+    return valid ? null : { invalidName: true };
+  };
+}
 
+// ✅ Email should not start with a number
+export function emailValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    const valid = /^[A-Za-z][A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
+    return valid ? null : { invalidEmail: true };
+  };
+}
 @Component({
   selector: 'app-web-packages',
   imports: [
@@ -42,11 +59,11 @@ export class WebPackagesComponent implements OnInit {
     private ngZone: NgZone,
     private router: Router
   ) {
-    this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+   this.userForm = this.fb.group({
+  name: ['', [Validators.required, nameValidator()]],
+  email: ['', [Validators.required, Validators.email, emailValidator()]],
+  password: ['', [Validators.required, Validators.minLength(6)]]
+});
   }
 
   showPopupMessage(message: string, type: 'success' | 'error' | 'info' = 'info') {

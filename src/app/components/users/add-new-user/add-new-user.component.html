@@ -9,28 +9,41 @@
           <div class="card-body">
             <form class="theme-form mega-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
-          
+              <!-- User Name -->
               <div class="mb-3">
                 <label class="form-label-title">User Name</label>
                 <input class="form-control" type="text" placeholder="User Name" formControlName="name"
                   [class.is-invalid]="userForm.get('name')?.invalid && userForm.get('name')?.touched">
                 <div class="invalid-feedback" *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid">
-                  Name is required
+                  <div *ngIf="userForm.get('name')?.errors?.['required']">
+                    Name is required
+                  </div>
+                  <div *ngIf="userForm.get('name')?.errors?.['invalidName']">
+                    Name must only contain letters and spaces (no numbers or symbols).
+                  </div>
                 </div>
               </div>
 
-         
+              <!-- Email Address -->
               <div class="mb-3">
                 <label class="form-label-title">Email Address</label>
                 <input class="form-control" type="email" placeholder="Email Address" formControlName="email"
                   [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched">
                 <div class="invalid-feedback" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
-                  <div *ngIf="userForm.get('email')?.errors?.['required']">Email is required</div>
-                  <div *ngIf="userForm.get('email')?.errors?.['email']">Please enter a valid email address</div>
+                  <div *ngIf="userForm.get('email')?.errors?.['required']">
+                    Email is required
+                  </div>
+                  <div *ngIf="userForm.get('email')?.errors?.['email']">
+                    Please enter a valid email address
+                  </div>
+                  <div *ngIf="userForm.get('email')?.errors?.['invalidEmail']">
+                    Email cannot start with a number
+                  </div>
                 </div>
               </div>
 
-             
+
+
               <div class="mb-3">
                 <label class="form-label-title">Password</label>
                 <div class="input-group">
@@ -62,7 +75,7 @@
                 </div>
               </div>
 
-           
+
               <div class="card-footer text-end">
                 <button type="button" class="btn btn-outline-primary " (click)="cancel()">Reset</button>
                 <button class="btn btn-primary ms-2" type="submit">

@@ -434,23 +434,28 @@ export class CandidateListComponent {
 
 
 
-  get filteredCandidates() {
-    if (!this.searchQuery) return this.dataArr;
+get filteredCandidates() {
+  if (!this.searchQuery) return this.dataArr;
 
-    const query = this.searchQuery.toLowerCase();
+  const query = this.searchQuery.toLowerCase();
 
-    return this.dataArr.filter((c: any) =>
-      (c.name?.toLowerCase().includes(query)) ||
-      (c.email?.toLowerCase().includes(query)) ||
-      (c.contact_no?.toLowerCase().includes(query)) ||
-      (c.alt_contact_no?.toLowerCase().includes(query)) ||
-      (c.technology?.toLowerCase().includes(query)) ||
-      (c.location?.toLowerCase().includes(query)) ||
-      (c.visa?.toLowerCase().includes(query)) ||
-      (c.skills?.join(', ').toLowerCase().includes(query)) ||
-      (new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query))
-    );
-  }
+  return this.dataArr.filter((c: any) =>
+    (c.name?.toLowerCase().includes(query)) ||
+    (c.email?.toLowerCase().includes(query)) ||
+    (c.contact_no ? String(c.contact_no).toLowerCase().includes(query) : false) ||
+    (c.alt_contact_no ? String(c.alt_contact_no).toLowerCase().includes(query) : false) ||
+    (c.technology?.toLowerCase().includes(query)) ||
+    (c.location?.toLowerCase().includes(query)) ||
+    (c.visa?.toLowerCase().includes(query)) ||
+    (c.skills && c.skills.length > 0
+      ? c.skills.join(', ').toLowerCase().includes(query)
+      : false) ||
+    (c.createdAt
+      ? new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query)
+      : false)
+  );
+}
+
 
   openDraftInMail(draft: any) {
     this.mailSubject = draft.mailSubject || '';
