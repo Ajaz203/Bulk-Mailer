@@ -16,14 +16,24 @@
     <form class="theme-form mega-form" #manualForm="ngForm" (ngSubmit)="save(manualForm)">
       <div class="row">
         <!-- Name -->
-        <div class="mb-3 col-md-6">
-          <label class="form-label-title">Name</label>
-          <input class="form-control" type="text" [(ngModel)]="candidate.name" name="name" #name="ngModel"
-            placeholder="Name" [class.is-invalid]="name.invalid && name.touched" />
-          <div class="invalid-feedback" *ngIf="name.invalid && name.touched">
-            Name is required
-          </div>
-        </div>
+       <div class="mb-3 col-md-6">
+  <label class="form-label-title">Name</label>
+  <input 
+    class="form-control"
+    type="text"
+    [(ngModel)]="candidate.name"
+    name="name"
+    #name="ngModel"
+    placeholder="Name"
+    pattern="^[A-Za-z ]*$"
+    [class.is-invalid]="name.invalid && name.touched" />
+
+  <div class="invalid-feedback" *ngIf="name.errors?.['pattern'] && name.touched">
+    Name must contain only letters and spaces
+  </div>
+</div>
+
+
         <!-- Email -->
         <div class="mb-3 col-md-6">
           <label class="form-label-title">Email <span class="text-danger">*</span></label>
@@ -43,7 +53,7 @@
         <div class="mb-3 col-md-6">
           <label class="form-label-title">Contact No</label>
           <input class="form-control" type="text" [(ngModel)]="candidate.contact_no" name="contactNo"
-            #contactNo="ngModel" maxlength="15" placeholder="Contact No" (keypress)="allowOnlyNumbers($event)"
+            #contactNo="ngModel" maxlength="10" placeholder="Contact No" (keypress)="allowOnlyNumbers($event)"
             (paste)="handlePaste($event)" [class.is-invalid]="contactNo.invalid && contactNo.touched" />
         </div>
         <!-- Work Status -->
