@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardVisitorChartComponent implements OnInit {
   public chartSeries: ApexNonAxisChartSeries = [0, 0, 0];
-  public chartLabels: string[] = ["Drafts", "Scheduled", "Sent"];
+  public chartLabels: string[] = ['Drafts', 'Scheduled', 'Sent'];
 
   public chartOptions: {
     series: ApexNonAxisChartSeries;
@@ -43,76 +43,86 @@ export class DashboardVisitorChartComponent implements OnInit {
 
   setChartOptions(): void {
     this.chartOptions = {
-       series: this.chartSeries,
+      series: this.chartSeries,
       labels: this.chartLabels,
       chart: {
         width: "100%",
         height: 500,
-        type: "donut",
+        type: 'donut',
       },
-      colors: ["#4aa4d9", "#ef3f3e", "#9e65c2", "#6670bd", "#FF9800"],
+      colors: ['#4aa4d9', '#ef3f3e', '#9e65c2', '#6670bd', '#FF9800'],
       plotOptions: {
         pie: {
           startAngle: -90,
           endAngle: 270,
-        },
+        }
       },
       dataLabels: {
-        enabled: false,
+        enabled: false
       },
 
       legend: {
-        formatter: function (
-          val: string,
-          opts: {
-            w: { globals: { series: { [x: string]: string } } };
-            seriesIndex: string | number;
-          },
-        ) {
-          return val + " - " + opts.w.globals.series[opts.seriesIndex];
-        },
-        offsetY: 10,
+        show: true,
+        position: 'right',         
+        horizontalAlign: 'left',  
+        offsetX: 0,
+        offsetY: 0,
+        itemMargin: { horizontal: 6, vertical: 8 },
+        formatter: (val: string, opts: { w: { globals: { series: number[] } }, seriesIndex: number }) =>
+          `${val} - ${opts.w.globals.series[opts.seriesIndex]}`
       },
+      
       responsive: [
         {
+
           breakpoint: 1835,
           options: {
             chart: {
               height: 245,
             },
             legend: {
-              position: "bottom",
+
+              position: 'bottom',
 
               itemMargin: {
                 horizontal: 5,
-                vertical: 1,
+                vertical: 1
               },
             },
+
           },
-        },
-        {
+        }, {
+
           breakpoint: 1388,
           options: {
             chart: {
               height: 330,
             },
             legend: {
-              position: "bottom",
+
+              position: 'bottom',
+
             },
+
           },
         },
         {
+
           breakpoint: 1275,
           options: {
             chart: {
               height: 300,
             },
             legend: {
-              position: "bottom",
+
+              position: 'bottom',
+
             },
+
           },
         },
         {
+
           breakpoint: 1158,
           options: {
             chart: {
@@ -120,36 +130,36 @@ export class DashboardVisitorChartComponent implements OnInit {
             },
 
             legend: {
-              fontSize: "10px",
-              position: "bottom",
+              fontSize: '10px',
+              position: 'bottom',
               offsetY: 10,
             },
           },
         },
         {
+
           breakpoint: 598,
           options: {
             chart: {
               height: 280,
             },
-
             legend: {
-              fontSize: "12px",
-              position: "bottom",
+              fontSize: '12px',
+              position: 'bottom',
               offsetX: 5,
               offsetY: -5,
 
-              markers: {
-                width: 10,
-                height: 10,
-              },
 
-              itemMargin: {
-                vertical: 1,
+              markers: {
+                
+                itemMargin: {
+
+                  vertical: 1
+                },
               },
             },
           },
-        },
+        }
       ],
     };
   }
