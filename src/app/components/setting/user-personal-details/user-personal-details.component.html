@@ -1,28 +1,75 @@
-<form class="theme-form mega-form" [formGroup]="profileForm" (ngSubmit)="submitForm()">
-  <div class="personal-info">
-    <div class="personal-info__img">
-      <img [src]="previewUrl || 'assets/images/users/4.jpg'" alt="user4" style="width: 120px; height: 120px; border-radius: 50%;" />
+<form
+  class="theme-form mega-form card shadow-lg border-0 rounded-4 p-4"
+  [formGroup]="profileForm"
+  (ngSubmit)="submitForm()"
+>
+  <!-- Card Header -->
+  <div class="card-header bg-transparent border-0 px-0 pb-3">
+    <h5 class="fw-bold mb-0">Profile Details</h5>
+    <p class="text-muted small mb-0">Manage your personal information and profile picture</p>
+  </div>
+
+  <!-- Profile Image Section -->
+  <div class="d-flex align-items-center mb-4">
+    <div class="position-relative me-4">
+      <img
+        [src]="previewUrl || 'assets/images/users/4.jpg'"
+        alt="Profile"
+        class="rounded-circle border shadow-sm"
+        style="width: 120px; height: 120px; object-fit: cover;"
+      />
+      <!-- Upload Overlay on Hover -->
+      <label
+        for="img"
+        class="position-absolute top-50 start-50 translate-middle bg-dark bg-opacity-50 text-white
+               rounded-circle d-flex align-items-center justify-content-center"
+        style="width: 120px; height: 120px; cursor: pointer; opacity: 0; transition: opacity .3s;"
+        onmouseover="this.style.opacity=1"
+        onmouseout="this.style.opacity=0"
+      >
+        <i class="bi bi-camera fs-4"></i>
+      </label>
+      <input type="file" id="img" (change)="onFileSelected($event)" accept="image/png, image/jpeg" hidden />
     </div>
 
-    <div class="personal-info__uplode">
-      <p>Max file size is 5MB, Minimum dimension 150x150. Allowed: .jpg, .png</p>
-      <div class="uplode-img">
-        <input type="file" id="img" (change)="onFileSelected($event)" accept="image/png, image/jpeg" />
-        <label for="img">
-          <app-feather-icons [icon]="'upload'"></app-feather-icons>
-          Upload Image here
-        </label>
+    <div>
+      <p class="text-muted small mb-2">
+        Max file size <b>5MB</b>, Min dimension <b>150x150</b>. Allowed: <b>.jpg, .png</b>
+      </p>
+      <div class="d-flex align-items-center gap-2">
+        <!-- Remove -->
+        <button
+          class="btn btn-outline-danger btn-sm rounded-pill d-flex align-items-center"
+          type="button"
+          (click)="removeImage()"
+        >
+          <i class="bi bi-trash me-1"></i> Remove
+        </button>
       </div>
-      <button class="btn btn-danger mt-2" type="button" (click)="removeImage()">Remove image</button>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <label class="form-label-title mt-3">Full Name</label>
-      <input class="form-control" formControlName="userName" type="text" placeholder="Enter Full Name" />
+  <!-- Full Name -->
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Full Name</label>
+    <input
+      class="form-control form-control-lg rounded-3"
+      formControlName="userName"
+      type="text"
+      placeholder="Enter Full Name"
+    />
+    <div
+      *ngIf="profileForm.get('userName')?.invalid && profileForm.get('userName')?.touched"
+      class="text-danger small mt-1"
+    >
+      Full name is required
     </div>
   </div>
 
-  <button class="btn btn-primary mt-4" type="submit" [disabled]="!profileForm.valid">Save Changes</button>
+  <!-- Save Button -->
+  <div class="text-end mt-4">
+    <button class="btn btn-primary px-4  shadow-sm" type="submit" [disabled]="!profileForm.valid">
+       Save Changes
+    </button>
+  </div>
 </form>
