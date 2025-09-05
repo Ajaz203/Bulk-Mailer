@@ -17,7 +17,7 @@ export class AllAdminsComponent {
   searchText: any = '';
   selectedUser: any = null;
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 10;
   totalPages = 1;
   isEditMode: boolean;
   showPassword = false;

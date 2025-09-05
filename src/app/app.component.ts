@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,  } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { LoaderService } from './shared/services/loader.service';
 import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from "./shared/components/ui/loader/loader.component";
 import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
@@ -12,15 +13,16 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent  {
   title = 'admin';
   showLoader = true;
+
 
   constructor(private router: Router, private loader: LoaderService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         const route = this.router.routerState.snapshot.root.firstChild?.data;
-        
+
         if (route?.['skipLoader']) {
           this.showLoader = false;
         } else {
@@ -34,4 +36,5 @@ export class AppComponent {
       }
     });
   }
+
 }

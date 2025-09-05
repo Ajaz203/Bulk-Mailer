@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface Menu {
+    id?: string; 
   headTitle1?: string;
   headTitle2?: string;
   path?: string;
@@ -28,6 +29,7 @@ export class NavService {
 
   public menuItem: Menu[] = [
     {
+          id: 'menu-dashboard',
       title: 'Dashboard',
       icon: 'home',
       type: 'link',
@@ -37,6 +39,7 @@ export class NavService {
       rolesAllowed: ['user','admin', 'superadmin']
     },
     {
+          id: 'menu-admin',
       title: 'Admin',
       icon: 'shield',
       type: 'sub',

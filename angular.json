@@ -45,7 +45,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/intro.js/minified/introjs.min.css"
+               "node_modules/shepherd.js/dist/css/shepherd.css"
             ],
             "scripts": []
           },

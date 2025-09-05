@@ -14,9 +14,9 @@ export class LoaderService {
   }
 
   hide() {
-    // Minimum 3-second display logic
+  
     setTimeout(() => {
       this._loading.next(false);
-    }, 3000);
+    }, 1500);
   }
 }

@@ -9,11 +9,7 @@ export const content: Routes = [
     path: 'user',
     loadChildren: () => import('../../components/users/users.routes')
   },
- 
-  {
-    path: 'booking',
-    loadChildren: () => import('../../components/booking/booking.routes')
-  },
+
   {
     path: 'Subscriptions',
     loadChildren: () => import('../../components/subscription/subscription.routes')

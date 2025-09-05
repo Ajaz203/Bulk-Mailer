@@ -16,25 +16,30 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full' 
+    pathMatch: 'full'
   },
   {
     path: 'auth/login',
-    component: LoginComponent, data: { skipLoader: true } },
-  
+    component: LoginComponent, data: { skipLoader: true }
+  },
+
   {
     path: 'home',
     component: HomeComponent,
-  data: { skipLoader: true } },
+    data: { skipLoader: true }
+  },
   {
     path: 'about-us',
-    component: AboutUsComponent, data: { skipLoader: true } },
+    component: AboutUsComponent, data: { skipLoader: true }
+  },
   {
     path: 'contact-us',
-    component: ContactUsComponent, data: { skipLoader: true } },
+    component: ContactUsComponent, data: { skipLoader: true }
+  },
   {
     path: 'packages',
-    component: WebPackagesComponent, data: { skipLoader: true } },
+    component: WebPackagesComponent, data: { skipLoader: true }
+  },
   {
     path: '',
     component: LayoutComponent,

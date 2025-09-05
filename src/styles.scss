@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../public/assets/scss/app.scss";
 @import 'ngx-toastr/toastr';
-
+@import 'shepherd.js/dist/css/shepherd.css';
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
   .toast-top-right {
     position: fixed !important;
@@ -14,6 +15,47 @@
 .custom-toast {
   border-radius: 8px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 14px;
+}
+
+.introjs-showElement {
+  background: unset !important;
+  color: unset !important;
+  box-shadow: none !important;
+}
+.introjs-helperLayer {
+  background: transparent !important;
+  border-radius: 1px !important;
+}
+
+.introjs-tooltip, 
+.introjs-tooltip * {
+  font-family: 'Nunito', sans-serif !important;
+  color: #333 !important;
+}
+
+.customIntroTooltip {
+  font-family: 'Nunito', sans-serif !important;
+  padding: 15px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  background-color: #f9fbfe !important;
+  color: #333 !important;
+}
+
+.introjs-tooltip-title {
+  font-weight: 600 !important;
+  font-size: 18px !important;
+}
+
+.introjs-tooltiptext {
+  font-size: 14px !important;
+  padding: 0 !important;
+}
+
+.introjs-button {
+  border-radius: 6px !important;
+  padding: 6px 14px !important;
+  font-size: 14px !important;
 }
