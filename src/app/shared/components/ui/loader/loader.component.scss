@@ -84,3 +84,20 @@ p {
   font-weight: 600;
   color: #00457c;
 }
+
+
+.loader-container {
+  position: fixed;
+  top: 80px; /* adjust depending on navbar height */
+  right: 20px;
+  z-index: 2000;
+}
+
+.loader-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  min-width: 260px;
+  border: 1px solid #e5e7eb;
+}
+

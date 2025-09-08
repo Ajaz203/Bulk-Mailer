@@ -146,56 +146,57 @@
 <!-- Edit Modal -->
 <div class="modal-backdrop-custom" *ngIf="showEditModal">
     <div class="modal-body-custom">
-        <h5 class="modal-title">Edit Candidate</h5>
-        <button type="button" class="btn-close" (click)="closeEditModal()"
-            style="position: absolute; top: 1rem; right: 1rem;"></button>
+        <div class="modal-content p-4">
+            <h5 class="modal-title">Edit Candidate</h5>
+            <button type="button" class="btn-close" (click)="closeEditModal()"
+                style="position: absolute; top: 1rem; right: 1rem;"></button>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Name:</label>
-                <input [(ngModel)]="selectedCandidate.name" class="form-control" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Email:</label>
-                <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Name:</label>
+                    <input [(ngModel)]="selectedCandidate.name" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Email:</label>
+                    <input [(ngModel)]="selectedCandidate.email" class="form-control" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Contact No:</label>
+                    <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Experience:</label>
+                    <input [(ngModel)]="selectedCandidate.experience" class="form-control" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Work Status:</label>
+                    <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Location:</label>
+                    <input [(ngModel)]="selectedCandidate.location" class="form-control" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Technology:</label>
+                    <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Skills:</label>
+                    <input [(ngModel)]="selectedCandidate.skillsString" class="form-control"
+                        placeholder="e.g. Angular, Node, Java" />
+                </div>
             </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Contact No:</label>
-                <input [(ngModel)]="selectedCandidate.contact_no" class="form-control" />
+            <div class="modal-footer gap-3">
+                <button class="btn btn-primary" (click)="closeEditModal()">Cancel</button>
+                <button class="btn btn-success" (click)="updateCandidate()">Save Changes</button>
             </div>
-            <div class="col-md-6 mb-3">
-                <label>Experience:</label>
-                <input [(ngModel)]="selectedCandidate.experience" class="form-control" />
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label>Work Status:</label>
-                <input [(ngModel)]="selectedCandidate.visa" class="form-control" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <label>Location:</label>
-                <input [(ngModel)]="selectedCandidate.location" class="form-control" />
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label>Technology:</label>
-                <input [(ngModel)]="selectedCandidate.technology" class="form-control" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <label>Skills:</label>
-                <input [(ngModel)]="selectedCandidate.skillsString" class="form-control"
-                    placeholder="e.g. Angular, Node, Java" />
-            </div>
-        </div>
-
-        <div class="modal-footer gap-3">
-            <button class="btn btn-primary" (click)="closeEditModal()">Cancel</button>
-            <button class="btn btn-success" (click)="updateCandidate()">Save Changes</button>
         </div>
     </div>
 </div>
-
 
 
 <!-- Loading -->

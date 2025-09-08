@@ -57,7 +57,7 @@ export class MenuComponent implements AfterViewInit {
 
   }
 
-  setNavActive(item: Menu) {
+    setNavActive(item:Menu) {
     this.menus.filter(menuItem => {
       if (menuItem !== item) {
         menuItem.active = false;
@@ -75,21 +75,20 @@ export class MenuComponent implements AfterViewInit {
       }
     });
   }
-
   toggleSidebar() {
     this.navService.closeSidebar = true;
   }
 
-  toggleMenu(item: Menu) {
-    if (!item.active) {
+   toggleMenu(item: Menu){
+    if(!item.active){
       this.menus.forEach((child) => {
-        if (this.menus.includes(item)) {
+        if(this.menus.includes(item)){
           child.active = false;
         }
 
-        if (child.children) {
+        if(child.children){
           child.children.forEach((subChild) => {
-            if (child.children?.includes(item)) {
+            if(child.children?.includes(item)){
               subChild.active = false
             }
           })
@@ -97,7 +96,7 @@ export class MenuComponent implements AfterViewInit {
         }
       })
     }
-    item.active = !item.active;
+    item.active =! item.active;
   }
 async ngAfterViewInit(): Promise<void> {
   if (!isPlatformBrowser(this.platformId)) return;

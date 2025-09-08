@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface Menu {
-    id?: string; 
+  id?: string;
   headTitle1?: string;
   headTitle2?: string;
   path?: string;
@@ -29,17 +29,18 @@ export class NavService {
 
   public menuItem: Menu[] = [
     {
-          id: 'menu-dashboard',
+      id: 'menu-dashboard',
       title: 'Dashboard',
       icon: 'home',
       type: 'link',
       active: true,
       level: 1,
       path: '/dashboard',
-      rolesAllowed: ['user','admin', 'superadmin']
+      rolesAllowed: ['user', 'admin', 'superadmin']
     },
+    
     {
-          id: 'menu-admin',
+      id: 'menu-admin',
       title: 'Admin',
       icon: 'shield',
       type: 'sub',
@@ -49,7 +50,7 @@ export class NavService {
       children: [
         { path: 'admin/all-admin', title: 'All Admins', type: 'link', level: 2 },
         { path: 'admin/add-new-admin', title: "Add New Admin", type: 'link', level: 2 },
-      
+
       ],
     },
     {
@@ -82,27 +83,27 @@ export class NavService {
       level: 1,
       path: '/contacts',
       rolesAllowed: ['superadmin'],
-     
+
     },
-      {
+    {
       title: 'Vendors',
       icon: 'briefcase',
       type: 'link',
       level: 1,
-      rolesAllowed: [ 'user','admin','superadmin'],
+      rolesAllowed: ['user', 'admin', 'superadmin'],
       children: [
         { path: '/vendors/upload', title: 'Upload Vendors', type: 'link', level: 2 },
         { path: '/vendors/by-user', title: 'Vendors By User', type: 'link', level: 2 },
         // { path: '/vendors/list', title: "Vendors List", type: 'link', level: 2 },
-       
+
       ],
     },
-      {
+    {
       title: 'Candidates',
       icon: 'user-plus',
       type: 'link',
       level: 1,
-      rolesAllowed: [ 'user','admin','superadmin'],
+      rolesAllowed: ['user', 'admin', 'superadmin'],
       children: [
         { path: '/candidates/upload', title: "Upload Candidate", type: 'link', level: 2 },
         { path: '/candidates/list', title: 'candidates list', type: 'link', level: 2 },
@@ -114,15 +115,15 @@ export class NavService {
       type: 'link',
       level: 1,
       path: '/technology',
-      rolesAllowed: ['user','admin','superadmin'],
-     
+      rolesAllowed: ['user', 'admin', 'superadmin'],
+
     },
-      {
+    {
       title: 'Mails',
       icon: 'mail',
       type: 'link',
       level: 1,
-      rolesAllowed: [ 'user','admin','superadmin'],
+      rolesAllowed: ['user', 'admin', 'superadmin'],
       children: [
         { path: '/mails/all-mails', title: 'All Mails', type: 'link', level: 2 },
         { path: '/mails/drafts', title: "All Drafts", type: 'link', level: 2 },

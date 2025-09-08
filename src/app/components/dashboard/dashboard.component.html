@@ -17,9 +17,7 @@
     <div class="card">
       <div class="card-body">
         <div class="datepicker-dashboard">
-            <!-- <div class="datepicker-here" data-language="en">
-            <ngb-datepicker/> 
-          </div> -->
+        
           <ngb-datepicker [(ngModel)]="selectedDate" (ngModelChange)="onDateSelect($event)"></ngb-datepicker>
 
           <ng-template #customDay let-date let-currentMonth="currentMonth" let-selected="selected">

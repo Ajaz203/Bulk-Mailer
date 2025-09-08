@@ -105,10 +105,6 @@ getAll() {
 }
 
 
-
-
-
-
   onDateSelect(date: NgbDateStruct) {
     this.selectedDate = date;
     const formatted = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;

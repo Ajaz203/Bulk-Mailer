@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 @Component({
     selector: 'app-user-personal-details',
     templateUrl: './user-personal-details.component.html',
@@ -17,7 +18,8 @@ export class UserPersonalDetailsComponent {
     selectedImage: File | null = null;
     previewUrl: string | ArrayBuffer | null = null;
     userId = Number(localStorage.getItem('userId'));
-
+imageChangedEvent: any = '';
+croppedFile: File | null = null;
 
     constructor(
         private fb: FormBuilder,
@@ -48,20 +50,13 @@ export class UserPersonalDetailsComponent {
         });
     }
 
-    onFileSelected(event: Event) {
-        const file = (event.target as HTMLInputElement).files?.[0];
-        if (file && file.size < 5 * 1024 * 1024) {
-            this.selectedImage = file;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-                this.previewUrl = reader.result;
-            };
-            reader.readAsDataURL(file);
-        } else {
-            alert('Image should be <5MB and of type jpg/png.');
-        }
-    }
+   onFileSelected(event: Event) {
+  this.imageChangedEvent = event;
+  const modal = new (window as any).bootstrap.Modal(
+    document.getElementById('cropperModal')
+  );
+  modal.show();
+}
 
 
     removeImage() {

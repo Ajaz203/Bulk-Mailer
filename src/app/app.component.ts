@@ -35,6 +35,11 @@ export class AppComponent  {
         this.loader.hide();
       }
     });
+      this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
   }
 
 }
