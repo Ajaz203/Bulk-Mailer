@@ -1756,9 +1756,9 @@
 
       .page-body {
         min-height: calc(100vh - 80px);
-        margin-top: 140px;
+        margin-top: 106px;
         margin-left: 280px;
-        // animation: pagebody 1000ms ease-in-out;
+        animation: pagebody 1000ms ease-in-out;
       }
     }
 
@@ -2528,8 +2528,8 @@
 
     .page-body-wrapper {
       div.sidebar-wrapper {
-        margin: 30px !important;
-        top: 108px;
+        margin: 10px !important;
+        top: 95px;
         bottom: 0;
         border-radius: 15px;
 
