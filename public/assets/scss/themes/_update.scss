@@ -535,20 +535,20 @@ ngb-datepicker {
 
     .ngb-dp-content {
         .ngb-dp-week {
-            padding: 10px 0 !important;
+            padding: 4px 0 !important;
 
             .btn-light {
                 background-color: transparent !important;
                 border-color: transparent !important;
                 color: $theme-body-font-color;
-                padding: 10px 0 !important;
+                // padding: 10px 0 !important;
 
                 &:hover {
                     background-color: $primary-color !important;
                     border-color: $primary-color !important;
                     color: $white;
                     outline: 0;
-                    padding: 10px 0;
+                    // padding: 10px 0;
                     border-radius: 14px;
 
                     &.text-muted {
