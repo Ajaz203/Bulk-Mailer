@@ -39,16 +39,7 @@ export class NavService {
       rolesAllowed: ['user', 'admin', 'superadmin']
     },
     
-    {
-      id: 'Email-validator',
-      title: 'Email Validator',
-      icon: 'check-circle',
-      type: 'link',
-      active: true,
-      level: 1,
-      path: '/emailValidator',
-      rolesAllowed: ['user', 'admin', 'superadmin']
-    },
+  
     
     {
       id: 'menu-admin',
@@ -95,6 +86,16 @@ export class NavService {
       path: '/contacts',
       rolesAllowed: ['superadmin'],
 
+    },
+      {
+      id: 'Email-validator',
+      title: 'Email Validator',
+      icon: 'check-circle',
+      type: 'link',
+      active: true,
+      level: 1,
+      path: '/emailValidator',
+      rolesAllowed: ['user', 'admin', 'superadmin']
     },
     {
       title: 'Vendors',
