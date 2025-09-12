@@ -40,6 +40,17 @@ export class NavService {
     },
     
     {
+      id: 'Email-validator',
+      title: 'Email Validator',
+      icon: 'check-circle',
+      type: 'link',
+      active: true,
+      level: 1,
+      path: '/emailValidator',
+      rolesAllowed: ['user', 'admin', 'superadmin']
+    },
+    
+    {
       id: 'menu-admin',
       title: 'Admin',
       icon: 'shield',
@@ -125,7 +136,7 @@ export class NavService {
       level: 1,
       rolesAllowed: ['user', 'admin', 'superadmin'],
       children: [
-        { path: '/mails/all-mails', title: 'All Mails', type: 'link', level: 2 },
+        { path: '/mails/all-mails', title: 'All Mails', type: 'link', level: 2, },
         { path: '/mails/drafts', title: "All Drafts", type: 'link', level: 2 },
       ],
     },

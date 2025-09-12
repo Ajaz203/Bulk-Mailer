@@ -42,5 +42,9 @@ export const content: Routes = [
    path:'technology',
   loadChildren:() => import('../../components/technology/technology.routes') 
 },
+{
+   path:'emailValidator',
+  loadChildren:() => import('../../components/emailvalidator/email-validator/email-validator.routes') 
+},
 
 ]

@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  // private apiUrl: string = 'https://62b8093ee7f4.ngrok-free.app/';
+  // private apiUrl: string = 'https://0935c83fa4f8.ngrok-free.app/';
   private apiUrl: string = 'https://api.mailcept.net/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
@@ -437,13 +437,7 @@ export class UserService {
   registerAdmin(data: any) {
     return this.postWithUserId('register-admin', data);
   }
-//   registerAdmin(data: any) {
-//   return this.http.post(this.apiUrl + 'register-admin', data, { headers: this.header });
-// }
-// createSubscriptionOrder(data: any) {
-//   return this.http.post(this.apiUrl + 'subscribe', data, { headers: this.header });
-// }
-  // user.service.ts in second app
+
   getProfile() {
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -457,5 +451,28 @@ export class UserService {
       localStorage.setItem('role', user.role);
     });
   }
+uploadBatch(data: FormData) {
+  // Do NOT spread FormData or add headers manually for Content-Type
+  return this.http.post(this.apiUrl + 'upload-batch', data);
+}
+
+
+checkBatch(uuid: string) {
+  return this.http.get(this.apiUrl + `batch/${uuid}`, this.getAuthHeaders());
+}
+
+
+  validatorResult(uuid: string): Observable<any> {
+    return this.http.get(this.apiUrl + `batch/${uuid}/results`, this.getAuthHeaders());
+  }
+
+  validatorEmail(uuid: string): Observable<Blob> {
+    return this.http.get(this.apiUrl + `batch/${uuid}/export-xlsx`, {
+      headers: this.getAuthHeaders().headers,
+      responseType: 'blob'
+    });
+  }
+
+
 
 }

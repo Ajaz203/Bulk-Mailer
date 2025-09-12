@@ -16,7 +16,6 @@ export class FeatherIconsComponent {
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
-      // Code that uses feather.replace()
       setTimeout(() => {
         feather.replace();
       });
