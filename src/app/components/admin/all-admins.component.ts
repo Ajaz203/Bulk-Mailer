@@ -23,6 +23,19 @@ export class AllAdminsComponent {
   showPassword = false;
   selectedAdmin: any;
   adminUsers: any[] = [];
+  colors: string[] = [
+  'bg-primary',
+  'bg-success',
+  'bg-warning',
+  'bg-secondary',
+  'bg-purple',
+  'bg-pink',
+  'bg-orange',
+  'bg-teal',
+  'bg-info',
+  'bg-danger'
+];
+
   constructor(private userService: UserService, private router: Router, private titleService: Title) {
     this.titleService.setTitle('MailCept-Admins');
    }
@@ -32,6 +45,9 @@ export class AllAdminsComponent {
   }
 
 
+getColor(index: number): string {
+  return this.colors[index % this.colors.length];
+}
   togglePassword() {
     this.showPassword = !this.showPassword;
   }

@@ -1,3 +1,7 @@
+.card .card-body {
+    padding: 10px 10px;
+    background-color: transparent;
+}
 .status-circless {
   display: inline-block;
   width: 12px;
@@ -92,4 +96,20 @@ input:checked + .slider:before {
 // }
 ::ng-deep .dark-only .modal-title {
   color: #ffffff99 !important;
+}
+
+.bg-purple {
+  background-color: #6f42c1 !important;
+}
+
+.bg-pink {
+  background-color: #d63384 !important;
+}
+
+.bg-orange {
+  background-color: #fd7e14 !important;
+}
+
+.bg-teal {
+  background-color: #20c997 !important;
 }

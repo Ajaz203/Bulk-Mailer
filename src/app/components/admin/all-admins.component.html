@@ -33,18 +33,22 @@
 
                 <!-- <td>{{ i + 1 }}</td> -->
 
-                <td class="d-flex align-items-center gap-2">
-                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-              style="width: 48px; height: 48px">{{ getInitials(admin.name) }}</div>
+                <td class="align-items-center gap-2">
+                  <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold"
+                    [ngClass]="getColor(i)" style="width: 48px; height: 48px">
+                    {{ getInitials(admin.name) }}
+                  </div>
                 </td>
+
                 <td>
-                <div>{{ admin.name }}</div></td>
+                  <div>{{ admin.name }}</div>
+                </td>
 
                 <td>{{ admin.email }}</td>
-              <td>
-                 <span class="badge bg-primary px-2 py-1">
-                 {{ admin.role | titlecase }}
-                </span>
+                <td>
+                  <span class="badge bg-primary px-2 py-1">
+                    {{ admin.role | titlecase }}
+                  </span>
                 </td>
 
 
@@ -89,7 +93,7 @@
           <div class="modal-content">
             <form (ngSubmit)="updateAdmin()" class="p-3">
               <div class="modal-header">
-                <h5 class="modal-title"  [ngClass]="{ 'text-white': isDarkMode }">Edit Admin</h5>
+                <h5 class="modal-title" [ngClass]="{ 'text-white': isDarkMode }">Edit Admin</h5>
               </div>
 
               <div class="modal-body">

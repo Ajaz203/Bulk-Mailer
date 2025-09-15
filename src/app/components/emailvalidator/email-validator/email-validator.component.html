@@ -1,34 +1,36 @@
+
 <div class="bulk-upload-card">
-  <div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="card-header d-flex justify-content-between align-items-center mb-3">
     <h5>Email Validator</h5>
   </div>
-
-  <!-- Upload Box -->
-  <div class="upload-box" (click)="fileInput.click()">
-    <div class="upload-box-content">
-      <i class="bi bi-cloud-upload"></i><br />
-      <p><strong>Drag & drop or Browse</strong></p>
-      <p class="format-text">Supported: Excel (.xlsx, .xls)</p>
-      <input type="file" #fileInput (change)="onFileChange($event)" accept=".xlsx, .xls" hidden />
+  
+    <!-- Upload Box -->
+    <div class="upload-box" (click)="fileInput.click()">
+      <div class="upload-box-content">
+        <i class="bi bi-cloud-upload"></i><br />
+        <p><strong>Drag & drop or Browse</strong></p>
+        <p class="format-text">Supported: Excel (.xlsx, .xls)</p>
+        <input type="file" #fileInput (change)="onFileChange($event)" accept=".xlsx, .xls" hidden />
+      </div>
     </div>
-  </div>
 
-  <!-- File Preview -->
-  <div *ngIf="fileName" class="input-group mb-3 file-preview">
-    <span class="form-control">{{ fileName }}</span>
-    <button class="btn btn-outline-secondary" type="button" (click)="removeFile()">
-      <i class="bi bi-trash"></i>
-    </button>
-  </div>
+    <!-- File Preview -->
+    <div *ngIf="fileName" class="input-group mb-3 file-preview">
+      <span class="form-control">{{ fileName }}</span>
+      <button class="btn btn-outline-secondary" type="button" (click)="removeFile()">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
 
-  <!-- Action Buttons -->
-  <div class="action-buttons mb-3">
-    <button class="btn btn-warning me-2" (click)="uploadFile()" [disabled]="!fileName || isUploading || isProcessing">
-      <span *ngIf="isUploading" class="spinner-border spinner-border-sm me-2"></span>
-      {{ isUploading ? 'Uploading...' : 'Upload File' }}
-    </button>
+    <!-- Action Buttons -->
+    <div class="action-buttons mb-3">
+      <button class="btn btn-success me-2" (click)="uploadFile()" [disabled]="!fileName || isUploading || isProcessing">
+        <span *ngIf="isUploading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ isUploading ? 'Uploading...' : 'Upload File' }}
+      </button>
 
-    <!-- <button class="btn btn-success" (click)="downloadFile()" [disabled]="!readyForDownload">
+      <!-- <button class="btn btn-success" (click)="downloadFile()" [disabled]="!readyForDownload">
       Download File
     </button> -->
+    </div>
   </div>
