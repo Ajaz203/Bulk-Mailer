@@ -18,28 +18,29 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  {
-    path: 'auth/login',
-    component: LoginComponent, data: { skipLoader: true }
-  },
+ { path: 'auth/login', component: LoginComponent, data: { skipLoader: true, hideEmailIcon: true } },
+
 
   {
-    path: 'home',
-    component: HomeComponent,
-    data: { skipLoader: true }
-  },
-  {
-    path: 'about-us',
-    component: AboutUsComponent, data: { skipLoader: true }
-  },
-  {
-    path: 'contact-us',
-    component: ContactUsComponent, data: { skipLoader: true }
-  },
-  {
-    path: 'packages',
-    component: WebPackagesComponent, data: { skipLoader: true }
-  },
+  path: 'home',
+  component: HomeComponent,
+  data: { skipLoader: true, hideEmailIcon: true }
+},
+{
+  path: 'about-us',
+  component: AboutUsComponent,
+  data: { skipLoader: true, hideEmailIcon: true }
+},
+{
+  path: 'contact-us',
+  component: ContactUsComponent,
+  data: { skipLoader: true, hideEmailIcon: true }
+},
+{
+  path: 'packages',
+  component: WebPackagesComponent,
+  data: { skipLoader: true, hideEmailIcon: true }
+},
   {
     path: '',
     component: LayoutComponent,

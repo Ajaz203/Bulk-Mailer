@@ -1,4 +1,7 @@
 <app-loader *ngIf="showLoader"></app-loader>
 <router-outlet></router-outlet>
 
- 
+<!-- Floating email button -->
+<div *ngIf="showEmailIcon" class="floating-email-btn" (click)="openEmail()">
+  <i class="bi bi-envelope-fill"></i>
+</div>

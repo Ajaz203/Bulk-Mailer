@@ -1,34 +1,30 @@
-<div>
-  <div class="logo-wrapper">
-    <span class="back">Back</span>
-    <div class="back-btn" (click)="toggleSidebar()"><i class="fa fa-angle-left"></i></div>
-    <div class="toggle-sidebar">
-      <app-feather-icons [icon]="'grid'" [class]="'status_toggle middle sidebar-toggle'"></app-feather-icons>
+  <div>
+    <div class="logo-wrapper">
+      <span class="back">Back</span>
+      <div class="back-btn" (click)="toggleSidebar()"><i class="fa fa-angle-left"></i></div>
+      <div class="toggle-sidebar">
+        <app-feather-icons [icon]="'grid'" [class]="'status_toggle middle sidebar-toggle'"></app-feather-icons>
+      </div>
     </div>
-  </div>
-  <div class="logo-icon-wrapper"><a href="javascript:void(0)"><img class="img-fluid"
-        src="assets/images/logo/logo-icon.png" alt="logo"></a></div>
-  <nav class="sidebar-main">
-    <div class="left-arrow" id="left-arrow">
-      <app-feather-icons [icon]="'arrow-left'"></app-feather-icons>
-    </div>
-    <div id="sidebar-menu">
-      <ul class="sidebar-links" id="simple-bar">
-        <li class="back-btn">
-          <a href="javascript:void(0)">
-            <img class="img-fluid" src="assets/images/logo/logo-icon.png" alt="logo">
-          </a>
-          <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
-          </div>
-        </li>
-        <div *ngTemplateOutlet="recursiveMenu; context: { $implicit: menus }"></div>
-        <ng-template #recursiveMenu let-menus>
-          @for(item of menus; track item){
-          <li [class.sidebar-list]="item.level == 1">
-            <a [id]="generateNavId(item.title)" [ngClass]="{ 'sidebar-link sidebar-title link-nav' : item.level == 1, 'active' : item.active }"
-              routerLinkActive="active" href="javascript:void(0)" (click)="toggleMenu(item)" [routerLink]="item.path">
-
-              @if(item.level == 1){
+    <div class="logo-icon-wrapper"><a href="javascript:void(0)"><img class="img-fluid" src="assets/images/logo/logo-icon.png" alt="logo"></a></div>
+    <nav class="sidebar-main">
+      <div class="left-arrow" id="left-arrow">
+        <app-feather-icons [icon]="'arrow-left'"></app-feather-icons>
+      </div>
+      <div id="sidebar-menu">
+        <ul class="sidebar-links" id="simple-bar">
+          <li class="back-btn">
+            <a href="javascript:void(0)">
+              <img class="img-fluid" src="assets/images/logo/logo-icon.png" alt="logo">
+            </a>
+            <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+          </li>
+          <div *ngTemplateOutlet="recursiveMenu; context: { $implicit: menus }"></div>
+          <ng-template #recursiveMenu let-menus>
+            @for(item of menus; track item){
+              <li [class.sidebar-list]="item.level == 1">
+                <a [ngClass]="{ 'sidebar-link sidebar-title link-nav' : item.level == 1, 'active' : item.active  }" routerLinkActive="active" href="javascript:void(0)" (click)="toggleMenu(item)" [routerLink]="item.path">
+                  @if(item.level == 1){
                   <app-feather-icons [icon]="item.icon"></app-feather-icons>
                     <span>{{ item.title }}</span>
                   }@else {
@@ -48,10 +44,10 @@
               </li>
             }
           </ng-template>
-      </ul>
-    </div>
-    <div class="right-arrow" id="right-arrow">
-      <app-feather-icons [icon]="'arrow-right'"></app-feather-icons>
-    </div>
-  </nav>
-</div>
+        </ul>
+      </div>
+      <div class="right-arrow" id="right-arrow">
+        <app-feather-icons [icon]="'arrow-right'"></app-feather-icons>
+      </div>
+    </nav>
+  </div>
