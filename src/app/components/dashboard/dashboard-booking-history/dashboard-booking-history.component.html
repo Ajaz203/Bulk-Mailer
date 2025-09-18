@@ -1,36 +1,27 @@
-<div
-  class="card shadow-sm border-0"
-  *ngIf="shouldShowTopUsers && (userRole === 'admin' || userRole === 'superadmin')"
->
+<div class="card shadow-sm border-0" *ngIf="shouldShowTopUsers && (userRole === 'admin' || userRole === 'superadmin')">
 
   <div class="card-header d-flex justify-content-between align-items-center">
     <h5 class="card-header-title mb-0 fw-bold">Top 5 Users</h5>
-    <span class="badge bg-primary text-white">This Week</span>
+    <span class="badge text-white bg-success">
+      This Week
+    </span>
+
   </div>
 
   <div class="card-body p-0">
     <ul class="list-group list-group-flush">
-      <li
-        class="list-group-item d-flex align-items-center justify-content-between"
-        *ngFor="let user of top5Users; trackBy: trackByUser"
-      >
+      <li class="list-group-item d-flex align-items-center justify-content-between"
+        *ngFor="let user of top5Users; let i = index; trackBy: trackByUser">
         <div class="d-flex align-items-center gap-3">
           <div class="user-avatar position-relative">
-            <img
-              *ngIf="user.image"
-              [src]="user.image"
-              alt="{{ user.name }}"
-              class="rounded-circle border border-2 border-primary-subtle shadow-sm"
-              width="48"
-              height="48"
-            />
-            <div
-              *ngIf="!user.image"
-              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-              style="width: 48px; height: 48px"
-            >
-              {{ getInitials(user.name) }}
-            </div>
+            <img *ngIf="user.image" [src]="user.image" alt="{{ user.name }}"
+              class="rounded-circle border border-2 border-primary-subtle shadow-sm" width="48" height="48" />
+            <td class="align-items-center gap-2">
+              <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold"
+                [ngClass]="getColor(i)" style="width: 48px; height: 48px">
+                {{ getInitials(user.name) }}
+              </div>
+            </td>
           </div>
 
           <div>
@@ -38,12 +29,10 @@
             <small class="text-muted d-block">{{ user.email }}</small>
             <small class="text-muted">
               <strong>{{ user.role }}</strong> •
-              <span
-                [ngClass]="{
+              <span [ngClass]="{
                   'text-success': user.status === 'Active',
                   'text-danger': user.status !== 'Active'
-                }"
-              >
+                }">
                 {{ user.status }}
               </span>
             </small>
@@ -51,11 +40,14 @@
         </div>
 
         <div class="text-end">
-          <span class="badge bg-gradient bg-primary text-white mb-1">Top User</span><br />
+          <span class="badge text-white mb-1" [ngClass]="getColor(i)">
+            Top User
+          </span><br />
           <small class="text-muted">
             Emails Sent: <strong>{{ user.totalEmailsSent }}</strong>
           </small>
         </div>
+
       </li>
     </ul>
   </div>

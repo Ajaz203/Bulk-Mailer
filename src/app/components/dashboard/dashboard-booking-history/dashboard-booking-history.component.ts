@@ -15,7 +15,34 @@ export class DashboardBookingHistoryComponent implements OnInit {
   shouldShowTopUsers = true;
   loggedInUserId!: number;
 userRole!: string;
-  constructor(public userService: UserService) {}
+colors: string[] = [
+  'bg-primary',
+  'bg-success',
+  'bg-warning',
+  'bg-secondary',
+  'bg-purple',
+  'bg-pink',
+  'bg-orange',
+  'bg-teal',
+  'bg-info',
+  'bg-danger'
+];
+
+constructor(public userService: UserService) {}
+getInitials(name: string): string {
+  if (!name) return '';
+  const words = name.trim().split(' ');
+  if (words.length === 1) {
+    return words[0].charAt(0).toUpperCase();
+  }
+  return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
+}
+getColor(index: number): string {
+  return this.colors[index % this.colors.length];
+}
+getBadgeColor(index: number): string {
+  return this.colors[index % this.colors.length];
+}
 
  ngOnInit(): void {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -56,13 +83,13 @@ userRole!: string;
     return user.userId;
   }
 
-  getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map((word) => word[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  }
+  // getInitials(name: string): string {
+  //   return name
+  //     .split(' ')
+  //     .map((word) => word[0])
+  //     .join('')
+  //     .toUpperCase()
+  //     .slice(0, 2);
+  // }
 }
 

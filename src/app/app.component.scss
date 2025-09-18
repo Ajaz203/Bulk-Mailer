@@ -14,10 +14,27 @@
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   z-index: 9999;
-  transition: transform 0.2s ease-in-out;
+  animation: float 3s ease-in-out infinite, pulse 2.5s infinite;
+  transition: transform 0.2s;
 
   &:hover {
     transform: scale(1.1);
     background: #198754;
+  }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0,123,255, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(0,123,255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0,123,255, 0);
   }
 }
