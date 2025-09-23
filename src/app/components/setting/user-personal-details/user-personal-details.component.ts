@@ -11,7 +11,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
     selector: 'app-user-personal-details',
     templateUrl: './user-personal-details.component.html',
     styleUrl: './user-personal-details.component.scss',
-    imports: [FeatherIconsComponent, FormsModule, ReactiveFormsModule, CommonModule]
+    imports: [ FormsModule, ReactiveFormsModule, CommonModule]
 })
 export class UserPersonalDetailsComponent {
     profileForm!: FormGroup;

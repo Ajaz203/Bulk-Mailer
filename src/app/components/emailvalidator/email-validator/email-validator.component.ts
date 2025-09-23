@@ -1,26 +1,29 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UserService } from '../../../shared/services/user.service';
-import { interval, switchMap, takeWhile } from 'rxjs';
-import Swal from 'sweetalert2';
+  import { Component } from '@angular/core';
+  import { CommonModule } from '@angular/common';
+  import { UserService } from '../../../shared/services/user.service';
+  import { interval, switchMap, takeWhile } from 'rxjs';
+  import { Title } from '@angular/platform-browser';
+  import Swal from 'sweetalert2';
 
-@Component({
-  selector: 'app-email-validator',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './email-validator.component.html',
-  styleUrls: ['./email-validator.component.scss']
-})
-export class EmailValidatorComponent {
-  fileName: string | null = null;
-  selectedFile: File | null = null;
-  isUploading = false;
-  isProcessing = false;
-  batchId: string | null = null;
-  readyForDownload = false;
-  results: any[] = [];
+  @Component({
+    selector: 'app-email-validator',
+    standalone: true,
+    imports: [CommonModule],
+    templateUrl: './email-validator.component.html',
+    styleUrls: ['./email-validator.component.scss']
+  })
+  export class EmailValidatorComponent {
+    fileName: string | null = null;
+    selectedFile: File | null = null;
+    isUploading = false;
+    isProcessing = false;
+    batchId: string | null = null;
+    readyForDownload = false;
+    results: any[] = [];
 
-  constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private titleService: Title) {
+      this.titleService.setTitle('MailCept-Email Validator');
+    }
 
   onFileChange(event: any) {
     const file = event.target.files[0];

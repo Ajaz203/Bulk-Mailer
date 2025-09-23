@@ -11,7 +11,7 @@
           <table class="user-table table table-striped">
             <thead>
               <tr>
-                <th>S.No</th>
+                <th>User</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Uploaded Vendors</th>
@@ -20,7 +20,12 @@
             <tbody>
               <tr *ngFor="let user of filteredUserList; let i = index" [routerLink]="['/vendors/list', user.userId]"
                 [state]="{ user: user }" style="cursor: pointer;">
-                <td>{{ i + 1 }}</td>
+                <td>
+                  <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold"
+                    [ngClass]="getColor(i)" style="width: 48px; height: 48px">
+                    {{ getInitials(user.name) }}
+                  </div>
+                </td>
                 <td>{{ user.name || '-' }}</td>
                 <td>{{ user.email || '-' }}</td>
                 <td>{{ user.vendors?.length || 0 }}</td>

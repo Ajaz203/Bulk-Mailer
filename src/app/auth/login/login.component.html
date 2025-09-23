@@ -4,14 +4,16 @@
       <div class="col-12 p-0">
         <div class="login-card">
           <div>
-           
+
             <div class="login-main">
-               <div>
-              <a class="logo" href="javascript:void(0)">
-                <img class="img-fluid for-light" src="assets/images/Asset 6.png" alt="loginpage" height="150" width="150">
-                <img class="img-fluid for-dark" src="assets/images/Asset 6.png" alt="loginpage" height="150" width="150">
-              </a>
-            </div>
+              <div>
+                <a class="logo" href="javascript:void(0)">
+                  <img class="img-fluid for-light" src="assets/images/Asset 6.png" alt="loginpage" height="150"
+                    width="150">
+                  <img class="img-fluid for-dark" src="assets/images/Asset 6.png" alt="loginpage" height="150"
+                    width="150">
+                </a>
+              </div>
               <form class="theme-form" [formGroup]="loginForm">
                 <h4 style="font-weight: 400;">Sign in to account</h4>
                 <p>Enter your email & password to login</p>
@@ -28,7 +30,8 @@
                 <div class="form-group">
                   <label class="col-form-label form-label-title">Password</label>
                   <div class="form-input position-relative">
-                    <input class="form-control" [type]="show ? 'password' : 'text'" placeholder="*********" formControlName="password">
+                    <input class="form-control" [type]="show ? 'password' : 'text'" placeholder="*********"
+                      formControlName="password">
                     <div class="show-hide" (click)="showPassword()"><span [class.show]="show"> </span></div>
                     @if(loginForm.controls['password'].touched && loginForm.controls['password'].errors?.['required']){
                     <div class="text text-danger mt-1">
@@ -39,11 +42,18 @@
                 </div>
 
                 <div class="form-group mb-0">
+                  <div class="checkbox p-0">
+                    <input id="checkbox1" type="checkbox" />
+                    <label class="text-muted" for="checkbox1">Remember password</label>
+                  </div>
+                  <a class="link" href="javascript:void(0)">Forgot password?</a>
                   <div class="text-end mt-3">
-                    <button #loginBtn class="btn btn-primary btn-block w-100" type="button" [disabled]="loginForm.invalid" (click)="login(loginBtn)">
+                    <button #loginBtn class="btn btn-primary btn-block w-100" type="button"
+                      [disabled]="loginForm.invalid" (click)="login(loginBtn)">
                       Sign in
                     </button>
                   </div>
+
                 </div>
 
               </form>

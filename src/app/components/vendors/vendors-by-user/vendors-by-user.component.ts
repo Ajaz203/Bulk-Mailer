@@ -17,10 +17,32 @@ export class VendorsByUserComponent implements OnInit {
     userVendorList: any[] = [];
   searchTermUser = '';
   isLoading = false;
-
+colors: string[] = [
+  'bg-primary',
+  'bg-success',
+  'bg-warning',
+  'bg-secondary',
+  'bg-purple',
+  'bg-pink',
+  'bg-orange',
+  'bg-teal',
+  'bg-info',
+  'bg-danger'
+];
   constructor(private service: UserService, private router: Router, private titleService: Title) {
     this.titleService.setTitle('MailCept-Vendors By User');
   }
+getColor(index: number): string {
+  return this.colors[index % this.colors.length];
+}
+getInitials(name: string): string {
+  if (!name) return '';
+  const words = name.trim().split(' ');
+  if (words.length === 1) {
+    return words[0].charAt(0).toUpperCase();
+  }
+  return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
+}
 
   ngOnInit(): void {
     this.fetchUsersWithVendorMapping();
