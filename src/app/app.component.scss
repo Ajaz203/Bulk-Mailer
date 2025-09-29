@@ -1,7 +1,7 @@
 .floating-email-btn {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  inset-inline-end: 20px; 
   background:#198754;
   color: #fff;
   border-radius: 50%;
@@ -22,6 +22,7 @@
     background: #198754;
   }
 }
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-6px); }

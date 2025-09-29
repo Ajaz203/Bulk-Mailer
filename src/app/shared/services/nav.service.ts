@@ -29,7 +29,7 @@ export class NavService {
 
   public menuItem: Menu[] = [
     {
-      id: 'menu-dashboard',
+  
       title: 'Dashboard',
       icon: 'home',
       type: 'link',
@@ -42,7 +42,7 @@ export class NavService {
   
     
     {
-      id: 'menu-admin',
+      
       title: 'Admin',
       icon: 'shield',
       type: 'sub',
@@ -88,7 +88,7 @@ export class NavService {
 
     },
       {
-      id: 'Email-validator',
+   
       title: 'Email Validator',
       icon: 'check-circle',
       type: 'link',
