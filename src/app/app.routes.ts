@@ -9,6 +9,7 @@ import { HomeComponent } from './components/web/home/home.component';
 import { AboutUsComponent } from './components/web/about-us/about-us.component';
 import { ContactUsComponent } from './components/web/contact-us/contact-us.component';
 import { WebPackagesComponent } from './components/web/web-packages/web-packages.component';
+import { ForgotPassComponent } from './auth/login/forgot-pass/forgot-pass.component';
 
 
 
@@ -39,6 +40,11 @@ export const routes: Routes = [
 {
   path: 'packages',
   component: WebPackagesComponent,
+  data: { skipLoader: true, hideEmailIcon: true }
+},
+{
+  path: 'forgot-password',
+  component: ForgotPassComponent,
   data: { skipLoader: true, hideEmailIcon: true }
 },
   {

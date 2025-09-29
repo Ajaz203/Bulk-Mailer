@@ -46,7 +46,7 @@
                     <input id="checkbox1" type="checkbox" />
                     <label class="text-muted" for="checkbox1">Remember password</label>
                   </div>
-                  <a class="link" href="javascript:void(0)">Forgot password?</a>
+                  <a class="link" href="javascript:void(0)" (click)="forgotPassword()">Forgot password?</a>
                   <div class="text-end mt-3">
                     <button #loginBtn class="btn btn-primary btn-block w-100" type="button"
                       [disabled]="loginForm.invalid" (click)="login(loginBtn)">

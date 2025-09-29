@@ -91,5 +91,7 @@ login(button: HTMLButtonElement): void {
     }
   });
 }
-
+forgotPassword(){
+  this.router.navigate(['/forgot-password']);
+}
 }
