@@ -40,7 +40,7 @@
             <p class="text-muted">Billed once — Valid for {{ plan.validity }} days</p>
 
             <ul class="features">
-              <li><strong>Users:</strong> Up to {{ plan.maxUsers }}</li>
+              <!-- <li><strong>Users:</strong> Up to {{ plan.maxUsers }}</li> -->
               <li><strong>Daily Emails:</strong> {{ plan.dailyMailLimit }}</li>
               <li><strong>Type:</strong> {{ plan.isCustom ? 'Customizable Plan' : 'Standard Package' }}</li>
               <li *ngIf="plan.name === 'Basic'">Ideal for individuals or small teams</li>
