@@ -328,10 +328,9 @@ vendorSendMail() {
     return;
   }
 
-  // ✅ Use mailBody as base (it already includes greeting + signature)
-  let baseMailBody = this.mailBody;
+  // ✅ Always use the editor content (mailBody) — keep {{name}} intact
+  const templateMailBody = this.mailBody || '';
 
-  // 🟢 Replace placeholder {{name}} with actual first name per vendor
   this.isLoading = true;
   let successCount = 0;
   let failCount = 0;
@@ -346,7 +345,9 @@ vendorSendMail() {
 
     const vendor = sourceList[index];
     const firstName = vendor?.name?.split(' ')[0] || 'there';
-    const personalizedBody = baseMailBody.replace(/{{\s*name\s*}}/gi, firstName);
+
+    // 🟢 Personalize each recipient
+    const personalizedBody = templateMailBody.replace(/{{\s*name\s*}}/gi, firstName);
 
     const payload: any = {
       mailSubject: this.mailSubject,
@@ -355,6 +356,7 @@ vendorSendMail() {
       type: 'immediate',
     };
 
+    // optional scheduling
     if (this.scheduleDate && this.scheduleTime) {
       const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
       payload.date = this.scheduleDate;
@@ -380,19 +382,26 @@ vendorSendMail() {
 }
 
 
-
-
 mailTemplateBody: string = '';
 userSignature: string = '';
 previewMailBody: string = '';
 staticSignature: string = '';
+
 openMailModal(vendor?: any) {
   this.showMailModal = true;
 
-  // 🟢 Lock your signature once here
-  this.staticSignature = this.userSignature; // store fixed copy
+  // 🟢 Lock signature
+  this.staticSignature = this.userSignature;
 
-  // Pick one name for preview
+  // 🟢 Compose template only once
+  const greetingPlaceholder = `Hello {{name}},<br><br>`;
+  const signatureBlock = `<br><br>${this.staticSignature}`;
+
+  // if user already wrote something, reuse it; otherwise use mailTemplateBody
+  const body = this.mailTemplateBody || this.mailBody || '';
+  this.mailBody = `${greetingPlaceholder}${body}${signatureBlock}`;
+
+  // 🟢 (Optional) for preview only, pick one name
   let firstName = 'there';
   if (vendor) {
     firstName = vendor?.name?.split(' ')[0] || 'there';
@@ -401,16 +410,9 @@ openMailModal(vendor?: any) {
     firstName = firstSelected?.name?.split(' ')[0] || 'there';
   }
 
-  const greetingPlaceholder = `Hello {{name}},<br><br>`;
-  const signatureBlock = `<br><br>${this.staticSignature}`;
-
-  // 🟢 Compose new body
-  const body = this.mailTemplateBody || this.mailBody || '';
-  this.mailBody = `${greetingPlaceholder}${body}${signatureBlock}`;
-
-  // 🟢 Preview version
   this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
 }
+
 
 
 saveAsDraft() {

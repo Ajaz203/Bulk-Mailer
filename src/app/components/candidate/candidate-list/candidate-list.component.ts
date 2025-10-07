@@ -16,7 +16,8 @@ declare var bootstrap: any;
   templateUrl: './candidate-list.component.html',
   styleUrl: './candidate-list.component.scss'
 })
-export class CandidateListComponent {
+export class CandidateListComponent  implements OnInit {
+   userId: number = Number(localStorage.getItem('userId'));
   dataArr: any = []
   scheduleDate: any = '';
   scheduleTime: any = '';
@@ -61,11 +62,27 @@ export class CandidateListComponent {
       this.getData();
     });
     this.getDraftData();
-
+    this.getUserSignature();
+     this.userSignature = localStorage.getItem('userSignature') || `Ajaz<br>Software Developer`;
   }
   ngOnDestroy(): void {
     this.editor?.destroy();
   }
+  getUserSignature() {
+  const payload = { userId: this.userId, };
+
+  this.service.getSignature(payload).subscribe({
+    next: (res: any) => {
+      this.userSignature = res?.data?.signature || ''; 
+      console.log('Fetched Signature:', this.userSignature);
+    },
+    error: (err) => {
+      console.error('Error fetching signature:', err);
+      this.userSignature = ''; 
+    }
+  });
+}
+
   backToUsers() {
     this.router.navigate(['/candidates/upload']);
   }
@@ -252,70 +269,89 @@ export class CandidateListComponent {
       period
     };
   }
+openMailModal(candidate?: any) {
+  this.showMailModal = true;
+  this.staticSignature = this.userSignature || '';
 
-  sendMail() {
-    const selectedEmails = this.selectionMode === 'all'
-      ? this.dataArr.map((c: { email: any }) => c.email)
-      : Array.from(this.selectedCandidates).map(c => c.email);
+  let firstName = 'there';
+  if (candidate) firstName = candidate?.name?.split(' ')[0] || 'there';
+  else if (this.selectedCandidates.size > 0)
+    firstName = Array.from(this.selectedCandidates)[0]?.name?.split(' ')[0] || 'there';
 
-    if (selectedEmails.length === 0) {
-      Swal.fire('Error', 'No candidates selected.', 'error');
+  const greetingPlaceholder = `Hello {{name}},<br>`;
+  const signatureBlock = `<br><br>${this.staticSignature}`;
+
+  // Compose the mail body
+  const bodyContent = this.userMailContent || '';
+  this.mailBody = `${greetingPlaceholder}${bodyContent}${signatureBlock}`;
+
+  // Preview for editor
+  this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+}
+
+mailTemplateBody: string = ''; 
+userMailContent: string = '';  
+userSignature: string = '';    
+staticSignature: string = '';   
+previewMailBody: string = ''; 
+sendMail() {
+  const recipients = this.selectionMode === 'all' ? this.dataArr : Array.from(this.selectedCandidates);
+
+  if (!recipients.length) {
+    Swal.fire('Error', 'No candidates selected.', 'error');
+    return;
+  }
+  if (!this.mailSubject?.trim()) {
+    Swal.fire('Error', 'Subject is required.', 'error');
+    return;
+  }
+  if (!this.mailBody?.trim()) {
+    Swal.fire('Error', 'Mail body is required.', 'error');
+    return;
+  }
+
+  this.isLoading = true; // Show loader
+
+  let successCount = 0;
+  let failCount = 0;
+
+  const sendNext = (index: number) => {
+    if (index >= recipients.length) {
+      // All mails processed
+      this.isLoading = false; // Hide loader
+      Swal.fire('Done', `Mails sent: ${successCount}, Failed: ${failCount}`, 'success');
+      this.closeMailModal();
+      this.resetMailModal();
       return;
     }
 
-    if (!this.mailSubject || !this.mailBody) {
-      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-      return;
-    }
-
-    const isScheduled = this.scheduleDate && this.scheduleTime;
+    const candidate = recipients[index];
+    const firstName = candidate?.name?.split(' ')[0] || 'there';
+    const personalizedBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
 
     const payload: any = {
       mailSubject: this.mailSubject,
-      emails: selectedEmails,
-      mailBody: this.mailBody,
-
+      emails: [candidate.email],
+      mailBody: personalizedBody,
+      type: this.scheduleDate && this.scheduleTime ? 'scheduled' : 'immediate'
     };
-    console.log('Mail sent:', this.mailSubject, this.mailBody);
-
-    if (isScheduled) {
-      const { time, period } = this.convertTo12HourFormat(this.scheduleTime);
-
-      payload.date = this.scheduleDate;
-      payload.time = time;
-      payload.period = period;
-      payload.type = 'scheduled';
-    } else {
-      payload.type = 'immediate';
-    }
-
-    this.isLoading = true;
 
     this.service.sendMail(payload).subscribe({
       next: () => {
-        Swal.fire('Success', 'Mail sent successfully!', 'success');
-        this.resetMailModal();
-
-        const modalElement = document.getElementById('mailModal');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-          modal.hide();
-        }
-
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
-        }
+        successCount++;
+        sendNext(index + 1); // Continue to next email
       },
       error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'Failed to send mail.', 'error');
-      },
-      complete: () => {
-        this.isLoading = false;
+        failCount++;
+        console.error(`Mail failed for ${candidate.email}`, err);
+        sendNext(index + 1); // Continue even on error
       }
     });
-  }
+  };
+
+  sendNext(0); // Start sending
+}
+
 
 
   resetMailModal() {
@@ -356,8 +392,8 @@ export class CandidateListComponent {
     this.service.sendMail(payload).subscribe({
       next: () => {
         Swal.fire('Saved!', 'Draft saved successfully!', 'success');
+        this.closeMailModal();
         this.resetMailModal();
-
         const modalElement = document.getElementById('mailModal');
         if (modalElement) {
           const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
@@ -480,12 +516,13 @@ get filteredCandidates() {
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
-  openMailModal() {
-    this.showMailModal = true;
-  }
+  // openMailModal() {
+  //   this.showMailModal = true;
+  // }
 
   closeMailModal() {
     this.showMailModal = false;
+    this.resetMailModal();
   }
 
   openEditModal() {

@@ -127,12 +127,16 @@
                 <input type="text" class="form-control" [(ngModel)]="mailSubject" placeholder="Enter subject..." />
             </div>
 
-            <label class="form-label-title">Description</label>
-            <div class="NgxEditor__Wrapper mb-4">
-                <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
-             <ngx-editor [editor]="editor" [(ngModel)]="previewMailBody" placeholder="Type your email..."></ngx-editor>
 
-            </div>
+            <label class="form-label-title">Description</label>
+<div class="NgxEditor__Wrapper mb-4">
+  <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+  <!-- ✅ Bind directly to mailBody -->
+  <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
+</div>
+
+
+
 
 
 
