@@ -62,8 +62,8 @@ confirmFile(): void {
         });
       });
 
-      console.log("Final Payload (must be raw array):", finalArr);
-      console.log("Type of Payload:", Array.isArray(finalArr));
+      // console.log("Final Payload (must be raw array):", finalArr);
+      // console.log("Type of Payload:", Array.isArray(finalArr));
 
       this.service.venorUpload(finalArr).subscribe({
         next: (resp: any) => {

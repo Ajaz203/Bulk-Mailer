@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  // private apiUrl: string = 'https://1639af4fe675.ngrok-free.app/';
+  // private apiUrl: string = 'https://58f5d8ea1e5d.ngrok-free.app/';
   private apiUrl: string = 'https://api.mailcept.net/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
@@ -472,6 +472,13 @@ checkBatch(uuid: string) {
       responseType: 'blob'
     });
   }
+
+createSignature(payload: { userId: number; signature: string }) {
+  return this.http.post(this.apiUrl + 'create-signature', payload);
+}
+getSignature(payload: { userId: number;}) {
+  return this.http.post(this.apiUrl + 'get-signature', payload);
+}
 
 
 

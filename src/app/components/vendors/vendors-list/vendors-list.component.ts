@@ -47,27 +47,44 @@ export class VendorsListComponent {
     this.titleService.setTitle('MailCept-Vendors');
   }
 
-  ngOnInit(): void {
-    this.editor = new Editor();
-    // route param
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('userId');
-      if (id) {
-        this.userId = Number(id);
-        // try to get user from navigation state
-        const navStateUser = history.state?.user;
-        if (navStateUser) {
-          this.selectedUser = navStateUser;
-        } else {
-          // fallback: try to fetch user list and find user (quick)
-          // optional; not required if you don't have an endpoint for single user
-          this.loadUserMeta();
-        }
-        this.loadVendors();
-        this.getDraftData();
+ngOnInit(): void {
+  this.editor = new Editor();
+  this.route.paramMap.subscribe(params => {
+    const id = params.get('userId');
+    if (id) {
+      this.userId = Number(id);
+
+
+      const navStateUser = history.state?.user;
+      if (navStateUser) {
+        this.selectedUser = navStateUser;
+      } else {
+        this.loadUserMeta();
       }
-    });
-  }
+
+      this.loadVendors();
+      this.getDraftData();
+    }
+  });
+    this.getUserSignature();
+     this.userSignature = localStorage.getItem('userSignature') || `Ajaz<br>Software Developer`;
+}
+getUserSignature() {
+  const payload = { userId: this.userId, };
+
+  this.service.getSignature(payload).subscribe({
+    next: (res: any) => {
+      this.userSignature = res?.data?.signature || ''; 
+      console.log('Fetched Signature:', this.userSignature);
+    },
+    error: (err) => {
+      console.error('Error fetching signature:', err);
+      this.userSignature = ''; 
+    }
+  });
+}
+
+
 
   ngOnDestroy(): void {
     if (this.editor) this.editor.destroy();
@@ -296,27 +313,50 @@ get filteredVendorList() {
       this.openMailModal();
   }
 
-  vendorSendMail() {
-    const sourceList = this.selectionMode === 'all' ? this.vendorList : Array.from(this.selectedCandidates);
-    const selectedEmails = sourceList.map((c: any) => c.email);
-    if (selectedEmails.length === 0) {
-      Swal.fire('Error', 'No candidates selected.', 'error');
+vendorSendMail() {
+  const sourceList = this.selectionMode === 'all'
+    ? this.vendorList
+    : Array.from(this.selectedCandidates);
+
+  if (sourceList.length === 0) {
+    Swal.fire('Error', 'No candidates selected.', 'error');
+    return;
+  }
+
+  if (!this.mailSubject?.trim()) {
+    Swal.fire('Error', 'Subject is required.', 'error');
+    return;
+  }
+
+  const exampleName = (Array.from(this.selectedCandidates)[0]?.name || 'there').split(' ')[0];
+  this.mailBody = this.previewMailBody.replace(new RegExp(exampleName, 'gi'), '{{name}}');
+
+  this.isLoading = true;
+  let successCount = 0;
+  let failCount = 0;
+
+  const sendNext = (index: number) => {
+    if (index >= sourceList.length) {
+      this.isLoading = false;
+      Swal.fire('Done', `Mails sent: ${successCount}, Failed: ${failCount}`, 'success');
+      this.closeMailModal();
       return;
     }
-    if (!this.mailSubject?.trim() || !this.mailBody?.trim()) {
-      Swal.fire('Error', 'Subject and Mail Body are required.', 'error');
-      return;
-    }
+
+    const vendor = sourceList[index];
+    const firstName = vendor?.name?.split(' ')[0] || 'there';
+
+    // 🟢 Only replace name — keep signature fixed
+    const personalizedBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
 
     const payload: any = {
       mailSubject: this.mailSubject,
-      emails: selectedEmails,
-      mailBody: this.mailBody,
-      type: 'immediate'
+      emails: [vendor.email],
+      mailBody: personalizedBody,
+      type: 'immediate',
     };
 
-    const isScheduled = this.scheduleDate && this.scheduleTime;
-    if (isScheduled) {
+    if (this.scheduleDate && this.scheduleTime) {
       const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
       payload.date = this.scheduleDate;
       payload.time = time;
@@ -324,24 +364,54 @@ get filteredVendorList() {
       payload.type = 'scheduled';
     }
 
-    this.isLoading = true;
     this.service.vendorSendMail(payload).subscribe({
       next: () => {
-        Swal.fire('Success', 'Mail sent successfully!', 'success');
-        this.resetMailModal();
-        const modalElement = document.getElementById('mailModal');
-        if (modalElement) {
-          const m = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-          m.hide();
-        }
+        successCount++;
+        sendNext(index + 1);
       },
       error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'Failed to send mail.', 'error');
+        console.error(`Mail failed for ${vendor.email}`, err);
+        failCount++;
+        sendNext(index + 1);
       },
-      complete: () => this.isLoading = false
     });
+  };
+
+  sendNext(0);
+}
+
+
+
+mailTemplateBody: string = '';
+userSignature: string = '';
+previewMailBody: string = '';
+staticSignature: string = '';
+openMailModal(vendor?: any) {
+  this.showMailModal = true;
+
+  // 🟢 Lock your signature once here
+  this.staticSignature = this.userSignature; // store fixed copy
+
+  // Pick one name for preview
+  let firstName = 'there';
+  if (vendor) {
+    firstName = vendor?.name?.split(' ')[0] || 'there';
+  } else if (this.selectedCandidates.size > 0) {
+    const firstSelected = Array.from(this.selectedCandidates)[0];
+    firstName = firstSelected?.name?.split(' ')[0] || 'there';
   }
+
+  const greetingPlaceholder = `Hello {{name}},<br><br>`;
+  const signatureBlock = `<br><br>${this.staticSignature}`;
+
+  // 🟢 Compose new body
+  const body = this.mailTemplateBody || this.mailBody || '';
+  this.mailBody = `${greetingPlaceholder}${body}${signatureBlock}`;
+
+  // 🟢 Preview version
+  this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+}
+
 
 saveAsDraft() {
   const storedUser = localStorage.getItem('user');
@@ -460,13 +530,17 @@ saveAsDraft() {
 showMailModal = false;
 showEditModal = false;
 
-openMailModal() {
-  this.showMailModal = true;
-}
+
 
 closeMailModal() {
   this.showMailModal = false;
+  this.mailSubject = '';
+  this.mailBody = '';
+  this.mailTemplateBody = '';
+  this.selectedCandidates.clear(); 
+  this.loadVendors();
 }
+
 
 openEditModal() {
   this.showEditModal = true;
@@ -474,6 +548,7 @@ openEditModal() {
 
 closeEditModal() {
   this.showEditModal = false;
+ 
 }
   
 }
