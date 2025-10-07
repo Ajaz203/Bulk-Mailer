@@ -26,7 +26,7 @@
       </p>
       <button class="btn btn-outline-danger btn-sm rounded-pill d-flex align-items-center" type="button"
         (click)="removeImage()">
-        <i class="bi bi-trash me-1"></i> Remove
+      Remove
       </button>
     </div>
   </div>
@@ -41,7 +41,12 @@
       Full name is required
     </div>
   </div>
-
+ <!-- Submit -->
+  <div class="text-end">
+    <button class="btn btn-primary px-4 shadow-sm rounded-pill" type="submit" [disabled]="!profileForm.valid">
+     Save Changes
+    </button>
+  </div>
   <!-- Signature -->
   <div class="mb-3">
     <label class="form-label fw-semibold">Email Signature</label>
@@ -54,16 +59,11 @@
     </small>
 
     <div class="text-end mt-3">
-      <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" (click)="saveSignature()">
-        <i class="bi bi-save me-1"></i> Save Signature
+      <button type="button" class="btn btn-outline-success  rounded-pill " (click)="saveSignature()">
+     Save Signature
       </button>
     </div>
   </div>
 
-  <!-- Submit -->
-  <div class="text-end mt-4">
-    <button class="btn btn-primary px-4 shadow-sm rounded-pill" type="submit" [disabled]="!profileForm.valid">
-      <i class="bi bi-check-circle me-1"></i> Save Changes
-    </button>
-  </div>
+ 
 </form>

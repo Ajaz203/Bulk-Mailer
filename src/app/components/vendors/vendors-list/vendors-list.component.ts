@@ -328,9 +328,10 @@ vendorSendMail() {
     return;
   }
 
-  const exampleName = (Array.from(this.selectedCandidates)[0]?.name || 'there').split(' ')[0];
-  this.mailBody = this.previewMailBody.replace(new RegExp(exampleName, 'gi'), '{{name}}');
+  // ✅ Use mailBody as base (it already includes greeting + signature)
+  let baseMailBody = this.mailBody;
 
+  // 🟢 Replace placeholder {{name}} with actual first name per vendor
   this.isLoading = true;
   let successCount = 0;
   let failCount = 0;
@@ -345,9 +346,7 @@ vendorSendMail() {
 
     const vendor = sourceList[index];
     const firstName = vendor?.name?.split(' ')[0] || 'there';
-
-    // 🟢 Only replace name — keep signature fixed
-    const personalizedBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+    const personalizedBody = baseMailBody.replace(/{{\s*name\s*}}/gi, firstName);
 
     const payload: any = {
       mailSubject: this.mailSubject,
@@ -379,6 +378,7 @@ vendorSendMail() {
 
   sendNext(0);
 }
+
 
 
 
@@ -426,10 +426,13 @@ saveAsDraft() {
     ? this.vendorList.map((v: any) => v.email)
     : Array.from(this.selectedCandidates).map((v: any) => v.email);
 
+  // 🟢 Ensure we save full body (with greeting + signature)
+  const bodyToSave = this.previewMailBody || this.mailBody || '';
+
   const payload: any = {
     mailSubject: this.mailSubject || '',
     emails: selectedEmails || [],
-    mailBody: this.mailBody || '',
+    mailBody: bodyToSave,
     type: 'draft',
     userEmail: currentUser.email,
     userName: currentUser.name,
@@ -448,7 +451,9 @@ saveAsDraft() {
   this.service.vendorSendMail(payload).subscribe({
     next: () => {
       Swal.fire('Saved!', 'Draft saved successfully!', 'success');
+        this.closeMailModal();
       this.resetMailModal();
+
       const modalEl = document.getElementById('mailModal');
       if (modalEl) {
         const m = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
@@ -460,9 +465,10 @@ saveAsDraft() {
       console.error(err);
       Swal.fire('Error', 'Failed to save draft.', 'error');
     },
-    complete: () => this.isLoading = false
+    complete: () => (this.isLoading = false),
   });
 }
+
 
 
   resetMailModal() {
@@ -484,27 +490,43 @@ saveAsDraft() {
     });
   }
 
-  loadDraft(draft: any) {
-    this.mailSubject = draft.mailSubject || '';
-    this.mailBody = draft.mailBody || '';
-    this.scheduleDate = draft.date || '';
-    if (draft.time && draft.period) {
-      this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
-      this.schedulePeriod = draft.period;
-    } else {
-      this.scheduleTime = '';
-      this.schedulePeriod = 'AM';
-    }
-    this.selectedCandidates = new Set(draft.emails || []);
-    this.selectionMode = 'selected';
-    Swal.fire('Loaded!', 'Draft loaded successfully.', 'success');
+ loadDraft(draft: any) {
+  this.mailSubject = draft.mailSubject || '';
+  this.mailBody = draft.mailBody || '';
+  this.previewMailBody = draft.mailBody || ''; // 🟢 also update preview for editor
+  this.scheduleDate = draft.date || '';
+
+  if (draft.time && draft.period) {
+    this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
+    this.schedulePeriod = draft.period;
+  } else {
+    this.scheduleTime = '';
+    this.schedulePeriod = 'AM';
   }
 
-  openDraftInMail(draft: any) {
-    this.loadDraft(draft);
-    const modalElement = document.getElementById('mailModal');
-    if (modalElement) new bootstrap.Modal(modalElement).show();
+  this.selectedCandidates = new Set(draft.emails || []);
+  this.selectionMode = 'selected';
+  Swal.fire('Loaded!', 'Draft loaded successfully.', 'success');
+}
+
+ openDraftInMail(draft: any) {
+  this.loadDraft(draft);
+
+  // 🟢 Replace {{name}} with preview name
+  let firstName = 'there';
+  if (this.selectedCandidates.size > 0) {
+    const firstSelected = Array.from(this.selectedCandidates)[0];
+    if (typeof firstSelected === 'object' && firstSelected.name) {
+      firstName = firstSelected.name.split(' ')[0];
+    }
   }
+
+  this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+
+  const modalElement = document.getElementById('mailModal');
+  if (modalElement) new bootstrap.Modal(modalElement).show();
+}
+
 
   convertTo12HourWithPeriod(time24: string) {
     const [hourStr, minute] = time24.split(':');
@@ -548,7 +570,10 @@ openEditModal() {
 
 closeEditModal() {
   this.showEditModal = false;
- 
+
+  this.mailSubject = '';
+  this.mailBody = '';
+  this.mailTemplateBody = '';
 }
   
 }

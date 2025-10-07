@@ -152,7 +152,7 @@ closeEditModal() {
     apiCall.subscribe({
       next: () => {
         Swal.fire('Saved!', 'Draft saved successfully!', 'success');
-        this.closeModal();
+        this.closeMailModal();
         this.getDraftData();
       },
       error: (err) => {
@@ -218,7 +218,7 @@ closeEditModal() {
         }
 
         this.editingDraftId = '';
-        this.closeModal();
+        this.closeMailModal();
       },
       error: (err) => {
         console.error(err);
