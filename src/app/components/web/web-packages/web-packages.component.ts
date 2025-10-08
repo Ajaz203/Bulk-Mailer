@@ -167,7 +167,7 @@ export class WebPackagesComponent implements OnInit {
         const razorpayOrder = {
           id: res.orderId,
           amount: res.amount,
-          currency: res.currency || 'INR'
+          currency: res.currency || 'USD'
         };
 
         this.launchRazorpay(user, plan, razorpayOrder);
@@ -184,7 +184,7 @@ export class WebPackagesComponent implements OnInit {
     const options: any = {
       key: 'rzp_test_xpuVKCwj93F3DI',
       amount: order.amount,
-      currency: order.currency || 'INR',
+      currency: order.currency || 'USD',
       name: 'Mailcept',
       description: plan.name,
       image: 'assets/images/Asset 6.png',

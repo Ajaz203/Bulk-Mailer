@@ -129,16 +129,10 @@
 
 
             <label class="form-label-title">Description</label>
-<div class="NgxEditor__Wrapper mb-4">
-  <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
-  <!-- ✅ Bind directly to mailBody -->
-  <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
-</div>
-
-
-
-
-
+            <div class="NgxEditor__Wrapper mb-4">
+                <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+                <ngx-editor [editor]="editor" [(ngModel)]="mailBody" placeholder="Type your email..."></ngx-editor>
+            </div>
 
             <div class="modal-footer">
                 <button class="btn btn-primary me-3" (click)="saveAsDraft()" [disabled]="isLoading">Save as

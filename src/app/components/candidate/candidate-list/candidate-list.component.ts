@@ -16,8 +16,8 @@ declare var bootstrap: any;
   templateUrl: './candidate-list.component.html',
   styleUrl: './candidate-list.component.scss'
 })
-export class CandidateListComponent  implements OnInit {
-   userId: number = Number(localStorage.getItem('userId'));
+export class CandidateListComponent implements OnInit {
+  userId: number = Number(localStorage.getItem('userId'));
   dataArr: any = []
   scheduleDate: any = '';
   scheduleTime: any = '';
@@ -50,9 +50,9 @@ export class CandidateListComponent  implements OnInit {
   showMailModal = false;
   showEditModal = false;
   constructor(private service: UserService, private cdr: ChangeDetectorRef,
-    private titleService: Title, private router: Router) { 
-      this.titleService.setTitle('MailCept-Candidates');
-    }
+    private titleService: Title, private router: Router) {
+    this.titleService.setTitle('MailCept-Candidates');
+  }
 
   ngOnInit() {
     this.editor = new Editor();
@@ -63,25 +63,25 @@ export class CandidateListComponent  implements OnInit {
     });
     this.getDraftData();
     this.getUserSignature();
-     this.userSignature = localStorage.getItem('userSignature') || `Ajaz<br>Software Developer`;
+    this.userSignature = localStorage.getItem('userSignature') || `Ajaz<br>Software Developer`;
   }
   ngOnDestroy(): void {
     this.editor?.destroy();
   }
   getUserSignature() {
-  const payload = { userId: this.userId, };
+    const payload = { userId: this.userId, };
 
-  this.service.getSignature(payload).subscribe({
-    next: (res: any) => {
-      this.userSignature = res?.data?.signature || ''; 
-      console.log('Fetched Signature:', this.userSignature);
-    },
-    error: (err) => {
-      console.error('Error fetching signature:', err);
-      this.userSignature = ''; 
-    }
-  });
-}
+    this.service.getSignature(payload).subscribe({
+      next: (res: any) => {
+        this.userSignature = res?.data?.signature || '';
+        console.log('Fetched Signature:', this.userSignature);
+      },
+      error: (err) => {
+        console.error('Error fetching signature:', err);
+        this.userSignature = '';
+      }
+    });
+  }
 
   backToUsers() {
     this.router.navigate(['/candidates/upload']);
@@ -180,7 +180,7 @@ export class CandidateListComponent  implements OnInit {
         next: (res) => {
           Swal.fire('Updated!', 'Candidate updated successfully', 'success');
           this.getData();
-           this.closeEditModal();
+          this.closeEditModal();
 
           const modalElement = document.getElementById('editModal');
           const modal = bootstrap.Modal.getInstance(modalElement);
@@ -269,88 +269,88 @@ export class CandidateListComponent  implements OnInit {
       period
     };
   }
-openMailModal(candidate?: any) {
-  this.showMailModal = true;
-  this.staticSignature = this.userSignature || '';
+  openMailModal(candidate?: any) {
+    this.showMailModal = true;
+    this.staticSignature = this.userSignature || '';
 
-  let firstName = 'there';
-  if (candidate) firstName = candidate?.name?.split(' ')[0] || 'there';
-  else if (this.selectedCandidates.size > 0)
-    firstName = Array.from(this.selectedCandidates)[0]?.name?.split(' ')[0] || 'there';
+    let firstName = 'there';
+    if (candidate) firstName = candidate?.name?.split(' ')[0] || 'there';
+    else if (this.selectedCandidates.size > 0)
+      firstName = Array.from(this.selectedCandidates)[0]?.name?.split(' ')[0] || 'there';
 
-  const greetingPlaceholder = `Hello {{name}},<br>`;
-  const signatureBlock = `<br><br>${this.staticSignature}`;
+    const greetingPlaceholder = `Hello {{name}},<br>`;
+    const signatureBlock = `<br><br>${this.staticSignature}`;
 
-  // Compose the mail body
-  const bodyContent = this.userMailContent || '';
-  this.mailBody = `${greetingPlaceholder}${bodyContent}${signatureBlock}`;
+    // Compose the mail body
+    const bodyContent = this.userMailContent || '';
+    this.mailBody = `${greetingPlaceholder}${bodyContent}${signatureBlock}`;
 
-  // Preview for editor
-  this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
-}
-
-mailTemplateBody: string = ''; 
-userMailContent: string = '';  
-userSignature: string = '';    
-staticSignature: string = '';   
-previewMailBody: string = ''; 
-sendMail() {
-  const recipients = this.selectionMode === 'all' ? this.dataArr : Array.from(this.selectedCandidates);
-
-  if (!recipients.length) {
-    Swal.fire('Error', 'No candidates selected.', 'error');
-    return;
-  }
-  if (!this.mailSubject?.trim()) {
-    Swal.fire('Error', 'Subject is required.', 'error');
-    return;
-  }
-  if (!this.mailBody?.trim()) {
-    Swal.fire('Error', 'Mail body is required.', 'error');
-    return;
+    // Preview for editor
+    this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
   }
 
-  this.isLoading = true; // Show loader
+  mailTemplateBody: string = '';
+  userMailContent: string = '';
+  userSignature: string = '';
+  staticSignature: string = '';
+  previewMailBody: string = '';
+  sendMail() {
+    const recipients = this.selectionMode === 'all' ? this.dataArr : Array.from(this.selectedCandidates);
 
-  let successCount = 0;
-  let failCount = 0;
-
-  const sendNext = (index: number) => {
-    if (index >= recipients.length) {
-      // All mails processed
-      this.isLoading = false; // Hide loader
-      Swal.fire('Done', `Mails sent: ${successCount}, Failed: ${failCount}`, 'success');
-      this.closeMailModal();
-      this.resetMailModal();
+    if (!recipients.length) {
+      Swal.fire('Error', 'No candidates selected.', 'error');
+      return;
+    }
+    if (!this.mailSubject?.trim()) {
+      Swal.fire('Error', 'Subject is required.', 'error');
+      return;
+    }
+    if (!this.mailBody?.trim()) {
+      Swal.fire('Error', 'Mail body is required.', 'error');
       return;
     }
 
-    const candidate = recipients[index];
-    const firstName = candidate?.name?.split(' ')[0] || 'there';
-    const personalizedBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+    this.isLoading = true; // Show loader
 
-    const payload: any = {
-      mailSubject: this.mailSubject,
-      emails: [candidate.email],
-      mailBody: personalizedBody,
-      type: this.scheduleDate && this.scheduleTime ? 'scheduled' : 'immediate'
+    let successCount = 0;
+    let failCount = 0;
+
+    const sendNext = (index: number) => {
+      if (index >= recipients.length) {
+        // All mails processed
+        this.isLoading = false; // Hide loader
+        Swal.fire('Done', `Mails sent: ${successCount}, Failed: ${failCount}`, 'success');
+        this.closeMailModal();
+        this.resetMailModal();
+        return;
+      }
+
+      const candidate = recipients[index];
+      const firstName = candidate?.name?.split(' ')[0] || 'there';
+      const personalizedBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+
+      const payload: any = {
+        mailSubject: this.mailSubject,
+        emails: [candidate.email],
+        mailBody: personalizedBody,
+        type: this.scheduleDate && this.scheduleTime ? 'scheduled' : 'immediate'
+      };
+
+      this.service.sendMail(payload).subscribe({
+        next: () => {
+          successCount++;
+          sendNext(index + 1); // Continue to next email
+        },
+        error: (err) => {
+          failCount++;
+          console.error(`Mail failed for ${candidate.email}`, err);
+          sendNext(index + 1); // Continue even on error
+        }
+      });
     };
 
-    this.service.sendMail(payload).subscribe({
-      next: () => {
-        successCount++;
-        sendNext(index + 1); // Continue to next email
-      },
-      error: (err) => {
-        failCount++;
-        console.error(`Mail failed for ${candidate.email}`, err);
-        sendNext(index + 1); // Continue even on error
-      }
-    });
-  };
-
-  sendNext(0); // Start sending
-}
+    sendNext(0); // Start sending
+  }
 
 
 
@@ -473,27 +473,27 @@ sendMail() {
 
 
 
-get filteredCandidates() {
-  if (!this.searchQuery) return this.dataArr;
+  get filteredCandidates() {
+    if (!this.searchQuery) return this.dataArr;
 
-  const query = this.searchQuery.toLowerCase();
+    const query = this.searchQuery.toLowerCase();
 
-  return this.dataArr.filter((c: any) =>
-    (c.name?.toLowerCase().includes(query)) ||
-    (c.email?.toLowerCase().includes(query)) ||
-    (c.contact_no ? String(c.contact_no).toLowerCase().includes(query) : false) ||
-    (c.alt_contact_no ? String(c.alt_contact_no).toLowerCase().includes(query) : false) ||
-    (c.technology?.toLowerCase().includes(query)) ||
-    (c.location?.toLowerCase().includes(query)) ||
-    (c.visa?.toLowerCase().includes(query)) ||
-    (c.skills && c.skills.length > 0
-      ? c.skills.join(', ').toLowerCase().includes(query)
-      : false) ||
-    (c.createdAt
-      ? new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query)
-      : false)
-  );
-}
+    return this.dataArr.filter((c: any) =>
+      (c.name?.toLowerCase().includes(query)) ||
+      (c.email?.toLowerCase().includes(query)) ||
+      (c.contact_no ? String(c.contact_no).toLowerCase().includes(query) : false) ||
+      (c.alt_contact_no ? String(c.alt_contact_no).toLowerCase().includes(query) : false) ||
+      (c.technology?.toLowerCase().includes(query)) ||
+      (c.location?.toLowerCase().includes(query)) ||
+      (c.visa?.toLowerCase().includes(query)) ||
+      (c.skills && c.skills.length > 0
+        ? c.skills.join(', ').toLowerCase().includes(query)
+        : false) ||
+      (c.createdAt
+        ? new Date(c.createdAt).toLocaleDateString().toLowerCase().includes(query)
+        : false)
+    );
+  }
 
 
   openDraftInMail(draft: any) {

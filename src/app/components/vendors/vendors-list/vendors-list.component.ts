@@ -43,46 +43,46 @@ export class VendorsListComponent {
     private router: Router,
     private service: UserService,
     private titleService: Title
-  ) { 
+  ) {
     this.titleService.setTitle('MailCept-Vendors');
   }
 
-ngOnInit(): void {
-  this.editor = new Editor();
-  this.route.paramMap.subscribe(params => {
-    const id = params.get('userId');
-    if (id) {
-      this.userId = Number(id);
+  ngOnInit(): void {
+    this.editor = new Editor();
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('userId');
+      if (id) {
+        this.userId = Number(id);
 
 
-      const navStateUser = history.state?.user;
-      if (navStateUser) {
-        this.selectedUser = navStateUser;
-      } else {
-        this.loadUserMeta();
+        const navStateUser = history.state?.user;
+        if (navStateUser) {
+          this.selectedUser = navStateUser;
+        } else {
+          this.loadUserMeta();
+        }
+
+        this.loadVendors();
+        this.getDraftData();
       }
-
-      this.loadVendors();
-      this.getDraftData();
-    }
-  });
+    });
     this.getUserSignature();
-     this.userSignature = localStorage.getItem('userSignature') || `Ajaz<br>Software Developer`;
-}
-getUserSignature() {
-  const payload = { userId: this.userId, };
+    this.userSignature = localStorage.getItem('userSignature') || `Ajaz<br>Software Developer`;
+  }
+  getUserSignature() {
+    const payload = { userId: this.userId, };
 
-  this.service.getSignature(payload).subscribe({
-    next: (res: any) => {
-      this.userSignature = res?.data?.signature || ''; 
-      console.log('Fetched Signature:', this.userSignature);
-    },
-    error: (err) => {
-      console.error('Error fetching signature:', err);
-      this.userSignature = ''; 
-    }
-  });
-}
+    this.service.getSignature(payload).subscribe({
+      next: (res: any) => {
+        this.userSignature = res?.data?.signature || '';
+        console.log('Fetched Signature:', this.userSignature);
+      },
+      error: (err) => {
+        console.error('Error fetching signature:', err);
+        this.userSignature = '';
+      }
+    });
+  }
 
 
 
@@ -102,41 +102,41 @@ getUserSignature() {
     });
   }
 
-loadVendors(): void {
-  this.isLoading = true;
-  this.service.getVendorsByUser(this.userId).subscribe({
-    next: (res: any) => {
-  this.vendorList = Array.isArray(res) ? res : [];
-  const nullItems = this.vendorList.filter(v => v == null);
-  if (nullItems.length > 0) {
-    console.warn('Null or undefined vendors in list:', nullItems);
+  loadVendors(): void {
+    this.isLoading = true;
+    this.service.getVendorsByUser(this.userId).subscribe({
+      next: (res: any) => {
+        this.vendorList = Array.isArray(res) ? res : [];
+        const nullItems = this.vendorList.filter(v => v == null);
+        if (nullItems.length > 0) {
+          console.warn('Null or undefined vendors in list:', nullItems);
+        }
+        this.isLoading = false;
+      }
+
+    });
+
   }
-  this.isLoading = false;
-}
-
-  });
-
-}
 
 
 
-get filteredVendorList() {
-  if (!this.searchTermVendor) return this.vendorList;
+  get filteredVendorList() {
+    if (!this.searchTermVendor) return this.vendorList;
 
-  const query = this.searchTermVendor.toLowerCase();
+    const query = this.searchTermVendor.toLowerCase();
 
-  return this.vendorList.filter((vendor: any) =>
-    vendor?.email
-      ? vendor.email.toLowerCase().includes(query)
-      : false
-  );
-}
+    return this.vendorList.filter((vendor: any) =>
+      vendor?.email
+        ? vendor.email.toLowerCase().includes(query)
+        : false
+    );
+  }
 
 
 
   trackByVendorId(index: number, vendor: any): number | string {
-  return vendor?.id ?? vendor?._id ?? index;
-}
+    return vendor?.id ?? vendor?._id ?? index;
+  }
 
   // infinite scroll emulation (same as before)
   onScroll(): void {
@@ -167,10 +167,10 @@ get filteredVendorList() {
     this.showDeleteCandidate = Array.from(this.selectedCandidates).length > 0;
   }
 
- isAllSelected(): boolean {
-  const visibleVendors = this.filteredVendorList.slice(0, this.displayLimit);
-  return visibleVendors.length > 0 && visibleVendors.every(v => this.selectedCandidates.has(v));
-}
+  isAllSelected(): boolean {
+    const visibleVendors = this.filteredVendorList.slice(0, this.displayLimit);
+    return visibleVendors.length > 0 && visibleVendors.every(v => this.selectedCandidates.has(v));
+  }
 
 
   clickAllDelete() {
@@ -267,7 +267,7 @@ get filteredVendorList() {
       this.editModalInstance = new bootstrap.Modal(modalElement);
       this.editModalInstance.show();
     }
-     this.openEditModal();
+    this.openEditModal();
   }
 
   updateCandidate() {
@@ -303,173 +303,173 @@ get filteredVendorList() {
     this.selectionMode = 'selected';
     const modalElement = document.getElementById('mailModal');
     if (modalElement) new bootstrap.Modal(modalElement).show();
-      this.openMailModal();
+    this.openMailModal();
   }
 
   handleAllCandidateSend() {
     this.selectionMode = 'all';
     const modalElement = document.getElementById('mailModal');
     if (modalElement) new bootstrap.Modal(modalElement).show();
-      this.openMailModal();
+    this.openMailModal();
   }
 
-vendorSendMail() {
-  const sourceList = this.selectionMode === 'all'
-    ? this.vendorList
-    : Array.from(this.selectedCandidates);
+  vendorSendMail() {
+    const sourceList = this.selectionMode === 'all'
+      ? this.vendorList
+      : Array.from(this.selectedCandidates);
 
-  if (sourceList.length === 0) {
-    Swal.fire('Error', 'No candidates selected.', 'error');
-    return;
-  }
-
-  if (!this.mailSubject?.trim()) {
-    Swal.fire('Error', 'Subject is required.', 'error');
-    return;
-  }
-
-  // ✅ Always use the editor content (mailBody) — keep {{name}} intact
-  const templateMailBody = this.mailBody || '';
-
-  this.isLoading = true;
-  let successCount = 0;
-  let failCount = 0;
-
-  const sendNext = (index: number) => {
-    if (index >= sourceList.length) {
-      this.isLoading = false;
-      Swal.fire('Done', `Mails sent: ${successCount}, Failed: ${failCount}`, 'success');
-      this.closeMailModal();
+    if (sourceList.length === 0) {
+      Swal.fire('Error', 'No candidates selected.', 'error');
       return;
     }
 
-    const vendor = sourceList[index];
-    const firstName = vendor?.name?.split(' ')[0] || 'there';
+    if (!this.mailSubject?.trim()) {
+      Swal.fire('Error', 'Subject is required.', 'error');
+      return;
+    }
 
-    // 🟢 Personalize each recipient
-    const personalizedBody = templateMailBody.replace(/{{\s*name\s*}}/gi, firstName);
+    // ✅ Always use the editor content (mailBody) — keep {{name}} intact
+    const templateMailBody = this.mailBody || '';
 
-    const payload: any = {
-      mailSubject: this.mailSubject,
-      emails: [vendor.email],
-      mailBody: personalizedBody,
-      type: 'immediate',
+    this.isLoading = true;
+    let successCount = 0;
+    let failCount = 0;
+
+    const sendNext = (index: number) => {
+      if (index >= sourceList.length) {
+        this.isLoading = false;
+        Swal.fire('Done', `Mails sent: ${successCount}, Failed: ${failCount}`, 'success');
+        this.closeMailModal();
+        return;
+      }
+
+      const vendor = sourceList[index];
+      const firstName = vendor?.name?.split(' ')[0] || 'there';
+
+      // 🟢 Personalize each recipient
+      const personalizedBody = templateMailBody.replace(/{{\s*name\s*}}/gi, firstName);
+
+      const payload: any = {
+        mailSubject: this.mailSubject,
+        emails: [vendor.email],
+        mailBody: personalizedBody,
+        type: 'immediate',
+      };
+
+      // optional scheduling
+      if (this.scheduleDate && this.scheduleTime) {
+        const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+        payload.date = this.scheduleDate;
+        payload.time = time;
+        payload.period = period;
+        payload.type = 'scheduled';
+      }
+
+      this.service.vendorSendMail(payload).subscribe({
+        next: () => {
+          successCount++;
+          sendNext(index + 1);
+        },
+        error: (err) => {
+          console.error(`Mail failed for ${vendor.email}`, err);
+          failCount++;
+          sendNext(index + 1);
+        },
+      });
     };
 
-    // optional scheduling
-    if (this.scheduleDate && this.scheduleTime) {
+    sendNext(0);
+  }
+
+
+  mailTemplateBody: string = '';
+  userSignature: string = '';
+  previewMailBody: string = '';
+  staticSignature: string = '';
+
+  openMailModal(vendor?: any) {
+    this.showMailModal = true;
+
+    // 🟢 Lock signature
+    this.staticSignature = this.userSignature;
+
+    // 🟢 Compose template only once
+    const greetingPlaceholder = `Hello {{name}},<br><br>`;
+    const signatureBlock = `<br><br>${this.staticSignature}`;
+
+    // if user already wrote something, reuse it; otherwise use mailTemplateBody
+    const body = this.mailTemplateBody || this.mailBody || '';
+    this.mailBody = `${greetingPlaceholder}${body}${signatureBlock}`;
+
+    // 🟢 (Optional) for preview only, pick one name
+    let firstName = 'there';
+    if (vendor) {
+      firstName = vendor?.name?.split(' ')[0] || 'there';
+    } else if (this.selectedCandidates.size > 0) {
+      const firstSelected = Array.from(this.selectedCandidates)[0];
+      firstName = firstSelected?.name?.split(' ')[0] || 'there';
+    }
+
+    this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+  }
+
+
+
+  saveAsDraft() {
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      Swal.fire('Error', 'User information not found. Please log in again.', 'error');
+      return;
+    }
+
+    const currentUser = JSON.parse(storedUser);
+
+    const selectedEmails = this.selectionMode === 'all'
+      ? this.vendorList.map((v: any) => v.email)
+      : Array.from(this.selectedCandidates).map((v: any) => v.email);
+
+    // 🟢 Ensure we save full body (with greeting + signature)
+    const bodyToSave = this.previewMailBody || this.mailBody || '';
+
+    const payload: any = {
+      mailSubject: this.mailSubject || '',
+      emails: selectedEmails || [],
+      mailBody: bodyToSave,
+      type: 'draft',
+      userEmail: currentUser.email,
+      userName: currentUser.name,
+      userId: currentUser.userId
+    };
+
+    const isScheduled = this.scheduleDate && this.scheduleTime;
+    if (isScheduled) {
       const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
       payload.date = this.scheduleDate;
       payload.time = time;
       payload.period = period;
-      payload.type = 'scheduled';
     }
 
+    this.isLoading = true;
     this.service.vendorSendMail(payload).subscribe({
       next: () => {
-        successCount++;
-        sendNext(index + 1);
+        Swal.fire('Saved!', 'Draft saved successfully!', 'success');
+        this.closeMailModal();
+        this.resetMailModal();
+
+        const modalEl = document.getElementById('mailModal');
+        if (modalEl) {
+          const m = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+          m.hide();
+        }
+        this.getDraftData();
       },
       error: (err) => {
-        console.error(`Mail failed for ${vendor.email}`, err);
-        failCount++;
-        sendNext(index + 1);
+        console.error(err);
+        Swal.fire('Error', 'Failed to save draft.', 'error');
       },
+      complete: () => (this.isLoading = false),
     });
-  };
-
-  sendNext(0);
-}
-
-
-mailTemplateBody: string = '';
-userSignature: string = '';
-previewMailBody: string = '';
-staticSignature: string = '';
-
-openMailModal(vendor?: any) {
-  this.showMailModal = true;
-
-  // 🟢 Lock signature
-  this.staticSignature = this.userSignature;
-
-  // 🟢 Compose template only once
-  const greetingPlaceholder = `Hello {{name}},<br><br>`;
-  const signatureBlock = `<br><br>${this.staticSignature}`;
-
-  // if user already wrote something, reuse it; otherwise use mailTemplateBody
-  const body = this.mailTemplateBody || this.mailBody || '';
-  this.mailBody = `${greetingPlaceholder}${body}${signatureBlock}`;
-
-  // 🟢 (Optional) for preview only, pick one name
-  let firstName = 'there';
-  if (vendor) {
-    firstName = vendor?.name?.split(' ')[0] || 'there';
-  } else if (this.selectedCandidates.size > 0) {
-    const firstSelected = Array.from(this.selectedCandidates)[0];
-    firstName = firstSelected?.name?.split(' ')[0] || 'there';
   }
-
-  this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
-}
-
-
-
-saveAsDraft() {
-  const storedUser = localStorage.getItem('user');
-  if (!storedUser) {
-    Swal.fire('Error', 'User information not found. Please log in again.', 'error');
-    return;
-  }
-
-  const currentUser = JSON.parse(storedUser);
-
-  const selectedEmails = this.selectionMode === 'all'
-    ? this.vendorList.map((v: any) => v.email)
-    : Array.from(this.selectedCandidates).map((v: any) => v.email);
-
-  // 🟢 Ensure we save full body (with greeting + signature)
-  const bodyToSave = this.previewMailBody || this.mailBody || '';
-
-  const payload: any = {
-    mailSubject: this.mailSubject || '',
-    emails: selectedEmails || [],
-    mailBody: bodyToSave,
-    type: 'draft',
-    userEmail: currentUser.email,
-    userName: currentUser.name,
-    userId: currentUser.userId
-  };
-
-  const isScheduled = this.scheduleDate && this.scheduleTime;
-  if (isScheduled) {
-    const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
-    payload.date = this.scheduleDate;
-    payload.time = time;
-    payload.period = period;
-  }
-
-  this.isLoading = true;
-  this.service.vendorSendMail(payload).subscribe({
-    next: () => {
-      Swal.fire('Saved!', 'Draft saved successfully!', 'success');
-        this.closeMailModal();
-      this.resetMailModal();
-
-      const modalEl = document.getElementById('mailModal');
-      if (modalEl) {
-        const m = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-        m.hide();
-      }
-      this.getDraftData();
-    },
-    error: (err) => {
-      console.error(err);
-      Swal.fire('Error', 'Failed to save draft.', 'error');
-    },
-    complete: () => (this.isLoading = false),
-  });
-}
 
 
 
@@ -492,42 +492,42 @@ saveAsDraft() {
     });
   }
 
- loadDraft(draft: any) {
-  this.mailSubject = draft.mailSubject || '';
-  this.mailBody = draft.mailBody || '';
-  this.previewMailBody = draft.mailBody || ''; // 🟢 also update preview for editor
-  this.scheduleDate = draft.date || '';
+  loadDraft(draft: any) {
+    this.mailSubject = draft.mailSubject || '';
+    this.mailBody = draft.mailBody || '';
+    this.previewMailBody = draft.mailBody || ''; // 🟢 also update preview for editor
+    this.scheduleDate = draft.date || '';
 
-  if (draft.time && draft.period) {
-    this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
-    this.schedulePeriod = draft.period;
-  } else {
-    this.scheduleTime = '';
-    this.schedulePeriod = 'AM';
-  }
-
-  this.selectedCandidates = new Set(draft.emails || []);
-  this.selectionMode = 'selected';
-  Swal.fire('Loaded!', 'Draft loaded successfully.', 'success');
-}
-
- openDraftInMail(draft: any) {
-  this.loadDraft(draft);
-
-  // 🟢 Replace {{name}} with preview name
-  let firstName = 'there';
-  if (this.selectedCandidates.size > 0) {
-    const firstSelected = Array.from(this.selectedCandidates)[0];
-    if (typeof firstSelected === 'object' && firstSelected.name) {
-      firstName = firstSelected.name.split(' ')[0];
+    if (draft.time && draft.period) {
+      this.scheduleTime = this.convertTo24Hour(draft.time, draft.period);
+      this.schedulePeriod = draft.period;
+    } else {
+      this.scheduleTime = '';
+      this.schedulePeriod = 'AM';
     }
+
+    this.selectedCandidates = new Set(draft.emails || []);
+    this.selectionMode = 'selected';
+    Swal.fire('Loaded!', 'Draft loaded successfully.', 'success');
   }
 
-  this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+  openDraftInMail(draft: any) {
+    this.loadDraft(draft);
 
-  const modalElement = document.getElementById('mailModal');
-  if (modalElement) new bootstrap.Modal(modalElement).show();
-}
+    // 🟢 Replace {{name}} with preview name
+    let firstName = 'there';
+    if (this.selectedCandidates.size > 0) {
+      const firstSelected = Array.from(this.selectedCandidates)[0];
+      if (typeof firstSelected === 'object' && firstSelected.name) {
+        firstName = firstSelected.name.split(' ')[0];
+      }
+    }
+
+    this.previewMailBody = this.mailBody.replace(/{{\s*name\s*}}/gi, firstName);
+
+    const modalElement = document.getElementById('mailModal');
+    if (modalElement) new bootstrap.Modal(modalElement).show();
+  }
 
 
   convertTo12HourWithPeriod(time24: string) {
@@ -551,31 +551,31 @@ saveAsDraft() {
     this.router.navigate(['/vendors/by-user']);
   }
 
-showMailModal = false;
-showEditModal = false;
+  showMailModal = false;
+  showEditModal = false;
 
 
 
-closeMailModal() {
-  this.showMailModal = false;
-  this.mailSubject = '';
-  this.mailBody = '';
-  this.mailTemplateBody = '';
-  this.selectedCandidates.clear(); 
-  this.loadVendors();
-}
+  closeMailModal() {
+    this.showMailModal = false;
+    this.mailSubject = '';
+    this.mailBody = '';
+    this.mailTemplateBody = '';
+    this.selectedCandidates.clear();
+    this.loadVendors();
+  }
 
 
-openEditModal() {
-  this.showEditModal = true;
-}
+  openEditModal() {
+    this.showEditModal = true;
+  }
 
-closeEditModal() {
-  this.showEditModal = false;
+  closeEditModal() {
+    this.showEditModal = false;
 
-  this.mailSubject = '';
-  this.mailBody = '';
-  this.mailTemplateBody = '';
-}
-  
+    this.mailSubject = '';
+    this.mailBody = '';
+    this.mailTemplateBody = '';
+  }
+
 }
