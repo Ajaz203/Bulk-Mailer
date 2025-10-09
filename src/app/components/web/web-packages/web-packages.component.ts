@@ -60,12 +60,12 @@ export class WebPackagesComponent implements OnInit {
     private router: Router,
     private titleService: Title
   ) {
-   this.userForm = this.fb.group({
-  name: ['', [Validators.required, nameValidator()]],
-  email: ['', [Validators.required, Validators.email, emailValidator()]],
-  password: ['', [Validators.required, Validators.minLength(6)]]
-});
- this.titleService.setTitle('MailCept-Packages');
+    this.userForm = this.fb.group({
+      name: ['', [Validators.required, nameValidator()]],
+      email: ['', [Validators.required, Validators.email, emailValidator()]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+    this.titleService.setTitle('MailCept-Packages');
   }
 
   showPopupMessage(message: string, type: 'success' | 'error' | 'info' = 'info') {
@@ -161,15 +161,14 @@ export class WebPackagesComponent implements OnInit {
         const plan = {
           id: payload.planId,
           name: this.selectedPlan?.name || 'Subscription Plan',
-          price: res.amount / 100
+          price: res.amount / 100  // ✅ this is only for displaying to user, not for payment
         };
 
         const razorpayOrder = {
           id: res.orderId,
-          amount: res.amount,
+          amount: res.amount,      // ✅ use same as backend
           currency: res.currency || 'USD'
         };
-
         this.launchRazorpay(user, plan, razorpayOrder);
       },
       err => {
@@ -181,10 +180,12 @@ export class WebPackagesComponent implements OnInit {
 
   launchRazorpay(user: any, plan: any, order: any): void {
     const self = this;
+    console.log('Order Amount:', order.amount, 'Currency:', order.currency);
+
     const options: any = {
       key: 'rzp_test_xpuVKCwj93F3DI',
-      amount: order.amount,
-      currency: order.currency || 'USD',
+      amount: order.amount,        // ✅ same amount as backend
+      currency: order.currency,    // ✅ same currency as backend
       name: 'Mailcept',
       description: plan.name,
       image: 'assets/images/Asset 6.png',
