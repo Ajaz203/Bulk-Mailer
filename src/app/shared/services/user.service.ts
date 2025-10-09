@@ -476,9 +476,10 @@ checkBatch(uuid: string) {
 createSignature(payload: { userId: number; signature: string }) {
   return this.http.post(this.apiUrl + 'create-signature', payload);
 }
-getSignature(payload: { userId: number;}) {
+getSignature(payload: { userId: number }) {
   return this.http.post(this.apiUrl + 'get-signature', payload);
 }
+
 
 
 

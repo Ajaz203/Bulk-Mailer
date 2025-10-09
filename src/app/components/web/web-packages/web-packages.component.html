@@ -15,6 +15,7 @@
 
 <section style="background-color: #f5f9ff; padding: 60px 0;">
   <div class="container text-center">
+    <h2 class="mb-5 fw-bold">Choose Your Plan</h2>
     <div class="row pricing-row">
 
       <div class="col-lg-3 col-md-6 d-flex align-items-stretch" *ngFor="let plan of plans">
@@ -43,7 +44,8 @@
             </h2>
 
             <p class="text-muted">
-              {{ plan.price === 0 ? 'Free Trial — 2 Weeks' : ('Billed once — ' + plan.validity + ' days') }}
+              {{ plan.price === 0 ? 'Free Trial — Valid for 2 Weeks' : ('Billed once — ' + 'Validity for ' +
+              plan.validity + ' days') }}
             </p>
 
             <ul class="features">

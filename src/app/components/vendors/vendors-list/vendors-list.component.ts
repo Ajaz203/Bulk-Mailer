@@ -69,20 +69,32 @@ export class VendorsListComponent {
     this.getUserSignature();
     this.userSignature = localStorage.getItem('userSignature') || `Ajaz<br>Software Developer`;
   }
-  getUserSignature() {
-    const payload = { userId: this.userId, };
+ getUserSignature() {
+  // 🟢 Always read logged-in userId from localStorage
+  const storedUser = localStorage.getItem('user');
+  const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+  const loggedInUserId = parsedUser?.userId;
 
-    this.service.getSignature(payload).subscribe({
-      next: (res: any) => {
-        this.userSignature = res?.data?.signature || '';
-        console.log('Fetched Signature:', this.userSignature);
-      },
-      error: (err) => {
-        console.error('Error fetching signature:', err);
-        this.userSignature = '';
-      }
-    });
+  if (!loggedInUserId) {
+    console.warn('⚠️ No logged-in user found in localStorage.');
+    this.userSignature = '';
+    return;
   }
+
+  const payload = { userId: loggedInUserId };
+
+  this.service.getSignature(payload).subscribe({
+    next: (res: any) => {
+      this.userSignature = res?.data?.signature || '';
+      console.log('✅ Signature fetched for userId', loggedInUserId, ':', this.userSignature);
+    },
+    error: (err) => {
+      console.error('❌ Error fetching signature:', err);
+      this.userSignature = '';
+    }
+  });
+}
+
 
 
 
@@ -381,7 +393,6 @@ export class VendorsListComponent {
     sendNext(0);
   }
 
-
   mailTemplateBody: string = '';
   userSignature: string = '';
   previewMailBody: string = '';
@@ -394,8 +405,8 @@ export class VendorsListComponent {
     this.staticSignature = this.userSignature;
 
     // 🟢 Compose template only once
-    const greetingPlaceholder = `Hello {{name}},<br><br>`;
-    const signatureBlock = `<br><br>${this.staticSignature}`;
+    const greetingPlaceholder = `Hello {{name}},<br>`;
+    const signatureBlock = `<br>${this.staticSignature}`;
 
     // if user already wrote something, reuse it; otherwise use mailTemplateBody
     const body = this.mailTemplateBody || this.mailBody || '';
