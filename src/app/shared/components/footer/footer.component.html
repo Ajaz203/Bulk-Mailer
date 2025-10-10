@@ -1,5 +1,32 @@
-<div class="row">
+
+
+<!-- <div class="row">
   <div class="col-md-12 footer-copyright text-center">
     <p class="mb-0">Copyright {{ year }} © <a href="javascript:void(0)">MailCept</a> All rights reserved </p>
   </div>
-</div>
+</div> -->
+
+<footer class="footer-section bg-light py-3">
+
+  <!-- 🔔 Plan Expiry Alerts -->
+  <div *ngIf="planStatus === 'expiring'" class="alert alert-warning text-center mb-2">
+    ⚠️ Your plan expires in {{ daysLeft }} days —
+    <a (click)="renewPlan()" style="cursor:pointer; text-decoration: underline;">Renew Now</a>
+  </div>
+
+  <div *ngIf="planStatus === 'expired'" class="alert alert-danger text-center mb-2">
+    ⛔ Your plan has expired —
+    <a (click)="renewPlan()" style="cursor:pointer; text-decoration: underline;">Renew Now</a>
+  </div>
+
+</footer>
+  <!-- 🧾 Your existing footer -->
+  <div class="row">
+    <div class="col-md-12 footer-copyright text-center">
+      <p class="mb-0">
+        Copyright {{ year }} ©
+        <a href="javascript:void(0)">MailCept</a>
+        All rights reserved
+      </p>
+    </div>
+  </div>

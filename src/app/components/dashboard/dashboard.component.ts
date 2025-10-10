@@ -55,7 +55,7 @@ ngOnInit() {
   }
 }
 
-/** 🔍 Check current subscription status */
+/**  Check current subscription status */
 checkSubscription(userId: number) {
   const payload = { userId };
 
@@ -66,18 +66,18 @@ checkSubscription(userId: number) {
       if (subscription) {
         const daysRemaining = subscription.daysRemaining;
 
-        // ✅ Show expiring alert if 3 or fewer days are left
+        //  Show expiring alert if 3 or fewer days are left
         if (daysRemaining <= 3 && daysRemaining > 0) {
           this.planStatus = 'expiring';
           this.daysLeft = daysRemaining;
           this.showExpiringAlert();
         } 
-        // ✅ Show expired popup if plan already expired
+        // Show expired popup if plan already expired
         else if (daysRemaining <= 0) {
           this.planStatus = 'expired';
           this.showExpiredPopup();
-        } 
-        // ✅ Otherwise, active plan
+        }
+        //  Otherwise, active plan
         else {
           this.planStatus = 'active';
         }
@@ -97,7 +97,7 @@ checkSubscription(userId: number) {
 }
 
 
-/** ⚠️ Expiring alert (optional) */
+/**  Expiring alert (optional) */
 showExpiringAlert() {
   Swal.fire({
     title: 'Your plan is about to expire',
@@ -114,7 +114,7 @@ showExpiringAlert() {
   });
 }
 
-/** ⛔ Expired popup */
+/** Expired popup */
 showExpiredPopup() {
   Swal.fire({
     title: 'Your plan has expired',
@@ -130,7 +130,7 @@ showExpiredPopup() {
   });
 }
 
-/** 🔁 Renewal redirect */
+/**  Renewal redirect */
 renewPlan() {
   // Optionally store intended action before redirect
   localStorage.setItem('renewalTriggered', 'true');
