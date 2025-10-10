@@ -9,6 +9,8 @@ import { Title } from '@angular/platform-browser';
 import { WebFooterComponent } from '../web-footer/web-footer.component';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 declare var Razorpay: any;
 export function nameValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -43,6 +45,7 @@ export function emailValidator(): ValidatorFn {
 })
 export class WebPackagesComponent implements OnInit {
   plans: any[] = [];
+  isRenewal = false;
   selectedPlan: any;
   showUserModal = false;
   userForm: FormGroup;
@@ -51,14 +54,16 @@ export class WebPackagesComponent implements OnInit {
   popupMessage: string = '';
   popupType: 'success' | 'error' | 'info' = 'info';
   showPopup: boolean = false;
-
+  activePlanId: number | null = null;
+  planStatus: 'active' | 'expiring' | 'expired' = 'active';
+  daysLeft: number = 0;
   constructor(
     private service: UserService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private ngZone: NgZone,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,private route: ActivatedRoute
   ) {
     this.userForm = this.fb.group({
       name: ['', [Validators.required, nameValidator()]],
@@ -73,28 +78,79 @@ export class WebPackagesComponent implements OnInit {
     this.popupType = type;
     this.showPopup = true;
   }
+ngOnInit(): void {
+  this.service.getPlans().subscribe((res: any) => {
+    if (res?.plans) {
+      this.plans = res.plans.filter((p: any) => p.isActive);
+    }
+  });
 
-  ngOnInit(): void {
-    this.service.getPlans().subscribe((res: any) => {
-      if (res?.plans) {
-        this.plans = res.plans.filter((p: any) => p.isActive);
-      }
+  // 👇 Handle renewal flow
+  const renewalTriggered = localStorage.getItem('renewalTriggered');
+  if (renewalTriggered) {
+    Swal.fire({
+      title: 'Renew Your Plan',
+      text: 'Please select a plan to renew your subscription.',
+      icon: 'info',
+      confirmButtonText: 'OK'
     });
+    localStorage.removeItem('renewalTriggered');
   }
+
+  this.route.queryParams.subscribe(params => {
+    this.isRenewal = params['renew'] === 'true';
+
+    if (this.isRenewal) {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (user?.userId) {
+        this.userForm.patchValue({
+          name: user.name || '',
+          email: user.email || '',
+          password: '******' // placeholder, not used
+        });
+      }
+    }
+  });
+}
 
   onPopupClose() {
     this.showPopup = false;
     this.router.navigate(['/auth/login']);
   }
 
-  selectPlan(plan: any) {
-    sessionStorage.removeItem('userId');
-    sessionStorage.removeItem('userName');
-    sessionStorage.removeItem('userEmail');
-    this.selectedPlan = plan;
-    this.userForm.reset();
-    this.showUserModal = true;
+selectPlan(plan: any) {
+  if (this.isRenewal) {
+    Swal.fire({
+      title: 'Renew Plan',
+      text: `You're about to renew the ${plan.name} plan.`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Proceed to Payment'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.subscribe(plan, true); // true → renewal flag
+      }
+    });
+  } else {
+    this.subscribe(plan, false); // normal new subscription
   }
+}
+subscribe(plan: any, isRenewal = false) {
+  const userId = Number(localStorage.getItem('userId'));
+  if (!userId) {
+    Swal.fire('Error', 'User ID missing. Please login again.', 'error');
+    return;
+  }
+
+  const payload = { planId: plan.id, userId, isRenewal };
+
+  this.service.createSubscriptionOrder(payload).subscribe({
+    next: (res) => this.launchRazorpay({ userId }, plan, res),
+    error: (err) => Swal.fire('Error', err.error?.message || 'Subscription failed', 'error')
+  });
+}
+
+
 
   onUserSubmit() {
     if (this.userForm.invalid) return;
@@ -161,12 +217,12 @@ export class WebPackagesComponent implements OnInit {
         const plan = {
           id: payload.planId,
           name: this.selectedPlan?.name || 'Subscription Plan',
-          price: res.amount / 100  // ✅ this is only for displaying to user, not for payment
+          price: res.amount / 100 
         };
 
         const razorpayOrder = {
           id: res.orderId,
-          amount: res.amount,      // ✅ use same as backend
+          amount: res.amount,     
           currency: res.currency || 'USD'
         };
         this.launchRazorpay(user, plan, razorpayOrder);
@@ -184,8 +240,8 @@ export class WebPackagesComponent implements OnInit {
 
     const options: any = {
       key: 'rzp_test_xpuVKCwj93F3DI',
-      amount: order.amount,        // ✅ same amount as backend
-      currency: order.currency,    // ✅ same currency as backend
+      amount: order.amount,        
+      currency: order.currency,   
       name: 'Mailcept',
       description: plan.name,
       image: 'assets/images/Asset 6.png',

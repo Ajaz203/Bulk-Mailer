@@ -27,13 +27,13 @@
 
             <div class="plan-badge-wrapper">
               <div class="plan-badge" [ngClass]="{
-            'trial-badge': plan.name === 'Trial',
-            'starter-badge': plan.name === 'Starter',
-            'growth-badge': plan.name === 'Growth',
-            'pro-badge': plan.name === 'Pro',
-            'business-badge': plan.name === 'Business',
-            'enterprise-badge': plan.name === 'Enterprise'
-          }">
+                'trial-badge': plan.name === 'Trial',
+                'starter-badge': plan.name === 'Starter',
+                'growth-badge': plan.name === 'Growth',
+                'pro-badge': plan.name === 'Pro',
+                'business-badge': plan.name === 'Business',
+                'enterprise-badge': plan.name === 'Enterprise'
+              }">
                 <i class="bi bi-star-fill me-1" *ngIf="plan.name === 'Enterprise'"></i>
                 {{ plan.name }}
               </div>
@@ -44,35 +44,31 @@
             </h2>
 
             <p class="text-muted">
-              {{ plan.price === 0 ? 'Free Trial — Valid for 2 Weeks' : ('Billed once — ' + 'Validity for ' +
-              plan.validity + ' days') }}
+              {{ plan.price === 0 ? 'Free Trial — Valid for 2 Weeks' : ('Billed once — ' + 'Validity for ' + plan.validity + ' days') }}
             </p>
 
             <ul class="features">
-              <!-- <li><strong>Users:</strong> Up to {{ plan.maxUsers }}</li> -->
               <li><strong>Total Emails:</strong> {{ plan.dailyMailLimit }}</li>
               <li><strong>Type:</strong> {{ plan.isCustom ? 'Customizable Plan' : 'Standard Package' }}</li>
-              <!-- <li *ngIf="plan.name === 'Enterprise' || plan.name === 'Business'">Ideal for individuals or small teams</li>
-              <li *ngIf="plan.name === 'Standard'">Great for growing teams & startups</li> -->
-              <!-- <li *ngIf="plan.name === 'Pro'">Perfect for enterprises & high-volume senders</li> -->
               <li>
                 <strong>Priority Support:</strong>
-                {{
-                plan.name === 'Enterprise' || plan.name === 'Business' || plan.name === 'Pro'
-                ? '24/7'
-                : 'Email Only'
-                }}
+                {{ plan.name === 'Enterprise' || plan.name === 'Business' || plan.name === 'Pro'
+                  ? '24/7'
+                  : 'Email Only' }}
               </li>
-
             </ul>
           </div>
+
           <button class="btn-plan mt-auto" (click)="selectPlan(plan)">Get this plan</button>
+
+        
         </div>
       </div>
 
     </div>
   </div>
 </section>
+
 <app-web-footer></app-web-footer>
 
 
@@ -158,5 +154,11 @@
 
 
 
-<app-confirmation-popup [show]="showPopup" [message]="popupMessage" [type]="popupType"
-  (closed)="onPopupClose()"></app-confirmation-popup>
+<div *ngIf="isRenewal">
+  <app-confirmation-popup 
+    [show]="showPopup" 
+    [message]="popupMessage" 
+    [type]="popupType"
+    (closed)="onPopupClose()">
+  </app-confirmation-popup>
+</div>

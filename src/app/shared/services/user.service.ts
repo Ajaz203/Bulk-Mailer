@@ -479,6 +479,9 @@ createSignature(payload: { userId: number; signature: string }) {
 getSignature(payload: { userId: number }) {
   return this.http.post(this.apiUrl + 'get-signature', payload);
 }
+subscription(payload: { userId: number }) {
+  return this.http.post(this.apiUrl + 'my-subscription', payload);
+}
 
 
 
