@@ -53,7 +53,7 @@ export class UserProfileComponent implements OnInit {
         if (result === 'confirm') {
           this.userService.clearUser();
           localStorage.removeItem('token');
-          this.router.navigate(['/login']);
+          this.router.navigate(['/home']);
         }
       })
       .catch(() => {});

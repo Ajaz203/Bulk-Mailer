@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment.prod';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  imports: [ ReactiveFormsModule, FormsModule,CommonModule]
+  imports: [ ReactiveFormsModule, FormsModule,CommonModule, RouterLink]
 })
 export class LoginComponent {
 

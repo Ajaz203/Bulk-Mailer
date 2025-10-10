@@ -21,11 +21,7 @@ export class LogoutModalComponent {
   logout() {
     localStorage.clear();
     this.modal.close();
-    const firstAppUrl = 'https://mailcept.net/home';
-
-    setTimeout(() => {
-      window.location.href = firstAppUrl;
-    }, 300);
+    this.router.navigate(['/home']);
   }
 
 }
