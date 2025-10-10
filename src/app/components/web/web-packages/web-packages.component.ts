@@ -85,7 +85,7 @@ ngOnInit(): void {
     }
   });
 
-  // 👇 Handle renewal flow
+  // Detect renewal trigger (from dashboard)
   const renewalTriggered = localStorage.getItem('renewalTriggered');
   if (renewalTriggered) {
     Swal.fire({
@@ -97,21 +97,12 @@ ngOnInit(): void {
     localStorage.removeItem('renewalTriggered');
   }
 
+  // Detect ?renew=true from route
   this.route.queryParams.subscribe(params => {
     this.isRenewal = params['renew'] === 'true';
-
-    if (this.isRenewal) {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      if (user?.userId) {
-        this.userForm.patchValue({
-          name: user.name || '',
-          email: user.email || '',
-          password: '******' // placeholder, not used
-        });
-      }
-    }
   });
 }
+
 
   onPopupClose() {
     this.showPopup = false;
@@ -119,7 +110,25 @@ ngOnInit(): void {
   }
 
 selectPlan(plan: any) {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userId = user?.userId;
+
+  this.selectedPlan = plan;
+
+  // ✅ Renewal flow
   if (this.isRenewal) {
+    if (!userId) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Login Required',
+        text: 'Please login to renew your plan.',
+        confirmButtonText: 'Go to Login'
+      }).then(() => {
+        this.router.navigate(['/auth/login']);
+      });
+      return;
+    }
+
     Swal.fire({
       title: 'Renew Plan',
       text: `You're about to renew the ${plan.name} plan.`,
@@ -128,25 +137,53 @@ selectPlan(plan: any) {
       confirmButtonText: 'Proceed to Payment'
     }).then(result => {
       if (result.isConfirmed) {
-        this.subscribe(plan, true); // true → renewal flag
+        this.subscribe(plan, true); // Renewal
       }
     });
+    return;
+  }
+
+  // ✅ New user flow (not renewal)
+  if (!userId) {
+    this.showUserModal = true; // show registration popup
   } else {
-    this.subscribe(plan, false); // normal new subscription
+    // logged-in user, no need to re-register
+    Swal.fire({
+      title: 'Confirm Purchase',
+      text: `You're about to purchase the ${plan.name} plan.`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Proceed to Payment'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.subscribe(plan);
+      }
+    });
   }
 }
+
 subscribe(plan: any, isRenewal = false) {
-  const userId = Number(localStorage.getItem('userId'));
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userId = user?.userId;
+
   if (!userId) {
-    Swal.fire('Error', 'User ID missing. Please login again.', 'error');
+    Swal.fire({
+      icon: 'warning',
+      title: 'Login Required',
+      text: 'Please login to continue your subscription.',
+      confirmButtonText: 'Go to Login'
+    }).then(() => {
+      this.router.navigate(['/auth/login']);
+    });
     return;
   }
 
   const payload = { planId: plan.id, userId, isRenewal };
 
   this.service.createSubscriptionOrder(payload).subscribe({
-    next: (res) => this.launchRazorpay({ userId }, plan, res),
-    error: (err) => Swal.fire('Error', err.error?.message || 'Subscription failed', 'error')
+    next: (res) => this.launchRazorpay(user, plan, res),
+    error: (err) =>
+      Swal.fire('Error', err.error?.message || 'Subscription creation failed', 'error')
   });
 }
 
@@ -295,30 +332,32 @@ subscribe(plan: any, isRenewal = false) {
     razorpay.open();
   }
 
-  verifyPayment(response: any, plan: any) {
-    const payload = {
-      razorpay_order_id: response.razorpay_order_id,
-      razorpay_payment_id: response.razorpay_payment_id,
-      razorpay_signature: response.razorpay_signature,
-      planId: plan.id,
-      userId: Number(localStorage.getItem('userId')) || 0
-    };
+ verifyPayment(response: any, plan: any) {
+  const payload = {
+    razorpay_order_id: response.razorpay_order_id,
+    razorpay_payment_id: response.razorpay_payment_id,
+    razorpay_signature: response.razorpay_signature,
+    planId: plan.id,
+    userId: Number(localStorage.getItem('userId')) || 0
+  };
 
-    if (!payload.razorpay_order_id || !payload.razorpay_payment_id || !payload.razorpay_signature) {
-      console.error("Invalid payload for verification:", payload);
-      this.showPopupMessage('Payment verification failed: Incomplete data.', 'error');
-      return;
+  this.service.verifySubscription(payload).subscribe(
+    (res: any) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Subscription Activated!',
+        text: this.isRenewal
+          ? 'Your plan has been successfully renewed.'
+          : 'Your subscription is now active!',
+        confirmButtonText: 'Go to Dashboard'
+      }).then(() => {
+        this.router.navigate(['/dashboard']);
+      });
+    },
+    err => {
+      Swal.fire('Error', 'Payment verification failed.', 'error');
     }
+  );
+}
 
-    this.service.verifySubscription(payload).subscribe(
-      (res: any) => {
-        this.showPopupMessage('✅ Subscription activated successfully!', 'success');
-        console.log('Subscription Response:', res);
-      },
-      err => {
-        console.error('Verification error:', err);
-        this.showPopupMessage('❌ Payment verification failed.', 'error');
-      }
-    );
-  }
 }
