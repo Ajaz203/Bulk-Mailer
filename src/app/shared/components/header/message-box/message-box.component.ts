@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { headerMessageBox } from '../../../data/data/header';
+
 import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.comp
 })
 export class MessageBoxComponent {
 
-  public headerMessageBox = headerMessageBox;
+ 
 
   public isActive: boolean = false;
 

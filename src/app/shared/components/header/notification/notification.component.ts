@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { headerNotification } from '../../../data/data/header';
+// import { headerNotification } from '../../../data/data/header';
 import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.component';
 
 @Component({
@@ -11,7 +11,7 @@ import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.comp
 
 export class NotificationComponent {
 
-  public headerNotification = headerNotification;
+  // public headerNotification = headerNotification;
 
   public isActive: boolean = false;
 

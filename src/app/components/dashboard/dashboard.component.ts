@@ -11,8 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
+// import { TourService } from '../../shared/services/tour.service';
 import Swal from 'sweetalert2';
-
+import { TourService } from 'ngx-ui-tour-md-menu';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -37,7 +38,10 @@ export class DashboardComponent {
   showUserModal = false;
   userForm: any;
  
-  constructor(private userService: UserService, private calendar: NgbCalendar, private titleService: Title) {
+  constructor(private userService: UserService,
+     private calendar: NgbCalendar,
+      private titleService: Title ,
+      private tourService: TourService) {
     this.titleService.setTitle('MailCept-Dashboard');
     this.today = this.calendar.getToday();
     this.selectedDate = this.today
@@ -45,6 +49,27 @@ export class DashboardComponent {
   }
 
 ngOnInit() {
+     this.tourService.initialize([
+      {
+        anchorId: 'dashboard-step',
+        content: 'This is your Dashboard overview.',
+        title: 'Dashboard',
+      },
+      {
+        anchorId: 'vendors-step',
+        content: 'Manage your vendors here.',
+        title: 'Vendors Section',
+      },
+      {
+        anchorId: 'candidates-step',
+        content: 'View and manage your candidates here.',
+        title: 'Candidates',
+      },
+    ]);
+
+    // Start tour
+    this.tourService.start();
+  
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   this.role = user.role || '';
   this.getAll();
@@ -53,6 +78,7 @@ ngOnInit() {
   if (userId) {
     this.checkSubscription(userId);
   }
+
 }
 
 /**  Check current subscription status */

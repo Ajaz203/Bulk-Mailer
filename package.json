@@ -47,7 +47,7 @@
     "ngx-toastr": "^19.0.0",
     "ngx-ui-tour-core": "^14.0.0",
     "ngx-ui-tour-md-menu": "^14.0.1",
-    "ngx-ui-tour-ng-bootstrap": "^17.0.1",
+    "ngx-ui-tour-ng-bootstrap": "^16.0.0",
     "razorpay": "^2.9.6",
     "rxjs": "~7.8.0",
     "shepherd.js": "^14.5.1",

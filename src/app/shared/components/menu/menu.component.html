@@ -38,7 +38,7 @@
         <ng-template #recursiveMenu let-menus>
           @for(item of menus; track item) {
             <li [class.sidebar-list]="item.level == 1">
-              <a
+              <a [id]="generateNavId(item.title)"
                 [ngClass]="{
                   'sidebar-link sidebar-title link-nav': item.level == 1,
                   'active': item.active
@@ -56,7 +56,7 @@
                   {{ item.title }}
                 }
 
-                <!-- 🔽 Arrow only if children exist -->
+             
                 @if(item.children?.length) {
                   <div class="according-menu">
                     <i class="fa"
