@@ -25,7 +25,7 @@
         Enter the 6-digit OTP sent to <strong>{{ email }}</strong>
       </p>
 
-      <p class="mb-4 text-white-50" *ngIf="isResetPasswordStep">
+      <p class="mb-4 " *ngIf="isResetPasswordStep">
         Set a new password for <strong>{{ email }}</strong>
       </p>
 
@@ -60,7 +60,7 @@
         <!-- OTP Step -->
         <div *ngIf="isOtpStep && !isResetPasswordStep">
           <div class="mb-3">
-            <label class="form-label text-white">OTP</label>
+            <label class="form-label ">OTP</label>
             <input
               type="text"
               class="form-control"
@@ -76,7 +76,7 @@
         <!-- Reset Password Step -->
         <div *ngIf="isResetPasswordStep">
           <div class="mb-3 position-relative">
-            <label class="form-label text-white">New Password</label>
+            <label class="form-label ">New Password</label>
             <input
               [type]="showPassword ? 'text' : 'password'"
               class="form-control pe-5"
@@ -97,7 +97,7 @@
 
         <!-- Actions -->
         <div class="d-flex justify-content-between mt-3">
-          <a routerLink="/auth/login" class="btn btn-outline-info">
+          <a routerLink="/auth/login" class="btn btn-outline-info me-3">
             <i class="bi bi-arrow-left"></i> Back to Login
           </a>
           <button type="submit" class="btn btn-primary" [disabled]="loading">

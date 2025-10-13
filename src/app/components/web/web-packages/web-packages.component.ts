@@ -343,7 +343,9 @@ subscribe(plan: any, isRenewal = false) {
 
   this.service.verifySubscription(payload).subscribe(
     (res: any) => {
+        console.log("✅ Verification success:", res);
       Swal.fire({
+        
         icon: 'success',
         title: 'Subscription Activated!',
         text: this.isRenewal
