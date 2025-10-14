@@ -160,7 +160,7 @@ showExpiredPopup() {
 renewPlan() {
   // Optionally store intended action before redirect
   localStorage.setItem('renewalTriggered', 'true');
-  window.location.href = '/packages';
+  window.location.href = '/enrollment';
 }
   getAll() {
     if (this.role === 'user') {

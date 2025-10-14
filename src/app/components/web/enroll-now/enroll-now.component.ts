@@ -165,7 +165,10 @@ steps = [
     this.showUserModal = false;
     this.userForm.reset();
   }
-
+closeOnBackdrop(event: MouseEvent) {
+  // Close modal only if click is outside modal-content
+  this.showUserModal = false;
+}
   onUserSubmit() {
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
