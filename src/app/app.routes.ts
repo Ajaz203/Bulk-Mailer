@@ -10,6 +10,7 @@ import { AboutUsComponent } from './components/web/about-us/about-us.component';
 import { ContactUsComponent } from './components/web/contact-us/contact-us.component';
 import { WebPackagesComponent } from './components/web/web-packages/web-packages.component';
 import { ForgotPassComponent } from './auth/login/forgot-pass/forgot-pass.component';
+import { EnrollNowComponent } from './components/web/enroll-now/enroll-now.component';
 
 
 
@@ -35,6 +36,11 @@ export const routes: Routes = [
 {
   path: 'contact-us',
   component: ContactUsComponent,
+  data: { skipLoader: true, hideEmailIcon: true }
+},
+{
+  path: 'enrollment',
+  component: EnrollNowComponent,
   data: { skipLoader: true, hideEmailIcon: true }
 },
 {

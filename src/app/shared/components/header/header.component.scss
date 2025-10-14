@@ -1,3 +1,39 @@
 .logo-wrapper {
   cursor: pointer;
 }
+.plan-status-banner {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.scrolling-text {
+  display: inline-block;
+  animation: scroll-left 18s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.renew-link {
+
+  font-weight: 600;
+  // text-decoration: underline;
+  cursor: pointer;
+}
+
+.renew-link:hover {
+  text-decoration: none;
+  // color: #ffe5b4;
+}

@@ -130,24 +130,23 @@ export class MenuComponent {
 
     this.userService.getUserProfileUpdate(+userId).subscribe({
       next: async (res: any) => {
-        // 🛑 Skip if intro already disabled for this user
+
         if (res?.suggestion) return;
 
-        // Wait longer to ensure menus render
         setTimeout(async () => {
           const introJs = (await import('intro.js')).default;
 
           const steps: any[] = [
             {
               intro: `
-    <div style="display:flex;align-items:center;gap:10px;flex-direction:column;text-align:center;">
-      <i class="bi bi-lightning-charge-fill text-primary" style="font-size:30px;"></i>
-      <div>
-        <b>Welcome to MailCept!</b><br>
-        Let’s take a quick tour of your workspace and explore the tools to manage emails, vendors, candidates, and validate your lists efficiently.
-      </div>
-    </div>
-  `
+                      <div style="display:flex;align-items:center;gap:10px;flex-direction:column;text-align:center;">
+                        <i class="bi bi-lightning-charge-fill text-primary" style="font-size:30px;"></i>
+                        <div>
+                          <b>Welcome to MailCept!</b><br>
+                          Let’s take a quick tour of your workspace and explore the tools to manage emails, vendors, candidates, and validate your lists efficiently.
+                        </div>
+                      </div>
+                    `
             }
 
           ];
@@ -168,55 +167,55 @@ export class MenuComponent {
             {
               title: 'Email Validator',
               intro: `
-    <div style="display:flex;align-items:center;gap:10px;">
-      <i class="bi bi-envelope-check-fill text-info" style="font-size:20px;"></i>
-      <div>
-        <b>Email Validator</b><br>
-        Upload a sheet of emails and the system will automatically remove invalid or non-working addresses,
-        ensuring your email list is clean and effective.
-      </div>
-    </div>
-  `
+              <div style="display:flex;align-items:center;gap:10px;">
+                <i class="bi bi-envelope-check-fill text-info" style="font-size:20px;"></i>
+                <div>
+                  <b>Email Validator</b><br>
+                  Upload a sheet of emails and the system will automatically remove invalid or non-working addresses,
+                  ensuring your email list is clean and effective.
+                </div>
+              </div>
+            `
             },
 
-         {
-  title: 'Vendors',
-  intro: `
-    <div style="display:flex;align-items:center;gap:10px;">
-      <i class="bi bi-people-fill text-success" style="font-size:20px;"></i>
-      <div>
-        <b>Vendors</b><br>
-        Efficiently manage and collaborate with your vendor network. Upload vendor in bulk, track performance, and maintain up-to-date information for smooth operations.
-      </div>
-    </div>
-  `
-},
+            {
+              title: 'Vendors',
+              intro: `
+              <div style="display:flex;align-items:center;gap:10px;">
+                <i class="bi bi-people-fill text-success" style="font-size:20px;"></i>
+                <div>
+                  <b>Vendors</b><br>
+                  Efficiently manage and collaborate with your vendor network. Upload vendor in bulk, track performance, and maintain up-to-date information for smooth operations.
+                </div>
+              </div>
+            `
+            },
 
 
             {
               title: 'Candidates',
               intro: `
-    <div style="display:flex;align-items:center;gap:10px;">
-      <i class="bi bi-person-badge-fill text-warning" style="font-size:20px;"></i>
-      <div>
-        <b>Candidates</b><br>
-        Organize and manage candidate profiles effortlessly, upload Emails in bulk, and keep your talent pipeline up to date.
-      </div>
-    </div>
-  `
+              <div style="display:flex;align-items:center;gap:10px;">
+                <i class="bi bi-person-badge-fill text-warning" style="font-size:20px;"></i>
+                <div>
+                  <b>Candidates</b><br>
+                  Organize and manage candidate profiles effortlessly, upload Emails in bulk, and keep your talent pipeline up to date.
+                </div>
+              </div>
+            `
             }
             ,
             {
               title: 'Mails',
               intro: `
-    <div style="display:flex;align-items:center;gap:10px;">
-      <i class="bi bi-envelope-paper-fill text-danger" style="font-size:20px;"></i>
-      <div>
-        <b>Mails</b><br>
-        Access all your emails in one place, including sent, draft, and scheduled messages, ensuring efficient communication with candidates and vendors.
-      </div>
-    </div>
-  `
+              <div style="display:flex;align-items:center;gap:10px;">
+                <i class="bi bi-envelope-paper-fill text-danger" style="font-size:20px;"></i>
+                <div>
+                  <b>Mails</b><br>
+                  Access all your emails in one place, including sent, draft, and scheduled messages, ensuring efficient communication with candidates and vendors.
+                </div>
+              </div>
+            `
             }
 
           ];

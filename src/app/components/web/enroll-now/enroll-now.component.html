@@ -1,0 +1,188 @@
+<app-web-header></app-web-header>
+<!-- 🌈 Hero Section -->
+<section class="hero-section text-light d-flex align-items-center ">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0 text-start">
+                <h1 class="fw-bold display-4 mb-3 lh-sm">
+                    Experience the Future of <span class="text-accent">Email Automation</span>
+                </h1>
+                <p class="lead text-light opacity-75 mb-4">
+                    Simplify your bulk email campaigns with <strong>MailCept</strong> — the intelligent
+                    delivery system that ensures speed, precision, and deliverability.
+                </p>
+                <button class="btn btn-accent btn-lg px-4 py-2 shadow" (click)="startFreeTrial()">
+                    Start Free Trial 🚀
+                </button>
+                <p class="mt-3 text-light small opacity-75">
+                    No credit card required • Quick setup • Cancel anytime
+                </p>
+            </div>
+
+         <div class="col-lg-6 d-flex justify-content-center align-items-center">
+  <div class="hero-container">
+    <div class="envelope"
+         *ngFor="let env of envelopes; let i = index"
+         [ngStyle]="{ top: env.top + 'px', left: env.left + 'px', backgroundColor: env.color }"
+         [ngClass]="'float' + ((i % 3) + 1)"
+         (mousedown)="startDrag($event, env)">
+      <div class="flap"></div>
+    </div>
+  </div>
+</div>
+
+
+
+        </div>
+    </div>
+</section>
+
+<!-- 💡 Why MailCept Section -->
+<section class="py-5 bg-white text-dark">
+    <div class="container">
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">Why Choose <span class="highlight">MailCept?</span></h2>
+            <p class="text-muted fs-5">
+                Designed for performance, compliance, and efficiency — MailCept is your all-in-one email delivery
+                engine.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4" *ngFor="let feature of features">
+                <div class="feature-card p-4 text-center h-100 rounded-4 shadow-sm hover-lift">
+                    <div class="icon-circle mb-3 mx-auto">
+                        <i [class]="feature.icon"></i>
+                    </div>
+                    <h5 class="fw-bold text-secondary mb-2">{{ feature.title }}</h5>
+                    <p class="text-muted  mb-0">{{ feature.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ⚡ Getting Started Section -->
+<section class="getting-started-section py-5 text-dark position-relative overflow-hidden">
+    <div class="container position-relative">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">
+                Getting Started is <span class="highlight">Effortless</span>
+            </h2>
+            <p class="lead mt-3">
+                From sign-up to sending — your journey with MailCept is fast, simple, and impactful.
+            </p>
+        </div>
+
+        <!-- Timeline Container -->
+        <div class="timeline position-relative mx-auto">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-step" *ngFor="let step of steps; let i = index"
+                [ngClass]="{ 'timeline-step-right': i % 2 === 0, 'timeline-step-left': i % 2 !== 0 }">
+                <div class="timeline-content shadow-lg rounded-4 p-4 bg-white">
+                    <h5 class="fw-bold highlight mb-2">{{ step.title }}</h5>
+                    <p class="mb-0 text-muted">{{ step.description }}</p>
+                </div>
+                <div class="timeline-circle d-flex align-items-center justify-content-center">
+                    {{ i + 1 }}
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <button class="btn btn-success btn-lg py-2 rounded-pill shadow" (click)="startFreeTrial()">
+                Start 2-Week Free Trial
+            </button>
+            <p class="mt-3 text-muted">
+                Experience real-time analytics, higher deliverability, and full campaign control.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<app-web-footer></app-web-footer>
+
+
+
+<!-- Free Trial Modal -->
+<div class="modal fade show d-block custom-modal" tabindex="-1" *ngIf="showUserModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal-content border-0 shadow-lg rounded-4">
+
+            <!-- Accent Bar -->
+            <div class="modal-accent-bar"></div>
+
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <h4 class="fw-bold text-success mb-1">Start Your Free MailCept Trial 🚀</h4>
+                    <p class="text-muted small mb-0">
+                        You're moments away from your free MailCept experience — let’s get started!
+                    </p>
+                </div>
+
+                <form [formGroup]="userForm" (ngSubmit)="onUserSubmit()">
+
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label class="form-label text-dark fw-semibold">Full Name</label>
+                        <input type="text" class="form-control custom-input" formControlName="name"
+                            placeholder="John Doe" />
+                        <small *ngIf="userForm.get('name')?.touched && userForm.get('name')?.hasError('required')"
+                            class="text-danger">Name is required.</small>
+                    </div>
+
+                    <!-- Work Email -->
+                    <div class="mb-3">
+                        <label class="form-label text-dark fw-semibold">Work Email</label>
+                        <input type="email" class="form-control custom-input" formControlName="email"
+                            placeholder="you@company.com" />
+                        <small *ngIf="userForm.get('email')?.touched && userForm.get('email')?.hasError('required')"
+                            class="text-danger">Email is required.</small>
+                        <small *ngIf="userForm.get('email')?.touched && userForm.get('email')?.hasError('email')"
+                            class="text-danger">Enter a valid email address.</small>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label text-dark fw-semibold">Password</label>
+                        <input type="password" class="form-control custom-input" formControlName="password"
+                            placeholder="At least 6 characters" />
+                        <small
+                            *ngIf="userForm.get('password')?.touched && userForm.get('password')?.hasError('required')"
+                            class="text-danger">Password is required.</small>
+                        <small
+                            *ngIf="userForm.get('password')?.touched && userForm.get('password')?.hasError('minlength')"
+                            class="text-danger">Password must be at least 6 characters.</small>
+                    </div>
+
+                    <!-- Privacy Policy -->
+                    <!-- <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" formControlName="agree" id="agreePolicy" />
+            <label for="agreePolicy" class="form-check-label small text-muted">
+              I agree to the
+              <a routerLink="/privacy-policy" target="_blank" class="text-primary text-decoration-none">
+                Privacy Policy
+              </a>.
+            </label>
+            <div *ngIf="userForm.get('agree')?.touched && userForm.get('agree')?.hasError('required')"
+              class="text-danger small mt-1">
+              You must accept the Privacy Policy to continue.
+            </div>
+          </div> -->
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-primary px-4 rounded-pill" (click)="showUserModal = false">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success px-4 rounded-pill">
+                            Continue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

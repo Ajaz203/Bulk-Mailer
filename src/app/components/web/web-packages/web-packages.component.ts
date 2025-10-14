@@ -45,7 +45,7 @@ export function emailValidator(): ValidatorFn {
 })
 export class WebPackagesComponent implements OnInit {
   plans: any[] = [];
-  isRenewal = false;
+  isRenewal = true;
   selectedPlan: any;
   showUserModal = false;
   userForm: FormGroup;
@@ -162,7 +162,7 @@ selectPlan(plan: any) {
   }
 }
 
-subscribe(plan: any, isRenewal = false) {
+subscribe(plan: any, isRenewal = true) {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const userId = user?.userId;
 

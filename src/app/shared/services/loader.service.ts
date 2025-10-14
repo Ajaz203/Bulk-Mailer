@@ -17,6 +17,6 @@ export class LoaderService {
   
     setTimeout(() => {
       this._loading.next(false);
-    }, 1500);
+    }, 3000);
   }
 }
