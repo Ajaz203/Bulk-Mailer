@@ -6,7 +6,7 @@ import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.comp
     selector: 'app-message-box',
     templateUrl: './message-box.component.html',
     styleUrl: './message-box.component.scss',
-    imports: [FeatherIconsComponent]
+    imports: []
 })
 export class MessageBoxComponent {
 

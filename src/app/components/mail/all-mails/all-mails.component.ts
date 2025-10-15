@@ -34,7 +34,7 @@ export class AllMailsComponent {
   showInitialLoader: boolean = true;
   currentStatusFilter: 'success' | 'failed' | 'all' = 'all';
   page = 1;
-  pageSize = 20;
+  pageSize = 50;
   totalRecords = 0;
   totalPages = 0;
 

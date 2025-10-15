@@ -6,7 +6,7 @@ import { FeatherIconsComponent } from '../../ui/feather-icons/feather-icons.comp
     selector: 'app-notification',
     templateUrl: './notification.component.html',
     styleUrl: './notification.component.scss',
-    imports: [FeatherIconsComponent]
+    imports: []
 })
 
 export class NotificationComponent {
