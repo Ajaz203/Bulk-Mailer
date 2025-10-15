@@ -91,7 +91,8 @@
           <tr *ngFor="let mail of getFilteredPaginatedMails(); let i = index">
             <td>{{ (page - 1) * pageSize + i + 1 }}</td>
             <td>{{ mail.email }}</td>
-            <td>{{ mail.mailSubject }}</td>
+           <td>{{ mail.mailSubject || '(No Subject)' }}</td>
+
             <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
             <td>
               <span class="badge"
@@ -133,9 +134,3 @@
     </div>
   </div>
 </div>
-<!-- <div *ngIf="isLoading" class="loader-overlay">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <p class="mt-2 text-muted">Fetching mails...</p>
-</div> -->
