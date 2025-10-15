@@ -47,13 +47,16 @@ mails: any[] = [];
     this.titleService.setTitle('MailCept-Mails');
   }
 
-  ngOnInit(): void {
-    this.viewMail();
-    this.refreshInterval = setInterval(() => this.viewMail(), 5000);
-  }
-  ngOnDestroy(): void {
-    clearInterval(this.refreshInterval);
-  }
+ngOnInit(): void {
+  this.viewMail(true); // initial load with loader
+
+  // 🔁 auto-refresh every 5 seconds WITHOUT loader
+  this.refreshInterval = setInterval(() => this.viewMail(false), 5000);
+}
+
+ngOnDestroy(): void {
+  clearInterval(this.refreshInterval);
+}
 
   get paginatedMails() {
     const start = (this.page - 1) * this.pageSize;
@@ -88,33 +91,34 @@ get filteredMailCount(): number {
     }).length;
 }
 
-viewMail() {
+viewMail(showLoader: boolean = false) {
+  if (showLoader) this.isLoading = true;
+
   const payload: any = {
     targetType: this.targetType,
     status: this.currentStatusFilter !== 'all' ? this.currentStatusFilter : undefined,
     page: 1,
-    limit: 10000 
+    limit: 10000
   };
 
-  if (this.showInitialLoader) this.isLoading = true;
-
-  this.service.getSentMails(payload).subscribe(
-    (res: any) => {
+  this.service.getSentMails(payload).subscribe({
+    next: (res: any) => {
       this.sentMails = res?.data || [];
       this.totalRecords = this.sentMails.length;
       this.isLoading = false;
       this.showInitialLoader = false;
       this.cdr.detectChanges();
     },
-    (err) => {
+    error: () => {
       this.sentMails = [];
       this.totalRecords = 0;
       this.isLoading = false;
       this.showInitialLoader = false;
       this.cdr.detectChanges();
     }
-  );
+  });
 }
+
 
 
 
@@ -126,22 +130,21 @@ switchTargetType(type: 'candidate' | 'vendor') {
   if (this.targetType !== type) {
     this.targetType = type;
     this.page = 1;
-    this.viewMail();
+    this.viewMail(true); // show loader
   }
 }
 
 filterByStatus(status: 'success' | 'failed') {
   this.currentStatusFilter = status;
   this.page = 1;
-  this.viewMail();
+  this.viewMail(true); // show loader
 }
 
 resetFilter() {
   this.currentStatusFilter = 'all';
   this.page = 1;
-  this.viewMail();
+  this.viewMail(true); // show loader
 }
-
 searchMails() {
   this.page = 1;
   this.viewMail();
