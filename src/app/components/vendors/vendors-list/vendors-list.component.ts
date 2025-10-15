@@ -304,6 +304,22 @@ export class VendorsListComponent {
       }
     });
   }
+get mailCountInfo() {
+  const total = this.vendorList.length;
+  const selected = this.selectedCandidates.size;
+  if (this.selectionMode === 'all') {
+    return `All Vendors - Total: ${total}`;
+  } else {
+    return `Selected Vendors - Total: ${selected}`;
+  }
+}
+get sendingCount() {
+  if (this.selectionMode === 'all') {
+    return this.vendorList.length;
+  } else {
+    return this.selectedCandidates.size;
+  }
+}
 
   // Mail flow (kept from your original)
   handleSelectCandidateSend() {

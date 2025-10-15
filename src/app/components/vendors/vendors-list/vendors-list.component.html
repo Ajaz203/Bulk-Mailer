@@ -109,7 +109,11 @@
 <div class="modal-backdrop-custom" *ngIf="showMailModal">
     <div class="modal-body-custom">
         <div class="modal-content p-4">
-            <h5 class="modal-title mb-3">Send Mail</h5>
+         <h5 class="modal-title mb-3">
+  Send Mail
+  <small class="text-muted ms-2">({{ mailCountInfo }})</small>
+</h5>
+
             <button type="button" class="btn-close" (click)="closeMailModal()"
                 style="position: absolute; top: 1rem; right: 1rem;"></button>
 
