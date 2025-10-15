@@ -25,7 +25,7 @@
           </div>
 
           <div class="col-12 col-md-3 d-flex justify-content-md-end justify-content-start align-items-center gap-2">
-     
+
             <div class="custom-switch">
               <span class="label">Candidate</span>
 
@@ -64,67 +64,67 @@
 
 
 
-       <div class="card-body position-relative">
+          <div class="card-body position-relative">
 
-  <!-- Loader inside the table area -->
-  <div *ngIf="isLoading" class="table-loader-overlay">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2 text-muted">Fetching mails...</p>
-  </div>
+            <!-- Loader inside the table area -->
+            <div *ngIf="isLoading" class="table-loader-overlay">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-2 text-muted">Fetching mails...</p>
+            </div>
 
-  <div *ngIf="!isLoading">
-    <div class="table-responsive table-desi">
-      <table class="user-table table table-striped">
-        <thead>
-          <tr>
-            <th>S.No</th>
-            <th>Recipient</th>
-            <th>Subject</th>
-            <th>Sent Date</th>
-            <th>Category</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let mail of getFilteredPaginatedMails(); let i = index">
-            <td>{{ (page - 1) * pageSize + i + 1 }}</td>
-            <td>{{ mail.email }}</td>
-           <td>{{ mail.mailSubject || '(No Subject)' }}</td>
+            <div *ngIf="!isLoading">
+              <div class="table-responsive table-desi">
+                <table class="user-table table table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Recipient</th>
+                      <th>Subject</th>
+                      <th>Sent Date</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let mail of getFilteredPaginatedMails(); let i = index">
+                      <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+                      <td>{{ mail.email }}</td>
+                      <td>{{ mail.mailSubject || '(No Subject)' }}</td>
 
-            <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
-            <td>
-              <span class="badge"
-                [ngClass]="{ 'bg-primary': mail.targetType === 'candidate', 'bg-info': mail.targetType === 'vendor' }">
-                {{ mail.targetType }}
-              </span>
-            </td>
-            <td>
-              <span class="badge"
-                [ngClass]="{ 'bg-success': mail.status === 'success', 'bg-warning': mail.status === 'pending', 'bg-danger': mail.status === 'failed' }">
-                {{ mail.status }}
-              </span>
-            </td>
-          </tr>
+                      <td>{{ mail.sentAt | date: 'yyyy-MM-dd, hh:mm:ss a' }}</td>
+                      <td>
+                        <span class="badge"
+                          [ngClass]="{ 'bg-primary': mail.targetType === 'candidate', 'bg-info': mail.targetType === 'vendor' }">
+                          {{ mail.targetType }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge"
+                          [ngClass]="{ 'bg-success': mail.status === 'success', 'bg-warning': mail.status === 'pending', 'bg-danger': mail.status === 'failed' }">
+                          {{ mail.status }}
+                        </span>
+                      </td>
+                    </tr>
 
-          <tr *ngIf="sentMails.length === 0">
-            <td colspan="6" class="text-center text-muted py-4">
-              <i class="bi bi-send-fill text-success"></i> No Mails Found
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                    <tr *ngIf="sentMails.length === 0">
+                      <td colspan="6" class="text-center text-muted py-4">
+                        <i class="bi bi-send-fill text-success"></i> No Mails Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
-      <!-- Pagination -->
-      <nav class="mt-3 d-flex justify-content-center" *ngIf="totalRecords > pageSize">
-        <ngb-pagination [collectionSize]="filteredMailCount" [(page)]="page" [pageSize]="pageSize"
-          (pageChange)="page = $event" [boundaryLinks]="true" [maxSize]="5" size="sm" class="mb-0">
-        </ngb-pagination>
-      </nav>
-    </div>
-  </div>
-</div>
+                <!-- Pagination -->
+                <nav class="mt-3 d-flex justify-content-center" *ngIf="totalRecords > pageSize">
+                  <ngb-pagination [collectionSize]="filteredMailCount" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="page = $event" [boundaryLinks]="true" [maxSize]="5" size="sm" class="mb-0">
+                  </ngb-pagination>
+                </nav>
+              </div>
+            </div>
+          </div>
 
         </div>
 

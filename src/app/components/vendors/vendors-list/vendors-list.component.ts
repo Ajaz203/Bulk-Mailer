@@ -356,58 +356,57 @@ vendorSendMail() {
     return;
   }
 
-  // ✅ Copy values before closing modal
+  // Copy values before closing modal
   const subject = this.mailSubject;
   const templateMailBody = this.mailBody || '';
   const totalVendors = sourceList.length;
 
-  // Close modal immediately
   this.closeMailModal();
   Swal.fire('Sending in background', `Sending mails to ${totalVendors} vendors...`, 'info');
-
   this.isLoading = true;
 
-  // Send in background
-  setTimeout(() => {
-    let successCount = 0;
-    let failCount = 0;
+  const mailPromises = sourceList.map(vendor => {
+    const firstName = vendor?.name?.split(' ')[0] || 'there';
+    const personalizedBody = templateMailBody.replace(/{{\s*name\s*}}/gi, firstName);
 
-    sourceList.forEach((vendor, index) => {
-      const firstName = vendor?.name?.split(' ')[0] || 'there';
-      const personalizedBody = templateMailBody.replace(/{{\s*name\s*}}/gi, firstName);
+    const payload: any = {
+      mailSubject: subject,
+      emails: [vendor.email],
+      mailBody: personalizedBody,
+      type: this.scheduleDate && this.scheduleTime ? 'scheduled' : 'immediate',
+    };
 
-      const payload: any = {
-        mailSubject: subject, // ✅ use saved subject here
-        emails: [vendor.email],
-        mailBody: personalizedBody,
-        type: 'immediate',
-      };
+    if (this.scheduleDate && this.scheduleTime) {
+      const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
+      payload.date = this.scheduleDate;
+      payload.time = time;
+      payload.period = period;
+    }
 
-      if (this.scheduleDate && this.scheduleTime) {
-        const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
-        payload.date = this.scheduleDate;
-        payload.time = time;
-        payload.period = period;
-        payload.type = 'scheduled';
-      }
-
+    // Wrap in a promise
+    return new Promise<void>((resolve) => {
       this.service.vendorSendMail(payload).subscribe({
-        next: () => successCount++,
-        error: () => failCount++,
-        complete: () => {
-          if (index === totalVendors - 1) {
-            this.isLoading = false;
-            Swal.fire(
-              'Mail Sending Complete',
-              `✅ Sent: ${successCount} | ❌ Failed: ${failCount}`,
-              'success'
-            );
-          }
-        },
+        next: () => resolve(),
+        error: () => resolve(), // even on error, resolve so Promise.all continues
       });
     });
-  }, 500);
+  });
+
+  Promise.all(mailPromises)
+    .then(() => {
+      this.isLoading = false;
+      Swal.fire(
+        'Mail Sending Complete',
+        `✅ Sent: ${sourceList.length} mails successfully.`,
+        'success'
+      );
+    })
+    .catch(() => {
+      this.isLoading = false;
+      Swal.fire('Error', 'Some mails failed to send.', 'error');
+    });
 }
+
 
 
   mailTemplateBody: string = '';

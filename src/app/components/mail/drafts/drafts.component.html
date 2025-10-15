@@ -1,8 +1,9 @@
 <!-- Full Screen Loader -->
-<div *ngIf="isLoading" class="loader-overlay">
+<div *ngIf="isLoading" class="table-loader-overlay">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
+  <p class="mt-2 text-muted">Fetching mails...</p>
 </div>
 
 <div class="row">
@@ -12,9 +13,9 @@
         <div class="d-flex justify-content-between align-items-center">
           <div class="card-header">
 
-           
-              <h5>Saved Drafts</h5>
-          
+
+            <h5>Saved Drafts</h5>
+
           </div>
           <div class="custom-switch">
             <span class="label">Candidate</span>
@@ -33,111 +34,111 @@
         </div>
 
         <!-- 🔍 Search Box -->
-      
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Drafts List</h5>
-            <div class="d-flex align-items-center gap-2 position-relative w-50">
-              <input type="text" class="form-control ps-4 pe-5 rounded-pill" placeholder="Search by subject or email..."
-                [(ngModel)]="searchTerm" />
-              <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
-              <button *ngIf="searchTerm" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
-                (click)="searchTerm = ''" style="background: transparent;">
-                <i class="bi bi-x-circle-fill text-muted"></i>
-              </button>
-            </div>
 
-
-
-            <button class="btn btn-outline-primary" (click)="refreshDrafts()">
-              <i class="bi bi-arrow-clockwise"></i>
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Drafts List</h5>
+          <div class="d-flex align-items-center gap-2 position-relative w-50">
+            <input type="text" class="form-control ps-4 pe-5 rounded-pill" placeholder="Search by subject or email..."
+              [(ngModel)]="searchTerm" />
+            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+            <button *ngIf="searchTerm" class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
+              (click)="searchTerm = ''" style="background: transparent;">
+              <i class="bi bi-x-circle-fill text-muted"></i>
             </button>
           </div>
 
-          <!-- 📄 Table -->
-          <div class="table-responsive table-desi">
-            <table class="user-table table table-striped">
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>Subject</th>
-                  <th>Emails</th>
-                  <th>Description</th>
-                  <th>Action</th>
-                  <th>Category</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let draft of filteredDrafts  let i = index">
 
-                  <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                  <td>{{ draft.mailSubject || 'No Subject' }}</td>
-                  <!-- <td>
+
+          <button class="btn btn-outline-primary" (click)="refreshDrafts()">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div>
+
+        <!-- 📄 Table -->
+        <div class="table-responsive table-desi">
+          <table class="user-table table table-striped">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Subject</th>
+                <th>Emails</th>
+                <th>Description</th>
+                <th>Action</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let draft of filteredDrafts  let i = index">
+
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td>{{ draft.mailSubject || 'No Subject' }}</td>
+                <!-- <td>
                     <div class="text-truncate" style="max-width: 200px;" [title]="draft.emails?.join(', ')">
                       {{ draft.emails?.join(', ') }}
                     </div>
                   </td> -->
-                  <td (click)="toggleEmailDropdown(i)">
+                <td (click)="toggleEmailDropdown(i)">
 
-                    <div *ngIf="openedDropdownIndex !== i">
-                      {{ draft.emails?.slice(0, 1).join(", ") || "No Emails" }}
-                      <span *ngIf="draft.emails?.length > 1" class="text-primary">
-                        +{{ draft.emails.length - 1 }} more...
-                      </span>
-                    </div>
+                  <div *ngIf="openedDropdownIndex !== i">
+                    {{ draft.emails?.slice(0, 1).join(", ") || "No Emails" }}
+                    <span *ngIf="draft.emails?.length > 1" class="text-primary">
+                      +{{ draft.emails.length - 1 }} more...
+                    </span>
+                  </div>
 
 
-                    <div *ngIf="openedDropdownIndex === i" class="expanded-view">
-                      <div class="email-header">Email List</div>
-                      <div *ngIf="draft.emails?.length; else noEmails">
-                        <div class="email-item" *ngFor="let email of draft.emails; let j = index">
-                          <span>{{ email }}</span>
+                  <div *ngIf="openedDropdownIndex === i" class="expanded-view">
+                    <div class="email-header">Email List</div>
+                    <div *ngIf="draft.emails?.length; else noEmails">
+                      <div class="email-item" *ngFor="let email of draft.emails; let j = index">
+                        <span>{{ email }}</span>
 
-                          <button class="remove-btn" (click)="removeEmail(i, email, $event)">
-                            &times;
-                          </button>
-                        </div>
+                        <button class="remove-btn" (click)="removeEmail(i, email, $event)">
+                          &times;
+                        </button>
                       </div>
-                      <ng-template #noEmails>
-                        <div class="no-email">No Emails</div>
-                      </ng-template>
                     </div>
-                  </td>
-                  <td>
-                    <div class="text-truncate" style="max-width: 300px;" [title]="stripHtmlTags(draft.mailBody)">
-                      {{ stripHtmlTags(draft.mailBody) || 'No Body Content' }}
-                    </div>
-                  </td>
-                  <td>
-                    <a href="javascript:void(0)" (click)="editDraft(draft)" class=" me-3">
-                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
-                    <a href="javascript:void(0)" (click)="deleteDraft(draft)">
-                      <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
-                    </a>
-                  </td>
+                    <ng-template #noEmails>
+                      <div class="no-email">No Emails</div>
+                    </ng-template>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-truncate" style="max-width: 300px;" [title]="stripHtmlTags(draft.mailBody)">
+                    {{ stripHtmlTags(draft.mailBody) || 'No Body Content' }}
+                  </div>
+                </td>
+                <td>
+                  <a href="javascript:void(0)" (click)="editDraft(draft)" class=" me-3">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                  <a href="javascript:void(0)" (click)="deleteDraft(draft)">
+                    <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                  </a>
+                </td>
 
-                  <td>
-                    <span class="badge" [ngClass]="{
+                <td>
+                  <span class="badge" [ngClass]="{
                     'bg-primary': draft.targetType === 'candidate',
                      'bg-success': draft.targetType === 'vendor'
                   }">
-                      {{ draft.targetType }}
-                    </span>
-                  </td>
-                </tr>
+                    {{ draft.targetType }}
+                  </span>
+                </td>
+              </tr>
 
 
-                <tr *ngIf="filteredDrafts.length === 0">
-                  <td colspan="6" class="text-center text-muted py-4">
-                    <i class="bi bi-inbox"></i> No Drafts Found
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              <tr *ngIf="filteredDrafts.length === 0">
+                <td colspan="6" class="text-center text-muted py-4">
+                  <i class="bi bi-inbox"></i> No Drafts Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
 
-        
+
 
       </div>
     </div>
