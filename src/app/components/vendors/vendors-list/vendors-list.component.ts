@@ -325,41 +325,43 @@ export class VendorsListComponent {
     this.openMailModal();
   }
 
-  vendorSendMail() {
-    const sourceList = this.selectionMode === 'all'
-      ? this.vendorList
-      : Array.from(this.selectedCandidates);
+vendorSendMail() {
+  const sourceList = this.selectionMode === 'all'
+    ? this.vendorList
+    : Array.from(this.selectedCandidates);
 
-    if (sourceList.length === 0) {
-      Swal.fire('Error', 'No candidates selected.', 'error');
-      return;
-    }
+  if (sourceList.length === 0) {
+    Swal.fire('Error', 'No candidates selected.', 'error');
+    return;
+  }
 
-    if (!this.mailSubject?.trim()) {
-      Swal.fire('Error', 'Subject is required.', 'error');
-      return;
-    }
+  if (!this.mailSubject?.trim()) {
+    Swal.fire('Error', 'Subject is required.', 'error');
+    return;
+  }
 
-    const templateMailBody = this.mailBody || '';
+  // ✅ Copy values before closing modal
+  const subject = this.mailSubject;
+  const templateMailBody = this.mailBody || '';
+  const totalVendors = sourceList.length;
 
-    this.isLoading = true;
+  // Close modal immediately
+  this.closeMailModal();
+  Swal.fire('Sending in background', `Sending mails to ${totalVendors} vendors...`, 'info');
+
+  this.isLoading = true;
+
+  // Send in background
+  setTimeout(() => {
     let successCount = 0;
     let failCount = 0;
 
-    const sendNext = (index: number) => {
-      if (index >= sourceList.length) {
-        this.isLoading = false;
-        Swal.fire('Done', `Mails sent: ${successCount}, Failed: ${failCount}`, 'success');
-        this.closeMailModal();
-        return;
-      }
-
-      const vendor = sourceList[index];
+    sourceList.forEach((vendor, index) => {
       const firstName = vendor?.name?.split(' ')[0] || 'there';
       const personalizedBody = templateMailBody.replace(/{{\s*name\s*}}/gi, firstName);
 
       const payload: any = {
-        mailSubject: this.mailSubject,
+        mailSubject: subject, // ✅ use saved subject here
         emails: [vendor.email],
         mailBody: personalizedBody,
         type: 'immediate',
@@ -374,90 +376,23 @@ export class VendorsListComponent {
       }
 
       this.service.vendorSendMail(payload).subscribe({
-        next: () => {
-          successCount++;
-          sendNext(index + 1);
-        },
-        error: (err) => {
-          console.error(`Mail failed for ${vendor.email}`, err);
-          failCount++;
-          sendNext(index + 1);
+        next: () => successCount++,
+        error: () => failCount++,
+        complete: () => {
+          if (index === totalVendors - 1) {
+            this.isLoading = false;
+            Swal.fire(
+              'Mail Sending Complete',
+              `✅ Sent: ${successCount} | ❌ Failed: ${failCount}`,
+              'success'
+            );
+          }
         },
       });
-    };
+    });
+  }, 500);
+}
 
-    sendNext(0);
-  }
-
-  
-// vendorSendMail() {
-//   const sourceList = this.selectionMode === 'all'
-//     ? this.vendorList
-//     : Array.from(this.selectedCandidates);
-
-//   if (sourceList.length === 0) {
-//     Swal.fire('Error', 'No candidates selected.', 'error');
-//     return;
-//   }
-
-//   if (!this.mailSubject?.trim()) {
-//     Swal.fire('Error', 'Subject is required.', 'error');
-//     return;
-//   }
-
-//   const templateMailBody = this.mailBody || '';
-//   const totalVendors = sourceList.length;
-
-//   // ✅ Immediately close modal and show message
-//   this.closeMailModal();
-//   Swal.fire('Sending in background', `Sending mails to ${totalVendors} vendors...`, 'info');
-
-//   // Optional: small loader flag for UI feedback
-//   this.isLoading = true;
-
-//   // Send mails asynchronously (in background)
-//   setTimeout(() => {
-//     let successCount = 0;
-//     let failCount = 0;
-
-//     sourceList.forEach((vendor, index) => {
-//       const firstName = vendor?.name?.split(' ')[0] || 'there';
-//       const personalizedBody = templateMailBody.replace(/{{\s*name\s*}}/gi, firstName);
-
-//       const payload: any = {
-//         mailSubject: this.mailSubject,
-//         emails: [vendor.email],
-//         mailBody: personalizedBody,
-//         type: 'immediate',
-//       };
-
-//       if (this.scheduleDate && this.scheduleTime) {
-//         const { time, period } = this.convertTo12HourWithPeriod(this.scheduleTime);
-//         payload.date = this.scheduleDate;
-//         payload.time = time;
-//         payload.period = period;
-//         payload.type = 'scheduled';
-//       }
-
-//       // Fire and forget — no waiting
-//       this.service.vendorSendMail(payload).subscribe({
-//         next: () => successCount++,
-//         error: () => failCount++,
-//         complete: () => {
-//           // when last one finishes
-//           if (index === totalVendors - 1) {
-//             this.isLoading = false;
-//             Swal.fire(
-//               'Mail Sending Complete',
-//               `✅ Sent: ${successCount} | ❌ Failed: ${failCount}`,
-//               'success'
-//             );
-//           }
-//         }
-//       });
-//     });
-//   }, 500);
-// }
 
   mailTemplateBody: string = '';
   userSignature: string = '';
