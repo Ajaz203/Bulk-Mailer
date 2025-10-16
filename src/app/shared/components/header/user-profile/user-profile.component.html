@@ -1,7 +1,8 @@
 <div class="media profile-media" (click)="toggle()">
   <ng-container *ngIf="user$ | async as user">
     <img
-      [src]="getImageUrl(user.profileImage)"
+     [src]="getImageUrl(user.profilePicture || user.profileImage)"
+
       (error)="onImageError($event)"
       alt="Profile"
       class="avatar-img rounded-circle"

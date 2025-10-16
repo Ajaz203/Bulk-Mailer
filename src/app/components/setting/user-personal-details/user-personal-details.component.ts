@@ -29,41 +29,66 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy{
     private sanitizer: DomSanitizer
   ) { }
 
-  ngOnInit(): void {
-    this.profileForm = this.fb.group({
-      userName: [''],
-       signature: ['']
-    });
+ngOnInit(): void {
+  this.profileForm = this.fb.group({
+    userName: [''],
+    signature: ['']
+  });
 
-    this.loadUserProfile();
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
- this.signatureEditor = new Editor();
-  this.getUserSignature();
+  // ✅ Load from localStorage first (instant display)
+  const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+  if (storedUser?.profileImage) {
+    this.previewUrl = storedUser.profileImage.startsWith('http')
+      ? storedUser.profileImage
+      : `${this.userService.getBaseUrl()}${storedUser.profileImage}`;
+  } else {
+    this.previewUrl = 'assets/images/users/4.jpg';
   }
+
+  // ✅ Then fetch latest from API
+  this.loadUserProfile();
+
+  this.signatureEditor = new Editor();
+  this.getUserSignature();
+}
+
   ngOnDestroy() {
     this.signatureEditor.destroy();
   }
   loadUserProfile() {
-    this.userService.getUserProfileUpdate(this.userId).subscribe((res: any) => {
-      const user = res?.data;
-      this.profileForm.patchValue({
-        userName: user?.userName || '',
-       
-      });
-
-      if (user?.profileImage) {
-        this.previewUrl = user.profileImage;
-      }
+  this.userService.getUserProfileUpdate(this.userId).subscribe((res: any) => {
+    const user = res?.data;
+    this.profileForm.patchValue({
+      userName: user?.userName || '',
     });
-  }
 
-  onFileSelected(event: Event) {
-    this.imageChangedEvent = event;
-    const modal = new (window as any).bootstrap.Modal(
-      document.getElementById('cropperModal')
-    );
-    modal.show();
+    // ✅ Build correct image URL or fallback
+    if (user?.profileImage) {
+      // Combine API base URL + image path
+      this.previewUrl = user.profileImage.startsWith('http')
+        ? user.profileImage
+        : `${this.userService.getBaseUrl()}${user.profileImage}`;
+    } else {
+   
+      this.previewUrl = 'assets/images/users/4.jpg';
+    }
+  });
+}
+
+
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.selectedImage = input.files[0];
+
+    // Preview the selected image
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.previewUrl = e.target?.result || null;
+    };
+    reader.readAsDataURL(this.selectedImage);
   }
+}
 
 
   removeImage() {
@@ -71,37 +96,42 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy{
     this.previewUrl = null;
   }
 
-  submitForm() {
-    if (!this.profileForm.valid) return;
+submitForm() {
+  if (!this.profileForm.valid) return;
 
-    const formData = new FormData();
-    formData.append('userName', this.profileForm.get('userName')?.value);
-    formData.append('userId', this.userId.toString());
+  const formData = new FormData();
+  formData.append('userName', this.profileForm.get('userName')?.value);
+  formData.append('userId', this.userId.toString());
 
-   
-    this.userService.uploadProfileWithImage(formData).subscribe({
-      next: (res: any) => {
-        const updatedUser = res.user;
-        const userToStore = {
-          userId: updatedUser.userId,
-          name: updatedUser.name,
-          email: updatedUser.email,
-          role: updatedUser.role,
-          profileImage: updatedUser.profilePicture
-        };
-
-        this.userService.setUser(userToStore);
-        this.userService.broadcastUser(userToStore);
-
-        this.userService.showToast('success', 'Profile updated successfully!');
-        this.loadUserProfile();
-      },
-      error: (err) => {
-        console.error(err);
-        this.userService.showToast('error', 'Update failed.');
-      }
-    });
+  // ✅ Append image if available
+  if (this.selectedImage) {
+    formData.append('profilePicture', this.selectedImage);
   }
+
+  this.userService.uploadProfileWithImage(formData).subscribe({
+    next: (res: any) => {
+      const updatedUser = res.user;
+      const userToStore = {
+        userId: updatedUser.userId,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        profileImage: updatedUser.profilePicture
+      };
+
+      this.userService.setUser(userToStore);
+      this.userService.broadcastUser(userToStore);
+
+      this.userService.showToast('success', 'Profile updated successfully!');
+      this.loadUserProfile();
+    },
+    error: (err) => {
+      console.error(err);
+      this.userService.showToast('error', 'Update failed.');
+    }
+  });
+}
+
 
 saveSignature() {
   const signatureValue = this.profileForm.get('signature')?.value;

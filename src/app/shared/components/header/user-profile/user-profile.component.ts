@@ -17,7 +17,8 @@ export class UserProfileComponent implements OnInit {
   isActive = false;
   defaultImage = 'assets/images/users/5.jpg';
   user$ = this.userService.getUser();
-
+previewImage: string | ArrayBuffer | null = null;
+isUploading = false;
   constructor(
     private modal: NgbModal,
     private userService: UserService,
@@ -26,11 +27,13 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {}
 
- getImageUrl(imagePath: string | undefined): string {
+getImageUrl(imagePath: string | undefined): string {
   if (!imagePath) return this.defaultImage;
+  // Handle both backend key names
   if (imagePath.includes('assets')) return imagePath;
   return this.userService.getBaseUrl() + imagePath.replace(/\\/g, '/');
 }
+
 
 
   onImageError(event: Event): void {

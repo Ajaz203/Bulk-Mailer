@@ -10,14 +10,16 @@
 
   <!-- Profile Image -->
   <div class="d-flex align-items-center gap-4 mb-4 flex-wrap">
-    <div class="position-relative profile-img-wrapper">
-      <img [src]="previewUrl || 'assets/images/users/4.jpg'" alt="Profile"
-        class="rounded-circle border shadow-sm profile-img" />
-      <label for="img" class="upload-overlay">
-        <i class="bi bi-camera fs-4"></i>
-      </label>
-      <input type="file" id="img" (change)="onFileSelected($event)" accept="image/png, image/jpeg" hidden />
-    </div>
+   <div class="position-relative profile-img-wrapper">
+  <img [src]="previewUrl || 'assets/images/users/4.jpg'" 
+       alt="Profile"
+       class="rounded-circle border shadow-sm profile-img" />
+  <label for="img" class="upload-overlay">
+    <i class="bi bi-camera fs-4"></i>
+  </label>
+  <input type="file" id="img" (change)="onFileSelected($event)" accept="image/png, image/jpeg" hidden />
+</div>
+
 
     <div>
       <p class="text-muted small mb-2">
