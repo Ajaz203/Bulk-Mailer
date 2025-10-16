@@ -55,7 +55,7 @@ ngOnInit(): void {
   ngOnDestroy() {
     this.signatureEditor.destroy();
   }
-  loadUserProfile() {
+ loadUserProfile() {
   this.userService.getUserProfileUpdate(this.userId).subscribe((res: any) => {
     const user = res?.data;
     this.profileForm.patchValue({
@@ -69,7 +69,7 @@ ngOnInit(): void {
         ? user.profileImage
         : `${this.userService.getBaseUrl()}${user.profileImage}`;
     } else {
-   
+      // Default fallback
       this.previewUrl = 'assets/images/users/4.jpg';
     }
   });
@@ -110,21 +110,27 @@ submitForm() {
 
   this.userService.uploadProfileWithImage(formData).subscribe({
     next: (res: any) => {
-      const updatedUser = res.user;
-      const userToStore = {
-        userId: updatedUser.userId,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        role: updatedUser.role,
-        profileImage: updatedUser.profilePicture
-      };
+  const updatedUser = res.user;
 
-      this.userService.setUser(userToStore);
-      this.userService.broadcastUser(userToStore);
+  const fullImagePath = updatedUser.profilePicture?.startsWith('http')
+    ? updatedUser.profilePicture
+    : `${this.userService.getBaseUrl()}${updatedUser.profilePicture}`;
 
-      this.userService.showToast('success', 'Profile updated successfully!');
-      this.loadUserProfile();
-    },
+  this.previewUrl = fullImagePath || 'assets/images/users/4.jpg'; // ✅ update immediately
+
+  const userToStore = {
+    userId: updatedUser.userId,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    role: updatedUser.role,
+    profileImage: updatedUser.profilePicture
+  };
+
+  this.userService.setUser(userToStore);
+  this.userService.broadcastUser(userToStore);
+
+  this.userService.showToast('success', 'Profile updated successfully!');
+},
     error: (err) => {
       console.error(err);
       this.userService.showToast('error', 'Update failed.');

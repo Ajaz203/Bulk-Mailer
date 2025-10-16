@@ -96,38 +96,55 @@ export class AddNewUserComponent {
     }
   }
 
-  onSubmit() {
-    if (this.userForm.invalid) {
-      this.markAllFieldsTouched();
-      this.showValidationErrors();
-      return;
-    }
-
-    const email = this.userForm.value.email.toLowerCase();
-
-    if (this.submittedEmails.has(email)) {
-      this.service.showToast('error', 'This email is already registered. Please use a different one.');
-      return;
-    }
-
-    this.isLoading = true;
-
-    this.service.addUsers(this.userForm.value).subscribe({
-      next: (res: any) => {
-        this.isLoading = false;
-        this.submittedEmails.add(email);
-        this.service.showToast('success', res.message);
-        this.userForm.reset();
-      },
-      error: (err: any) => {
-        this.isLoading = false;
-        const errorMsg = err?.error?.message?.toLowerCase().includes('email')
-          ? 'Email already registered'
-          : 'Something went wrong';
-        this.service.showToast('error', errorMsg);
-      }
-    });
+onSubmit() {
+  if (this.userForm.invalid) {
+    this.markAllFieldsTouched();
+    this.showValidationErrors();
+    return;
   }
+
+  const email = this.userForm.value.email.toLowerCase();
+
+  if (this.submittedEmails.has(email)) {
+    this.service.showToast('error', 'This email is already registered. Please use a different one.');
+    return;
+  }
+
+  this.isLoading = true;
+
+  this.service.addUsers(this.userForm.value).subscribe({
+    next: (res: any) => {
+      this.isLoading = false;
+      this.submittedEmails.add(email);
+      this.service.showToast('success', res.message);
+      this.userForm.reset();
+    },
+    error: (err: any) => {
+      this.isLoading = false;
+
+      // 🔍 Log the full error once for debugging
+      console.log('🔥 Full error response:', err);
+
+      // 🔸 Safely extract possible message from all known locations
+      const possibleMsg =
+        err?.error?.message ||
+        err?.error?.error ||
+        (typeof err?.error === 'string' ? err.error : '') ||
+        err?.message ||
+        '';
+
+      // 🔸 Default error message
+      let errorMsg = 'Something went wrong';
+
+      // 🔸 Match backend message content
+      if (typeof possibleMsg === 'string' && possibleMsg.toLowerCase().includes('email')) {
+        errorMsg = 'Email already registered';
+      }
+
+      this.service.showToast('error', errorMsg);
+    }
+  });
+}
 
   cancel(): void {
     this.userForm.reset();
