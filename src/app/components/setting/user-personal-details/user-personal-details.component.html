@@ -10,15 +10,14 @@
 
   <!-- Profile Image -->
   <div class="d-flex align-items-center gap-4 mb-4 flex-wrap">
-   <div class="position-relative profile-img-wrapper">
-  <img [src]="previewUrl || 'assets/images/users/4.jpg'" 
-       alt="Profile"
-       class="rounded-circle border shadow-sm profile-img" />
-  <label for="img" class="upload-overlay">
-    <i class="bi bi-camera fs-4"></i>
-  </label>
-  <input type="file" id="img" (change)="onFileSelected($event)" accept="image/png, image/jpeg" hidden />
-</div>
+    <div class="position-relative profile-img-wrapper">
+      <img [src]="previewUrl || 'assets/images/users/4.jpg'" alt="Profile"
+        class="rounded-circle border shadow-sm profile-img" />
+      <label for="img" class="upload-overlay">
+        <i class="bi bi-camera fs-4"></i>
+      </label>
+      <input type="file" id="img" (change)="onFileSelected($event)" accept="image/png, image/jpeg" hidden />
+    </div>
 
 
     <div>
@@ -28,7 +27,7 @@
       </p>
       <button class="btn btn-outline-danger btn-sm rounded-pill d-flex align-items-center" type="button"
         (click)="removeImage()">
-      Remove
+        Remove
       </button>
     </div>
   </div>
@@ -43,10 +42,10 @@
       Full name is required
     </div>
   </div>
- <!-- Submit -->
+  <!-- Submit -->
   <div class="text-end">
     <button class="btn btn-primary px-4 shadow-sm rounded-pill" type="submit" [disabled]="!profileForm.valid">
-     Save Changes
+      Save Changes
     </button>
   </div>
   <!-- Signature -->
@@ -54,18 +53,17 @@
     <label class="form-label fw-semibold">Email Signature</label>
     <ngx-editor-menu [editor]="signatureEditor"></ngx-editor-menu>
     <ngx-editor [editor]="signatureEditor" formControlName="signature"
-      placeholder="Create your professional signature..."
-      class="signature-editor  bg-white"></ngx-editor>
+      placeholder="Create your professional signature..." class="signature-editor  bg-white"></ngx-editor>
     <small class="text-muted d-block mt-1">
       Include name, title, company, and contact. Supports <b>bold</b>, <i>italic</i>, links, and images.
     </small>
 
     <div class="text-end mt-3">
       <button type="button" class="btn btn-outline-success  rounded-pill " (click)="saveSignature()">
-     Save Signature
+        Save Signature
       </button>
     </div>
   </div>
 
- 
+
 </form>
