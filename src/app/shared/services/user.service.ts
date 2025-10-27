@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  // private apiUrl: string = 'https://46490be162af.ngrok-free.app/';
+  // private apiUrl: string = 'https://64b061017e8e.ngrok-free.app/';
   private apiUrl: string = 'https://api.mailcept.net/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
@@ -20,6 +20,12 @@ export class UserService {
       this.userSubject.next(JSON.parse(storedUser));
     }
   }
+  
+  private refreshTableSubject = new Subject<void>();
+  refreshTable$ = this.refreshTableSubject.asObservable();
+  header: any = {
+    'ngrok-skip-browser-warning': 'true'
+  };
   getBaseUrl(): string {
     return this.apiUrl;
   }
@@ -199,17 +205,6 @@ export class UserService {
   /////////////////////////////////////////bulkemailer apis////////////////////////////////////////////////////////////////////
 
 
-  private refreshTableSubject = new Subject<void>();
-  refreshTable$ = this.refreshTableSubject.asObservable();
-
-
-
-  // url: string = 'http://142.93.212.196:3000/';
-  // url: string = 'https://69e1e31cb2a4.ngrok-free.app/';
-
-  header: any = {
-    'ngrok-skip-browser-warning': 'true'
-  };
 
   getUserId(): number {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
@@ -481,6 +476,9 @@ getSignature(payload: { userId: number }) {
 }
 subscription(payload: { userId: number }) {
   return this.http.post(this.apiUrl + 'my-subscription', payload);
+}
+registerTrial(payload: { userId: number }) {
+  return this.http.post(this.apiUrl + 'trial', payload);
 }
 
 
