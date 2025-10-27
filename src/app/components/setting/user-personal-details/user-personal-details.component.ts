@@ -23,6 +23,7 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
   croppedFile: File | null = null;
   signatureEditor!: Editor;
   userSignature: string = '';
+  user$ = this.userService.getUser();
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -44,6 +45,11 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
       this.previewUrl = 'assets/images/users/4.jpg';
     }
 
+this.user$.subscribe(user => {
+  if (user) {
+    this.profileForm.patchValue({ userName: user.name });
+  }
+});
 
     // this.loadUserProfile();
 
