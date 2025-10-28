@@ -20,25 +20,26 @@
             <table class="user-table table table-striped">
               <thead>
                 <tr>
-                  <!-- <th>S No</th> -->
                   <th>Users</th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Active</th>
                   <th>Role</th>
+                  <th>Subscription</th> <!-- NEW COLUMN -->
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
+
               <tbody>
                 <tr *ngFor="let details of paginatedUsers | search: searchText; let i = index">
-                  <!-- <td>{{ i + 1 }}</td> -->
-                  <td class=" align-items-center gap-2">
+                  <!-- Existing cells -->
+                  <td>
                     <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold"
                       [ngClass]="{
-                       'bg-primary': details.role === 'admin',
-                       'bg-success': details.role === 'user'
-                        }" style="width: 48px; height: 48px">
+            'bg-primary': details.role === 'admin',
+            'bg-success': details.role === 'user'
+          }" style="width: 48px; height: 48px">
                       {{ getInitials(details.name) }}
                     </div>
                   </td>
@@ -56,16 +57,26 @@
                     </span>
                   </td>
 
-
-
                   <td>
                     <span class="badge" [ngClass]="{
-                   'bg-primary': details.role === 'admin',
-                   'bg-success': details.role === 'user'
-                    }">
+            'bg-primary': details.role === 'admin',
+            'bg-success': details.role === 'user'
+          }">
                       {{ details.role | titlecase }}
                     </span>
                   </td>
+
+
+                  <td>
+  <button class="btn btn-outline-primary btn-sm" (click)="openPlanModal(details)">
+    Assign Plan
+  </button>
+
+  <div *ngIf="details.currentPlanName" class="small text-muted mt-1">
+    Current: <strong>{{ details.currentPlanName }}</strong>
+  </div>
+</td>
+
 
                   <td>
                     <label class="switch">
@@ -73,13 +84,16 @@
                       <span class="slider round"></span>
                     </label>
                   </td>
+
                   <td>
-                    <a href="javascript:void(0)" (click)="openEditPopup(details)"><i class="fa fa-pencil-square-o"
-                        aria-hidden="true"></i></a>
+                    <a href="javascript:void(0)" (click)="openEditPopup(details)">
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
                   </td>
                 </tr>
               </tbody>
             </table>
+
           </div>
         </div>
       </div>
@@ -131,6 +145,38 @@
             </form>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Plan Selection Modal -->
+<div class="modal" tabindex="-1" [ngClass]="{'show d-block': selectedUserForPlan}" (click)="closePlanModal()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Plan for {{ selectedUserForPlan?.name }}</h5>
+        <button type="button" class="btn-close" (click)="closePlanModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="plan-grid">
+          <div *ngFor="let plan of subscriptions" 
+               class="plan-card" 
+               [class.selected]="selectedPlan?.id === plan.id"
+               (click)="selectPlan(plan)">
+            <div class="plan-name">{{ plan.name }}</div>
+            <div class="plan-price">$ {{ plan.price }}</div>
+            <div class="plan-validity">{{ plan.validity }} days</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="closePlanModal()">Cancel</button>
+        <button class="btn btn-success" [disabled]="!selectedPlan" (click)="assignSelectedPlan()">Assign Plan</button>
       </div>
     </div>
   </div>

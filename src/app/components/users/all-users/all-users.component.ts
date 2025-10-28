@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-all-users',
   standalone: true,
@@ -23,6 +24,9 @@ export class AllUsersComponent {
   totalPages = 1;
   isEditMode: boolean;
   showPassword = false;
+ subscriptions: any[] = [];
+ selectedUserForPlan: any = null;
+selectedPlan: any = null;
   constructor(private userService: UserService, private route: ActivatedRoute, private titleService: Title) {
     this.titleService.setTitle('MailCept-Users');
   }
@@ -57,22 +61,101 @@ ngOnInit(): void {
       this.getData(fallbackAdminId);
     }
   });
+  this.getAllPlans();
+}
+getSuperAdminUsers() {
+  this.userService.superAdminAllUsers({}).subscribe(
+    (res: any) => {
+   this.users = (res?.users || []).map((u: { plans: any[]; }) => {
+  // Find the active plan (or the latest plan)
+  const activePlan = u.plans?.find(p => p.isActive === 1);
+
+  return {
+    ...u,
+    subscriptionId: activePlan?.planId || '',   // binds to dropdown
+    currentPlanName: activePlan?.planName || '', // display below dropdown
+    validityDays: activePlan?.durationMonths ? activePlan.durationMonths * 30 : 30 // optional
+  };
+});
+      this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+      this.updatePaginatedUsers();
+    },
+    error => console.error('Error fetching superadmin users', error)
+  );
 }
 
 
 
-  getSuperAdminUsers() {
-    this.userService.superAdminAllUsers({}).subscribe(
-      (res: any) => {
-        this.users = res?.users || [];
-        this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
-        this.updatePaginatedUsers();
-      },
-      error => {
-        console.error('Error fetching superadmin users', error);
-      }
-    );
-  }
+  //  getSuperAdminUsers() {
+  //   this.userService.superAdminAllUsers({}).subscribe(
+  //     (res: any) => {
+  //       this.users = res?.users || [];
+  //       this.totalPages = Math.ceil(this.users.length / this.itemsPerPage);
+  //       this.updatePaginatedUsers();
+  //     },
+  //     error => {
+  //       console.error('Error fetching superadmin users', error);
+  //     }
+  //   );
+  // }
+//  getAllPlans() {
+//     this.userService.plans({}).subscribe({
+//       next: (res: any) => {
+//         this.subscriptions = res?.plans?.filter((p: any) => p.isActive) || [];
+//       },
+//       error: (err) => {
+//         console.error('Error fetching plans:', err);
+//       }
+//     });
+//   }
+
+
+getAllPlans() {
+  this.userService.getPlans().subscribe({
+    next: (res: any) => {
+      this.subscriptions = res?.plans?.filter((p: any) => p.isActive) || [];
+    },
+    error: (err) => {
+      console.error('Error fetching plans:', err);
+    }
+  });
+}
+
+assignSelectedPlan() {
+  if (!this.selectedPlan || !this.selectedUserForPlan) return;
+
+  const payload = {
+    userId: this.selectedUserForPlan.userId,
+    planId: this.selectedPlan.id,
+    validity: this.selectedPlan.validity
+  };
+
+  this.userService.assignSubscription(payload).subscribe({
+    next: () => {
+      Swal.fire('Success', 'Subscription assigned successfully!', 'success');
+      this.selectedUserForPlan.currentPlanName = this.selectedPlan.name;
+      this.closePlanModal();
+    },
+    error: (err) => Swal.fire('Error', err?.error?.message || 'Failed to assign subscription', 'error')
+  });
+}
+openPlanModal(user: any) {
+  this.selectedUserForPlan = user;
+  // optionally pre-select current plan
+  this.selectedPlan = this.subscriptions.find(p => p.id === user.subscriptionId) || null;
+}
+
+closePlanModal() {
+  this.selectedUserForPlan = null;
+  this.selectedPlan = null;
+}
+
+selectPlan(plan: any) {
+  this.selectedPlan = plan;
+}
+
+
+
 
   getInitials(name: string): string {
     if (!name) return '';

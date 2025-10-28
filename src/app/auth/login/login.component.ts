@@ -57,26 +57,25 @@ login(button: HTMLButtonElement): void {
   this.userService.login({ email, password }).subscribe({
     next: (res: any) => {
       const { userId, name, email, role } = res.user;
+      const message = res?.message || 'Login successful!';
+
       this.userService.getUserProfileUpdate(userId).subscribe({
         next: (profile: any) => {
           const profileImage = (profile.profilePicture || '').replace(/\\/g, '/');
-
-          const user = {
-            userId,
-            name,
-            email,
-            role,
-            profileImage
-          };
+          const user = { userId, name, email, role, profileImage };
 
           localStorage.setItem('user', JSON.stringify(user));
           this.userService.setUser(user);
           this.userService.broadcastUser(user);
-          this.userService.showToast('success', res.message);
+
+          // ✅ Backend success message
+          this.userService.showToast('success', message);
+
           this.router.navigate(['/dashboard']);
         },
-        error: () => {
-          this.userService.showToast('error', 'Failed to load user profile');
+        error: (err: any) => {
+          const errorMsg = err?.error?.message || 'Failed to load user profile.';
+          this.userService.showToast('error', errorMsg);
         },
         complete: () => {
           button.innerHTML = originalText;
@@ -84,13 +83,26 @@ login(button: HTMLButtonElement): void {
         }
       });
     },
-    error: () => {
-      this.userService.showToast('error', 'Invalid login credentials');
+    error: (err: any) => {
+      // ✅ Skip showing duplicate toast if interceptor already handled 401
+      if (err?.handled) {
+        button.innerHTML = originalText;
+        button.disabled = false;
+        return;
+      }
+
+      const errorMsg =
+        err?.error?.message ||
+        err?.message ||
+        'Invalid login credentials. Please try again.';
+
+      this.userService.showToast('error', errorMsg);
       button.innerHTML = originalText;
       button.disabled = false;
     }
   });
 }
+
 forgotPassword(){
   this.router.navigate(['/forgot-password']);
 }

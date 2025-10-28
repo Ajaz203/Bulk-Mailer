@@ -11,8 +11,8 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  // private apiUrl: string = 'https://64b061017e8e.ngrok-free.app/';
-  private apiUrl: string = 'https://api.mailcept.net/';
+  private apiUrl: string = 'https://598ef738e467.ngrok-free.app/';
+  // private apiUrl: string = 'https://api.mailcept.net/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -479,6 +479,9 @@ subscription(payload: { userId: number }) {
 }
 registerTrial(payload: { userId: number }) {
   return this.http.post(this.apiUrl + 'trial', payload);
+}
+assignSubscription(payload: any) {
+  return this.http.post(this.apiUrl + 'assignPlan', payload);
 }
 
 

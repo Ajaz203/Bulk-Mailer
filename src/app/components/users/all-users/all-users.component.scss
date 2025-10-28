@@ -86,3 +86,39 @@ input:checked + .slider:before {
   color: #ffffff99 !important;
 }
 
+.modal {
+  background: rgba(0,0,0,0.4);
+  .modal-dialog { max-width: 500px; }
+
+  .plan-grid {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .plan-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      text-align: center;
+      min-width: 100px;
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: #00457c;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+
+      &.selected {
+        border-color: #00457c;
+        background-color: #e6f0ff;
+      }
+
+      .plan-name { font-weight: 600; color: #00457c; }
+      .plan-price, .plan-validity { font-size: 0.85rem; color: #495057; }
+    }
+  }
+}
+.btn {
+     padding: 0.375rem .75rem;
+}

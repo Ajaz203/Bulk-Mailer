@@ -45,11 +45,11 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
       this.previewUrl = 'assets/images/users/4.jpg';
     }
 
-this.user$.subscribe(user => {
-  if (user) {
-    this.profileForm.patchValue({ userName: user.name });
-  }
-});
+    this.user$.subscribe(user => {
+      if (user) {
+        this.profileForm.patchValue({ userName: user.name });
+      }
+    });
 
     // this.loadUserProfile();
 
