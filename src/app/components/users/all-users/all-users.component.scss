@@ -88,25 +88,28 @@ input:checked + .slider:before {
 
 .modal {
   background: rgba(0,0,0,0.4);
-  .modal-dialog { max-width: 500px; }
 
-  .plan-grid {
+  .modal-dialog { max-width: 700px; }
+
+  .plan-cards-container {
     display: flex;
-    gap: 0.5rem;
     flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
 
     .plan-card {
       border: 1px solid #ccc;
       border-radius: 8px;
-      padding: 0.5rem 1rem;
+      padding: 1rem;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
       cursor: pointer;
-      text-align: center;
-      min-width: 100px;
-      transition: all 0.2s;
 
       &:hover {
         border-color: #00457c;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       }
 
       &.selected {
@@ -114,11 +117,35 @@ input:checked + .slider:before {
         background-color: #e6f0ff;
       }
 
-      .plan-name { font-weight: 600; color: #00457c; }
-      .plan-price, .plan-validity { font-size: 0.85rem; color: #495057; }
+      .plan-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+
+        h6 { font-weight: 600; color: #00457c; }
+        .plan-price { font-size: 1rem; color: #333; }
+      }
+
+      .plan-body {
+        flex-grow: 1;
+        font-size: 0.85rem;
+        color: #495057;
+        margin-bottom: 0.5rem;
+
+        ul {
+          padding-left: 1rem;
+          li { margin-bottom: 0.25rem; }
+        }
+      }
+
+      button {
+        margin-top: auto;
+      }
     }
   }
 }
+
 .btn {
      padding: 0.375rem .75rem;
 }

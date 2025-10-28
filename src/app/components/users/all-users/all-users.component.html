@@ -68,14 +68,14 @@
 
 
                   <td>
-  <button class="btn btn-outline-primary btn-sm" (click)="openPlanModal(details)">
-    Assign Plan
-  </button>
+                    <button class="btn btn-outline-primary btn-sm" (click)="openPlanModal(details)">
+                      Assign Plan
+                    </button>
 
-  <div *ngIf="details.currentPlanName" class="small text-muted mt-1">
-    Current: <strong>{{ details.currentPlanName }}</strong>
-  </div>
-</td>
+                    <div *ngIf="details.currentPlanName" class="small text-muted mt-1">
+                      Current: <strong>{{ details.currentPlanName }}</strong>
+                    </div>
+                  </td>
 
 
                   <td>
@@ -157,26 +157,32 @@
 <!-- Plan Selection Modal -->
 <div class="modal" tabindex="-1" [ngClass]="{'show d-block': selectedUserForPlan}" (click)="closePlanModal()">
   <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Select Plan for {{ selectedUserForPlan?.name }}</h5>
+    <div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold">Select Plan for {{ selectedUserForPlan?.name }}</h5>
         <button type="button" class="btn-close" (click)="closePlanModal()"></button>
       </div>
+
       <div class="modal-body">
-        <div class="plan-grid">
-          <div *ngFor="let plan of subscriptions" 
-               class="plan-card" 
-               [class.selected]="selectedPlan?.id === plan.id"
-               (click)="selectPlan(plan)">
-            <div class="plan-name">{{ plan.name }}</div>
-            <div class="plan-price">$ {{ plan.price }}</div>
-            <div class="plan-validity">{{ plan.validity }} days</div>
+        <div class="plan-cards-container">
+          <div *ngFor="let plan of subscriptions" class="plan-card" [class.selected]="selectedPlan?.id === plan.id">
+            <div class="plan-header">
+              <h6>{{ plan.name }}</h6>
+              <div class="plan-price fw-bold">$ {{ plan.price }}</div>
+            </div>
+            <div class="plan-body">
+              <p><strong>Validity:</strong> {{ plan.validity }} days</p>
+              <ul *ngIf="plan.features">
+                <li *ngFor="let feature of plan.features">{{ feature }}</li>
+              </ul>
+            </div>
+            <button class="btn btn-primary btn-sm w-100" (click)="assignPlan(plan)">Assign</button>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" (click)="closePlanModal()">Cancel</button>
-        <button class="btn btn-success" [disabled]="!selectedPlan" (click)="assignSelectedPlan()">Assign Plan</button>
+
+      <div class="modal-footer border-0 pt-0">
+        <button class="btn btn-success" (click)="closePlanModal()">Cancel</button>
       </div>
     </div>
   </div>

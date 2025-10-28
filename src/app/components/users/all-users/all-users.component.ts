@@ -25,8 +25,9 @@ export class AllUsersComponent {
   isEditMode: boolean;
   showPassword = false;
  subscriptions: any[] = [];
- selectedUserForPlan: any = null;
+selectedUserForPlan: any = null;
 selectedPlan: any = null;
+
   constructor(private userService: UserService, private route: ActivatedRoute, private titleService: Title) {
     this.titleService.setTitle('MailCept-Users');
   }
@@ -121,34 +122,40 @@ getAllPlans() {
   });
 }
 
-assignSelectedPlan() {
-  if (!this.selectedPlan || !this.selectedUserForPlan) return;
-
-  const payload = {
-    userId: this.selectedUserForPlan.userId,
-    planId: this.selectedPlan.id,
-    validity: this.selectedPlan.validity
-  };
-
-  this.userService.assignSubscription(payload).subscribe({
-    next: () => {
-      Swal.fire('Success', 'Subscription assigned successfully!', 'success');
-      this.selectedUserForPlan.currentPlanName = this.selectedPlan.name;
-      this.closePlanModal();
-    },
-    error: (err) => Swal.fire('Error', err?.error?.message || 'Failed to assign subscription', 'error')
-  });
-}
 openPlanModal(user: any) {
   this.selectedUserForPlan = user;
-  // optionally pre-select current plan
-  this.selectedPlan = this.subscriptions.find(p => p.id === user.subscriptionId) || null;
+   this.selectedPlan = this.subscriptions.find(p => p.id === user.subscriptionId) || null;
 }
 
 closePlanModal() {
   this.selectedUserForPlan = null;
   this.selectedPlan = null;
 }
+
+assignPlan(plan: any) {
+  if (!this.selectedUserForPlan) return;
+
+  const payload = {
+    userId: this.selectedUserForPlan.userId,
+    planId: plan.id,
+    validity: plan.validity
+  };
+
+  this.userService.assignSubscription(payload).subscribe({
+    next: () => {
+      Swal.fire('Success', `Plan "${plan.name}" assigned successfully!`, 'success');
+
+      // Update the user object so modal shows current plan immediately
+      this.selectedUserForPlan.currentPlanName = plan.name;
+      this.selectedUserForPlan.subscriptionId = plan.id;  // <--- important
+
+      // Close the modal
+      this.closePlanModal();
+    },
+    error: (err) => Swal.fire('Error', err?.error?.message || 'Failed to assign subscription', 'error')
+  });
+}
+
 
 selectPlan(plan: any) {
   this.selectedPlan = plan;
