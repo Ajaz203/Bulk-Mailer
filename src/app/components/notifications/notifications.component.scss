@@ -1,5 +1,5 @@
 .notification-page {
-  background: linear-gradient(180deg, #f9fbfd 0%, #eef3f9 100%);
+  // background: linear-gradient(180deg, #f9fbfd 0%, #eef3f9 100%);
   min-height: 100vh;
   border-radius: 10px;
 
@@ -27,7 +27,7 @@
       }
 
       &.unread .timeline-content {
-        background: #f1f8ff;
+        // background: #f1f8ff;
         border-left: 4px solid #007bff;
       }
 
@@ -52,7 +52,7 @@
       }
 
       .timeline-content {
-        background: #ffffff;
+        // background: #ffffff;
         border-radius: 10px;
         padding: 1rem 1.2rem;
         margin-left: 1rem;
@@ -60,7 +60,7 @@
         transition: all 0.3s ease;
 
         &:hover {
-          background-color: #f8f9fc;
+          // background-color: #f8f9fc; 
           box-shadow: 0 6px 20px rgba(0, 69, 124, 0.1);
         }
 
