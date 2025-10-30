@@ -112,7 +112,7 @@ export class NavService {
       type: 'link',
       level: 1,
       path: '/grievance',
-      rolesAllowed: ['user'],
+      rolesAllowed: ['user', 'admin', 'superadmin'],
 
     },
        {

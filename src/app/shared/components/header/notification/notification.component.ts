@@ -6,6 +6,7 @@ import { UserService } from '../../../services/user.service';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
 
 interface Notification {
+message: readonly unknown[];
   id: number;
   title: string;
   status: 'unread' | 'read';

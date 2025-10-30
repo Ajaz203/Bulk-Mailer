@@ -31,7 +31,7 @@
             <!-- Content -->
             <div class="notification-content flex-grow-1">
               <p class="title mb-1"><strong>{{ details.title }}</strong></p>
-              <p class="description mb-0">{{ details.title | slice:0:50 }}...</p>
+              <p class="description mb-0">{{ details.message | slice:0:20 }}...</p>
               <span class="time text-muted">{{ details.time }}</span>
             </div>
           </div>
