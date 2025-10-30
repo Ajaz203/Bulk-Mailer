@@ -11,8 +11,8 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  private apiUrl: string = 'https://8a787a995125.ngrok-free.app/';
-  // private apiUrl: string = 'https://api.mailcept.net/';
+  // private apiUrl: string = 'https://31c9ed11448d.ngrok-free.app/';
+  private apiUrl: string = 'https://api.mailcept.net/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -482,6 +482,28 @@ registerTrial(payload: { userId: number }) {
 }
 assignSubscription(payload: any) {
   return this.http.post(this.apiUrl + 'assignPlan', payload);
+}
+createGrievance(payload: any) {
+  return this.http.post(this.apiUrl + 'createGrievance', payload);
+}
+getUserGrievances(payload: any) {
+  return this.http.post(this.apiUrl + 'getUserGrievances', payload);
+}
+getGrievanceDetails() {
+  return this.http.get(this.apiUrl + 'getAllGrievances' ,this.getAuthHeaders());
+}
+updateGrievanceStatus(payload: any) {
+  return this.http.post(this.apiUrl + 'updateGrievance', payload);
+}
+getNotifications() {
+   return this.http.get(this.apiUrl + 'getnotifications' ,this.getAuthHeaders());
+}
+getUserNotifications(payload:any) {
+
+     return this.http.post(this.apiUrl + 'getusernotifications', payload);
+}
+updateNotifications(payload:any) {
+     return this.http.post(this.apiUrl + 'updateNotifications', payload);
 }
 
 

@@ -38,6 +38,16 @@ export class NavService {
       path: '/dashboard',
       rolesAllowed: ['user', 'admin', 'superadmin']
     },
+    {
+  
+      title: 'Notifications',
+      icon: 'bell',
+      type: 'link',
+      active: true,
+      level: 1,
+      path: '/notifications',
+      rolesAllowed: ['user', 'admin', 'superadmin']
+    },
     
   
     
@@ -97,6 +107,24 @@ export class NavService {
       path: '/emailValidator',
       rolesAllowed: ['user', 'admin', 'superadmin']
     },
+       {
+      title: 'Grievances',
+      icon: 'alert-triangle',
+      type: 'link',
+      level: 1,
+      path: '/grievance',
+      rolesAllowed: ['user', 'admin', 'superadmin'],
+
+    },
+       {
+      title: 'Grievances',
+      icon: 'alert-triangle',
+      type: 'link',
+      level: 1,
+      path: '/grievance-admin',
+      rolesAllowed: ['superadmin'],
+
+    },
     {
       title: 'Vendors',
       icon: 'briefcase',
@@ -130,6 +158,7 @@ export class NavService {
       rolesAllowed: ['user', 'admin', 'superadmin'],
 
     },
+ 
     {
       title: 'Mails',
       icon: 'mail',

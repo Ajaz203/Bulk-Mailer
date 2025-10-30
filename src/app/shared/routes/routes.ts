@@ -46,5 +46,17 @@ export const content: Routes = [
    path:'emailValidator',
   loadChildren:() => import('../../components/emailvalidator/email-validator/email-validator.routes') 
 },
+{
+   path:'grievance',
+  loadChildren:() => import('../../components/grievance/grievance.routes') 
+},
+{
+   path:'grievance-admin',
+  loadChildren:() => import('../../components/admin-grievance/admin-grievance.routes') 
+},
+{
+   path:'notifications',
+  loadChildren:() => import('../../components/notifications/notifications.routes') 
+},
 
 ]

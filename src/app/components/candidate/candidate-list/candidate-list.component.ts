@@ -279,7 +279,7 @@ export class CandidateListComponent implements OnInit {
       firstName = Array.from(this.selectedCandidates)[0]?.name?.split(' ')[0] || 'there';
 
     const greetingPlaceholder = `Hello {{name}},<br>`;
-    const signatureBlock = `<br><br>${this.staticSignature}`;
+    const signatureBlock = `<br>${this.staticSignature}`;
 
     // Compose the mail body
     const bodyContent = this.userMailContent || '';

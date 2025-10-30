@@ -15,7 +15,7 @@ import { UserService } from '../../services/user.service';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-  imports: [FeatherIconsComponent, ReactiveFormsModule, FormsModule,
+  imports: [FeatherIconsComponent, ReactiveFormsModule,NotificationComponent, FormsModule,
     ThemeModeComponent,CommonModule,
     FullScreenComponent, UserProfileComponent,RouterLink]
 })

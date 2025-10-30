@@ -1,0 +1,205 @@
+<div class="container py-5 grievance-page">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+    <div>
+      <h3 class="fw-bold  mb-1">Grievance Management Portal</h3>
+      <p class=" mb-0">Your voice matters — raise, track, and resolve concerns effortlessly.</p>
+    </div>
+
+    <button class="btn btn-outline-success rounded-pill d-flex align-items-center shadow-sm" (click)="openPolicy()">
+      <i class="bi bi-journal-text me-2"></i> View Grievance Policy
+    </button>
+  </div>
+
+  <!-- Grievance Form Card -->
+  <div class="card border-0 shadow-lg mb-5">
+    <div class="card-body p-5">
+
+      <h5 class=" fw-semibold  mb-4">
+        Submit a New Grievance
+      </h5>
+
+      <form (ngSubmit)="submitGrievance()" #grievanceForm="ngForm">
+        <div class="row g-4">
+
+          <!-- Subject -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Subject <span class="text-danger">*</span></label>
+            <input type="text" class="form-control form-control rounded-4" [(ngModel)]="grievance.subject"
+              name="subject" placeholder="Enter grievance subject" required>
+          </div>
+
+          <!-- Category -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+            <select class="form-select form-select rounded-4" [(ngModel)]="grievance.category" name="category" required>
+              <option value="">Select Category</option>
+              <option>Technical Issue</option>
+              <option>Billing & Payment</option>
+              <option>Feature Request</option>
+              <option>Performance Concern</option>
+              <option>Data Privacy / Security</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <!-- Priority -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Priority <span class="text-danger">*</span></label>
+            <select class="form-select form-select rounded-4" [(ngModel)]="grievance.priority" name="priority" required>
+              <option value="">Select Priority</option>
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+              <option>Critical</option>
+            </select>
+          </div>
+
+          <!-- Department -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Department Concerned</label>
+            <select class="form-select form-select rounded-4" [(ngModel)]="grievance.department" name="department">
+              <option value="">Select Department</option>
+              <option>Technical Support</option>
+              <option>Billing</option>
+              <option>Customer Relations</option>
+              <option>Compliance</option>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
+            <textarea class="form-control rounded-4" rows="5" [(ngModel)]="grievance.description" name="description"
+              placeholder="Clearly describe the issue, including any relevant details..." required></textarea>
+          </div>
+
+          <!-- Attachment -->
+          <div class="col-12">
+            <label class="form-label fw-semibold">Attachment (optional)</label>
+            <input type="file" class="form-control form-control rounded-4" (change)="onFileSelect($event)">
+            <small class="text-muted">Supported formats: JPG, PNG, PDF (Max size: 5MB)</small>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="col-12 text-end mt-3">
+            <button class="btn btn-success rounded-pill shadow-sm" [disabled]="loading">
+              <span *ngIf="!loading">Submit Grievance</span>
+              <span *ngIf="loading">
+                <span class="spinner-border spinner-border-sm me-2"></span>Submitting...
+              </span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Submitted Grievances -->
+  <div class="submitted-section">
+    <h3 class="fw-semibold mb-4 border-bottom pb-2">
+      <i class="bi bi-list-task text-primary me-2"></i> My Submitted Grievances
+    </h3>
+
+    <div class="card" *ngIf="grievances && grievances.length > 0; else emptyState">
+      <div class="table-responsive table-desi">
+       <table class="user-table table table-striped">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Category</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let g of grievances" class="grievance-row">
+      <td class="fw-semibold">{{ g.subject }}</td>
+      <td>{{ g.category }}</td>
+      <td>
+        <span class="badge rounded-pill" [ngClass]="{
+          'badge-low': g.priority === 'Low',
+          'badge-medium': g.priority === 'Medium',
+          'badge-high': g.priority === 'High',
+          'badge-critical': g.priority === 'Critical'
+        }">
+          {{ g.priority }}
+        </span>
+      </td>
+      <td>
+        <span class="status-dot" [ngClass]="{
+          'status-open': g.status === 'Open',
+          'status-in-progress': g.status === 'In-Progress',
+          'status-resolved': g.status === 'Resolved',
+          'status-closed': g.status === 'Closed',
+          'status-pending': g.status === 'Pending',
+          'status-rejected': g.status === 'Rejected'
+        }"></span>
+        {{ g.status }}
+      </td>
+      <td>{{ g.createdAt | date: 'medium' }}</td>
+      <td>
+        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3"
+          (click)="viewGrievanceDetails(g)">
+          <i class="bi bi-eye"></i> View
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <ng-template #emptyState>
+      <div class="text-center py-5">
+        <i class="bi bi-inbox text-primary fs-1 mb-3 d-block"></i>
+        <p class=" mb-1">No grievances submitted yet.</p>
+        <small>Start by submitting your first grievance above.</small>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Policy Modal -->
+  <div class="modal" tabindex="-1" [ngClass]="{'show d-block': showPolicy}" (click)="closePolicy()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title"><i class="bi bi-info-circle me-2"></i> Grievance Redressal Policy</h5>
+          <button type="button" class="btn-close btn-close-white" (click)="closePolicy()"></button>
+        </div>
+        <div class="modal-body p-4">
+          <h6 class="fw-bold  mb-2">Purpose</h6>
+          <p>
+            This policy ensures a transparent, structured process for handling grievances raised by users.
+          </p>
+
+          <h6 class="fw-bold  mt-4 mb-2">Resolution Timelines</h6>
+          <ul>
+            <li>Acknowledgement within <b>48 hours</b></li>
+            <li>Resolution within <b>7 working days</b> (based on complexity)</li>
+          </ul>
+
+          <h6 class="fw-bold  mt-4 mb-2">Priority Levels</h6>
+          <ul>
+            <li><b>Low:</b> Minor issue, does not affect workflow</li>
+            <li><b>High:</b> Major disruption, needs immediate action</li>
+            <li><b>Critical:</b> Impacts multiple users or business continuity</li>
+          </ul>
+
+          <h6 class="fw-bold  mt-4 mb-2">Escalation</h6>
+          <p>
+            If unresolved within the timeframe, users can escalate to
+            <a href="mailto:support@mailcept.com">support&#64;mailcept.com</a>.
+          </p>
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-success rounded-pill px-4" (click)="closePolicy()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

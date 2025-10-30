@@ -1,0 +1,47 @@
+<div class="container py-4 notification-page">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-1 text-gradient">
+        <i class="fa fa-bell me-2 text-warning"></i>
+        {{ role === 'superadmin' ? 'Admin Notifications' : 'User Notifications' }}
+      </h3>
+      <p class="text-muted small mb-0">Stay informed with your latest updates and system alerts.</p>
+    </div>
+    <a routerLink="/" class="btn btn-outline-primary btn-sm px-3 shadow-sm rounded-pill">
+      <i class="fa fa-arrow-left me-2"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <!-- Notification Timeline -->
+  <div class="timeline">
+    <div
+      class="timeline-item"
+      *ngFor="let n of notifications"
+      [ngClass]="{ unread: n.status === 'unread' }"
+    >
+      <div class="timeline-icon">
+        <i class="fa" [ngClass]="{
+            'fa-check-circle text-success': n.status === 'read',
+            'fa-bell text-warning': n.status === 'unread'
+          }"></i>
+      </div>
+
+      <div class="timeline-content shadow-sm border-0">
+        <div class="d-flex justify-content-between align-items-start mb-1">
+          <h6 class="fw-semibold mb-0">{{ n.title }}</h6>
+          <small class="text-muted">{{ n.createdAt | date: 'medium' }}</small>
+        </div>
+        <p class="text-muted small mb-2">{{ n.message }}</p>
+        <div class="status-tag" [ngClass]="n.status === 'unread' ? 'bg-warning-subtle text-dark' : 'bg-success-subtle text-success'">
+          {{ n.status | titlecase }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="notifications.length === 0" class="text-center py-5 text-muted">
+      <i class="fa fa-bell-slash fa-3x mb-3 text-secondary"></i>
+      <p class="mb-0">No notifications available</p>
+    </div>
+  </div>
+</div>

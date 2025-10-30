@@ -1,18 +1,55 @@
-<!-- <li class="onhover-dropdown" (click)="toggle()">
-  <div class="notification-box">
-    <i class="fa fa-bell-o"> </i>
-    <span class="badge rounded-pill badge-theme">4 </span>
+<li class="onhover-dropdown" (click)="toggle()">
+  <div class="notification-box" [ngClass]="{'pulse': hasNew$ | async}">
+    <i class="fa fa-bell-o"></i>
+    <span class="badge rounded-pill badge-theme" *ngIf="unreadCount$ | async as unreadCount">
+      {{ unreadCount }}
+    </span>
   </div>
+
   <ul class="notification-dropdown onhover-show-div" [class.active]="isActive">
-    <li>
-      <app-feather-icons [icon]="'bell'"></app-feather-icons>
-      <h6 class="f-18 mb-0">Notitications</h6>
-    </li>
-    @for(details of headerNotification; track details){
-    <li>
-      <p><i class="fa fa-circle-o me-3 font-{{ details.fontColor }}"> </i>{{ details.title }} <span class="pull-right">{{ details.time }}</span></p>
-    </li>
-    }
-    <li><a class="btn btn-primary" href="#">Check all notification</a></li>
+    <div class="notifications-scrollable">
+      <!-- Header -->
+      <li class="header">
+        <h6 class="f-18 mb-0 d-flex justify-content-between align-items-center">
+          <span>Notifications</span>
+          <button class="btn-read-all" *ngIf="(notifications$ | async)?.length" (click)="markAllAsRead()">
+            Mark all as read
+          </button>
+        </h6>
+      </li>
+
+      <!-- Notifications -->
+      <ng-container *ngIf="(notifications$ | async) as notifications; else noData">
+        <li *ngFor="let details of notifications"
+          [ngClass]="{'new-notification': details.isNew, 'unread-notification': details.status === 'unread'}">
+          <div class="notification-item d-flex align-items-start">
+            <!-- Professional Badge -->
+            <div class="avatar-badge me-3">
+              <span class="badge-icon">{{ getInitials(details.title) }}</span>
+            </div>
+
+            <!-- Content -->
+            <div class="notification-content flex-grow-1">
+              <p class="title mb-1"><strong>{{ details.title }}</strong></p>
+              <p class="description mb-0">{{ details.title | slice:0:50 }}...</p>
+              <span class="time text-muted">{{ details.time }}</span>
+            </div>
+          </div>
+        </li>
+
+      </ng-container>
+
+      <!-- No notifications -->
+      <ng-template #noData>
+        <li>
+          <p class="text-muted px-3">No notifications yet</p>
+        </li>
+      </ng-template>
+
+      <!-- View all button -->
+      <li>
+        <a class="btn-view-all w-100" routerLink="/notifications">View all notifications</a>
+      </li>
+    </div>
   </ul>
-</li> -->
+</li>

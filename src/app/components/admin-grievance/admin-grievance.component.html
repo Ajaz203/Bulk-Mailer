@@ -1,0 +1,158 @@
+<div class="row">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">
+
+      Grievance Management
+    </h3>
+    <span class="badge bg-light text-secondary border shadow-sm px-3 py-2">
+      Total: {{ grievances.length }}
+    </span>
+  </div>
+
+  <!-- Grievance Table -->
+
+  <div class="card-body ">
+    <div class="card">
+      <div class="table-responsive table-desi">
+        <table class="user-table table table-striped">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Subject</th>
+              <th>Status</th>
+              <th>Submitted On</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let g of grievances; let i = index" class="border-bottom table-hover align-middle">
+              <td class="fw-medium">{{ g.name }}</td>
+              <td class="text-muted">{{ g.email }}</td>
+              <td class="text-truncate" style="max-width: 200px;">{{ g.subject }}</td>
+              <td>
+                <span class="badge-status" [ngClass]="{
+          'status-open': g.status === 'Open',
+          'status-in-progress': g.status === 'In-Progress',
+          'status-resolved': g.status === 'Resolved',
+          'status-closed': g.status === 'Closed',
+          'status-rejected': g.status === 'Rejected'
+        }">
+                  <i class="bi" [ngClass]="{
+            'bi-hourglass': g.status === 'Open',
+            'bi-arrow-repeat': g.status === 'In-Progress',
+            'bi-check2-circle': g.status === 'Resolved',
+            'bi-x-circle': g.status === 'Closed' || g.status === 'Rejected'
+          }"></i>
+                  {{ g.status }}
+                </span>
+              </td>
+              <td class="text-muted">{{ g.date | date: 'medium' }}</td>
+              <td class="text-center">
+                <div class="btn-group shadow-sm">
+                  <button class="btn btn-sm btn-outline-primary" (click)="viewGrievance(g)" title="View Details">
+                    <i class="bi bi-eye-fill"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-success" (click)="updateStatus(g, 'Resolved')"
+                    [disabled]="g.status === 'Resolved'" title="Mark as Resolved">
+                    <i class="bi bi-check-circle-fill"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="updateStatus(g, 'Closed')"
+                    [disabled]="g.status === 'Closed'" title="Close Grievance">
+                    <i class="bi bi-x-circle-fill"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+            <tr *ngIf="grievances.length === 0">
+              <td colspan="7" class="text-center py-4 text-muted">No grievances found.</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- View Grievance Modal -->
+  <div class="modal fade show d-block animate__animated animate__fadeInDown" *ngIf="selectedGrievance" tabindex="-1"
+    (click)="closeViewModal()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header text-white" style="background: linear-gradient(90deg, #004aad, #007bff);">
+          <h5 class="modal-title fw-semibold">
+            <i class="bi bi-clipboard-check me-2"></i>
+            Grievance Details
+          </h5>
+          <button type="button" class="btn-close btn-close-white" (click)="closeViewModal()"></button>
+        </div>
+
+        <div class="modal-body bg-light-subtle p-4">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="fw-semibold text-secondary">Subject</label>
+              <div class="border rounded px-3 py-2 bg-white shadow-sm">
+                {{ selectedGrievance.subject }}
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="fw-semibold text-secondary">Category</label>
+              <div class="border rounded px-3 py-2 bg-white shadow-sm">
+                {{ selectedGrievance.category }}
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="fw-semibold text-secondary ">Description</label>
+              <div class="border rounded px-3 py-3 bg-white text-muted shadow-sm"
+                style="max-height: 160px; overflow-y: auto;">
+                {{ selectedGrievance.description }}
+              </div>
+            </div>
+
+            <div *ngIf="selectedGrievance.attachment" class="col-12 d-flex justify-content-between align-items-center">
+              <span class="fw-semibold text-secondary ">Attachment</span>
+              <a [href]="selectedGrievance.attachment" target="_blank"
+                class="btn btn-outline-primary btn-sm d-inline-flex align-items-center">
+                <i class="bi bi-paperclip me-2"></i> View Attachment
+              </a>
+            </div>
+
+
+            <hr class="my-3" />
+
+            <div class="col-md-6">
+              <label class="fw-semibold text-secondary ">Status</label>
+              <select class="form-select shadow-sm" [(ngModel)]="selectedGrievance.status">
+
+                <option value="In Progress">In-Progress</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="fw-semibold text-secondary">Admin Remark</label>
+              <input type="text" class="form-control shadow-sm" [(ngModel)]="selectedGrievance.adminRemark"
+                placeholder="Enter remark" />
+            </div>
+          </div>
+
+          <div class="text-end mt-4">
+            <button class="btn btn-success px-4 shadow-sm" (click)="updateGrievance()">
+              <i class="bi bi-save2 me-2"></i> Update
+            </button>
+          </div>
+        </div>
+        <!-- 
+      <div class="modal-footer border-0 bg-light py-3">
+        <button class="btn btn-outline-secondary" (click)="closeViewModal()">
+          <i class="bi bi-x-circle me-2"></i>Close
+        </button>
+      </div> -->
+      </div>
+    </div>
+  </div>
