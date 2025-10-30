@@ -32,6 +32,7 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
+  
   loadNotifications(): void {
     let apiCall;
 

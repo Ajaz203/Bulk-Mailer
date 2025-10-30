@@ -1,13 +1,13 @@
 .notification-dropdown {
   width: 320px;
-  max-height: 450px;
+  max-height: 300px;
   overflow: hidden;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 
   .notifications-scrollable {
-    max-height: 400px;
+    max-height: 300px;
     overflow-y: auto;
   }
 
@@ -27,7 +27,7 @@
     }
 
     &.unread-notification:not(.new-notification) {
-      background-color: #f0f0f0; // light gray
+      background-color: #bfdefd; // light gray
     }
 
     .notification-item {

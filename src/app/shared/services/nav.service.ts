@@ -38,18 +38,6 @@ export class NavService {
       path: '/dashboard',
       rolesAllowed: ['user', 'admin', 'superadmin']
     },
-    {
-  
-      title: 'Notifications',
-      icon: 'bell',
-      type: 'link',
-      active: true,
-      level: 1,
-      path: '/notifications',
-      rolesAllowed: ['user', 'admin', 'superadmin']
-    },
-    
-  
     
     {
       
@@ -97,6 +85,17 @@ export class NavService {
       rolesAllowed: ['superadmin'],
 
     },
+    {
+  
+      title: 'Notifications',
+      icon: 'bell',
+      type: 'link',
+      active: true,
+      level: 1,
+      path: '/notifications',
+      rolesAllowed: ['user', 'admin', 'superadmin']
+    },
+    
       {
    
       title: 'Email Validator',
@@ -113,7 +112,7 @@ export class NavService {
       type: 'link',
       level: 1,
       path: '/grievance',
-      rolesAllowed: ['user', 'admin', 'superadmin'],
+      rolesAllowed: ['user'],
 
     },
        {
