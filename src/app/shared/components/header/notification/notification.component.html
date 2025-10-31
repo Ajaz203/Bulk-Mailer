@@ -9,7 +9,7 @@
   <ul class="notification-dropdown onhover-show-div" [class.active]="isActive">
     <div class="notifications-scrollable">
       <!-- Header -->
-      <li class="header">
+      <li class="header ">
         <h6 class="f-18 mb-0 d-flex justify-content-between align-items-center">
           <span>Notifications</span>
           <button class="btn-read-all" *ngIf="(notifications$ | async)?.length" (click)="markAllAsRead()">
