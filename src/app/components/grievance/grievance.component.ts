@@ -27,7 +27,10 @@ export class GrievanceComponent implements OnInit {
   userId: number | null = null;
   showPolicy = false;
 
-  constructor(private service: UserService) {}
+baseUrl: string;
+  constructor(private service: UserService) {
+      this.baseUrl = this.service.getBaseUrl();
+  }
 
   ngOnInit() {
     // ✅ Get logged-in user ID from localStorage
@@ -166,6 +169,11 @@ viewGrievanceDetails(g: any) {
 
 showGrievanceModal(g: any) {
   const formattedDate = new Date(g.createdAt).toLocaleString();
+  const baseUrl = this.service.getBaseUrl(); // ✅ use from service
+
+  const fileUrl = g.attachment?.startsWith('http')
+    ? g.attachment
+    : `${baseUrl}${g.attachment}`;
 
   Swal.fire({
     title: `<h4 style="font-weight:600; color:#00457c;">${g.subject}</h4>`,
@@ -185,7 +193,11 @@ showGrievanceModal(g: any) {
         <p><strong>Admin Remark:</strong> ${g.adminRemark || '-'}</p>
         ${
           g.attachment
-            ? `<hr><p><strong>Attachment:</strong> <a href="${g.attachment}" target="_blank">View File</a></p>`
+            ? `<hr><p><strong>Attachment:</strong> 
+                <a href="${fileUrl}" target="_blank" 
+                   style="color:#00457c; font-weight:500; text-decoration:underline;">
+                   View File
+                </a></p>`
             : ''
         }
         <p style="font-size:13px; color:#777;"><i class="bi bi-calendar3 me-1"></i>${formattedDate}</p>
@@ -196,6 +208,8 @@ showGrievanceModal(g: any) {
     confirmButtonColor: '#00457c'
   });
 }
+
+
 
 // helper for badge colors
 getStatusColor(status: string): string {

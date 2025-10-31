@@ -14,9 +14,11 @@ export class AdminGrievanceComponent {
   grievances: any[] = [];
   selectedGrievance: any = null;
   loading = false;
+    baseUrl: string = '';
   constructor(private service: UserService) { }
 
   ngOnInit() {
+        this.baseUrl = this.service.getBaseUrl();
     this.loadAllGrievances();
   }
 
@@ -62,7 +64,10 @@ export class AdminGrievanceComponent {
     );
     modal.show();
   }
-
+  getAttachmentUrl(path: string): string {
+    if (!path) return '';
+    return path.startsWith('http') ? path : `${this.baseUrl}${path}`;
+  }
   updateStatus(grievance: any, newStatus: string) {
     Swal.fire({
       title: `Change status to ${newStatus}?`,

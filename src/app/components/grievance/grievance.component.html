@@ -19,7 +19,7 @@
         Submit a New Grievance
       </h5>
 
-      <form (ngSubmit)="submitGrievance()" #grievanceForm="ngForm">
+      <form class="theme-form mega-form" (ngSubmit)="submitGrievance()" #grievanceForm="ngForm">
         <div class="row g-4">
 
           <!-- Subject -->
@@ -103,33 +103,33 @@
 
     <div class="card" *ngIf="grievances && grievances.length > 0; else emptyState">
       <div class="table-responsive table-desi">
-       <table class="user-table table table-striped">
-  <thead>
-    <tr>
-      <th>Subject</th>
-      <th>Category</th>
-      <th>Priority</th>
-      <th>Status</th>
-      <th>Date</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let g of grievances" class="grievance-row">
-      <td class="fw-semibold">{{ g.subject }}</td>
-      <td>{{ g.category }}</td>
-      <td>
-        <span class="badge rounded-pill" [ngClass]="{
+        <table class="user-table table table-striped">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let g of grievances" class="grievance-row">
+              <td class="fw-semibold">{{ g.subject }}</td>
+              <td>{{ g.category }}</td>
+              <td>
+                <span class="badge rounded-pill" [ngClass]="{
           'badge-low': g.priority === 'Low',
           'badge-medium': g.priority === 'Medium',
           'badge-high': g.priority === 'High',
           'badge-critical': g.priority === 'Critical'
         }">
-          {{ g.priority }}
-        </span>
-      </td>
-      <td>
-        <span class="status-dot" [ngClass]="{
+                  {{ g.priority }}
+                </span>
+              </td>
+              <td>
+                <span class="status-dot" [ngClass]="{
           'status-open': g.status === 'Open',
           'status-in-progress': g.status === 'In-Progress',
           'status-resolved': g.status === 'Resolved',
@@ -137,19 +137,18 @@
           'status-pending': g.status === 'Pending',
           'status-rejected': g.status === 'Rejected'
         }"></span>
-        {{ g.status }}
-      </td>
-      <td>{{ g.createdAt | date: 'medium' }}</td>
-      <td>
-        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3"
-          (click)="viewGrievanceDetails(g)">
-          <i class="bi bi-eye"></i> View
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+                {{ g.status }}
+              </td>
+              <td>{{ g.createdAt | date: 'medium' }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                  (click)="viewGrievanceDetails(g)">
+                  <i class="bi bi-eye"></i> View
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
