@@ -1,14 +1,13 @@
 
 .notification-card {
   border-radius: 1rem;
-  // background-color: #fff; 
+  background-color: #fff; 
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .notification-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
-
 
 .transition-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -18,13 +17,12 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-
 .text-gradient {
   background: linear-gradient(90deg, #00457c, #00a3ff);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 
 .card-title {
   font-size: 1.1rem;
@@ -60,13 +58,15 @@
   border-radius: 50%;
 }
 
+
 .bg-warning-subtle { background-color: #fff8e1 !important; }
 .bg-success-subtle { background-color: #e6f4ea !important; }
 
 .timeline-item {
   position: relative;
-  margin-bottom: 2rem;
+  // margin-bottom: 2rem;
 }
 .timeline-item:last-child {
   margin-bottom: 0;
 }
+
