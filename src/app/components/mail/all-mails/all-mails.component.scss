@@ -94,6 +94,18 @@
   font-size: 0.85rem;
   font-weight: 500;
 }
+.badge-success {
+  background-color: #28a745; 
+}
+
+.badge-warning {
+  background-color: #ffc107; 
+  color: #212529; 
+}
+
+.badge-failed {
+  background-color: red; 
+}
 
 .table-loader-overlay {
   position: absolute;

@@ -101,11 +101,11 @@
                         </span>
                       </td>
                       <td>
-                        <span class="badge"
-                          [ngClass]="{ 'bg-success': mail.status === 'success', 'bg-warning': mail.status === 'pending', 'bg-danger': mail.status === 'failed' }">
+                        <span class="badge" [class]="getBadgeClass(mail.status)">
                           {{ mail.status }}
                         </span>
                       </td>
+
                     </tr>
 
                     <tr *ngIf="sentMails.length === 0">

@@ -90,6 +90,18 @@ get filteredMailCount(): number {
       );
     }).length;
 }
+getBadgeClass(status: string): string {
+  switch (status.toLowerCase()) {
+    case 'success':
+      return 'badge badge-success';
+    case 'pending':
+      return 'badge badge-warning';
+    case 'failed':
+      return 'badge badge-failed';
+    default:
+      return 'badge badge-secondary';
+  }
+}
 
 viewMail(showLoader: boolean = false) {
   if (showLoader) this.isLoading = true;

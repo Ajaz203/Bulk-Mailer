@@ -1,29 +1,29 @@
 <div class="header-wrapper row m-0">
   <div class="header-logo-wrapper col-auto p-0">
     <div class="logo-wrapper" routerLink="/dashboard">
-        <img class="img-fluid main-logo" src="assets/images/Asset 6.png" alt="logo">
-        <img class="img-fluid white-logo" src="assets/images/Asset 6.png" alt="logo">
+      <img class="img-fluid main-logo" src="assets/images/Asset 6.png" alt="logo">
+      <img class="img-fluid white-logo" src="assets/images/Asset 6.png" alt="logo">
     </div>
     <div class="toggle-sidebar" (click)="toggleSidebar()">
       <app-feather-icons [icon]="'align-center'" [class]="'status_toggle middle sidebar-toggle'"></app-feather-icons>
     </div>
   </div>
 
-<div class="nav-right col-4 pull-right right-header">
-  <div class="plan-status-banner" *ngIf="planStatus === 'expiring' || planStatus === 'expired'">
-    <div class="scrolling-text">
-      <span *ngIf="planStatus === 'expiring'">
-        ⚠️ Your plan expires in <strong>{{ daysLeft }}</strong> days — 
-        <a (click)="renewPlan()" class="renew-link">Renew Now</a>
-      </span>
+  <div class="nav-right col-4 pull-right right-header">
+    <div class="plan-status-banner" *ngIf="planStatus === 'expiring' || planStatus === 'expired'">
+      <div class="scrolling-text">
+        <span *ngIf="planStatus === 'expiring'">
+          ⚠️ Your plan expires in <strong>{{ daysLeft }}</strong> days —
+          <a (click)="renewPlan()" class="renew-link">Renew Now</a>
+        </span>
 
-      <span *ngIf="planStatus === 'expired'">
-        ⛔ Your plan has expired — 
-        <a (click)="renewPlan()" class="renew-link">Renew Now</a>
-      </span>
+        <span *ngIf="planStatus === 'expired'">
+          ⛔ Your plan has expired —
+          <a (click)="renewPlan()" class="renew-link">Renew Now</a>
+        </span>
+      </div>
     </div>
   </div>
-</div>
 
 
   <div class="nav-right col-4 pull-right right-header p-0">
@@ -33,7 +33,7 @@
       <li class="mt-2">
         <app-theme-mode></app-theme-mode>
       </li>
-   <li>
+      <li>
         <app-notification></app-notification>
       </li>
       <li class="maximize">
