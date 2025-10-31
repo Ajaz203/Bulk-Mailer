@@ -64,33 +64,41 @@ export class NotificationComponent implements OnInit, OnDestroy {
     // Removed auto-mark-as-read
   }
 
-  loadNotifications(): void {
-    const apiCall = this.role === 'superadmin'
-      ? this.userService.getNotifications()
-      : this.userService.getUserNotifications({ userId: this.userId });
+loadNotifications(): void {
+  const apiCall = this.role === 'superadmin'
+    ? this.userService.getNotifications()
+    : this.userService.getUserNotifications({ userId: this.userId });
 
-    apiCall.subscribe({
-      next: (res: any) => {
-        const list: Notification[] = (res?.data || res || []).map((n: any) => ({
+  apiCall.subscribe({
+    next: (res: any) => {
+      const list: Notification[] = (res?.data || res || []).map((n: any) => {
+        // Replace "User ID 14" with senderName dynamically if present
+        let updatedMessage = n.message;
+        if (typeof updatedMessage === 'string' && n.senderName) {
+          updatedMessage = updatedMessage.replace(/User ID \d+/, n.senderName);
+        }
+
+        return {
           ...n,
+          message: updatedMessage,
           time: new Date(n.createdAt).toLocaleString(),
           fontColor: n.status === 'unread' ? 'warning' : 'success',
           isNew: !this.notifications$.value.find(prev => prev.id === n.id),
           status: n.status as 'unread' | 'read'
-        }));
+        };
+      });
 
-        // Sort latest first
-        list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      // Sort latest first
+      list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-        this.notifications$.next(list);
-        this.unreadCount$.next(list.filter(n => n.status === 'unread').length);
+      this.notifications$.next(list);
+      this.unreadCount$.next(list.filter(n => n.status === 'unread').length);
+      this.hasNew$.next(list.some(n => n.isNew));
+    },
+    error: err => console.error('Error fetching notifications:', err)
+  });
+}
 
-        // Highlight new notifications
-        this.hasNew$.next(list.some(n => n.isNew));
-      },
-      error: err => console.error('Error fetching notifications:', err)
-    });
-  }
 
   markAllAsRead(): void {
     const current = this.notifications$.value;

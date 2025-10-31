@@ -11,8 +11,8 @@ import { Subject } from 'rxjs';
 export class UserService {
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
-  // private apiUrl: string = 'https://22f3e62fc527.ngrok-free.app/';
-  private apiUrl: string = 'https://api.mailcept.net/';
+  private apiUrl: string = 'https://22f3e62fc527.ngrok-free.app/';
+  // private apiUrl: string = 'https://api.mailcept.net/';
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
     const storedUser = localStorage.getItem('user');
@@ -30,10 +30,6 @@ export class UserService {
     return this.apiUrl;
   }
 
-  // getUserFromStorage() {
-  //   const user = localStorage.getItem('user');
-  //   return user ? JSON.parse(user) : null;
-  // }
   getUserFromStorage() {
   const user = localStorage.getItem('user') || localStorage.getItem('loggedInUser');
   return user ? JSON.parse(user) : null;
@@ -214,13 +210,6 @@ export class UserService {
     console.warn('Not running in browser, userId is set to 0');
     return 0;
   }
-  // checkloginStatus() {
-  //   if (typeof window !== 'undefined' && localStorage.getItem('token')) {
-  //     this.router.navigate(['/dashboard']);
-  //   } else {
-  //     this.router.navigate(['/login']);
-  //   }
-  // }
 
   postWithUserId(endpoint: string, data: any) {
   const storedUser = localStorage.getItem('user');
@@ -505,8 +494,5 @@ getUserNotifications(payload:any) {
 updateNotifications(payload:any) {
      return this.http.post(this.apiUrl + 'updateNotifications', payload);
 }
-
-
-
 
 }

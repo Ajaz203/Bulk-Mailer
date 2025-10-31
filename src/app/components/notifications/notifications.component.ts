@@ -6,7 +6,7 @@ import { UserService } from '../../shared/services/user.service';
 @Component({
   selector: 'app-notifications',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']
 })
@@ -32,30 +32,38 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-  
-  loadNotifications(): void {
-    let apiCall;
 
-    if (this.role === 'superadmin') {
-      apiCall = this.authService.getNotifications();
-    } else {
-      apiCall = this.authService.getUserNotifications({ userId: this.userId });
-    }
+loadNotifications(): void {
+  let apiCall;
 
-    apiCall.subscribe({
-      next: (res: any) => {
-        this.notifications = Array.isArray(res) ? res : res.data || [];
+  if (this.role === 'superadmin') {
+    apiCall = this.authService.getNotifications();
+  } else {
+    apiCall = this.authService.getUserNotifications({ userId: this.userId });
+  }
 
-        // Map notifications for display
-        this.notifications = this.notifications.map((n: any) => ({
+  apiCall.subscribe({
+    next: (res: any) => {
+      this.notifications = Array.isArray(res) ? res : res.data || [];
+      this.notifications = this.notifications.map((n: any) => {
+        const updatedMessage = n.message.replace(
+          /User ID \d+/,
+          n.senderName
+        );
+
+        return {
           ...n,
+          message: updatedMessage,
           time: new Date(n.createdAt).toLocaleString(),
           fontColor: n.status === 'unread' ? 'warning' : 'success'
-        }));
-      },
-      error: (err) => {
-        console.error('Error fetching notifications:', err);
-      }
-    });
-  }
+        };
+      });
+    },
+    error: (err) => {
+      console.error('Error fetching notifications:', err);
+    }
+  });
+}
+
+
 }
